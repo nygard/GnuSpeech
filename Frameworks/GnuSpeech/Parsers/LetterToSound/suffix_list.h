@@ -50,21 +50,21 @@ typedef struct SL suffix_list_t;
 /*  SUFFIX LIST  ******************************************************/
 
 static suffix_list_t suffix_list[] = {
-  {"ses","se",".i_z"},	   //   "horses" = "horse" + "es"
-  {"ces","ce",".i_z"},	   //   "spices" = "spice" + "es"
+  {"ses","se",".i_z"},     //   "horses" = "horse" + "es"
+  {"ces","ce",".i_z"},     //   "spices" = "spice" + "es"
 
 /* 
  *  The next two are WRONG for voiced preceding cons, or preceding vowel;
  *   "candies", "ranges", "bids". Must add all relevant cases.
- *  {"es","e","_s"},	        "bites" = "bite" + "s"
- *  {"s","","_s"},	        "baits" = "bait" + "s"
+ *  {"es","e","_s"},            "bites" = "bite" + "s"
+ *  {"s","","_s"},              "baits" = "bait" + "s"
  *
  *  The following fixes this:
  */
 
   {"aes","ae","_z"},
   {"bes","be","_z"},
-  {"ches","ch","_i_z"},		//"beaches" = "beach" + "s"
+  {"ches","ch","_i_z"},         //"beaches" = "beach" + "s"
   {"des","de","_z"},
   {"ees","ee","_z"},
   {"fes","fe","_s"},
@@ -80,26 +80,26 @@ static suffix_list_t suffix_list[] = {
   {"pes","pe","_s"},
   {"phes","phe","_z"},
   {"res","re","_z"},
-  {"sses","ss","_i_z"},		//"stresses" = "stress" + "s"
-  {"shes","sh","_i_z"},		//"finishes" = "finish" + "s"
+  {"sses","ss","_i_z"},         //"stresses" = "stress" + "s"
+  {"shes","sh","_i_z"},         //"finishes" = "finish" + "s"
   {"tes","te","_s"},
   {"thes","the","_z"},
-  {"ques","que","_s"},   	// "techniques" = "technique" + "s"
+  {"ques","que","_s"},          // "techniques" = "technique" + "s"
   {"ues","ue","_z"},
   {"ves","ve","_z"},
   {"wes","we","_z"},
-  {"xes","x",".i_z"},		//"boxes" = "box" + "s"
+  {"xes","x",".i_z"},           //"boxes" = "box" + "s"
   {"yes","ye","_z"},
-  {"zes","ze",".i_z"},      	// "blazes" = "blaze" + "s"
+  {"zes","ze",".i_z"},          // "blazes" = "blaze" + "s"
 
   {"as","a","_z"},
   {"bs","b","_z"},
   {"cs","c","_s"},
   {"ds","d","_z"},
-  {"es","e",".i_z"},	     //  because all other cases were caught above
+  {"es","e",".i_z"},         //  because all other cases were caught above
   {"fs","f","_s"},
   {"gs","g","_z"},
-  {"hs","h","_s"},	     //   "baths" pronounced "ba(theta)s" 
+  {"hs","h","_s"},           //   "baths" pronounced "ba(theta)s" 
   {"is","i","_z"},
   {"ks","k","_s"},
   {"ls","l","_z"},
@@ -107,22 +107,22 @@ static suffix_list_t suffix_list[] = {
   {"ns","n","_z"},
   {"os","o","_z"},
   {"ps","p","_s"},
-  {"qs","q","_s"},	     //  "there are many Iraqs in the world today..."
+  {"qs","q","_s"},           //  "there are many Iraqs in the world today..."
   {"rs","r","_z"},
   {"ts","t","_s"},
   {"us","u","_z"},
-  {"vs","v","_z"},	     //  how many words end in "v"? "revs"?
+  {"vs","v","_z"},           //  how many words end in "v"? "revs"?
   {"ws","w","_z"},
   {"ys","y","_z"},
 
-  {"ic","",".i_k"},	     //   "chauvinistic" = "chauvinist" + "ic"    
+  {"ic","",".i_k"},          //   "chauvinistic" = "chauvinist" + "ic"    
 
-  {"ly","",".l_i"},	     //   "badly" = "bad" + "ly"
+  {"ly","",".l_i"},          //   "badly" = "bad" + "ly"
 
   {"iment","y",".m_uh_n_t"}, //   "embodiment" = "embody" + "ment"
   {"ment","",".m_uh_n_t"},   //   "banishment" = "banish" + "ment"
 
-  {"ness","",".n_e_s"},	     //   "fairness" = "fair" + "ness"
+  {"ness","",".n_e_s"},      //   "fairness" = "fair" + "ness"
 
   {"iest","y",".i_s_t"},  //   "heaviest" = "heavy" + "est"
   {"bbest","b",".i_s_t"}, //   "drabbest" = "drab" + "est"
@@ -135,63 +135,63 @@ static suffix_list_t suffix_list[] = {
   {"ppest","p",".i_s_t"}, //   "flippest" = "flip" + "est"
   {"ttest","t",".i_s_t"}, //   "hottest"
   {"est","e",".i_s_t"},   //   "largest" = "large" + "est"
-  {"est","",".i_s_t"},	  //   "hardest" = "hard" + "est"
+  {"est","",".i_s_t"},    //   "hardest" = "hard" + "est"
 
 
-  {"lled","l","_d"},	  //   "jewelled" = "jewel" + "ed"
-  {"rred","r","_d"},	  //   "sparred" = "spar" + "ed"
-  {"bbed","b","_d"},	  //   "robbed" = "rob" + "ed"
+  {"lled","l","_d"},      //   "jewelled" = "jewel" + "ed"
+  {"rred","r","_d"},      //   "sparred" = "spar" + "ed"
+  {"bbed","b","_d"},      //   "robbed" = "rob" + "ed"
   {"dded","d",".i_d"},    //   "padded" = "pad" + "ed"
   {"gged","g","_d"},      //   "bagged" = "bag" + "ed"
-  {"mmed","m","_d"},	  //   "slammed" = "slam" + "ed"
+  {"mmed","m","_d"},      //   "slammed" = "slam" + "ed"
   {"nned","n","_d"},      //   "gunned" = "gun" + "ed"
   {"tted","t",".i_d"},    //   "batted" = "bat" + "ed"
 
-  {"bed","be","_d"},	   //   "robed" = "robe" + "ed"
-  {"ded","de",".i_d"},	   //   "noded" = "node" + "ed"
-  {"ded","d",".i_d"},	   //   "loaded" = "load" + "ed"
-  {"ged","ge","_d"},	   //   "swaged" = "swage" + "ed"
-  {"ged","g","_d"},	   //   "banged" = "bang" + "ed"
-  {"led","le","_d"},	   //   "riled" = "rile" + "ed"
+  {"bed","be","_d"},       //   "robed" = "robe" + "ed"
+  {"ded","de",".i_d"},     //   "noded" = "node" + "ed"
+  {"ded","d",".i_d"},      //   "loaded" = "load" + "ed"
+  {"ged","ge","_d"},       //   "swaged" = "swage" + "ed"
+  {"ged","g","_d"},        //   "banged" = "bang" + "ed"
+  {"led","le","_d"},       //   "riled" = "rile" + "ed"
   {"led","l","_d"},        //   "snarled" = "snarl" + "ed"
-  {"med","me","_d"},	   //   "tamed" = "tame" + "ed"
-  {"med","m","_d"},	   //   "aimed" = "aim" + "ed"
+  {"med","me","_d"},       //   "tamed" = "tame" + "ed"
+  {"med","m","_d"},        //   "aimed" = "aim" + "ed"
   {"ned","ne","_d"},       //   "defined" = "define" + "ed"
   {"ned","n","_d"},        //   "resigned" = "resign" + "ed"
-  {"red","re","_d"},	   //   "fired" = "fire" + "ed"
-  {"red","r","_d"},	   //   "aired" = "air" + "ed"
-  {"ted","te",".i_d"},	   //   "spited" = "spite" + "ed"
-  {"ted","t",".i_d"},	   //   "waited" = "wait" + "ed"
+  {"red","re","_d"},       //   "fired" = "fire" + "ed"
+  {"red","r","_d"},        //   "aired" = "air" + "ed"
+  {"ted","te",".i_d"},     //   "spited" = "spite" + "ed"
+  {"ted","t",".i_d"},      //   "waited" = "wait" + "ed"
   {"ved","ve","_d"},       //   "grooved" = "groove" + "ed"
   {"wed","w","_d"},        //   "bowed" = "bow" + "ed"
   {"yed","ye","_d"},       //   "eyed" = "eye" + "ed"
   {"yed","y","_d"},        //   "boyed" = "boy" + "ed"
   {"zed","z","_d"},        //   "buzzed" = "buzz" + "ed"
 
-  {"aed","a","_d"},	   //   "ouijaed" = "ouija" + "ed"
-  {"aed","","_d"},	   //   
-  {"eed","ee","_d"},	   //   "peed" = "pee" + "d"
+  {"aed","a","_d"},        //   "ouijaed" = "ouija" + "ed"
+  {"aed","","_d"},         //   
+  {"eed","ee","_d"},       //   "peed" = "pee" + "d"
   {"ied","i","_d"},        //   "hied" = "hi" + "ed"
-  {"oed","oe","_d"},	   //   "hoed" = "hoe" + "ed"
-  {"oed","o","_d"},	   //   "potatoed" = "potato" + "ed"
+  {"oed","oe","_d"},       //   "hoed" = "hoe" + "ed"
+  {"oed","o","_d"},        //   "potatoed" = "potato" + "ed"
   {"ued","ue","_d"},       //   "hued" = "hue" + "ed"
 
   {"pped","p","_t"},       //   "slapped" = "slap" + "ed"
-  {"ed","e","_t"},	   //   "faced" = "face" + "ed"
-  {"ed","","_t"},	   //   "walked" = "walk" + "ed"
+  {"ed","e","_t"},         //   "faced" = "face" + "ed"
+  {"ed","","_t"},          //   "walked" = "walk" + "ed"
 
-  {"bber","b",".uh_r"},	   //   "bobber" = "bob" + "er"
-  {"dder","d",".uh_r"},	   //   "padder" = "pad" + "er"
-  {"gger","g",".uh_r"},	   //   "bagger" = "bag" + "er"
-  {"ier","y",".uh_r"},	   //   "happier" = "happy" + "er"
-  {"ller","l",".uh_r"},	   //   "jeweller" = "jewel" + "er"
-  {"mmer","m",".uh_r"},	   //   "slammer" = "slam" + "er"
-  {"nner","n",".uh_r"},	   //   "runner" = "run" + "er"
-  {"pper","p",".uh_r"},	   //   "flipper" = "flip" + "er"
-  {"rrer","r",".uh_r"},	   //   "sparrer" = "spar" + "er"
-  {"tter","t",".uh_r"},	   //   "batter" = "bat" + "er"
-  {"er","e",".uh_r"},	   //   "slider" = "slide" + "er"
-  {"er","",".uh_r"},	   //   "smaller" = "small" + "er"
+  {"bber","b",".uh_r"},    //   "bobber" = "bob" + "er"
+  {"dder","d",".uh_r"},    //   "padder" = "pad" + "er"
+  {"gger","g",".uh_r"},    //   "bagger" = "bag" + "er"
+  {"ier","y",".uh_r"},     //   "happier" = "happy" + "er"
+  {"ller","l",".uh_r"},    //   "jeweller" = "jewel" + "er"
+  {"mmer","m",".uh_r"},    //   "slammer" = "slam" + "er"
+  {"nner","n",".uh_r"},    //   "runner" = "run" + "er"
+  {"pper","p",".uh_r"},    //   "flipper" = "flip" + "er"
+  {"rrer","r",".uh_r"},    //   "sparrer" = "spar" + "er"
+  {"tter","t",".uh_r"},    //   "batter" = "bat" + "er"
+  {"er","e",".uh_r"},      //   "slider" = "slide" + "er"
+  {"er","",".uh_r"},       //   "smaller" = "small" + "er"
 
   {"bbers","b",".uh_r_z"}, //   "bobbers" = "bob" + "ers"
   {"dders","d",".uh_r_z"}, //   "padders" = "pad" + "ers"
@@ -203,7 +203,7 @@ static suffix_list_t suffix_list[] = {
   {"rrers","r",".uh_r_z"}, //   "sparrers" = "spar" + "ers"
   {"tters","t",".uh_r_z"}, //   "batters" = "bat" + "ers"
   {"ers","e",".uh_r_z"},   //   "sliders" = "slide" + "ers"
-  {"ers","",".uh_r_z"},	   //   "derailers" = "derail" + "ers"
+  {"ers","",".uh_r_z"},    //   "derailers" = "derail" + "ers"
 
   {"cing","ck",".i_ng"},   //   "picnicing" = "picnick" + "ing"
   {"bbing","b",".i_ng"},   //   "bobbing" = "bob" + "ing"
@@ -216,20 +216,20 @@ static suffix_list_t suffix_list[] = {
   {"rring","r",".i_ng"},   //   "starring" = "star" + "ing"
   {"tting","t",".i_ng"},   //   "batting" = "bat" + "ing"
   {"ying","ye",".i_ng"},   //   "eying" = "eye" + "ing"
-  {"ing","e",".i_ng"},	   //   "bouncing" = "bounce" + "ing"
-  {"ing","",".i_ng"},	   //   "eating" = "eat" + "ing"
+  {"ing","e",".i_ng"},     //   "bouncing" = "bounce" + "ing"
+  {"ing","",".i_ng"},      //   "eating" = "eat" + "ing"
  
   {"iable","y",".uh_b_ll"},     //   "enviable" = "envy" + "able"
   {"ceable","ce","_s.uh.b_ll"}, //   "traceable" = "trace" + "able"
   {"geable","ge",".j_uh.b_ll"}, //   "changeable" = "change" + "able"
   {"rrable","r",".uh.b_ll"},    //   "conferrable" = "confer" + "able"
   {"bbable","b",".uh.b_ll"},    //   "grabbable" = "grab" + "able"
-  {"ddable","d",".uh.b_ll"},	//   "kiddable" = "kid" + "able"
-  {"ggable","g",".uh.b_ll"},	//   "baggable" = "bag" + "able"
-  {"mmable","m",".uh.b_ll"},	//   "slammable" = "slam" + "able"
-  {"nnable","n",".uh.b_ll"},	//   "runnable" = "run" + "able"
-  {"ppable","p",".uh.b_ll"},	//   "flappable" = "flap" + "able"
-  {"ttable","t",".uh.b_ll"},	//   "battable" = "bat" + "able"
+  {"ddable","d",".uh.b_ll"},    //   "kiddable" = "kid" + "able"
+  {"ggable","g",".uh.b_ll"},    //   "baggable" = "bag" + "able"
+  {"mmable","m",".uh.b_ll"},    //   "slammable" = "slam" + "able"
+  {"nnable","n",".uh.b_ll"},    //   "runnable" = "run" + "able"
+  {"ppable","p",".uh.b_ll"},    //   "flappable" = "flap" + "able"
+  {"ttable","t",".uh.b_ll"},    //   "battable" = "bat" + "able"
   {"able","e",".uh.b_ll"},      //   "movable" = "move" + "able"
   {"able","",".uh.b_ll"},       //   "questionable" = "question" + "able"
 
@@ -238,27 +238,27 @@ static suffix_list_t suffix_list[] = {
   {"geably","ge",".j_uh.b_l_i"}, //   "changeably" = "change" + "ably"
   {"rrably","r",".uh.b_l_i"},    //   "conferrably" = "confer" + "ably"
   {"bbably","b",".uh.b_l_i"},    //   "grabbable" = "grab" + "ably"
-  {"ddably","d",".uh.b_l_i"},	 //   "kiddably" = "kid" + "ably"
-  {"ggably","g",".uh.b_l_i"},	 //   "baggably" = "bag" + "ably"
-  {"mmably","m",".uh.b_l_i"},	 //   "slammably" = "slam" + "ably"
-  {"nnably","n",".uh.b_l_i"},	 //   "runnably" = "run" + "ably"
-  {"ppably","p",".uh.b_l_i"},	 //   "flappably" = "flap" + "ably"
-  {"ttably","t",".uh.b_l_i"},	 //   "battably" = "bat" + "ably"
+  {"ddably","d",".uh.b_l_i"},    //   "kiddably" = "kid" + "ably"
+  {"ggably","g",".uh.b_l_i"},    //   "baggably" = "bag" + "ably"
+  {"mmably","m",".uh.b_l_i"},    //   "slammably" = "slam" + "ably"
+  {"nnably","n",".uh.b_l_i"},    //   "runnably" = "run" + "ably"
+  {"ppably","p",".uh.b_l_i"},    //   "flappably" = "flap" + "ably"
+  {"ttably","t",".uh.b_l_i"},    //   "battably" = "bat" + "ably"
   {"ably","e",".uh.b_l_i"},      //   "palpably" = "palpable" + "ably"
   {"ably","",".uh.b_l_i"},       //   "questionably" = "question" + "ably"
 
   {"rry","r",".i"},              //   "furry" = "fur" + "y"
   {"bby","b",".i"},              //   "grabby" = "grab" + "y"
-  {"bbie","b",".i"},	         //   "cabbie" = "cab" + "y"
-  {"ddy","d",".i"},	         //   "kiddy" = "kid" + "y"
-  {"ddie","d",".i"},	         //   "kiddie" = "kid" + "y"
-  {"ggy","g",".i"},	         //   "buggy" = "bug" + "y"
-  {"mmy","m",".i"},	         //   "tummy" = "tum" + "y"  (How frequent
-  {"nny","n",".i"},	         //   "runny" = "run" + "y"   are these??)
-  {"nnie","n",".i"},	         //   "bunnie" = "bun" + "y"
-  {"ppy","p",".i"},	         //   "puppy" = "pup" + "y"
-  {"tty","t",".i"},	         //   "ratty" = "rat" + "y"
-  {"ttie","t",".i"},	         //   "rattie" = "rat" + "y"
+  {"bbie","b",".i"},             //   "cabbie" = "cab" + "y"
+  {"ddy","d",".i"},              //   "kiddy" = "kid" + "y"
+  {"ddie","d",".i"},             //   "kiddie" = "kid" + "y"
+  {"ggy","g",".i"},              //   "buggy" = "bug" + "y"
+  {"mmy","m",".i"},              //   "tummy" = "tum" + "y"  (How frequent
+  {"nny","n",".i"},              //   "runny" = "run" + "y"   are these??)
+  {"nnie","n",".i"},             //   "bunnie" = "bun" + "y"
+  {"ppy","p",".i"},              //   "puppy" = "pup" + "y"
+  {"tty","t",".i"},              //   "ratty" = "rat" + "y"
+  {"ttie","t",".i"},             //   "rattie" = "rat" + "y"
   {"y","",".i"},                 //   "thrifty" = "thrift" + "y"
 
   {"ttance","t",".aa_n_s"},      //   "remittance" = "remit" + "ance"
@@ -283,10 +283,10 @@ static suffix_list_t suffix_list[] = {
   {"ality","",".aa_l.i.t_i"},    //   "commonality" = "common" + "ality"
   {"alities","e",".aa_l.i.t_i_z"}, //   "modalities" = "mode" + "alities"
   {"alities","",".aa_l.i.t_i_z"},  //   "commonalities" = "common" + "alities"
-  {"dom","",".d_uh_m"},	           //   "kingdom" = "king" + "dom"
+  {"dom","",".d_uh_m"},            //   "kingdom" = "king" + "dom"
   {"doms","",".d_uh_m_z"},          //   "kingdoms" = "king" + "doms"
-  {"hood","",".h_u_d"},	           //   "sainthood" = "saint" + "hood"
-  {"hoods","",".h_u_d_z"},	   //   "sainthoods" = "saint" + "hoods"
+  {"hood","",".h_u_d"},            //   "sainthood" = "saint" + "hood"
+  {"hoods","",".h_u_d_z"},         //   "sainthoods" = "saint" + "hoods"
   {"like","",".l_ah_i_k"},         //   "birdlike" = "bird" + "like"
   {"ling","",".l_i_ng"},           //   "hatchling" = "hatch" + "ling"
   {"lings","",".l_i_ng_z"},        //   "hatchlings" = "hatch" + "lings"
@@ -298,8 +298,8 @@ static suffix_list_t suffix_list[] = {
   {"villes","",".v_i_ll_z"},       //   "squaresvilles" = "squares" + "villes"
   {"wise","",".w ah i z"},         //   "streetwise" = "street" + "wise"
 
-  {"ie","y",""},	         //   "merrie" = "merry" + "<olde spellinge>"
-  {"e","",""},	                 //   "olde" = "old" + "<olde spellinge>"
+  {"ie","y",""},                 //   "merrie" = "merry" + "<olde spellinge>"
+  {"e","",""},                   //   "olde" = "old" + "<olde spellinge>"
 
 
  {(char *)0,(char *)0,(char *)0}     //  END MARKER

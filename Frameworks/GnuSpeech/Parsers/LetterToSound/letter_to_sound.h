@@ -2,4 +2,3 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 char *letter_to_sound(char *word);
-

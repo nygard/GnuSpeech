@@ -39,35 +39,35 @@ long syllabify(char *word)
     long                 i, n, temp, number_of_syllables = 0;
     phone_type          cv_signature[MAX_LEN], *current_type;
     char                *cluster, *ptr;
-	
-	
+
+
     /*  INITIALIZE THIS ARRAY TO 'c' (CONSONANT), 'v' (VOWEL), 0 (END)  */
     ptr = word;
-    create_cv_signature(ptr, cv_signature);	
+    create_cv_signature(ptr, cv_signature);
     current_type = cv_signature;
-	
+
     /*  WHILE THERE IS ANOTHER CONSONANT CLUSTER (NOT THE LAST)  */
-    while ((temp = next_consonant_cluster(current_type))) {	
-		number_of_syllables++;
-		
-		/*  UPDATE CURRENT TYPE POINTER  */
-		current_type += temp;
-		
-		/*  MOVE PTR TO POINT TO THAT CLUSTER  */
-		for (i = 0; i < temp; i++)
-			ptr = add_1_phone(ptr);
-		
-		/*  EXTRACT THE CLUSTER INTO A SEPARATE STRING  */
-		cluster = extract_consonant_cluster(ptr, current_type);
-		
-		/*  DETERMINE WHERE THE PERIOD GOES (OFFSET FROM PTR, WHICH COULD BE -1)  */
-		n = syllable_break(cluster);
-		
-		/*  MARK THE SYLLABLE IF POSSIBLE  */
-		if (n != -2)
-			*(ptr + n) = '.';
+    while ((temp = next_consonant_cluster(current_type))) {
+                number_of_syllables++;
+
+                /*  UPDATE CURRENT TYPE POINTER  */
+                current_type += temp;
+
+                /*  MOVE PTR TO POINT TO THAT CLUSTER  */
+                for (i = 0; i < temp; i++)
+                        ptr = add_1_phone(ptr);
+
+                /*  EXTRACT THE CLUSTER INTO A SEPARATE STRING  */
+                cluster = extract_consonant_cluster(ptr, current_type);
+
+                /*  DETERMINE WHERE THE PERIOD GOES (OFFSET FROM PTR, WHICH COULD BE -1)  */
+                n = syllable_break(cluster);
+
+                /*  MARK THE SYLLABLE IF POSSIBLE  */
+                if (n != -2)
+                        *(ptr + n) = '.';
     }
-	
+
     /*  RETURN NUMBER OF SYLLABLES  */
     return(number_of_syllables ? number_of_syllables : 1);
 }
@@ -80,29 +80,29 @@ long syllable_break(char *cluster)
 {
     char                *left_cluster, *right_cluster, temp[MAX_LEN];
     long                 offset, length;
-	
-	
+
+
     /*  GET LENGTH OF CLUSTER  */
     length = strlen(cluster);
-	
+
     /*  INITIALLY WE SHALL RETURN THE FIRST 'POSSIBLE' MATCH  */
     for (offset = -1; (offset <= length); offset++) {
-		if (offset == -1 || offset == length || cluster[offset] == '_' || cluster[offset] == '.') {
-			strcpy(temp, cluster);
-			if (offset >= 0)
-				temp[offset] = 0;
-			left_cluster = (offset < 0 ? temp : offset == length ? temp + length : temp + (offset + 1));
-			/*  POINTS TO BEGINNING OR NULL  */
-			right_cluster = (offset >= 0 ? temp : temp + length);
-			/*  NOW THEY POINT TO EITHER A LEFT/RIGHT HANDED CLUSTER OR A NULL STRING  */
-			if (check_cluster(left_cluster, LEFT) && check_cluster(right_cluster, RIGHT)) {
-				/*  IF THIS IS A POSSIBLE BREAK */
-				/*  TEMPORARY:  WILL STORE LIST OF POSSIBLES AND PICK A 'BEST' ONE  */
-				return(offset);
-			}
-		}
+                if (offset == -1 || offset == length || cluster[offset] == '_' || cluster[offset] == '.') {
+                        strcpy(temp, cluster);
+                        if (offset >= 0)
+                                temp[offset] = 0;
+                        left_cluster = (offset < 0 ? temp : offset == length ? temp + length : temp + (offset + 1));
+                        /*  POINTS TO BEGINNING OR NULL  */
+                        right_cluster = (offset >= 0 ? temp : temp + length);
+                        /*  NOW THEY POINT TO EITHER A LEFT/RIGHT HANDED CLUSTER OR A NULL STRING  */
+                        if (check_cluster(left_cluster, LEFT) && check_cluster(right_cluster, RIGHT)) {
+                                /*  IF THIS IS A POSSIBLE BREAK */
+                                /*  TEMPORARY:  WILL STORE LIST OF POSSIBLES AND PICK A 'BEST' ONE  */
+                                return(offset);
+                        }
+                }
     }
-	
+
     /*  IF HERE, RETURN ERROR  */
     return(-2);
 }
@@ -110,11 +110,11 @@ long syllable_break(char *cluster)
 void create_cv_signature(char *ptr, phone_type *arr)
 {
     phone_type         *arr_next;
-	
+
     arr_next = arr;
     while (*ptr) {
-		*arr_next++ = isvowel(*ptr) ? 'v' : 'c';
-		ptr = add_1_phone(ptr);
+                *arr_next++ = isvowel(*ptr) ? 'v' : 'c';
+                ptr = add_1_phone(ptr);
     }
     *arr_next = 0;
 }
@@ -122,11 +122,11 @@ void create_cv_signature(char *ptr, phone_type *arr)
 char *add_1_phone(char *t)
 {
     while (*t && *t != '_' && *t != '.')
-		t++;
-	
+                t++;
+
     while (*t == '_' || *t == '.')
-		t++;
-	
+                t++;
+
     return(t);
 }
 
@@ -137,25 +137,25 @@ char *extract_consonant_cluster(char *ptr, phone_type *type)
     char                *newptr;
     static char         ret[2048];  // to fix memory leak
     long                 offset;
-	
+
     newptr = ptr;
-	
+
     while (*type == 'c') {
-		type++;
-		newptr = add_1_phone(newptr);
+                type++;
+                newptr = add_1_phone(newptr);
     }
-	
-	//    printf("extract:  strlen(ptr) = %-d\n",strlen(ptr));
-	
-	//    ret = (char *)malloc(strlen(ptr) + 1);  // to fix memory leak
+
+        //    printf("extract:  strlen(ptr) = %-d\n",strlen(ptr));
+
+        //    ret = (char *)malloc(strlen(ptr) + 1);  // to fix memory leak
     strcpy(ret, ptr);
     offset = newptr - ptr - 1;
-	
+
     if (offset >= 0)
-		ret[offset] = 0;
+                ret[offset] = 0;
     else
-		fprintf(stderr, "offset error\n");  // what's this??
-	
+                fprintf(stderr, "offset error\n");  // what's this??
+
     return(ret);
 }
 
@@ -168,21 +168,21 @@ char *extract_consonant_cluster(char *ptr, phone_type *type)
 long next_consonant_cluster(phone_type *pt)
 {
     phone_type         *pt_var, *pt_temp;
-	
+
     pt_var = pt;
     while (*pt_var == 'c')
-		pt_var++;
-	
+                pt_var++;
+
     while (*pt_var == 'v')
-		pt_var++;
-	
-	/*  CHECK TO SEE IF WE ARE NOW ON THE FINAL CLUSTER OF THE WORD WHICH IS AT
-	 THE END OF THE WORD  */ 
+                pt_var++;
+
+        /*  CHECK TO SEE IF WE ARE NOW ON THE FINAL CLUSTER OF THE WORD WHICH IS AT
+         THE END OF THE WORD  */
     pt_temp = pt_var;
-	
+
     while (*pt_temp == 'c')
-		pt_temp++;
-	
+                pt_temp++;
+
     return (*pt_var && *pt_temp ? pt_var - pt : 0);
 }
 
@@ -193,16 +193,16 @@ long next_consonant_cluster(phone_type *pt)
 int check_cluster(char *p, char **match_array)
 {
     char                **i;
-	
+
     /*  EMPTY COUNTS AS A MATCH  */
     if (!*p)
-		return(1);
-	
+                return(1);
+
     i = match_array;
     while (*i) {
-		if (!strcmp(*i, p))
-			return(1);
-		i++;
+                if (!strcmp(*i, p))
+                        return(1);
+                i++;
     }
     return(0);
 }

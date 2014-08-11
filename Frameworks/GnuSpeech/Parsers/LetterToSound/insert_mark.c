@@ -6,20 +6,20 @@
 void insert_mark(char **end, char *at)
 {
     register char      *temp = *end;
-	
+
     at++;
-	
+
     if (*at == 'e')
-		at++;
-	
+                at++;
+
     if (*at == '|')
-		return;
-	
+                return;
+
     while (temp >= at) {
-		temp[1] = *temp;
+                temp[1] = *temp;
         temp--;
     }
-	
+
     *at = '|';
     (*end)++;
 }

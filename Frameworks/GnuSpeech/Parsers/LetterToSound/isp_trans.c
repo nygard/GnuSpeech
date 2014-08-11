@@ -43,7 +43,7 @@ static char *m_string[] = {
     /* [#eq] = */     "XEq",
     /* [#esamin] = */ "Xexamin",
     /* [#exa] = */    "e_g_z_Xa",
-    /* [#exagg] = */  "X#esag",	/* e_k_s.aa_j ?? */
+    /* [#exagg] = */  "X#esag", /* e_k_s.aa_j ?? */
     /* [#eye] = */    "XI",
     /* [#fast] = */   "f_ar_Xst",
     /* [#finIt] = */  "XfInIt",
@@ -210,7 +210,7 @@ static char *m_string[] = {
     /* [cei] = */ "XsE",
     /* [ceo] = */ "Xcio",
     /* [certain] = */ "Xserte|n",
-    /* [ch] = */ "ch",	            // changed from t_sh
+    /* [ch] = */ "ch",              // changed from t_sh
     /* [change] = */ "XchAnje",
     /* [chang|] = */ "XchAnj",
     /* [charact] = */ "k_e_r_uh_k_t",
@@ -268,7 +268,7 @@ static char *m_string[] = {
     /* [eo] = */ "XEo",
     /* [er] = */ "er",
     /* [eri] = */ "e_r_Xi",
-    /* [err] = */ "er",	/**/
+    /* [err] = */ "er", /**/
     /* [erre|] = */ "er_r_Xe|",
     /* [er|i] = */ "Xeri",
     /* [es|] = */ "Xs#",
@@ -414,7 +414,7 @@ static char *m_string[] = {
     /* [nce] = */ "n_Xce",
     /* [nci] = */ "n_Xci",
     /* [ncy] = */ "n_Xcy",
-    /* [nc|N] = */ "Xc|	",	/**/
+    /* [nc|N] = */ "Xc| ",      /**/
     /* [ng] = */ "ng",
     /* [ngE] = */ "n_XgE",
     /* [ngU] = */ "ng_XgU",
@@ -437,7 +437,7 @@ static char *m_string[] = {
     /* [o#] = */ "uh_uu",
     /* [oSIv] = */ "XOsiv",
     /* [oa] = */ "uh_uu",
-    /* [obt] = */ "o_b_Xt",	/* here is where the file was chopped off!! */
+    /* [obt] = */ "o_b_Xt",     /* here is where the file was chopped off!! */
     /* [oe] = */ "XOe",
     /* [off] = */ "o_Xff",
     /* [oft] = */ "o_Xft",
@@ -554,13 +554,13 @@ static char *m_string[] = {
     /* [sweat] = */ "Xswet",
     /* [sy#] = */ "z_i",
     /* [t] = */ "t",
-    /* [t#] = */ "t",	/* ASPIRATION t_h */
+    /* [t#] = */ "t",   /* ASPIRATION t_h */
     /* [tIv] = */ "Xtiv",
     /* [tU] = */ "t_y_uu",
     /* [tUl] = */ "ch_y_uu_l",
     /* [tUr] = */ "ch_y_uu_r",
     /* [tew] = */ "XtU",
-    /* [te|#] = */ "t",	/* ASPIRATION t_h */
+    /* [te|#] = */ "t", /* ASPIRATION t_h */
     /* [te|d] = */ "t_i_d",
     /* [th] = */ "th",
     /* [thm] = */ "dh_uh_m",
@@ -832,18 +832,18 @@ static pktrie trie[TRIE_NODES] = {
 
 /******************************************************************************
  *
- *	function:	isp_trans
+ *      function:       isp_trans
  *
- *	purpose:	
- *                       
- *			
+ *      purpose:
+ *
+ *
  *       arguments:      string, result
- *                       
- *	internal
- *	functions:	(INDEX)
  *
- *	library
- *	functions:	strcpy
+ *      internal
+ *      functions:      (INDEX)
+ *
+ *      library
+ *      functions:      strcpy
  *
  ******************************************************************************/
 
@@ -851,48 +851,48 @@ void isp_trans(char *string, char *result)
 {
     int                 i = 0, term = 0, tmp;
     char               *k, *rc = NULL, tstr[1024], mstr[1024];
-	
-	
+
+
     strcpy(tstr, string);
     while (1) {
-		if (*string && (trie[INDEX(*string) + i].val == *string)) {
-			tmp = trie[INDEX(*string) + i].term_state;
-			if (tmp) {
-				term = tmp;
-				rc = string + 1;
-			}
-			i = trie[INDEX(*string++) + i].next_org;
-			if (i)
-				continue;
-		}
-		
-		if (!term) {
-			*result = 0;
-			return;
-		}
-		
-		strcpy(mstr, rc);
-		rc = mstr;
-		k = m_string[term - 1];
-		
-		while (*k && (*k != 'X'))
-			*result++ = *k++;
-		
-		string = tstr;
-		
-		if (*k)
-			k++;
-		else
-			*result++ = '_';
-		
-		while (*k)
-			*string++ = *k++;
-		
-		while (*rc)
-			*string++ = *rc++;
-		
-		*string = 0;
-		string = tstr;
-		term = i = 0;
+                if (*string && (trie[INDEX(*string) + i].val == *string)) {
+                        tmp = trie[INDEX(*string) + i].term_state;
+                        if (tmp) {
+                                term = tmp;
+                                rc = string + 1;
+                        }
+                        i = trie[INDEX(*string++) + i].next_org;
+                        if (i)
+                                continue;
+                }
+
+                if (!term) {
+                        *result = 0;
+                        return;
+                }
+
+                strcpy(mstr, rc);
+                rc = mstr;
+                k = m_string[term - 1];
+
+                while (*k && (*k != 'X'))
+                        *result++ = *k++;
+
+                string = tstr;
+
+                if (*k)
+                        k++;
+                else
+                        *result++ = '_';
+
+                while (*k)
+                        *string++ = *k++;
+
+                while (*rc)
+                        *string++ = *rc++;
+
+                *string = 0;
+                string = tstr;
+                term = i = 0;
     }
 }

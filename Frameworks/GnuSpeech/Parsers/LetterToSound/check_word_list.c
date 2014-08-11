@@ -198,29 +198,29 @@ int check_word_list(char *string, char **eow)
     int                 i = 0;
     int                 term;
     char                *t = string;
-	
+
     string++;
     *(*eow) = 0;
-	
+
     while (*string) {
-		if (trie[index(*string) + i].val == *string) {
-			term = trie[index(*string) + i].term_state;
-			if (!*(string + 1)) {
-				if (!term)
-					break;
-				string = m_string[term - 1];
-				while (*string)
-					*t++ = *string++;
-				*eow = t - 1;
-				return(1);
-			}
-			i = trie[index(*string++) + i].next_org;
-			if (!i)
-				break;
-		} else
-			break;
+                if (trie[index(*string) + i].val == *string) {
+                        term = trie[index(*string) + i].term_state;
+                        if (!*(string + 1)) {
+                                if (!term)
+                                        break;
+                                string = m_string[term - 1];
+                                while (*string)
+                                        *t++ = *string++;
+                                *eow = t - 1;
+                                return(1);
+                        }
+                        i = trie[index(*string++) + i].next_org;
+                        if (!i)
+                                break;
+                } else
+                        break;
     }
-	
+
     *(*eow) = '#';
     return(0);
 }
