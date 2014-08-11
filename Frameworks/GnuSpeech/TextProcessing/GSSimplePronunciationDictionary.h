@@ -5,6 +5,7 @@
 @interface GSSimplePronunciationDictionary : GSPronunciationDictionary
 
 + (id)mainDictionary;
++ (id)specialAcronymDictionary;
 
 - (NSDictionary *)pronunciations;
 

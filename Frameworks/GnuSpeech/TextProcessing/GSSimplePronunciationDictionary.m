@@ -21,6 +21,18 @@
     return _mainDictionary;
 }
 
++ (id)specialAcronymDictionary;
+{
+    static GSSimplePronunciationDictionary *_dictionary;
+
+    if (_dictionary == nil) {
+        NSString *path = [[NSBundle bundleForClass:self] pathForResource:@"SpecialAcronyms" ofType:@"dict"];
+        _dictionary = [[GSSimplePronunciationDictionary alloc] initWithFilename:path];
+    }
+
+    return _dictionary;
+}
+
 - (id)initWithFilename:(NSString *)filename;
 {
     if ((self = [super initWithFilename:filename])) {

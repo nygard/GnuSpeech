@@ -87,6 +87,7 @@
 		0165043E1543B42700D64E98 /* MMDriftGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0165043C1543B42700D64E98 /* MMDriftGenerator.m */; };
 		0186C5D719985DB3002AB929 /* GSTextParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 0186C5D519985DB3002AB929 /* GSTextParser.h */; };
 		0186C5D819985DB3002AB929 /* GSTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0186C5D619985DB3002AB929 /* GSTextParser.m */; };
+		0186C5DA199871B7002AB929 /* SpecialAcronyms.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0186C5D9199871B7002AB929 /* SpecialAcronyms.dict */; };
 		019745A5153F8A2100695CD7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019745A4153F8A2100695CD7 /* AVFoundation.framework */; };
 		01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01ACA5E01544A80A00278339 /* MMGroupedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 01ACA5DE1544A80700278339 /* MMGroupedObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -269,6 +270,7 @@
 		0165043C1543B42700D64E98 /* MMDriftGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMDriftGenerator.m; path = MonetModel/MMDriftGenerator.m; sourceTree = "<group>"; };
 		0186C5D519985DB3002AB929 /* GSTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSTextParser.h; sourceTree = "<group>"; };
 		0186C5D619985DB3002AB929 /* GSTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSTextParser.m; sourceTree = "<group>"; };
+		0186C5D9199871B7002AB929 /* SpecialAcronyms.dict */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = SpecialAcronyms.dict; path = TextProcessing/SpecialAcronyms.dict; sourceTree = "<group>"; };
 		019745A4153F8A2100695CD7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GnuSpeech.h; sourceTree = "<group>"; };
 		01ACA5DE1544A80700278339 /* MMGroupedObject.h */ = {isa = PBXFileReference; fileEncoding = 30; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = MMGroupedObject.h; path = MonetModel/MMGroupedObject.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
@@ -573,6 +575,7 @@
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
 				012D53B70B7FFB34001B50FC /* 2.0eMainDictionary.dict */,
 				012D53B80B7FFB34001B50FC /* SpecialAcronyms.plist */,
+				0186C5D9199871B7002AB929 /* SpecialAcronyms.dict */,
 				012D53B90B7FFB34001B50FC /* TTSSuffixList.txt */,
 			);
 			name = Resources;
@@ -916,6 +919,7 @@
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 				012D53BA0B7FFB34001B50FC /* 2.0eMainDictionary.dict in Resources */,
 				012D53BB0B7FFB34001B50FC /* SpecialAcronyms.plist in Resources */,
+				0186C5DA199871B7002AB929 /* SpecialAcronyms.dict in Resources */,
 				012D53BC0B7FFB34001B50FC /* TTSSuffixList.txt in Resources */,
 				697930D30F91906B00E6B2EC /* ChangeLog.txt in Resources */,
 			);
