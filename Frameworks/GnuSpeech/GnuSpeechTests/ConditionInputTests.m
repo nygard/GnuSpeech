@@ -70,4 +70,21 @@
     XCTAssertEqualObjects(output, @"creativ\u2193ity");
 }
 
+// First, make sure \t it normally replaced.
+- (void)testTabCharacter;
+{
+    NSString *input = @"creativ\tity";
+    NSString *output = [_parser _conditionInputString:input];
+    XCTAssertEqualObjects(output, @"creativ ity");
+}
+
+- (void)testLeaveEscapeCharacterAlone;
+{
+    _parser.escapeCharacter = @"\t";
+
+    NSString *input = @"creativ\tity";
+    NSString *output = [_parser _conditionInputString:input];
+    XCTAssertEqualObjects(output, @"creativ\tity");
+}
+
 @end

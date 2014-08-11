@@ -42,4 +42,31 @@
     XCTAssertEqualObjects(output, @"onetwo");
 }
 
+- (void)testSubtraction;
+{
+    NSError *error;
+    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"[a-z --%]" options:0 error:&error];
+    XCTAssert(regex != nil);
+
+    NSString *input = @"one % two";
+    NSString *output = [regex stringByReplacingMatchesInString:input options:0 range:NSMakeRange(0, [input length]) withTemplate:@""];
+
+    XCTAssertEqualObjects(output, @"%");
+}
+
+#if 0
+// This doesn't work as I'd like.
+- (void)testWhitespaceSubtraction;
+{
+    NSError *error;
+    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"[:space:--\n]" options:0 error:&error];
+    XCTAssert(regex != nil);
+
+    NSString *input = @"one \n two";
+    NSString *output = [regex stringByReplacingMatchesInString:input options:0 range:NSMakeRange(0, [input length]) withTemplate:@""];
+
+    XCTAssertEqualObjects(output, @"one\ntwo");
+}
+#endif
+
 @end
