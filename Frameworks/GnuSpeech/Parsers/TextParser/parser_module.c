@@ -458,6 +458,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
 
     /*  INITIALIZE MODE STACK TO NORMAL MODE */
     int mode_stack[MODE_NEST_MAX], stack_ptr = 0;
+    for (NSUInteger index = 0; index < MODE_NEST_MAX; index++) mode_stack[index] = 1000; // Just for debugging.
     mode_stack[stack_ptr] = NORMAL_MODE;
 
     int mode;
@@ -541,10 +542,10 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                                 inputIndex++;
                                 /*  ALLOW ONLY MINUS OR PLUS SIGN AND DIGITS  */
                                 if (!isdigit(input[inputIndex]) && !((input[inputIndex] == '-') || (input[inputIndex] == '+')))
-                                    return(inputIndex);
+                                    return inputIndex;
                                 /*  MINUS OR PLUS SIGN AT BEGINNING ONLY  */
                                 if ((pos > 0) && ((input[inputIndex] == '-') || (input[inputIndex] == '+')))
-                                    return(inputIndex);
+                                    return inputIndex;
                                 /*  OUTPUT CHARACTER, KEEPING TRACK OF POSITION AND MINUS SIGN  */
                                 output[outputIndex++] = input[inputIndex];
                                 if ((input[inputIndex] == '-') || (input[inputIndex] == '+'))
@@ -553,7 +554,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                             }
                             /*  MAKE SURE MINUS OR PLUS SIGN HAS NUMBER FOLLOWING IT  */
                             if (minus >= pos)
-                                return(inputIndex);
+                                return inputIndex;
                             /*  IGNORE ANY WHITE SPACE  */
                             while (((inputIndex + 1) < length) && (input[inputIndex + 1] == ' '))
                                 inputIndex++;
@@ -565,7 +566,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                                 output[outputIndex++] = mode_marker[mode][END];
                                 /*  DECREMENT STACK POINTER, CHECKING FOR STACK UNDERFLOW  */
                                 if ((--stack_ptr) < 0)
-                                    return(inputIndex);
+                                    return inputIndex;
                                 /*  MARK BEGINNING OF STACKED MODE, IF NOT NORMAL MODE  */
                                 if (mode_stack[stack_ptr] != NORMAL_MODE)
                                     output[outputIndex++] = mode_marker[mode_stack[stack_ptr]][BEGIN];
@@ -584,7 +585,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                                     return(inputIndex);
                                 /*  ALLOW ONLY ONE PERIOD  */
                                 if (period && (input[inputIndex] == '.'))
-                                    return(inputIndex);
+                                    return inputIndex;
                                 /*  OUTPUT CHARACTER, KEEPING TRACK OF # OF PERIODS  */
                                 output[outputIndex++] = input[inputIndex];
                                 if (input[inputIndex] == '.')
@@ -601,7 +602,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                                 output[outputIndex++] = mode_marker[mode][END];
                                 /*  DECREMENT STACK POINTER, CHECKING FOR STACK UNDERFLOW  */
                                 if ((--stack_ptr) < 0)
-                                    return(inputIndex);
+                                    return inputIndex;
                                 /*  MARK BEGINNING OF STACKED MODE, IF NOT NORMAL MODE  */
                                 if (mode_stack[stack_ptr] != NORMAL_MODE)
                                     output[outputIndex++] = mode_marker[mode_stack[stack_ptr]][BEGIN];
@@ -633,12 +634,12 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                     if (mode != UNDEFINED_MODE) {
                         /*  CHECK IF MATCHING MODE BEGIN  */
                         if (mode_stack[stack_ptr] != mode)
-                            return(inputIndex);
+                            return inputIndex;
                         /*  MATCHES WITH MODE BEGIN  */
                         else {
                             /*  DECREMENT STACK POINTER, CHECKING FOR STACK UNDERFLOW  */
                             if ((--stack_ptr) < 0)
-                                return(inputIndex);
+                                return inputIndex;
                             /*  MARK END OF MODE  */
                             output[outputIndex++] = mode_marker[mode][END];
                             /*  INCREMENT INPUT INDEX  */
