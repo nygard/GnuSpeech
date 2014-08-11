@@ -89,6 +89,8 @@
 		0186C5D819985DB3002AB929 /* GSTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0186C5D619985DB3002AB929 /* GSTextParser.m */; };
 		0186C5DA199871B7002AB929 /* SpecialAcronyms.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0186C5D9199871B7002AB929 /* SpecialAcronyms.dict */; };
 		0186C5E61999409D002AB929 /* GnuSpeechTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0186C5E51999409D002AB929 /* GnuSpeechTests.m */; };
+		0186C61719994213002AB929 /* ConditionInputTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0186C61619994213002AB929 /* ConditionInputTests.m */; };
+		0186C640199943C0002AB929 /* GnuSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* GnuSpeech.framework */; };
 		019745A5153F8A2100695CD7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019745A4153F8A2100695CD7 /* AVFoundation.framework */; };
 		01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01ACA5E01544A80A00278339 /* MMGroupedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 01ACA5DE1544A80700278339 /* MMGroupedObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -262,6 +264,7 @@
 		0186C5E11999409D002AB929 /* GnuSpeechTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GnuSpeechTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0186C5E41999409D002AB929 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0186C5E51999409D002AB929 /* GnuSpeechTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GnuSpeechTests.m; sourceTree = "<group>"; };
+		0186C61619994213002AB929 /* ConditionInputTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConditionInputTests.m; sourceTree = "<group>"; };
 		019745A4153F8A2100695CD7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GnuSpeech.h; sourceTree = "<group>"; };
 		01ACA5DE1544A80700278339 /* MMGroupedObject.h */ = {isa = PBXFileReference; fileEncoding = 30; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = MMGroupedObject.h; path = MonetModel/MMGroupedObject.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
@@ -360,6 +363,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0186C640199943C0002AB929 /* GnuSpeech.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -525,6 +529,7 @@
 			isa = PBXGroup;
 			children = (
 				0186C5E51999409D002AB929 /* GnuSpeechTests.m */,
+				0186C61619994213002AB929 /* ConditionInputTests.m */,
 				0186C5E31999409D002AB929 /* Supporting Files */,
 			);
 			path = GnuSpeechTests;
@@ -934,6 +939,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0186C61719994213002AB929 /* ConditionInputTests.m in Sources */,
 				0186C5E61999409D002AB929 /* GnuSpeechTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
