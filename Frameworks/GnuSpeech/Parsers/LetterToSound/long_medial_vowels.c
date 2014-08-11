@@ -3,23 +3,6 @@
 
 #import "letter_to_sound_private.h"
 
-/******************************************************************************
- *
- *	function:	long_medial_vowels
- *
- *	purpose:	
- *                       
- *			
- *       arguments:      in, eow
- *                       
- *	internal
- *	functions:	member
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
-
 int long_medial_vowels(char *in, char **eow)
 {
     register char      *end = *eow;

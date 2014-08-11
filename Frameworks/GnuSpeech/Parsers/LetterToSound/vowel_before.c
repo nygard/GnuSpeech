@@ -3,22 +3,7 @@
 
 #import "letter_to_sound_private.h"
 
-/******************************************************************************
- *
- *       function:     vowel_before
- *
- *       purpose:      Return the position of a vowel prior to 'position'.
- *                     If no vowel prior return 0.
- *
- *       arguments:    start, position
- *
- *       internal
- *       functions:    member
- *
- *       library
- *       functions:    none
- *
- ******************************************************************************/
+/// Return the position of a vowel prior to 'position'.  If no vowel prior return 0.
 
 char *vowel_before(char *start, char *position)
 {

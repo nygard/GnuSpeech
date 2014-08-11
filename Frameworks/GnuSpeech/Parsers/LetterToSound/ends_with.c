@@ -3,25 +3,7 @@
 
 #import "letter_to_sound_private.h"
 
-
-
-/******************************************************************************
- *
- *	function:	ends_with
- *
- *	purpose:	Return 0 if word doesn't end with set element, else
- *                       pointer to char before ending.
- *			
- *       arguments:      in, end, set
- *                       
- *	internal
- *	functions:	none
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
-
+/// Return 0 if word doesn't end with set element, else pointer to char before ending.
 char *ends_with(char *in, char *end, char *set)
 {
     register char      *temp;

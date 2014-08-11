@@ -8,25 +8,6 @@ static char *suffix_list_1 = "elba/ylba/de/ne/re/yre/tse/ye/gni/ssel/yl/tnem/sse
 
 static char *suffix_list_2 = "ci/laci/";
 
-
-
-/******************************************************************************
- *
- *	function:	mark_final_e
- *
- *	purpose:	
- *                       
- *			
- *       arguments:      in, eow
- *                       
- *	internal
- *	functions:	vowel_before, ends_with, member, insert_mark, suffix
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
-
 int mark_final_e(char *in, char **eow)
 {
     char               *end = *eow;

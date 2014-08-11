@@ -30,26 +30,9 @@ static int check_cluster(char *p, char **match_array);
 
 
 
-/******************************************************************************
- *
- *	function:	syllabify
- *
- *	purpose:	Steps along until probable syllable beginning is found,
- *                       taking the longest possible first; then continues
- *			skipping vowels until a possible syllable end is found
- *                       (again taking the longest possible.)  Changes '_' to
- *                       '.' where it occurs between syllable end and start.
- *
- *       arguments:      word
- *                       
- *	internal
- *	functions:	create_cv_signature, next_consonant_cluster,
- *                       add_1_phone, extract_consonant_cluster, syllable_break
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
+/// Steps along until probable syllable beginning is found, taking the longest possible first; then continues
+/// skipping vowels until a possible syllable end is found (again taking the longest possible.)  Changes '_' to
+/// '.' where it occurs between syllable end and start.
 
 long syllabify(char *word)
 {
@@ -91,22 +74,7 @@ long syllabify(char *word)
 
 
 
-/******************************************************************************
- *
- *	function:	syllable_break
- *
- *	purpose:	Returns -2 if could not break the cluster.
- *                       
- *			
- *       arguments:      cluster
- *                       
- *	internal
- *	functions:	check_cluster
- *
- *	library
- *	functions:	strlen, strcpy
- *
- ******************************************************************************/
+/// Returns -2 if could not break the cluster.
 
 long syllable_break(char *cluster)
 {
@@ -139,25 +107,6 @@ long syllable_break(char *cluster)
     return(-2);
 }
 
-
-
-/******************************************************************************
- *
- *	function:	create_cv_signature
- *
- *	purpose:	
- *                       
- *			
- *       arguments:      ptr, arr
- *                       
- *	internal
- *	functions:	(isvowel), add_1_phone
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
-
 void create_cv_signature(char *ptr, phone_type *arr)
 {
     phone_type         *arr_next;
@@ -169,25 +118,6 @@ void create_cv_signature(char *ptr, phone_type *arr)
     }
     *arr_next = 0;
 }
-
-
-
-/******************************************************************************
- *
- *	function:	add_1_phone
- *
- *	purpose:	
- *                       
- *			
- *       arguments:      t
- *                       
- *	internal
- *	functions:	none
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
 
 char *add_1_phone(char *t)
 {
@@ -201,23 +131,6 @@ char *add_1_phone(char *t)
 }
 
 
-
-/******************************************************************************
- *
- *	function:	extract_consonant_cluster
- *
- *	purpose:	there is a memory leak which needs fixing!!!!
- *                       (fixed temporarily).
- *			
- *       arguments:      ptr, type
- *                       
- *	internal
- *	functions:	add_1_phone
- *
- *	library
- *	functions:	malloc, strlen, strcpy, fprintf
- *
- ******************************************************************************/
 
 char *extract_consonant_cluster(char *ptr, phone_type *type)
 {
@@ -248,26 +161,9 @@ char *extract_consonant_cluster(char *ptr, phone_type *type)
 
 
 
-/******************************************************************************
- *
- *	function:	next_consonant_cluster
- *
- *	purpose:	Takes a pointer to phone_type and returns an integer
- *                       offset from that point to the start of the next
- *                       consonant cluster (or 0 if there are no vowels between
- *                       the pointer and the end of the word, or if this is the
- *                       second-last cluster and the word doesn't end with a
- *                       vowel. Basically, 0 means to stop.)
- *			
- *       arguments:      pt
- *                       
- *	internal
- *	functions:	none
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
+/// Takes a pointer to phone_type and returns an integer offset from that point to the start of the next
+/// consonant cluster (or 0 if there are no vowels between the pointer and the end of the word, or if this is the
+/// second-last cluster and the word doesn't end with a vowel. Basically, 0 means to stop.)
 
 long next_consonant_cluster(phone_type *pt)
 {
@@ -292,22 +188,7 @@ long next_consonant_cluster(phone_type *pt)
 
 
 
-/******************************************************************************
- *
- *	function:	check_cluster
- *
- *	purpose:	Returns 1 if it is a possible match, 0 otherwise.
- *                       
- *			
- *       arguments:      p, match_array
- *                       
- *	internal
- *	functions:	none
- *
- *	library
- *	functions:	strcmp
- *
- ******************************************************************************/
+/// Returns 1 if it is a possible match, 0 otherwise.
 
 int check_cluster(char *p, char **match_array)
 {

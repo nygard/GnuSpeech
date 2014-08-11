@@ -3,23 +3,8 @@
 
 #import "letter_to_sound_private.h"
 
-/******************************************************************************
- *
- *	function:	suffix
- *
- *	purpose:	Find suffix if vowel in word before the suffix.
- *                       Return 0 if failed, or pointer to character which
- *			preceeds the suffix.
- *
- *       arguments:      in, end, suflist
- *                       
- *	internal
- *	functions:	ends_with, vowel_before
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
+/// Find suffix if vowel in word before the suffix.
+/// Return 0 if failed, or pointer to character which preceeds the suffix.
 
 char *suffix(char *in, char *end, char *suflist)
 {

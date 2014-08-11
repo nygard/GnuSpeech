@@ -3,24 +3,7 @@
 
 #import "letter_to_sound_private.h"
 
-/******************************************************************************
- *
- *	function:	final_s
- *
- *	purpose:	Check for a final s, strip it if found and return s or
- *                       z, or else return false.  Don't strip if it's the only
- *                       character.
- *
- *       arguments:      in, eow
- *                       
- *	internal
- *	functions:	member
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
-
+/// Check for a final s, strip it if found and return s or z, or else return false.  Don't strip if it's the only character.
 char final_s(char *in, char **eow)
 {
     register char      *end = *eow;

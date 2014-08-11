@@ -22,24 +22,7 @@ static char *word_type(char *word);
 
 
 
-/******************************************************************************
- *
- *	function:	letter_to_sound
- *
- *	purpose:	Returns pronunciation of word based on letter-to-sound
- *                       rules.  Returns NULL if any error (rare).
- *			
- *       arguments:      word
- *                       
- *	internal
- *	functions:	word_to_patphone, isp_trans, syllabify, apply_stress,
- *                       word_type
- *
- *	library
- *	functions:	sprintf, strcat
- *
- ******************************************************************************/
-
+/// Returns pronunciation of word based on letter-to-sound rules.  Returns NULL if any error (rare).
 char *letter_to_sound(char *word)
 {
     char                buffer[MAX_WORD_LENGTH+3];
@@ -75,22 +58,7 @@ char *letter_to_sound(char *word)
 
 
 
-/******************************************************************************
- *
- *	function:	word_type
- *
- *	purpose:	Returns the word type based on the word spelling.
- *			
- *       arguments:      word
- *                       
- *	internal
- *	functions:	WORDEND
- *                       
- *	library
- *	functions:	(strlen, strcmp)
- *
- ******************************************************************************/
-
+/// Returns the word type based on the word spelling.
 static char *word_type(char *word)
 {
     tail_entry          *list_ptr;

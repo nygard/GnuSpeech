@@ -31,27 +31,6 @@ static char *letters[] = {
 	OPEN_BRACE, VERTICAL_BAR, CLOSE_BRACE, TILDE, UNKNOWN
 };
 
-
-
-/******************************************************************************
- *
- *	function:	word_to_patphone
- *
- *	purpose:	
- *                       
- *			
- *       arguments:      word
- *                       
- *	internal
- *	functions:	all_caps, spell_it, vowel_before, check_word_list,
- *                       final_s, ie_to_y, mark_final_e, long_medial_vowels,
- *                       medial_silent_e, medial_s
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
-
 int word_to_patphone(char *word)
 {
     char                *end_of_word;
@@ -110,24 +89,6 @@ int word_to_patphone(char *word)
 }
 
 
-
-/******************************************************************************
- *
- *	function:	spell_it
- *
- *	purpose:	
- *                       
- *			
- *       arguments:      word
- *                       
- *	internal
- *	functions:	none
- *
- *	library
- *	functions:	strcpy
- *
- ******************************************************************************/
-
 static int spell_it(char *word)
 {
     register char      *s = spell_string;
@@ -155,25 +116,6 @@ static int spell_it(char *word)
     strcpy(hold, spell_string);
     return(2);
 }
-
-
-
-/******************************************************************************
- *
- *	function:	all_caps
- *
- *	purpose:	
- *                       
- *			
- *       arguments:      in
- *                       
- *	internal
- *	functions:	none
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
 
 static int all_caps(char *in)
 {

@@ -4,23 +4,7 @@
 #import "letter_to_sound_private.h"
 
 
-/******************************************************************************
- *
- *	function:	ie_to_y
- *
- *	purpose:	If final two characters are "ie" replace with "y" and
- *                       return true.
- *			
- *       arguments:      in, end
- *                       
- *	internal
- *	functions:	none
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
-
+/// If final two characters are "ie" replace with "y" and return true.
 int ie_to_y(char *in, char **end)
 {
     register char      *t = *end;

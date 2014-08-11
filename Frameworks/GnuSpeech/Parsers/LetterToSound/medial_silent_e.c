@@ -3,22 +3,6 @@
 
 #import "letter_to_sound_private.h"
 
-/******************************************************************************
- *
- *	function:	medial_silent_e
- *
- *	purpose:	
- *                       
- *   arguments:  input, eow
- *                       
- *	internal
- *	functions:	member, insert_mark
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
-
 void medial_silent_e(char *input, char **eow)
 {
     char               *end = *eow;

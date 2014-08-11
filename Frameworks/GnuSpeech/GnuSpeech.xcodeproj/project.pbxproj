@@ -691,6 +691,7 @@
 		69E2281E0FB13393001B3C04 /* Letter To Sound */ = {
 			isa = PBXGroup;
 			children = (
+				69E2282F0FB13393001B3C04 /* letter_to_sound.h */,
 				0186C5DB1998B3D1002AB929 /* letter_to_sound_private.h */,
 				69E2281F0FB13393001B3C04 /* apply_stress.c */,
 				69E228210FB13393001B3C04 /* check_word_list.c */,
@@ -701,7 +702,6 @@
 				69E2282A0FB13393001B3C04 /* insert_mark.c */,
 				69E2282C0FB13393001B3C04 /* isp_trans.c */,
 				69E2282E0FB13393001B3C04 /* letter_to_sound.c */,
-				69E2282F0FB13393001B3C04 /* letter_to_sound.h */,
 				69E228300FB13393001B3C04 /* long_medial_vowels.c */,
 				69E228320FB13393001B3C04 /* mark_final_e.c */,
 				69E228340FB13393001B3C04 /* medial_s.c */,

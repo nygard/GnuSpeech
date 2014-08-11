@@ -3,23 +3,6 @@
 
 #import "letter_to_sound_private.h"
 
-/******************************************************************************
- *
- *	function:	insert_mark
- *
- *	purpose:	
- *                       
- *			
- *       arguments:      end, at
- *                       
- *	internal
- *	functions:	none
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
-
 void insert_mark(char **end, char *at)
 {
     register char      *temp = *end;

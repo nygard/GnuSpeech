@@ -3,23 +3,6 @@
 
 #import "letter_to_sound_private.h"
 
-/******************************************************************************
- *
- *	function:	medial_s
- *
- *	purpose:	
- *                       
- *			
- *       arguments:      in, eow
- *                       
- *	internal
- *	functions:	member
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
-
 void medial_s(char *in, char **eow)
 {
     register char      *end = *eow;

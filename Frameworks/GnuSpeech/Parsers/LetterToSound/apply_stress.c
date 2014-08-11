@@ -6,8 +6,6 @@
 #import <stdio.h>
 #import <strings.h>
 
-
-/*  GLOBAL FUNCTIONS (LOCAL TO THIS FILE)  ***********************************/
 static int stress_suffix(char *orthography, int *type);
 static int light(char *sb);
 static int prefix(char *orthography);
@@ -15,27 +13,10 @@ static int prefix(char *orthography);
 
 
 
-/******************************************************************************
- *
- *	function:	apply_stres
- *
- *	purpose:	Find all syllables and make an array of pointers to
- *                       them.  Mark each as either weak or strong in a separate
- *                       array;  use the table of stress-affecting affices to
- *                       find any.  If none, look for stress-repellent prefices.
- *                       Decide which syllable gets the stress marker;  insert
- *                       it at the pointer to that syllable.  Returns nonzero
- *                       if an error occurred.
- *			
- *       arguments:      buffer, orthography
- *                       
- *	internal
- *	functions:	stress_suffix, light, prefix
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
+/// Find all syllables and make an array of pointers to them.  Mark each as either weak or strong in a separate
+/// array;  use the table of stress-affecting affices to find any.  If none, look for stress-repellent prefices.
+/// Decide which syllable gets the stress marker;  insert it at the pointer to that syllable.  Returns nonzero
+/// if an error occurred.
 
 int apply_stress(char *buffer, char *orthography)
 {
@@ -103,26 +84,7 @@ int apply_stress(char *buffer, char *orthography)
     return(0);
 }
 
-
-
-/******************************************************************************
- *
- *	function:	stress_suffix
- *
- *	purpose:	
- *                       
- *			
- *       arguments:      orthography, type
- *                       
- *	internal
- *	functions:	none
- *
- *	library
- *	functions:	strlen, strcmp
- *
- ******************************************************************************/
-
-int stress_suffix(char *orthography, int *type)
+static int stress_suffix(char *orthography, int *type)
 {
     long                 t = 0, a, c;
     char               *b;
@@ -142,24 +104,8 @@ int stress_suffix(char *orthography, int *type)
 
 
 
-/******************************************************************************
- *
- *	function:	light
- *
- *	purpose:	Determine if a syllable is light.
- *                       
- *			
- *       arguments:      sb
- *                       
- *	internal
- *	functions:	isvowel
- *
- *	library
- *	functions:	none
- *
- ******************************************************************************/
-
-int light(char *sb)
+/// Determine if a syllable is light.
+static int light(char *sb)
 {
     while (!isvowel(*sb))
 		sb++;
@@ -185,26 +131,7 @@ int light(char *sb)
     return isvowel(*sb);
 }
 
-
-
-/******************************************************************************
- *
- *	function:	prefix
- *
- *	purpose:	
- *                       
- *			
- *       arguments:      orthography
- *                       
- *	internal
- *	functions:	none
- *
- *	library
- *	functions:	strlen, strncmp
- *
- ******************************************************************************/
-
-int prefix(char *orthography)
+static int prefix(char *orthography)
 {
     long                 t = 0, l, m;
     char               *a;
