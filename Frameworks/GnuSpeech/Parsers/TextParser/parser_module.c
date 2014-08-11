@@ -541,7 +541,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                             while (((inputIndex + 1) < length) && (input[inputIndex + 1] != ' ') && (input[inputIndex + 1] != escape_character)) {
                                 inputIndex++;
                                 /*  ALLOW ONLY MINUS OR PLUS SIGN AND DIGITS  */
-                                if (!isdigit(input[inputIndex]) && !((input[inputIndex] == '-') || (input[inputIndex] == '+')))
+                                if (!isdigit(input[inputIndex]) && (input[inputIndex] != '-') && (input[inputIndex] != '+'))
                                     return inputIndex;
                                 /*  MINUS OR PLUS SIGN AT BEGINNING ONLY  */
                                 if ((pos > 0) && ((input[inputIndex] == '-') || (input[inputIndex] == '+')))
