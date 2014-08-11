@@ -143,46 +143,6 @@ static NSDictionary *specialAcronymsDictionary;
 static NXStream *stream2;
 
 
-/*  GLOBAL FUNCTIONS, LOCAL TO THIS FILE  ************************************/
-// gs_pm = GnuSpeech Parser Module
-static void gs_pm_condition_input(const char *input, char *output, long length, long *output_length);
-static int gs_pm_mark_modes(char *input, char *output, long length, long *output_length);
-static void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *stream_length);
-static int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
-                                  NXStream *stream2, long *stream2_length);
-static int gs_pm_get_state(const char *buffer, long *i, long length, long *mode, long *next_mode,
-                           long *current_state, long *next_state, long *raw_mode_flag,
-                           char *word, NXStream *stream);
-static int gs_pm_set_tone_group(NXStream *stream, long tg_pos, char *word);
-static float gs_pm_convert_silence(char *buffer, NXStream *stream);
-static int gs_pm_another_word_follows(const char *buffer, long i, long length, long mode);
-static int gs_pm_shift_silence(const char *buffer, long i, long length, long mode, NXStream *stream);
-static void gs_pm_insert_tag(NXStream *stream, long insert_point, char *word);
-static void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream);
-static int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *stream);
-static int gs_pm_illegal_token(char *token);
-static int gs_pm_illegal_slash_code(char *code);
-static int gs_pm_expand_tag_number(const char *buffer, long *j, long length, NXStream *stream);
-static int gs_pm_is_mode(char c);
-static int gs_pm_is_isolated(char *buffer, long i, long len);
-static int gs_pm_part_of_number(char *buffer, long i, long len);
-static int gs_pm_number_follows(char *buffer, long i, long len);
-static void gs_pm_delete_ellipsis(char *buffer, long *i, long length);
-static int gs_pm_convert_dash(char *buffer, long *i, long length);
-static int gs_pm_is_telephone_number(char *buffer, long i, long length);
-static int gs_pm_is_punctuation(char c);
-static int gs_pm_word_follows(char *buffer, long i, long length);
-static int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *stream);
-static void gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, long *status);
-static int gs_pm_is_all_upper_case(char *word);
-static char *gs_pm_to_lower_case(char *word);
-static const char *gs_pm_is_special_acronym(char *word);
-static int gs_pm_contains_primary_stress(const char *pronunciation);
-static int gs_pm_converted_stress(char *pronunciation);
-static int gs_pm_is_possessive(char *word);
-static void gs_pm_safety_check(NXStream *stream, long *stream_length);
-static void gs_pm_insert_chunk_marker(NXStream *stream, long insert_point, char tg_type);
-static void gs_pm_check_tonic(NXStream *stream, long start_pos, long end_pos);
 
 
 
@@ -425,7 +385,7 @@ const char *lookup_word(const char *word, short *dict)
 
 /// Converts all non-printable characters (except escape character to blanks.  Also connects words hyphenated over a newline.
 
-static void gs_pm_condition_input(const char *input, char *output, long length, long *output_length)
+void gs_pm_condition_input(const char *input, char *output, long length, long *output_length)
 {
 	int i, j = 0;
 	
@@ -465,7 +425,7 @@ static void gs_pm_condition_input(const char *input, char *output, long length, 
 
 /// Parses input for modes, checking for errors, and marks output with mode start and end points.  Tagging and silence mode arguments are checked.
 
-static int gs_pm_mark_modes(char *input, char *output, long length, long *output_length)
+int gs_pm_mark_modes(char *input, char *output, long length, long *output_length)
 {
 	int i, j = 0, pos, minus, period;
 	int mode_stack[MODE_NEST_MAX], stack_ptr = 0, mode;
@@ -698,7 +658,7 @@ static int gs_pm_mark_modes(char *input, char *output, long length, long *output
 
 /// Deletes unnecessary punctuation, and converts some punctuation to another form.
 
-static void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *stream_length)
+void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *stream_length)
 {
 	long i, mode = NORMAL_MODE, status;
 	
@@ -911,8 +871,8 @@ static void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream,
 
 /// Converts contents of stream1 to stream2.  Adds chunk, tone group, and associated markers;  expands words to pronunciations, and also expands other modes.
 
-static int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
-							NXStream *stream2, long *stream2_length)
+int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
+                           NXStream *stream2, long *stream2_length)
 {
 	long i, last_word_end = UNDEFINED_POSITION, tg_marker_pos = UNDEFINED_POSITION;
 	long mode = NORMAL_MODE, next_mode, prior_tonic = TTS_FALSE, raw_mode_flag = TTS_FALSE;
@@ -1148,9 +1108,9 @@ static int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
 
 /// Determines the current state and next state in buffer.  A word or punctuation is put into word.  Raw mode contents are expanded and written to stream.
 
-static int gs_pm_get_state(const char *buffer, long *i, long length, long *mode, long *next_mode,
-					 long *current_state, long *next_state, long *raw_mode_flag,
-					 char *word, NXStream *stream)
+int gs_pm_get_state(const char *buffer, long *i, long length, long *mode, long *next_mode,
+                    long *current_state, long *next_state, long *raw_mode_flag,
+                    char *word, NXStream *stream)
 {
 	long j;
 	long k, state = 0, current_mode;
@@ -1329,7 +1289,7 @@ static int gs_pm_get_state(const char *buffer, long *i, long length, long *mode,
 
 /// Set the tone group marker according to the punctuation passed in as "word".  The marker is inserted in the stream at position "tg_pos".
 
-static int gs_pm_set_tone_group(NXStream *stream, long tg_pos, char *word)
+int gs_pm_set_tone_group(NXStream *stream, long tg_pos, char *word)
 {
 	long current_pos;
 	
@@ -1380,7 +1340,7 @@ static int gs_pm_set_tone_group(NXStream *stream, long tg_pos, char *word)
 /// Converts numeric quantity in "buffer" to appropriate number of silence phones, which are written onto the
 /// end of stream.  Rounding is performed.  Returns actual length of silence.
 
-static float gs_pm_convert_silence(char *buffer, NXStream *stream)
+float gs_pm_convert_silence(char *buffer, NXStream *stream)
 {
 	int j, number_silence_phones;
 	double silence_length;
@@ -1409,7 +1369,7 @@ static float gs_pm_convert_silence(char *buffer, NXStream *stream)
 
 /// Returns 1 if another word follows in buffer, after position i.  Else, 0 is returned.
 
-static int gs_pm_another_word_follows(const char *buffer, long i, long length, long mode)
+int gs_pm_another_word_follows(const char *buffer, long i, long length, long mode)
 {
 	long j;
 	
@@ -1448,7 +1408,7 @@ static int gs_pm_another_word_follows(const char *buffer, long i, long length, l
 /// the silence to the current point on the stream.  The the numeric quantity is converted to equivalent silence
 /// phones, and a 1 is returned.  0 is returned otherwise.
 
-static int gs_pm_shift_silence(const char *buffer, long i, long length, long mode, NXStream *stream)
+int gs_pm_shift_silence(const char *buffer, long i, long length, long mode, NXStream *stream)
 {
 	long j;
 	char word[WORD_LENGTH_MAX+1];
@@ -1504,7 +1464,7 @@ static int gs_pm_shift_silence(const char *buffer, long i, long length, long mod
 
 /// Inserts the tag contained in word onto the stream at the insert_point.
 
-static void gs_pm_insert_tag(NXStream *stream, long insert_point, char *word)
+void gs_pm_insert_tag(NXStream *stream, long insert_point, char *word)
 {
 	long j, end_point, length;
 	char *temp;
@@ -1545,7 +1505,7 @@ static void gs_pm_insert_tag(NXStream *stream, long insert_point, char *word)
 /// characters, and upper case words (including special acronyms) if necessary.  Add special marks if word
 /// is tonic.
 
-static void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
+void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
 {
 	short dictionary;
 	const char *pronunciation, *ptr;
@@ -1661,7 +1621,7 @@ static void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
 
 /// Writes raw mode contents to stream, checking phones and markers.
 
-static int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *stream)
+int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *stream)
 {
 	int k, super_raw_mode = TTS_FALSE, delimiter = TTS_FALSE, blank = TTS_TRUE;
 	char token[SYMBOL_LENGTH_MAX+1];
@@ -1778,7 +1738,7 @@ static int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStr
 
 /// Returns 1 if token is not a valid DEGAS phone.  Otherwise, 0 is returned.
 
-static int gs_pm_illegal_token(char *token)
+int gs_pm_illegal_token(char *token)
 {
 	/*  RETURN IMMEDIATELY IF ZERO LENGTH STRING  */
 	if (strlen(token) == 0)
@@ -1795,7 +1755,7 @@ static int gs_pm_illegal_token(char *token)
 
 /// Returns 1 if code is illegal, 0 otherwise.
 
-static int gs_pm_illegal_slash_code(char *code)
+int gs_pm_illegal_slash_code(char *code)
 {
 	int i = 0;
 	static char *legal_code[] = {CHUNK_BOUNDARY,TONE_GROUP_BOUNDARY,FOOT_BEGIN,
@@ -1817,7 +1777,7 @@ static int gs_pm_illegal_slash_code(char *code)
 /// Expand tag number in buffer at position j and write to stream.  Perform error checking, returning error code
 /// if format of tag number is illegal.
 
-static int gs_pm_expand_tag_number(const char *buffer, long *j, long length, NXStream *stream)
+int gs_pm_expand_tag_number(const char *buffer, long *j, long length, NXStream *stream)
 {
 	int sign = 0;
 	
@@ -1848,7 +1808,7 @@ static int gs_pm_expand_tag_number(const char *buffer, long *j, long length, NXS
 
 /// Returns 1 if character is a mode marker, 0 otherwise.
 
-static int gs_pm_is_mode(char c)
+int gs_pm_is_mode(char c)
 {
 	if ((c >= SILENCE_MODE_END) && (c <= RAW_MODE_BEGIN))
 		return(1);
@@ -1861,7 +1821,7 @@ static int gs_pm_is_mode(char c)
 /// Returns 1 if character at position i is isolated, i.e. is surrounded by space or mode marker.  Returns
 /// 0 otherwise.
 
-static int gs_pm_is_isolated(char *buffer, long i, long len)
+int gs_pm_is_isolated(char *buffer, long i, long len)
 {
 	if ( ((i == 0) || (((i-1) >= 0) && (gs_pm_is_mode(buffer[i-1]) || (buffer[i-1] == ' ')))) && 
 		((i == (len-1)) || (((i+1) < len) && (gs_pm_is_mode(buffer[i+1]) || (buffer[i+1] == ' ')))))
@@ -1875,7 +1835,7 @@ static int gs_pm_is_isolated(char *buffer, long i, long len)
 /// Returns 1 if character at position i is part of a number (including mixtures with non-numeric
 /// characters).  Returns 0 otherwise.
 
-static int gs_pm_part_of_number(char *buffer, long i, long len)
+int gs_pm_part_of_number(char *buffer, long i, long len)
 {
 	while( (--i >= 0) && (buffer[i] != ' ') && (buffer[i] != DELETED) && (!gs_pm_is_mode(buffer[i])) )
 		if (isdigit(buffer[i]))
@@ -1893,7 +1853,7 @@ static int gs_pm_part_of_number(char *buffer, long i, long len)
 /// Returns a 1 if at least one digit follows the character at position i, up to white space or mode marker.
 /// Returns 0 otherwise.
 
-static int gs_pm_number_follows(char *buffer, long i, long len)
+int gs_pm_number_follows(char *buffer, long i, long len)
 {
 	while( (++i < len) && (buffer[i] != ' ') && 
 		  (buffer[i] != DELETED) && (!gs_pm_is_mode(buffer[i])) )
@@ -1907,7 +1867,7 @@ static int gs_pm_number_follows(char *buffer, long i, long len)
 
 /// Deletes three dots in a row (disregarding white space).  If four dots, then the last three are deleted.
 
-static void gs_pm_delete_ellipsis(char *buffer, long *i, long length)
+void gs_pm_delete_ellipsis(char *buffer, long *i, long length)
 {
 	/*  SET POSITION OF FIRST DOT  */
 	long pos1 = *i, pos2, pos3;
@@ -1941,7 +1901,7 @@ static void gs_pm_delete_ellipsis(char *buffer, long *i, long length)
 /// Converts "--" to ", ", and "---" to ",  "
 /// Returns 1 if this is done, 0 otherwise.
 
-static int gs_pm_convert_dash(char *buffer, long *i, long length)
+int gs_pm_convert_dash(char *buffer, long *i, long length)
 {
 	/*  SET POSITION OF INITIAL DASH  */
 	long pos1 = *i;
@@ -1965,7 +1925,7 @@ static int gs_pm_convert_dash(char *buffer, long *i, long length)
 /// Returns 1 if string at position i in buffer is of the form:  (ddd)ddd-dddd
 /// where each d is a digit.
 
-static int gs_pm_is_telephone_number(char *buffer, long i, long length)
+int gs_pm_is_telephone_number(char *buffer, long i, long length)
 {
 	/*  CHECK FORMAT: (ddd)ddd-dddd  */
 	if ( ((i+12) < length) && 
@@ -1996,7 +1956,7 @@ static int gs_pm_is_telephone_number(char *buffer, long i, long length)
 /// Returns 1 if character is a .,;:?!
 /// Returns 0 otherwise.
 
-static int gs_pm_is_punctuation(char c)
+int gs_pm_is_punctuation(char c)
 {
 	switch(c) {
 		case '.':
@@ -2016,7 +1976,7 @@ static int gs_pm_is_punctuation(char c)
 /// Returns a 1 if a word or speakable symbol (letter mode) follows the position i in buffer.  Raw, tagging, and
 /// silence mode contents are ignored.  Returns a 0 if any punctuation (except . as part of number) follows.
 
-static int gs_pm_word_follows(char *buffer, long i, long length)
+int gs_pm_word_follows(char *buffer, long i, long length)
 {
 	long j, mode = NORMAL_MODE;
 	
@@ -2072,7 +2032,7 @@ static int gs_pm_word_follows(char *buffer, long i, long length)
 /// Single alphabetic characters have periods deleted, but no expansion is made.  They are also capitalized.
 /// Returns 1 if expansion made (i.e. period is deleted), 0 otherwise.
 
-static int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *stream)
+int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *stream)
 {
 	long j, k, word_length = 0;
 	char word[5];
@@ -2151,7 +2111,7 @@ static int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream
 /// Expands contents of letter mode string to word or words.  A comma is added after each expansion, except
 /// the last letter when it is followed by punctuation.
 
-static void gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, long *status)
+void gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, long *status)
 {
 	for ( ; ((*i) < length) && (buffer[*i] != LETTER_MODE_END); (*i)++) {
 		/*  CONVERT LETTER TO WORD OR WORDS  */
@@ -2273,7 +2233,7 @@ static void gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStrea
 
 /// Returns 1 if all letters of the word are upper case, 0 otherwise.
 
-static int gs_pm_is_all_upper_case(char *word)
+int gs_pm_is_all_upper_case(char *word)
 {
 	while (*word) {
 		if (!isupper(*word))
@@ -2288,7 +2248,7 @@ static int gs_pm_is_all_upper_case(char *word)
 
 /// Converts any upper case letter in word to lower case.
 
-static char *gs_pm_to_lower_case(char *word)
+char *gs_pm_to_lower_case(char *word)
 {
 	char *ptr = word;
 	
@@ -2305,7 +2265,7 @@ static char *gs_pm_to_lower_case(char *word)
 
 /// Returns a pointer to the pronunciation of a special acronym if it is defined in the list.  Otherwise, NULL is returned.
 
-static const char *gs_pm_is_special_acronym(char *word)
+const char *gs_pm_is_special_acronym(char *word)
 {	
 	NSString * w = [NSString stringWithCString:word encoding:NSASCIIStringEncoding];
 	NSString * pr;
@@ -2322,7 +2282,7 @@ static const char *gs_pm_is_special_acronym(char *word)
 
 /// Returns 1 if the pronunciation contains ' (and ` for backwards compatibility).  Otherwise 0 is returned.
 
-static int gs_pm_contains_primary_stress(const char *pronunciation)
+int gs_pm_contains_primary_stress(const char *pronunciation)
 {
 	for ( ; *pronunciation && (*pronunciation != '%'); pronunciation++)
 		if ((*pronunciation == '\'') || (*pronunciation == '`'))
@@ -2335,7 +2295,7 @@ static int gs_pm_contains_primary_stress(const char *pronunciation)
 
 /// Returns 1 if the first " is converted to a ', otherwise 0 is returned.
 
-static int gs_pm_converted_stress(char *pronunciation)
+int gs_pm_converted_stress(char *pronunciation)
 {
 	/*  LOOP THRU PRONUNCIATION UNTIL " FOUND, REPLACE WITH '  */
 	for ( ; *pronunciation && (*pronunciation != '%'); pronunciation++)
@@ -2352,7 +2312,7 @@ static int gs_pm_converted_stress(char *pronunciation)
 
 /// Returns 1 if 's is found at end of word, and removes the 's ending from the word.  Otherwise, 0 is returned.
 
-static int gs_pm_is_possessive(char *word)
+int gs_pm_is_possessive(char *word)
 {
 	/*  LOOP UNTIL 's FOUND, REPLACE ' WITH NULL  */
 	for ( ; *word; word++)
@@ -2370,7 +2330,7 @@ static int gs_pm_is_possessive(char *word)
 /// Checks to make sure that there are not too many feet phones per chunk.  If there are, the input is split
 /// into two or mor chunks.
 
-static void gs_pm_safety_check(NXStream *stream, long *stream_length)
+void gs_pm_safety_check(NXStream *stream, long *stream_length)
 {
 	int  c, number_of_feet = 0, number_of_phones = 0, state = NON_PHONEME;
 	long last_word_pos = UNDEFINED_POSITION, last_tg_pos = UNDEFINED_POSITION;
@@ -2471,7 +2431,7 @@ static void gs_pm_safety_check(NXStream *stream, long *stream_length)
 /// Insert chunk markers and associated markers in the stream at the insert point.  Use the tone group type
 /// passed in as an argument.
 
-static void gs_pm_insert_chunk_marker(NXStream *stream, long insert_point, char tg_type)
+void gs_pm_insert_chunk_marker(NXStream *stream, long insert_point, char tg_type)
 {
 	NXStream *temp_stream;
 	long new_position;
@@ -2511,7 +2471,7 @@ static void gs_pm_insert_chunk_marker(NXStream *stream, long insert_point, char 
 /// Checks to see if a tonic marker is present in the stream between the start and end positions.  If no
 /// tonic is present, then put one in at the last foot marker if it exists.
 
-static void gs_pm_check_tonic(NXStream *stream, long start_pos, long end_pos)
+void gs_pm_check_tonic(NXStream *stream, long start_pos, long end_pos)
 {
 	long temp_pos, i, extent, last_foot_pos = UNDEFINED_POSITION;
 	
