@@ -26,6 +26,7 @@
 {
     if ((self = [super init])) {
         _pronunciationDictionary = pronunciationDictionary;
+        [_pronunciationDictionary loadDictionaryIfNecessary];
     }
 
     return self;
