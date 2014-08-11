@@ -425,15 +425,27 @@ void gs_pm_condition_input(const char *input, char *output, long input_length, l
 
 /// Parses input for modes, checking for errors, and marks output with mode start and end points.  Tagging and silence mode arguments are checked.
 /// Returns TTS_PARSER_SUCCESS (-1) on success, or index of error.
-///   - errors can be:
-///     - Trying to end raw mode with empty mode stack.
-/// %[rR][bB] - begin raw mode
-/// %[rR][eE] - end raw mode
+//   - errors can be:
+//     - Trying to end raw mode with empty mode stack.
+// %[rR][bB] - begin raw mode
+// %[rR][eE] - end raw mode
+// - in raw mode, only the "end raw mode" escape is recognized.  % or %r or %rb will just be passed through.  Escape character must be printable to be passed through.
+// - when raw mode ends, it marks the end of raw mode, and begins the mode at the top of the stack (if that isn't normal mode).
+// - this means that effectively they aren't nested.  Could be represented as an array of (mode, string) instead of embedding begin/end.
+// - double escape produces escape, as long as it is printable.  %%
+// %[lL][bB] - begin letter mode
+// %[eE][bB] - begin emphasis mode
+// %[tT][bB] - begin tagging mode
+// %[sS][bB] - beging silence mode
+// %[?][bB] - anything else is undefined.
+// - in anything other than raw mode... beginning a mode emits that mode begin, puts mode on stack.
+// - begin tagging mode:
+//   - skip whitespace
+
 
 int gs_pm_mark_modes(char *input, char *output, long length, long *output_length)
 {
-    int i, j = 0, pos, minus, period;
-    int mode_stack[MODE_NEST_MAX], stack_ptr = 0, mode;
+    int pos, minus, period;
     int mode_marker[5][2] = {
         { RAW_MODE_BEGIN,      RAW_MODE_END      },
         { LETTER_MODE_BEGIN,   LETTER_MODE_END   },
@@ -445,49 +457,54 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
 
 
     /*  INITIALIZE MODE STACK TO NORMAL MODE */
+    int mode_stack[MODE_NEST_MAX], stack_ptr = 0;
     mode_stack[stack_ptr] = NORMAL_MODE;
 
+    int mode;
+
+    int outputIndex = 0;
+
     /*  MARK THE MODES OF INPUT, CHECKING FOR ERRORS  */
-    for (i = 0; i < length; i++) {
+    for (int inputIndex = 0; inputIndex < length; inputIndex++) {
         /*  IF ESCAPE CODE, DO MODE PROCESSING  */
-        if (input[i] == escape_character) {
+        if (input[inputIndex] == escape_character) {
             /*  IF IN RAW MODE  */
             if (mode_stack[stack_ptr] == RAW_MODE) {
                 /*  CHECK FOR RAW MODE END  */
-                if ( ((i+2) < length)
-                    && ((input[i+1] == 'r') || (input[i+1] == 'R'))
-                    && ((input[i+2] == 'e') || (input[i+2] == 'E')) ) {
+                if ( ((inputIndex + 2) < length)
+                    && ((input[inputIndex + 1] == 'r') || (input[inputIndex + 1] == 'R'))
+                    && ((input[inputIndex + 2] == 'e') || (input[inputIndex + 2] == 'E')) ) {
                     /*  DECREMENT STACK POINTER, CHECKING FOR STACK UNDERFLOW  */
                     if ((--stack_ptr) < 0)
-                        return i;
+                        return inputIndex;
                     /*  MARK END OF RAW MODE  */
-                    output[j++] = mode_marker[RAW_MODE][END];
+                    output[outputIndex++] = mode_marker[RAW_MODE][END];
                     /*  INCREMENT INPUT INDEX  */
-                    i+=2;
+                    inputIndex += 2;
                     /*  MARK BEGINNING OF STACKED MODE, IF NOT NORMAL MODE  */
                     if (mode_stack[stack_ptr] != NORMAL_MODE)
-                        output[j++] = mode_marker[mode_stack[stack_ptr]][BEGIN];
+                        output[outputIndex++] = mode_marker[mode_stack[stack_ptr]][BEGIN];
                 }
                 /*  IF NOT END OF RAW MODE, THEN PASS THROUGH ESC CHAR IF PRINTABLE  */
                 else {
                     if (isprint(escape_character))
-                        output[j++] = escape_character;
+                        output[outputIndex++] = escape_character;
                 }
             }
             /*  ELSE, IF IN ANY OTHER MODE  */
             else {
                 /*  CHECK FOR DOUBLE ESCAPE CHARACTER  */
-                if ( ((i+1) < length) && (input[i+1] == escape_character) ) {
+                if ( ((inputIndex + 1) < length) && (input[inputIndex + 1] == escape_character) ) {
                     /*  OUTPUT SINGLE ESCAPE CHARACTER IF PRINTABLE  */
                     if (isprint(escape_character))
-                        output[j++] = escape_character;
+                        output[outputIndex++] = escape_character;
                     /*  INCREMENT INPUT INDEX  */
-                    i++;
+                    inputIndex++;
                 }
                 /*  CHECK FOR BEGINNING OF MODE  */
-                else if ( ((i+2) < length) && ((input[i+2] == 'b') || (input[i+2] == 'B')) ) {
+                else if ( ((inputIndex + 2) < length) && ((input[inputIndex + 2] == 'b') || (input[inputIndex + 2] == 'B')) ) {
                     /*  CHECK FOR WHICH MODE  */
-                    switch(input[i+1]) {
+                    switch(input[inputIndex+1]) {
                         case 'r':
                         case 'R': mode = RAW_MODE;       break;
                         case 'l':
@@ -503,104 +520,104 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                     if (mode != UNDEFINED_MODE) {
                         /*  IF CURRENT MODE NOT NORMAL, WRITE END OF CURRENT MODE  */
                         if (mode_stack[stack_ptr] != NORMAL_MODE)
-                            output[j++] = mode_marker[mode_stack[stack_ptr]][END];
+                            output[outputIndex++] = mode_marker[mode_stack[stack_ptr]][END];
                         /*  INCREMENT STACK POINTER, CHECKING FOR STACK OVERFLOW  */
                         if ((++stack_ptr) >= MODE_NEST_MAX)
-                            return(i);
+                            return(inputIndex);
                         /*  STORE NEW MODE ON STACK  */
                         mode_stack[stack_ptr] = mode;
                         /*  MARK BEGINNING OF MODE  */
-                        output[j++] = mode_marker[mode][BEGIN];
+                        output[outputIndex++] = mode_marker[mode][BEGIN];
                         /*  INCREMENT INPUT INDEX  */
-                        i+=2;
+                        inputIndex += 2;
                         /*  ADD TAGGING MODE END, IF NOT GIVEN, GETTING RID OF BLANKS  */
                         if (mode == TAGGING_MODE) {
                             /*  IGNORE ANY WHITE SPACE  */
-                            while (((i+1) < length) && (input[i+1] == ' '))
-                                i++;
+                            while (((inputIndex + 1) < length) && (input[inputIndex + 1] == ' '))
+                                inputIndex++;
                             /*  COPY NUMBER, CHECKING VALIDITY  */
                             pos = minus = 0;
-                            while (((i+1) < length) && (input[i+1] != ' ') && (input[i+1] != escape_character)) {
-                                i++;
+                            while (((inputIndex + 1) < length) && (input[inputIndex + 1] != ' ') && (input[inputIndex + 1] != escape_character)) {
+                                inputIndex++;
                                 /*  ALLOW ONLY MINUS OR PLUS SIGN AND DIGITS  */
-                                if (!isdigit(input[i]) && !((input[i] == '-') || (input[i] == '+')))
-                                    return(i);
+                                if (!isdigit(input[inputIndex]) && !((input[inputIndex] == '-') || (input[inputIndex] == '+')))
+                                    return(inputIndex);
                                 /*  MINUS OR PLUS SIGN AT BEGINNING ONLY  */
-                                if ((pos > 0) && ((input[i] == '-') || (input[i] == '+')))
-                                    return(i);
+                                if ((pos > 0) && ((input[inputIndex] == '-') || (input[inputIndex] == '+')))
+                                    return(inputIndex);
                                 /*  OUTPUT CHARACTER, KEEPING TRACK OF POSITION AND MINUS SIGN  */
-                                output[j++] = input[i];
-                                if ((input[i] == '-') || (input[i] == '+'))
+                                output[outputIndex++] = input[inputIndex];
+                                if ((input[inputIndex] == '-') || (input[inputIndex] == '+'))
                                     minus++;
                                 pos++;
                             }
                             /*  MAKE SURE MINUS OR PLUS SIGN HAS NUMBER FOLLOWING IT  */
                             if (minus >= pos)
-                                return(i);
+                                return(inputIndex);
                             /*  IGNORE ANY WHITE SPACE  */
-                            while (((i+1) < length) && (input[i+1] == ' '))
-                                i++;
+                            while (((inputIndex + 1) < length) && (input[inputIndex + 1] == ' '))
+                                inputIndex++;
                             /*  IF NOT EXPLICIT TAG END, THEN INSERT ONE, POP STACK  */
-                            if (!(((i+3) < length) && (input[i+1] == escape_character) &&
-                                  ((input[i+2] == 't') || (input[i+2] == 'T')) &&
-                                  ((input[i+3] == 'e') || (input[i+3] == 'E'))) ) {
+                            if (!(((inputIndex + 3) < length) && (input[inputIndex + 1] == escape_character) &&
+                                  ((input[inputIndex + 2] == 't') || (input[inputIndex + 2] == 'T')) &&
+                                  ((input[inputIndex + 3] == 'e') || (input[inputIndex + 3] == 'E'))) ) {
                                 /*  MARK END OF MODE  */
-                                output[j++] = mode_marker[mode][END];
+                                output[outputIndex++] = mode_marker[mode][END];
                                 /*  DECREMENT STACK POINTER, CHECKING FOR STACK UNDERFLOW  */
                                 if ((--stack_ptr) < 0)
-                                    return(i);
+                                    return(inputIndex);
                                 /*  MARK BEGINNING OF STACKED MODE, IF NOT NORMAL MODE  */
                                 if (mode_stack[stack_ptr] != NORMAL_MODE)
-                                    output[j++] = mode_marker[mode_stack[stack_ptr]][BEGIN];
+                                    output[outputIndex++] = mode_marker[mode_stack[stack_ptr]][BEGIN];
                             }
                         }
                         else if (mode == SILENCE_MODE) {
                             /*  IGNORE ANY WHITE SPACE  */
-                            while (((i+1) < length) && (input[i+1] == ' '))
-                                i++;
+                            while (((inputIndex + 1) < length) && (input[inputIndex + 1] == ' '))
+                                inputIndex++;
                             /*  COPY NUMBER, CHECKING VALIDITY  */
                             period = 0;
-                            while (((i+1) < length) && (input[i+1] != ' ') && (input[i+1] != escape_character)) {
-                                i++;
+                            while (((inputIndex + 1) < length) && (input[inputIndex + 1] != ' ') && (input[inputIndex + 1] != escape_character)) {
+                                inputIndex++;
                                 /*  ALLOW ONLY DIGITS AND PERIOD  */
-                                if (!isdigit(input[i]) && (input[i] != '.'))
-                                    return(i);
+                                if (!isdigit(input[inputIndex]) && (input[inputIndex] != '.'))
+                                    return(inputIndex);
                                 /*  ALLOW ONLY ONE PERIOD  */
-                                if (period && (input[i] == '.'))
-                                    return(i);
+                                if (period && (input[inputIndex] == '.'))
+                                    return(inputIndex);
                                 /*  OUTPUT CHARACTER, KEEPING TRACK OF # OF PERIODS  */
-                                output[j++] = input[i];
-                                if (input[i] == '.')
+                                output[outputIndex++] = input[inputIndex];
+                                if (input[inputIndex] == '.')
                                     period++;
                             }
                             /*  IGNORE ANY WHITE SPACE  */
-                            while (((i+1) < length) && (input[i+1] == ' '))
-                                i++;
+                            while (((inputIndex + 1) < length) && (input[inputIndex + 1] == ' '))
+                                inputIndex++;
                             /*  IF NOT EXPLICIT SILENCE END, THEN INSERT ONE, POP STACK  */
-                            if (!(((i+3) < length) && (input[i+1] == escape_character) &&
-                                  ((input[i+2] == 's') || (input[i+2] == 'S')) &&
-                                  ((input[i+3] == 'e') || (input[i+3] == 'E'))) ) {
+                            if (!(((inputIndex + 3) < length) && (input[inputIndex + 1] == escape_character) &&
+                                  ((input[inputIndex + 2] == 's') || (input[inputIndex + 2] == 'S')) &&
+                                  ((input[inputIndex + 3] == 'e') || (input[inputIndex + 3] == 'E'))) ) {
                                 /*  MARK END OF MODE  */
-                                output[j++] = mode_marker[mode][END];
+                                output[outputIndex++] = mode_marker[mode][END];
                                 /*  DECREMENT STACK POINTER, CHECKING FOR STACK UNDERFLOW  */
                                 if ((--stack_ptr) < 0)
-                                    return(i);
+                                    return(inputIndex);
                                 /*  MARK BEGINNING OF STACKED MODE, IF NOT NORMAL MODE  */
                                 if (mode_stack[stack_ptr] != NORMAL_MODE)
-                                    output[j++] = mode_marker[mode_stack[stack_ptr]][BEGIN];
+                                    output[outputIndex++] = mode_marker[mode_stack[stack_ptr]][BEGIN];
                             }
                         }
                     }
                     else {
                         /*  ELSE, PASS ESC CHAR THROUGH IF PRINTABLE  */
                         if (isprint(escape_character))
-                            output[j++] = escape_character;
+                            output[outputIndex++] = escape_character;
                     }
                 }
                 /*  CHECK FOR END OF MODE  */
-                else if ( ((i+2) < length) && ((input[i+2] == 'e') || (input[i+2] == 'E')) ) {
+                else if ( ((inputIndex + 2) < length) && ((input[inputIndex + 2] == 'e') || (input[inputIndex + 2] == 'E')) ) {
                     /*  CHECK FOR WHICH MODE  */
-                    switch(input[i+1]) {
+                    switch(input[inputIndex + 1]) {
                         case 'r':
                         case 'R': mode = RAW_MODE;       break;
                         case 'l':
@@ -616,45 +633,45 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                     if (mode != UNDEFINED_MODE) {
                         /*  CHECK IF MATCHING MODE BEGIN  */
                         if (mode_stack[stack_ptr] != mode)
-                            return(i);
+                            return(inputIndex);
                         /*  MATCHES WITH MODE BEGIN  */
                         else {
                             /*  DECREMENT STACK POINTER, CHECKING FOR STACK UNDERFLOW  */
                             if ((--stack_ptr) < 0)
-                                return(i);
+                                return(inputIndex);
                             /*  MARK END OF MODE  */
-                            output[j++] = mode_marker[mode][END];
+                            output[outputIndex++] = mode_marker[mode][END];
                             /*  INCREMENT INPUT INDEX  */
-                            i+=2;
+                            inputIndex+=2;
                             /*  MARK BEGINNING OF STACKED MODE, IF NOT NORMAL MODE  */
                             if (mode_stack[stack_ptr] != NORMAL_MODE)
-                                output[j++] = mode_marker[mode_stack[stack_ptr]][BEGIN];
+                                output[outputIndex++] = mode_marker[mode_stack[stack_ptr]][BEGIN];
                         }
                     }
                     else {
                         /*  ELSE, PASS ESC CHAR THROUGH IF PRINTABLE  */
                         if (isprint(escape_character))
-                            output[j++] = escape_character;
+                            output[outputIndex++] = escape_character;
                     }
                 }
                 /*  ELSE, PASS ESC CHAR THROUGH IF PRINTABLE  */
                 else {
                     if (isprint(escape_character))
-                        output[j++] = escape_character;
+                        output[outputIndex++] = escape_character;
                 }
             }
         }
         /*  ELSE, SIMPLY COPY INPUT TO OUTPUT  */
         else {
-            output[j++] = input[i];
+            output[outputIndex++] = input[inputIndex];
         }
     }
 
     /*  BE SURE TO ADD A NULL TO END OF STRING  */
-    output[j] = '\0';
+    output[outputIndex] = '\0';
 
     /*  SET LENGTH OF OUTPUT STRING  */
-    *output_length = j;
+    *output_length = outputIndex;
 
     return TTS_PARSER_SUCCESS;
 }
