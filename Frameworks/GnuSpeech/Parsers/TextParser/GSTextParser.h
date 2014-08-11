@@ -1,12 +1,12 @@
 #import <Foundation/Foundation.h>
 
 typedef enum : NSUInteger {
-    GSDict_NumberParser  = 1,
-    GSDict_User          = 2,
-    GSDict_Application   = 3,
-    GSDict_Main          = 4,
-    GSDict_LetterToSound = 5,
-} GSDictionarySource;
+    GSPronunciationSource_NumberParser          = 1,
+    GSPronunciationSource_UserDictionary        = 2,
+    GSPronunciationSource_ApplicationDictionary = 3,
+    GSPronunciationSource_MainDictionary        = 4,
+    GSPronunciationSource_LetterToSound         = 5,
+} GSPronunciationSource;
 
 @class GSPronunciationDictionary;
 
@@ -27,6 +27,6 @@ typedef enum : NSUInteger {
 /// Return the pronunciation for a word, looking through the dictionaries in the assigned dictionaryOrder.
 /// If source is not NULL, returns where the word was found.
 /// Returns nil if no pronunciation found.
-- (NSString *)pronunciationForWord:(NSString *)word andReturnSourceDictionary:(GSDictionarySource *)source;
+- (NSString *)pronunciationForWord:(NSString *)word andReturnPronunciationSource:(GSPronunciationSource *)source;
 
 @end
