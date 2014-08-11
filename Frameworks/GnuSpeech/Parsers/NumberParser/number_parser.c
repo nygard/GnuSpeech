@@ -1,41 +1,7 @@
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules.
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
+
 /*******************************************************************************
- *
- *  Copyright (c) 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
- *
- *  Contributors: Dalmazio Brisinda
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *******************************************************************************
- *
- *  number_parser.c
- *  GnuSpeech
- *
- *  Version: 0.9.1
- *
- *******************************************************************************
- *
- *	Program Module:			number_parser.c
- *
- *	Programmer:				Leonard Manzara
- *
- *	Date of completion:		September 9th, 1990
- *
- *  Last Edit:              February 21st, 1992.  Added seconds to clock
- *                          times, o'clock on the hour.
- *
- *******************************************************************************
  *
  *       number_parser.c, in conjunction with number_parser.h, is used to create
  *       the function number_parser().  This function can be used to return to
@@ -123,25 +89,7 @@
  *       NP_FORCE_SPELL.  Using the function degenerate_string() will also
  *       achieve the same thing.
  *
- *******************************************************************************
- *
- *	LIST OF INTERNAL AND LIBRARY FUNCTIONS USED IN THE PROGRAM MODULE
- *
- *	Internal functions:				number_parser
- *									process_word
- *									initial_parse
- *									error_check
- *									degenerate_string
- *									process_triad
- *									process_digit
- *
- *
- *	Library functions:	<string.h>	strlen
- *									strcmp
- *									strcat
- *						<stdlib.h>	atoi
- *
- ******************************************************************************/
+ *******************************************************************************/
 
 
 /*  INCLUDE FILES  ***********************************************************/
@@ -328,8 +276,6 @@ void process_digit(char digit, char *output, int ordinal, int ordinal_plural, in
 
 /******************************************************************************
  *
- *	function:	number_parser
- *
  *	purpose:	Returns a pointer to a NULL terminated character string
  *                       which contains the pronunciation for the string pointed
  *                       at by the argument word_ptr.
@@ -339,13 +285,6 @@ void process_digit(char digit, char *output, int ordinal, int ordinal_plural, in
  *                       mode:  determines how the number string is to be
  *                         parsed.  Should be set to NP_NORMAL,
  *                         NP_OVERRIDE_YEARS, or NP_FORCE_SPELL.
- *
- *	internal
- *	functions:	initial_parse, error_check, degenerate_string,
- *                       process_word
- *
- *	library
- *	functions:	none
  *
  ******************************************************************************/
 
@@ -379,18 +318,8 @@ char *number_parser(const char *word_ptr, int mode)
 
 /******************************************************************************
  *
- *	function:	initial_parse
- *
  *	purpose:	Finds positions of numbers, commas, and other symbols
  *                       within the word.
- *
- *       arguments:      none
- *
- *	internal
- *	functions:	none
- *
- *	library
- *	functions:	<string.h>     strlen
  *
  ******************************************************************************/
 
@@ -551,20 +480,9 @@ void initial_parse(void)
 
 /******************************************************************************
  *
- *	function:	error_check
- *
  *	purpose:	Checks the initiallly parsed word for format errors.
  *			Returns NO_NUMERALS if the word contains no digits,
  *                       DEGENERATE if the word contains errors, OK otherwise.
- *
- *       arguments:      mode
- *
- *	internal
- *	functions:	none
- *
- *	library
- *	functions:	<string.h>     strcmp
- *                       <stdlib.h>     atoi
  *
  ******************************************************************************/
 
@@ -802,19 +720,9 @@ int error_check(int mode)
 
 /******************************************************************************
  *
- *	function:	process_word
- *
  *	purpose:	Processes the the input string pointed at by word
  *                       and returns a pointer to a NULL terminated string
  *                       which contains the corresponding pronunciation.
- *
- *       arguments:      mode
- *
- *	internal
- *	functions:	process_triad, process_digit
- *
- *	library
- *	functions:	<string.h>     strcat
  *
  ******************************************************************************/
 
@@ -1106,20 +1014,10 @@ char *process_word(int mode)
 
 /******************************************************************************
  *
- *	function:	degenerate_string
- *
  *	purpose:	Returns a pointer to a NULL terminated string which
  *                       contains a character-by-character pronunciation for
  *                       the NULL terminated character string pointed at by
  *                       the argument word.
- *
- *       arguments:      word
- *
- *	internal
- *	functions:	none
- *
- *	library
- *	functions:	<string.h>     strlen, strcat
  *
  ******************************************************************************/
 
@@ -1239,8 +1137,6 @@ char *degenerate_string(const char *word)
 
 /******************************************************************************
  *
- *	function:	process_triad
- *
  *	purpose:	Appends to output the appropriate pronunciation for the
  *                       input triad (i.e. hundreds, tens, and ones).  If the
  *                       pause flag is set, then a pause is inserted before the
@@ -1251,15 +1147,6 @@ char *degenerate_string(const char *word)
  *                       passed on to the process_digit() function.  The
  *                       right_zero_pad is the pad for the whole word being
  *                       parsed, NOT the pad for the input triad.
- *
- *       arguments:      triad, output, ordinal, right_zero_pad, ordinal_plural,
- *                       special_flag
- *
- *	internal
- *	functions:	process_digit
- *
- *	library
- *	functions:      <string.h>     strcat
  *
  ******************************************************************************/
 
@@ -1380,8 +1267,6 @@ int process_triad(char *triad, char *output, int pause, int ordinal, int right_z
 
 /******************************************************************************
  *
- *	function:	process_digit
- *
  *	purpose:	Appends to output the pronunciation for the input
  *                       digit.  If the special_flag is set, the appropriate
  *                       special pronunciation is used.  If the ordinal_plural
@@ -1389,15 +1274,6 @@ int process_triad(char *triad, char *output, int pause, int ordinal, int right_z
  *                       used.  If the ordinal flag is set, ordinal 
  *                       pronunciations are used.  Otherwise standard digit
  *                       pronunciations are used.
- *
- *			
- *       arguments:      digit, output, ordinal, ordinal_plural, special_flag
- *
- *	internal
- *	functions:	none
- *
- *	library
- *	functions:	<string.h>     strcat
  *
  ******************************************************************************/
 
