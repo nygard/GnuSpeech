@@ -143,8 +143,7 @@
         if ([scanner scanUpToCharactersFromSet:set intoString:&str]) [result appendString:str];
 
         if ([scanner scanCharactersFromSet:set intoString:&str]) {
-            // 2014-08-11: Strictly speaking, this method should append spaces of the same length, but one space should be good enough for my needs.
-            [result appendString:@" "];
+            [result appendString:[NSString spacesOfLength:[str length]]];
         }
     }
     return [result copy];
