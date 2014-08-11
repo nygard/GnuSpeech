@@ -2,11 +2,6 @@
 
 #import "GSPronunciationDictionary.h"
 
-@class GSSimplePronunciationDictionary;
-
 @interface GSDBMPronunciationDictionary : GSPronunciationDictionary
-
-+ (NSString *)mainFilename;
-+ (BOOL)createDatabase:(NSString *)filename fromSimpleDictionary:(GSSimplePronunciationDictionary *)simpleDictionary;
 
 @end

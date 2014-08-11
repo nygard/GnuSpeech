@@ -3,10 +3,16 @@
 
 #import <Foundation/Foundation.h>
 
+@class GSPronunciationDictionary;
+
 @interface MMTextToPhone : NSObject
 
-- (NSString *)phoneForText:(NSString *)text;
+/// Convenience initializer, to use the DBM based pronunciation dictionary.
+- (id)init;
 
-- (void)loadMainDictionary;
+/// Designated intializer.
+- (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)pronunciationDictionary;
+
+- (NSString *)phoneForText:(NSString *)text;
 
 @end

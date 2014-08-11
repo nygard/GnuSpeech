@@ -2,7 +2,6 @@
 
 #import "GSDBMPronunciationDictionary.h"
 
-#include <fcntl.h>
 #include <ndbm.h>
 #import "GSSimplePronunciationDictionary.h"
 
@@ -11,28 +10,25 @@
     DBM *_db;
 }
 
-+ (NSString *)mainFilename;
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-    NSString *basePath = [paths firstObject];
-    NSParameterAssert(basePath != nil);
-    NSString *path = [[basePath stringByAppendingPathComponent:@"GnuSpeech"] stringByAppendingPathComponent:@"pronunciations.db"];
-
-    return path;
-}
-
 + (id)mainDictionary;
 {
     static GSDBMPronunciationDictionary *_mainDictionary;
 
     if (_mainDictionary == nil) {
-        _mainDictionary = [[GSDBMPronunciationDictionary alloc] initWithFilename:[self mainFilename]];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+        NSString *path = [[[paths firstObject] stringByAppendingPathComponent:@"GnuSpeech"] stringByAppendingPathComponent:@"pronunciations.db"];
+        NSParameterAssert(path != nil);
+
+        if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
+            [GSDBMPronunciationDictionary _createDatabase:path fromSimpleDictionary:[GSSimplePronunciationDictionary mainDictionary]];
+        }
+        _mainDictionary = [[GSDBMPronunciationDictionary alloc] initWithFilename:path];
     }
 
     return _mainDictionary;
 }
 
-+ (BOOL)createDatabase:(NSString *)filename fromSimpleDictionary:(GSSimplePronunciationDictionary *)simpleDictionary;
++ (BOOL)_createDatabase:(NSString *)filename fromSimpleDictionary:(GSSimplePronunciationDictionary *)simpleDictionary;
 {
     [[NSFileManager defaultManager] createDirectoryAtPath:[filename stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
 
@@ -85,7 +81,7 @@
 
 - (NSDate *)modificationDate;
 {
-    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[self.filename stringByAppendingString:@".db"] error:NULL];
+    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:self.filename error:NULL];
     return [attributes fileModificationDate];
 }
 
