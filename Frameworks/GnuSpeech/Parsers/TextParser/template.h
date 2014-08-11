@@ -9,18 +9,18 @@
 
 /*  DATA STRUCTURES  */
 struct _phoneStruct {
-	char symbol[SYMBOL_LENGTH_MAX+1];
-	struct _phoneStruct *next;
+    char symbol[SYMBOL_LENGTH_MAX+1];
+    struct _phoneStruct *next;
 };
 typedef struct _phoneStruct phoneStruct;
 typedef phoneStruct *phoneStructPtr;
 
 struct _parameterStruct {
-	char symbol[SYMBOL_LENGTH_MAX+1];
-	float minimum;
-	float maximum;
-	float Default;
-	struct _parameterStruct *next;
+    char symbol[SYMBOL_LENGTH_MAX+1];
+    float minimum;
+    float maximum;
+    float Default;
+    struct _parameterStruct *next;
 };
 typedef struct _parameterStruct parameterStruct;
 typedef parameterStruct *parameterStructPtr;

@@ -60,9 +60,9 @@ float parameterSymMinimum(char *parameter)
 
     current_ptr = parameterHead;
     for (i = 0; i < number_of_parameters; i++) {
-	if (!strcmp(current_ptr->symbol,parameter))
-	    return (current_ptr->minimum);
-	current_ptr = current_ptr->next;
+        if (!strcmp(current_ptr->symbol,parameter))
+            return (current_ptr->minimum);
+        current_ptr = current_ptr->next;
     }
 
     return (0.0);
@@ -77,9 +77,9 @@ float parameterSymMaximum(char *parameter)
 
     current_ptr = parameterHead;
     for (i = 0; i < number_of_parameters; i++) {
-	if (!strcmp(current_ptr->symbol,parameter))
-	    return (current_ptr->maximum);
-	current_ptr = current_ptr->next;
+        if (!strcmp(current_ptr->symbol,parameter))
+            return (current_ptr->maximum);
+        current_ptr = current_ptr->next;
     }
 
     return (0.0);
@@ -98,16 +98,16 @@ void readFromFileTemplate(FILE *fp1)
     /*  PHONE MEMORY  */
     current_phone_ptr = phoneHead;
     for (i = 0; i < number_of_phones; i++) {
-	temp_phone_ptr = current_phone_ptr->next;
-	free(current_phone_ptr);
-	current_phone_ptr = temp_phone_ptr;
+        temp_phone_ptr = current_phone_ptr->next;
+        free(current_phone_ptr);
+        current_phone_ptr = temp_phone_ptr;
     }
     /*  PARAMETER MEMORY  */
     current_parameter_ptr = parameterHead;
     for (i = 0; i < number_of_parameters; i++) {
-	temp_parameter_ptr = current_parameter_ptr->next;
-	free(current_parameter_ptr);
-	current_parameter_ptr = temp_parameter_ptr;
+        temp_parameter_ptr = current_parameter_ptr->next;
+        free(current_parameter_ptr);
+        current_parameter_ptr = temp_parameter_ptr;
     }
 
     /*  READ SAMPLE SIZE FROM FILE  */
@@ -117,33 +117,33 @@ void readFromFileTemplate(FILE *fp1)
     fread((char *)&number_of_phones,sizeof(number_of_phones),1,fp1);
     phoneHead = NULL;
     for (i = 0; i < number_of_phones; i++) {
-	if (i == 0) {
-	    phoneHead = current_phone_ptr = new_phoneStruct();
-	}
-	else {
-	    current_phone_ptr->next = new_phoneStruct();
-	    current_phone_ptr = current_phone_ptr->next;	    
-	}
-	fread((char *)&(current_phone_ptr->symbol),SYMBOL_LENGTH_MAX+1,1,fp1);
-	current_phone_ptr->next = NULL;
+        if (i == 0) {
+            phoneHead = current_phone_ptr = new_phoneStruct();
+        }
+        else {
+            current_phone_ptr->next = new_phoneStruct();
+            current_phone_ptr = current_phone_ptr->next;
+        }
+        fread((char *)&(current_phone_ptr->symbol),SYMBOL_LENGTH_MAX+1,1,fp1);
+        current_phone_ptr->next = NULL;
     }
 
     /*  READ PARAMETERS FROM FILE  */
     fread((char *)&number_of_parameters,sizeof(number_of_parameters),1,fp1);
     parameterHead = NULL;
     for (i = 0; i < number_of_parameters; i++) {
-	if (i == 0) {
-	    parameterHead = current_parameter_ptr = new_parameterStruct();
-	}
-	else {
-	    current_parameter_ptr->next = new_parameterStruct();
-	    current_parameter_ptr = current_parameter_ptr->next;	    
-	}
-	fread((char *)&(current_parameter_ptr->symbol),SYMBOL_LENGTH_MAX+1,1,fp1);
-	fread((char *)&(current_parameter_ptr->minimum),sizeof(float),1,fp1);
-	fread((char *)&(current_parameter_ptr->maximum),sizeof(float),1,fp1);
-	fread((char *)&(current_parameter_ptr->Default),sizeof(float),1,fp1);
-	current_parameter_ptr->next = NULL;
+        if (i == 0) {
+            parameterHead = current_parameter_ptr = new_parameterStruct();
+        }
+        else {
+            current_parameter_ptr->next = new_parameterStruct();
+            current_parameter_ptr = current_parameter_ptr->next;
+        }
+        fread((char *)&(current_parameter_ptr->symbol),SYMBOL_LENGTH_MAX+1,1,fp1);
+        fread((char *)&(current_parameter_ptr->minimum),sizeof(float),1,fp1);
+        fread((char *)&(current_parameter_ptr->maximum),sizeof(float),1,fp1);
+        fread((char *)&(current_parameter_ptr->Default),sizeof(float),1,fp1);
+        current_parameter_ptr->next = NULL;
     }
 }
 
@@ -151,38 +151,38 @@ void readFromFileTemplate(FILE *fp1)
 
 int legalPhone(char *phone)
 {
-  int i;
-  phoneStructPtr current_phone_ptr;
-  
-  /*  RETURN 1, IF PHONE MATCHES TO ANY PHONE IN LIST  */
-  current_phone_ptr = phoneHead;
-  for (i = 0; i < number_of_phones; i++) {
-    if (!strcmp(current_phone_ptr->symbol,phone))
-	return(1);
-    current_phone_ptr = current_phone_ptr->next;
-  }
+    int i;
+    phoneStructPtr current_phone_ptr;
 
-  /*  IF HERE, THEN NO MATCH;  RETURN 0  */
-  return(0);
+    /*  RETURN 1, IF PHONE MATCHES TO ANY PHONE IN LIST  */
+    current_phone_ptr = phoneHead;
+    for (i = 0; i < number_of_phones; i++) {
+        if (!strcmp(current_phone_ptr->symbol,phone))
+            return(1);
+        current_phone_ptr = current_phone_ptr->next;
+    }
+
+    /*  IF HERE, THEN NO MATCH;  RETURN 0  */
+    return(0);
 }
 
 
 
 int legalParameter(char *parameter)
 {
-  int i;
-  parameterStructPtr current_parameter_ptr;
-  
-  /*  RETURN 1, IF PARAMETER MATCHES TO ANY PARAMETER IN LIST  */
-  current_parameter_ptr = parameterHead;
-  for (i = 0; i < number_of_parameters; i++) {
-    if (!strcmp(current_parameter_ptr->symbol,parameter))
-	return(1);
-    current_parameter_ptr = current_parameter_ptr->next;
-  }
+    int i;
+    parameterStructPtr current_parameter_ptr;
 
-  /*  IF HERE, THEN NO MATCH;  RETURN 0  */
-  return(0);
+    /*  RETURN 1, IF PARAMETER MATCHES TO ANY PARAMETER IN LIST  */
+    current_parameter_ptr = parameterHead;
+    for (i = 0; i < number_of_parameters; i++) {
+        if (!strcmp(current_parameter_ptr->symbol,parameter))
+            return(1);
+        current_parameter_ptr = current_parameter_ptr->next;
+    }
+
+    /*  IF HERE, THEN NO MATCH;  RETURN 0  */
+    return(0);
 }
 
 
@@ -190,30 +190,30 @@ int legalParameter(char *parameter)
 #if DEBUG
 void printTemplate(void)
 {
-  int i;
-  phoneStructPtr current_phone_ptr;
-  parameterStructPtr current_parameter_ptr;
+    int i;
+    phoneStructPtr current_phone_ptr;
+    parameterStructPtr current_parameter_ptr;
 
-  printf("\nTemplate information:\n");
+    printf("\nTemplate information:\n");
 
-  printf(" SampleValue = %-d\n",sampleSize);
+    printf(" SampleValue = %-d\n",sampleSize);
 
-  printf(" number_of_phones = %-d\n",number_of_phones);
-  current_phone_ptr = phoneHead;
-  for (i = 0; i < number_of_phones; i++) {
-    printf("  phone[%-d] = %s\n",i+1,current_phone_ptr->symbol);
-    current_phone_ptr = current_phone_ptr->next;
-  }
+    printf(" number_of_phones = %-d\n",number_of_phones);
+    current_phone_ptr = phoneHead;
+    for (i = 0; i < number_of_phones; i++) {
+        printf("  phone[%-d] = %s\n",i+1,current_phone_ptr->symbol);
+        current_phone_ptr = current_phone_ptr->next;
+    }
 
-  printf(" number_of_parameters = %-d\n",number_of_parameters);
-  current_parameter_ptr = parameterHead;
-  for (i = 0; i < number_of_parameters; i++) {
-    printf("  parameter[%-d] = %12s  %12f  %12f  %12f\n",
-	   i+1,current_parameter_ptr->symbol,
-	   current_parameter_ptr->minimum,current_parameter_ptr->maximum,
-	   current_parameter_ptr->Default);
-    current_parameter_ptr = current_parameter_ptr->next;
-  }
+    printf(" number_of_parameters = %-d\n",number_of_parameters);
+    current_parameter_ptr = parameterHead;
+    for (i = 0; i < number_of_parameters; i++) {
+        printf("  parameter[%-d] = %12s  %12f  %12f  %12f\n",
+               i+1,current_parameter_ptr->symbol,
+               current_parameter_ptr->minimum,current_parameter_ptr->maximum,
+               current_parameter_ptr->Default);
+        current_parameter_ptr = current_parameter_ptr->next;
+    }
 
 }
 #endif
@@ -222,12 +222,12 @@ void printTemplate(void)
 
 phoneStructPtr new_phoneStruct(void)
 {
-return ( (phoneStructPtr) malloc(sizeof(phoneStruct)) );
+    return ( (phoneStructPtr) malloc(sizeof(phoneStruct)) );
 }
 
 
 
 parameterStructPtr new_parameterStruct(void)
 {
-return ( (parameterStructPtr) malloc(sizeof(parameterStruct)) );
+    return ( (parameterStructPtr) malloc(sizeof(parameterStruct)) );
 }

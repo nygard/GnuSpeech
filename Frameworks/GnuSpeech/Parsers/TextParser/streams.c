@@ -1,7 +1,7 @@
 /*******************************************************************************
  *
  *  Copyright (c) 2009 Dalmazio Brisinda
- *  
+ *
  *  Contributors: Dalmazio Brisinda
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -22,8 +22,8 @@
 #include "streams.h"
 
 NXStream * NXOpenMemory(const char *address, int size, int mode)
-{	
-	return [[NXStream alloc] init];  // this will grow if required
+{
+    return [[NXStream alloc] init];  // this will grow if required
 }
 
 void NXCloseMemory(NXStream * stream, int option)
@@ -32,64 +32,64 @@ void NXCloseMemory(NXStream * stream, int option)
 
 void NXGetMemoryBuffer(NXStream * stream, const char ** streambuf, int * len, int * maxLen)
 {
-	*streambuf = [stream cStringUsingEncoding:NSASCIIStringEncoding];
-	*len = (int)[stream length];
-	*maxLen = INT_MAX;
+    *streambuf = [stream cStringUsingEncoding:NSASCIIStringEncoding];
+    *len = (int)[stream length];
+    *maxLen = INT_MAX;
 }
 
 int NXPutc(NXStream * stream, char c)
 {
-	return [stream putChar:c];
+    return [stream putChar:c];
 }
 
 int NXGetc(NXStream * stream)
 {
-	return [stream getChar];
+    return [stream getChar];
 }
 
 void NXUngetc(NXStream * stream)
 {
-	[stream ungetChar];
+    [stream ungetChar];
 }
 
 void NXVPrintf(NXStream * stream, const char * format, va_list args)
 {
-	[stream vprintf:format argumentList:args];
+    [stream vprintf:format argumentList:args];
 }
 
 void NXPrintf(NXStream * stream, const char * format, ...)
 {
-	va_list args;
-	va_start(args, format);
-	[stream vprintf:format argumentList:args];
-	va_end(args);
+    va_list args;
+    va_start(args, format);
+    [stream vprintf:format argumentList:args];
+    va_end(args);
 }
 
 void NXSeek(NXStream * stream, long offset, int whence)
 {
-	if (![stream seekWithOffset:offset fromPosition:whence])
-		NSLog(@"NXSeek(): Cannot seek to offset.");
+    if (![stream seekWithOffset:offset fromPosition:whence])
+        NSLog(@"NXSeek(): Cannot seek to offset.");
 }
 
 BOOL NXAtEOS(NXStream *stream)
 {
-	return [stream atEOS];
+    return [stream atEOS];
 }
 
 long NXTell(NXStream * stream)
 {
-	return [stream tell];
+    return [stream tell];
 }
 
 void NXVLogError(const char * format, va_list args)
 {
-	NSLogv([NSString stringWithCString:format encoding:NSASCIIStringEncoding], args);
+    NSLogv([NSString stringWithCString:format encoding:NSASCIIStringEncoding], args);
 }
 
 void NXLogError(const char * format, ...)
 {
-	va_list args;
-	va_start(args, format);
-	NXVLogError(format, args);
-	va_end(args);
+    va_list args;
+    va_start(args, format);
+    NXVLogError(format, args);
+    va_end(args);
 }

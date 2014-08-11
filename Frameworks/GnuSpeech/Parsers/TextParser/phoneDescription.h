@@ -11,32 +11,32 @@
 
 /*  DATA STRUCTURES  */
 struct _target {
-	int is_default;
-	float value;
-	struct _target *next;
+    int is_default;
+    float value;
+    struct _target *next;
 };
 typedef struct _target target;
 typedef target *targetPtr;
 
 struct _category {
-	char symbol[SYMBOL_LENGTH_MAX+1];
-	struct _category *next;
+    char symbol[SYMBOL_LENGTH_MAX+1];
+    struct _category *next;
 };
 typedef struct _category category;
 typedef category *categoryPtr;
 
 struct _phoneDescription {
-	char symbol[SYMBOL_LENGTH_MAX+1];
-	int duration;
-	struct {
-		int type;
-		int fixed;
-		float prop;
-	} transition_duration;
-	struct _phoneDescription *next;
-	targetPtr targetHead;
-	categoryPtr categoryHead;
-	int number_of_categories;
+    char symbol[SYMBOL_LENGTH_MAX+1];
+    int duration;
+    struct {
+        int type;
+        int fixed;
+        float prop;
+    } transition_duration;
+    struct _phoneDescription *next;
+    targetPtr targetHead;
+    categoryPtr categoryHead;
+    int number_of_categories;
 };
 typedef struct _phoneDescription phoneDescription;
 typedef phoneDescription *phoneDescriptionPtr;

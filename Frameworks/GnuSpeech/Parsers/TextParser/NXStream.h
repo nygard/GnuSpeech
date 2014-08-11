@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
 //  Copyright (c) 2009 Dalmazio Brisinda
-//  
+//
 //  Contributors: Dalmazio Brisinda
 //
 //  This program is free software: you can redistribute it and/or modify
@@ -21,20 +21,20 @@
 
 #import <Foundation/Foundation.h>
 
-#define NX_READWRITE		0
-#define NX_READONLY			1
+#define NX_READWRITE            0
+#define NX_READONLY                     1
 
-#define NX_FROMSTART		0
-#define NX_FROMCURRENT		1
-#define NX_FROMEND			2
+#define NX_FROMSTART            0
+#define NX_FROMCURRENT          1
+#define NX_FROMEND                      2
 
-#define NX_FREEBUFFER		0
-#define NX_TRUNCATEBUFFER	1
+#define NX_FREEBUFFER           0
+#define NX_TRUNCATEBUFFER       1
 
 @interface NXStream : NSObject
 {
-	NSMutableString *streamBuffer;
-	long streamPosition;
+    NSMutableString *streamBuffer;
+    long streamPosition;
 }
 
 - (id)init;

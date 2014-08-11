@@ -1,7 +1,7 @@
 /*******************************************************************************
  *
  *  Copyright (c) 2009 Dalmazio Brisinda
- *  
+ *
  *  Contributors: Dalmazio Brisinda
  *
  *  This program is free software: you can redistribute it and/or modify

@@ -66,14 +66,14 @@ typedef f_parameter *f_parameterPtr;
 
 /*  STRUCT FOR EACH SPECIAL EVENT SUB-INTERVAL  */
 struct _sub_interval {
-  short int proportional;
-  union _dur {
-    int ival;
-    float fval;
-  } duration;
-  float rise;
-  struct _sub_interval *next;
-  struct _sub_interval *previous;
+    short int proportional;
+    union _dur {
+        int ival;
+        float fval;
+    } duration;
+    float rise;
+    struct _sub_interval *next;
+    struct _sub_interval *previous;
 };
 typedef struct _sub_interval sub_interval;
 typedef sub_interval *sub_intervalPtr;
@@ -81,10 +81,10 @@ typedef sub_interval *sub_intervalPtr;
 
 /*  STRUCT FOR EACH SPECIAL EVENT INTERVAL  */
 struct _se_interval {
-  sub_intervalPtr sub_intervalHead;
-  int number_of_sub_intervals;
-  struct _se_interval *next;
-  struct _se_interval *previous;
+    sub_intervalPtr sub_intervalHead;
+    int number_of_sub_intervals;
+    struct _se_interval *next;
+    struct _se_interval *previous;
 };
 typedef struct _se_interval se_interval;
 typedef se_interval *se_intervalPtr;
@@ -92,9 +92,9 @@ typedef se_interval *se_intervalPtr;
 
 /*  STRUCT FOR EACH SPECIAL EVENT PROFILE  */
 struct _specialEventStruct {
-  char symbol[SYMBOL_LENGTH_MAX+1];
-  se_intervalPtr se_intervalHead;
-  struct _specialEventStruct *next;
+    char symbol[SYMBOL_LENGTH_MAX+1];
+    se_intervalPtr se_intervalHead;
+    struct _specialEventStruct *next;
 };
 typedef struct _specialEventStruct specialEventStruct;
 typedef specialEventStruct *specialEventStructPtr;
@@ -102,16 +102,16 @@ typedef specialEventStruct *specialEventStructPtr;
 
 /*  STRUCT FOR EACH TRANSITION INTERVAL  */
 struct _t_interval {
-  short int proportional;
-  short int regression;
-  union _duration {
-    int   ival;
-    float fval;
-  } duration;
-  float rise;
-  float slope_ratio;
-  struct _t_interval *next;
-  struct _t_interval *previous;
+    short int proportional;
+    short int regression;
+    union _duration {
+        int   ival;
+        float fval;
+    } duration;
+    float rise;
+    float slope_ratio;
+    struct _t_interval *next;
+    struct _t_interval *previous;
 };
 typedef struct _t_interval t_interval;
 typedef t_interval *t_intervalPtr;
@@ -119,27 +119,27 @@ typedef t_interval *t_intervalPtr;
 
 /*  STRUCT FOR EACH TRANSITION SPECIFIER  */
 struct _specifierStruct {
-  char *category1;
-  char *category2;
-  t_intervalPtr t_intervalHead;
-  int number_of_t_intervals;
-  short int t_interval_mode;
-  short int split_mode;
-  specialEventStructPtr specialEventHead;
-  int number_of_special_events;
-  struct {
-      int rule;
-      int fixed_length;
-  } duration;
-  struct _specifierStruct *next;
+    char *category1;
+    char *category2;
+    t_intervalPtr t_intervalHead;
+    int number_of_t_intervals;
+    short int t_interval_mode;
+    short int split_mode;
+    specialEventStructPtr specialEventHead;
+    int number_of_special_events;
+    struct {
+        int rule;
+        int fixed_length;
+    } duration;
+    struct _specifierStruct *next;
 };
 typedef struct _specifierStruct specifierStruct;
 typedef specifierStruct *specifierStructPtr;
 
 /*  ORIGINALLY TAKEN FROM Generate.h  */
 struct _filterParam {
-  char symbol[SYMBOL_LENGTH_MAX+1];
-  struct _filterParam *next;
+    char symbol[SYMBOL_LENGTH_MAX+1];
+    struct _filterParam *next;
 };
 typedef struct _filterParam filterParam;
 typedef filterParam *filterParamPtr;
