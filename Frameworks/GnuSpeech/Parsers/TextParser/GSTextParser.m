@@ -1,6 +1,8 @@
 #import "GSTextParser.h"
 
 #import "GSPronunciationDictionary.h"
+#import "GSDBMPronunciationDictionary.h"
+#import "GSSimplePronunciationDictionary.h"
 
 @implementation GSTextParser
 {
@@ -10,12 +12,17 @@
     GSPronunciationDictionary *_specialAcronymDictionary;
 
     NSArray *_dictionaryOrder;
+    NSString *_escapeCharacter;
 }
 
 - (id)init;
 {
     if ((self = [super init])) {
+        _mainDictionary           = [GSDBMPronunciationDictionary mainDictionary];
+        _specialAcronymDictionary = [GSSimplePronunciationDictionary specialAcronymDictionary];
+        
         _dictionaryOrder = @[ @(GSDict_NumberParser), @(GSDict_User), @(GSDict_Application), @(GSDict_Main)];
+        _escapeCharacter = @"%";
     }
 
     return self;

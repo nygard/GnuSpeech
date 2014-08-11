@@ -21,6 +21,9 @@ typedef enum : NSUInteger {
 /// This contains an array of NSNumbers (GSDictionarySource), to indicate the order of dictionary lookup.
 @property (strong) NSArray *dictionaryOrder;
 
+/// This defaults to "%".  Not sure what the valid values could be.
+@property (strong) NSString *escapeCharacter;
+
 /// Return the pronunciation for a word, looking through the dictionaries in the assigned dictionaryOrder.
 /// If source is not NULL, returns where the word was found.
 /// Returns nil if no pronunciation found.
