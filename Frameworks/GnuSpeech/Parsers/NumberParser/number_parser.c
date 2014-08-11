@@ -276,7 +276,7 @@ void process_digit(char digit, char *output, int ordinal, int ordinal_plural, in
 
 /******************************************************************************
  *
- *	purpose:	Returns a pointer to a NULL terminated character string
+ *      purpose:        Returns a pointer to a NULL terminated character string
  *                       which contains the pronunciation for the string pointed
  *                       at by the argument word_ptr.
  *
@@ -317,7 +317,7 @@ char *number_parser(const char *word_ptr, int mode)
 
 /******************************************************************************
  *
- *	purpose:	Finds positions of numbers, commas, and other symbols
+ *      purpose:        Finds positions of numbers, commas, and other symbols
  *                       within the word.
  *
  ******************************************************************************/
@@ -479,8 +479,8 @@ void initial_parse(void)
 
 /******************************************************************************
  *
- *	purpose:	Checks the initiallly parsed word for format errors.
- *			Returns NO_NUMERALS if the word contains no digits,
+ *      purpose:        Checks the initiallly parsed word for format errors.
+ *                      Returns NO_NUMERALS if the word contains no digits,
  *                       DEGENERATE if the word contains errors, OK otherwise.
  *
  ******************************************************************************/
@@ -719,7 +719,7 @@ int error_check(int mode)
 
 /******************************************************************************
  *
- *	purpose:	Processes the the input string pointed at by word
+ *      purpose:        Processes the the input string pointed at by word
  *                       and returns a pointer to a NULL terminated string
  *                       which contains the corresponding pronunciation.
  *
@@ -1013,7 +1013,7 @@ char *process_word(int mode)
 
 /******************************************************************************
  *
- *	purpose:	Returns a pointer to a NULL terminated string which
+ *      purpose:        Returns a pointer to a NULL terminated string which
  *                       contains a character-by-character pronunciation for
  *                       the NULL terminated character string pointed at by
  *                       the argument word.
@@ -1031,102 +1031,102 @@ char *degenerate_string(const char *word)
     /*  APPEND PROPER PRONUNCIATION FOR EACH CHARACTER  */
     for (i = 0; i < word_length; i++) {
         switch (*(word+i)) {
-            case ' ': strcat(output, BLANK);	       break;
+            case ' ': strcat(output, BLANK);           break;
             case '!': strcat(output, EXCLAMATION_POINT);   break;
             case '"': strcat(output, DOUBLE_QUOTE);        break;
             case '#': strcat(output, NUMBER_SIGN);         break;
-            case '$': strcat(output, DOLLAR_SIGN);	       break;
-            case '%': strcat(output, PERCENT_SIGN);	       break;
-            case '&': strcat(output, AMPERSAND);	       break;
+            case '$': strcat(output, DOLLAR_SIGN);             break;
+            case '%': strcat(output, PERCENT_SIGN);            break;
+            case '&': strcat(output, AMPERSAND);               break;
             case '\'':strcat(output, SINGLE_QUOTE);        break;
             case '(': strcat(output, OPEN_PARENTHESIS);    break;
             case ')': strcat(output, CLOSE_PARENTHESIS);   break;
-            case '*': strcat(output, ASTERISK);	       break;
-            case '+': strcat(output, PLUS_SIGN);	       break;
-            case ',': strcat(output, COMMA);	       break;
-            case '-': strcat(output, HYPHEN);	       break;
-            case '.': strcat(output, PERIOD);	       break;
-            case '/': strcat(output, SLASH);	       break;
-            case '0': strcat(output, ZERO);	               break;
-            case '1': strcat(output, ONE);       	       break;
-            case '2': strcat(output, TWO);  	       break;
-            case '3': strcat(output, THREE);	       break;
-            case '4': strcat(output, FOUR);	               break;
+            case '*': strcat(output, ASTERISK);        break;
+            case '+': strcat(output, PLUS_SIGN);               break;
+            case ',': strcat(output, COMMA);           break;
+            case '-': strcat(output, HYPHEN);          break;
+            case '.': strcat(output, PERIOD);          break;
+            case '/': strcat(output, SLASH);           break;
+            case '0': strcat(output, ZERO);                    break;
+            case '1': strcat(output, ONE);                     break;
+            case '2': strcat(output, TWO);             break;
+            case '3': strcat(output, THREE);           break;
+            case '4': strcat(output, FOUR);                    break;
             case '5': strcat(output, FIVE);                break;
-            case '6': strcat(output, SIX);	               break;
-            case '7': strcat(output, SEVEN);	       break;
-            case '8': strcat(output, EIGHT);	       break;
-            case '9': strcat(output, NINE);	               break;
-            case ':': strcat(output, COLON);	       break;
-            case ';': strcat(output, SEMICOLON);	       break;
+            case '6': strcat(output, SIX);                     break;
+            case '7': strcat(output, SEVEN);           break;
+            case '8': strcat(output, EIGHT);           break;
+            case '9': strcat(output, NINE);                    break;
+            case ':': strcat(output, COLON);           break;
+            case ';': strcat(output, SEMICOLON);               break;
             case '<': strcat(output, OPEN_ANGLE_BRACKET);  break;
-            case '=': strcat(output, EQUAL_SIGN);	       break;
+            case '=': strcat(output, EQUAL_SIGN);              break;
             case '>': strcat(output, CLOSE_ANGLE_BRACKET); break;
             case '?': strcat(output, QUESTION_MARK);       break;
-            case '@': strcat(output, AT_SIGN);	       break;
+            case '@': strcat(output, AT_SIGN);         break;
             case 'A':
-            case 'a': strcat(output, A);	               break;
+            case 'a': strcat(output, A);                       break;
             case 'B':
-            case 'b': strcat(output, B);	               break;
+            case 'b': strcat(output, B);                       break;
             case 'C':
-            case 'c': strcat(output, C);	               break;
+            case 'c': strcat(output, C);                       break;
             case 'D':
-            case 'd': strcat(output, D);	               break;
+            case 'd': strcat(output, D);                       break;
             case 'E':
-            case 'e': strcat(output, E);	               break;
+            case 'e': strcat(output, E);                       break;
             case 'F':
-            case 'f': strcat(output, F);	               break;
+            case 'f': strcat(output, F);                       break;
             case 'G':
-            case 'g': strcat(output, G);	               break;
+            case 'g': strcat(output, G);                       break;
             case 'H':
-            case 'h': strcat(output, H);	               break;
+            case 'h': strcat(output, H);                       break;
             case 'I':
-            case 'i': strcat(output, I);	               break;
+            case 'i': strcat(output, I);                       break;
             case 'J':
-            case 'j': strcat(output, J);	               break;
+            case 'j': strcat(output, J);                       break;
             case 'K':
-            case 'k': strcat(output, K);	               break;
+            case 'k': strcat(output, K);                       break;
             case 'L':
-            case 'l': strcat(output, L);	               break;
+            case 'l': strcat(output, L);                       break;
             case 'M':
-            case 'm': strcat(output, M);	               break;
+            case 'm': strcat(output, M);                       break;
             case 'N':
-            case 'n': strcat(output, N);	               break;
+            case 'n': strcat(output, N);                       break;
             case 'O':
-            case 'o': strcat(output, O);	               break;
+            case 'o': strcat(output, O);                       break;
             case 'P':
-            case 'p': strcat(output, P);	               break;
+            case 'p': strcat(output, P);                       break;
             case 'Q':
-            case 'q': strcat(output, Q);	               break;
+            case 'q': strcat(output, Q);                       break;
             case 'R':
-            case 'r': strcat(output, R);	               break;
+            case 'r': strcat(output, R);                       break;
             case 'S':
-            case 's': strcat(output, S);	               break;
+            case 's': strcat(output, S);                       break;
             case 'T':
-            case 't': strcat(output, T);	               break;
+            case 't': strcat(output, T);                       break;
             case 'U':
-            case 'u': strcat(output, U);	               break;
+            case 'u': strcat(output, U);                       break;
             case 'V':
-            case 'v': strcat(output, V);	               break;
+            case 'v': strcat(output, V);                       break;
             case 'W':
-            case 'w': strcat(output, W);	               break;
+            case 'w': strcat(output, W);                       break;
             case 'X':
-            case 'x': strcat(output, X);	               break;
+            case 'x': strcat(output, X);                       break;
             case 'Y':
-            case 'y': strcat(output, Y);	               break;
+            case 'y': strcat(output, Y);                       break;
             case 'Z':
-            case 'z': strcat(output, Z);	               break;
+            case 'z': strcat(output, Z);                       break;
             case '[': strcat(output, OPEN_SQUARE_BRACKET); break;
-            case '\\':strcat(output, BACKSLASH);	       break;
+            case '\\':strcat(output, BACKSLASH);               break;
             case ']': strcat(output, CLOSE_SQUARE_BRACKET);break;
-            case '^': strcat(output, CARET);	       break;
-            case '_': strcat(output, UNDERSCORE);	       break;
-            case '`': strcat(output, GRAVE_ACCENT);	       break;
+            case '^': strcat(output, CARET);           break;
+            case '_': strcat(output, UNDERSCORE);              break;
+            case '`': strcat(output, GRAVE_ACCENT);            break;
             case '{': strcat(output, OPEN_BRACE);          break;
-            case '|': strcat(output, VERTICAL_BAR);	       break;
+            case '|': strcat(output, VERTICAL_BAR);            break;
             case '}': strcat(output, CLOSE_BRACE);         break;
-            case '~': strcat(output, TILDE);	       break;
-            default:  strcat(output, UNKNOWN);	       break;
+            case '~': strcat(output, TILDE);           break;
+            default:  strcat(output, UNKNOWN);         break;
         }
     }
     return (output);
@@ -1136,7 +1136,7 @@ char *degenerate_string(const char *word)
 
 /******************************************************************************
  *
- *	purpose:	Appends to output the appropriate pronunciation for the
+ *      purpose:        Appends to output the appropriate pronunciation for the
  *                       input triad (i.e. hundreds, tens, and ones).  If the
  *                       pause flag is set, then a pause is inserted before the
  *                       triad proper.  If the ordinal flag is set, ordinal
@@ -1180,75 +1180,75 @@ int process_triad(char *triad, char *output, int pause, int ordinal, int right_z
             strcat(output, TENTH);
         else if (ordinal_plural && (right_zero_pad == 0)) {
             switch (*(triad + 2)) {
-                case '1':	strcat(output, ELEVENTHS);	break;
-                case '2':	strcat(output, TWELFTHS);	break;
-                case '3':	strcat(output, THIRTEENTHS);	break;
-                case '4':	strcat(output, FOURTEENTHS);	break;
-                case '5':	strcat(output, FIFTEENTHS);	break;
-                case '6':	strcat(output, SIXTEENTHS);	break;
-                case '7':	strcat(output, SEVENTEENTHS);	break;
-                case '8':	strcat(output, EIGHTEENTHS);	break;
-                case '9':	strcat(output, NINETEENTHS);	break;
+                case '1':       strcat(output, ELEVENTHS);      break;
+                case '2':       strcat(output, TWELFTHS);       break;
+                case '3':       strcat(output, THIRTEENTHS);    break;
+                case '4':       strcat(output, FOURTEENTHS);    break;
+                case '5':       strcat(output, FIFTEENTHS);     break;
+                case '6':       strcat(output, SIXTEENTHS);     break;
+                case '7':       strcat(output, SEVENTEENTHS);   break;
+                case '8':       strcat(output, EIGHTEENTHS);    break;
+                case '9':       strcat(output, NINETEENTHS);    break;
             }
         } else if (ordinal && (right_zero_pad == 0)) {
             switch (*(triad+2)) {
-                case '1':	strcat(output, ELEVENTH);	break;
-                case '2':	strcat(output, TWELFTH);	break;
-                case '3':	strcat(output, THIRTEENTH);	break;
-                case '4':	strcat(output, FOURTEENTH);	break;
-                case '5':	strcat(output, FIFTEENTH);	break;
-                case '6':	strcat(output, SIXTEENTH);	break;
-                case '7':	strcat(output, SEVENTEENTH);	break;
-                case '8':	strcat(output, EIGHTEENTH);	break;
-                case '9':	strcat(output, NINETEENTH);	break;
+                case '1':       strcat(output, ELEVENTH);       break;
+                case '2':       strcat(output, TWELFTH);        break;
+                case '3':       strcat(output, THIRTEENTH);     break;
+                case '4':       strcat(output, FOURTEENTH);     break;
+                case '5':       strcat(output, FIFTEENTH);      break;
+                case '6':       strcat(output, SIXTEENTH);      break;
+                case '7':       strcat(output, SEVENTEENTH);    break;
+                case '8':       strcat(output, EIGHTEENTH);     break;
+                case '9':       strcat(output, NINETEENTH);     break;
             }
         } else {
             switch (*(triad+2)) {
-                case '0':	strcat(output, TEN);	        break;
-                case '1':	strcat(output, ELEVEN);	        break;
-                case '2':	strcat(output, TWELVE);	        break;
-                case '3':	strcat(output, THIRTEEN);       break;
-                case '4':	strcat(output, FOURTEEN);       break;
-                case '5':	strcat(output, FIFTEEN);        break;
-                case '6':	strcat(output, SIXTEEN);	break;
-                case '7':	strcat(output, SEVENTEEN);	break;
-                case '8':	strcat(output, EIGHTEEN);	break;
-                case '9':	strcat(output, NINETEEN);	break;
+                case '0':       strcat(output, TEN);            break;
+                case '1':       strcat(output, ELEVEN);         break;
+                case '2':       strcat(output, TWELVE);         break;
+                case '3':       strcat(output, THIRTEEN);       break;
+                case '4':       strcat(output, FOURTEEN);       break;
+                case '5':       strcat(output, FIFTEEN);        break;
+                case '6':       strcat(output, SIXTEEN);        break;
+                case '7':       strcat(output, SEVENTEEN);      break;
+                case '8':       strcat(output, EIGHTEEN);       break;
+                case '9':       strcat(output, NINETEEN);       break;
             }
         }
     } else if (*(triad+1) >= '2') {
         if (ordinal_plural && (right_zero_pad == 1)) {
             switch (*(triad+1)) {
-                case '2':	strcat(output, TWENTIETHS);	break;
-                case '3':	strcat(output, THIRTIETHS);	break;
-                case '4':	strcat(output, FORTIETHS);	break;
-                case '5':	strcat(output, FIFTIETHS);	break;
-                case '6':	strcat(output, SIXTIETHS);	break;
-                case '7':	strcat(output, SEVENTIETHS);	break;
-                case '8':	strcat(output, EIGHTIETHS);	break;
-                case '9':	strcat(output, NINETIETHS);	break;
+                case '2':       strcat(output, TWENTIETHS);     break;
+                case '3':       strcat(output, THIRTIETHS);     break;
+                case '4':       strcat(output, FORTIETHS);      break;
+                case '5':       strcat(output, FIFTIETHS);      break;
+                case '6':       strcat(output, SIXTIETHS);      break;
+                case '7':       strcat(output, SEVENTIETHS);    break;
+                case '8':       strcat(output, EIGHTIETHS);     break;
+                case '9':       strcat(output, NINETIETHS);     break;
             }
         } else if (ordinal && (right_zero_pad == 1)) {
             switch (*(triad+1)) {
-                case '2':	strcat(output, TWENTIETH);	break;
-                case '3':	strcat(output, THIRTIETH);	break;
-                case '4':	strcat(output, FORTIETH);	break;
-                case '5':	strcat(output, FIFTIETH);	break;
-                case '6':	strcat(output, SIXTIETH);	break;
-                case '7':	strcat(output, SEVENTIETH);	break;
-                case '8':	strcat(output, EIGHTIETH);	break;
-                case '9':	strcat(output, NINETIETH);	break;
+                case '2':       strcat(output, TWENTIETH);      break;
+                case '3':       strcat(output, THIRTIETH);      break;
+                case '4':       strcat(output, FORTIETH);       break;
+                case '5':       strcat(output, FIFTIETH);       break;
+                case '6':       strcat(output, SIXTIETH);       break;
+                case '7':       strcat(output, SEVENTIETH);     break;
+                case '8':       strcat(output, EIGHTIETH);      break;
+                case '9':       strcat(output, NINETIETH);      break;
             }
         } else {
             switch (*(triad+1)) {
-                case '2':	strcat(output, TWENTY);		break;
-                case '3':	strcat(output, THIRTY);		break;
-                case '4':	strcat(output, FORTY);		break;
-                case '5':	strcat(output, FIFTY);		break;
-                case '6':	strcat(output, SIXTY);		break;
-                case '7':	strcat(output, SEVENTY);	break;
-                case '8':	strcat(output, EIGHTY);		break;
-                case '9':	strcat(output, NINETY);		break;
+                case '2':       strcat(output, TWENTY);         break;
+                case '3':       strcat(output, THIRTY);         break;
+                case '4':       strcat(output, FORTY);          break;
+                case '5':       strcat(output, FIFTY);          break;
+                case '6':       strcat(output, SIXTY);          break;
+                case '7':       strcat(output, SEVENTY);        break;
+                case '8':       strcat(output, EIGHTY);         break;
+                case '9':       strcat(output, NINETY);         break;
             }
         }
     }
@@ -1266,7 +1266,7 @@ int process_triad(char *triad, char *output, int pause, int ordinal, int right_z
 
 /******************************************************************************
  *
- *	purpose:	Appends to output the pronunciation for the input
+ *      purpose:        Appends to output the pronunciation for the input
  *                       digit.  If the special_flag is set, the appropriate
  *                       special pronunciation is used.  If the ordinal_plural
  *                       flag is set, the plural ordinal pronunciations are
@@ -1298,43 +1298,43 @@ void process_digit(char digit, char *output, int ordinal, int ordinal_plural, in
     /*  DO PLURAL ORDINALS  */
     else if (ordinal_plural) {
         switch (digit) {
-            case '3':    strcat(output, THIRDS);	    break;
-            case '4':    strcat(output, FOURTHS);	    break;
-            case '5':    strcat(output, FIFTHS);	    break;
-            case '6':    strcat(output, SIXTHS);	    break;
-            case '7':    strcat(output, SEVENTHS);	    break;
-            case '8':    strcat(output, EIGHTHS);	    break;
-            case '9':    strcat(output, NINTHS);	    break;
+            case '3':    strcat(output, THIRDS);            break;
+            case '4':    strcat(output, FOURTHS);           break;
+            case '5':    strcat(output, FIFTHS);            break;
+            case '6':    strcat(output, SIXTHS);            break;
+            case '7':    strcat(output, SEVENTHS);          break;
+            case '8':    strcat(output, EIGHTHS);           break;
+            case '9':    strcat(output, NINTHS);            break;
         }
     }
     /*  DO SINGULAR ORDINALS  */
     else if (ordinal) {
         switch (digit) {
-            case '0':    strcat(output, ZEROETH);	    break;
-            case '1':    strcat(output, FIRST);	    break;
-            case '2':    strcat(output, SECOND);	    break;
-            case '3':    strcat(output, THIRD);	    break;
-            case '4':    strcat(output, FOURTH);	    break;
-            case '5':    strcat(output, FIFTH);	    break;
-            case '6':    strcat(output, SIXTH);	    break;
-            case '7':    strcat(output, SEVENTH);	    break;
-            case '8':    strcat(output, EIGHTH);	    break;
-            case '9':    strcat(output, NINTH);	    break;
+            case '0':    strcat(output, ZEROETH);           break;
+            case '1':    strcat(output, FIRST);     break;
+            case '2':    strcat(output, SECOND);            break;
+            case '3':    strcat(output, THIRD);     break;
+            case '4':    strcat(output, FOURTH);            break;
+            case '5':    strcat(output, FIFTH);     break;
+            case '6':    strcat(output, SIXTH);     break;
+            case '7':    strcat(output, SEVENTH);           break;
+            case '8':    strcat(output, EIGHTH);            break;
+            case '9':    strcat(output, NINTH);     break;
         }
     }
     /*  DO ORDINARY DIGITS  */
     else {
         switch (digit) {
-            case '0':    strcat(output, ZERO);	    break;
-            case '1':    strcat(output, ONE);	    break;
-            case '2':    strcat(output, TWO);	    break;
-            case '3':    strcat(output, THREE);	    break;
-            case '4':    strcat(output, FOUR);	    break;
-            case '5':    strcat(output, FIVE);	    break;
-            case '6':    strcat(output, SIX);	    break;
-            case '7':    strcat(output, SEVEN);	    break;
-            case '8':    strcat(output, EIGHT);	    break;
-            case '9':    strcat(output, NINE);	    break;
+            case '0':    strcat(output, ZERO);      break;
+            case '1':    strcat(output, ONE);       break;
+            case '2':    strcat(output, TWO);       break;
+            case '3':    strcat(output, THREE);     break;
+            case '4':    strcat(output, FOUR);      break;
+            case '5':    strcat(output, FIVE);      break;
+            case '6':    strcat(output, SIX);       break;
+            case '7':    strcat(output, SEVEN);     break;
+            case '8':    strcat(output, EIGHT);     break;
+            case '9':    strcat(output, NINE);      break;
         }
     }
 }
