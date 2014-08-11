@@ -77,4 +77,12 @@
     return nil;
 }
 
+#pragma mark -
+
+/// Convert all non-printable characters (except escape character) to blanks.
+/// Also connect words hyphenated over a newline.
+- (void)_conditionInputString:(NSMutableString *)str;
+{
+}
+
 @end
