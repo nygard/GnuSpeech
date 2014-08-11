@@ -144,44 +144,45 @@ static NXStream *stream2;
 
 
 /*  GLOBAL FUNCTIONS, LOCAL TO THIS FILE  ************************************/
-static void condition_input(const char *input, char *output, long length, long *output_length);
-static int mark_modes(char *input, char *output, long length, long *output_length);
-static void strip_punctuation(char *buffer, long length, NXStream *stream, long *stream_length);
-static int final_conversion(NXStream *stream1, long stream1_length,
-							NXStream *stream2, long *stream2_length);
-static int get_state(const char *buffer, long *i, long length, long *mode, long *next_mode,
-					 long *current_state, long *next_state, long *raw_mode_flag,
-					 char *word, NXStream *stream);
-static int set_tone_group(NXStream *stream, long tg_pos, char *word);
-static float convert_silence(char *buffer, NXStream *stream);
-static int another_word_follows(const char *buffer, long i, long length, long mode);
-static int shift_silence(const char *buffer, long i, long length, long mode, NXStream *stream);
-static void insert_tag(NXStream *stream, long insert_point, char *word);
-static void expand_word(char *word, long is_tonic, NXStream *stream);
-static int expand_raw_mode(const char *buffer, long *j, long length, NXStream *stream);
-static int illegal_token(char *token);
-static int illegal_slash_code(char *code);
-static int expand_tag_number(const char *buffer, long *j, long length, NXStream *stream);
-static int is_mode(char c);
-static int is_isolated(char *buffer, long i, long len);
-static int part_of_number(char *buffer, long i, long len);
-static int number_follows(char *buffer, long i, long len);
-static void delete_ellipsis(char *buffer, long *i, long length);
-static int convert_dash(char *buffer, long *i, long length);
-static int is_telephone_number(char *buffer, long i, long length);
-static int is_punctuation(char c);
-static int word_follows(char *buffer, long i, long length);
-static int expand_abbreviation(char *buffer, long i, long length, NXStream *stream);
-static void expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, long *status);
-static int is_all_upper_case(char *word);
-static char *to_lower_case(char *word);
-static const char *is_special_acronym(char *word);
-static int contains_primary_stress(const char *pronunciation);
-static int converted_stress(char *pronunciation);
-static int is_possessive(char *word);
-static void safety_check(NXStream *stream, long *stream_length);
-static void insert_chunk_marker(NXStream *stream, long insert_point, char tg_type);
-static void check_tonic(NXStream *stream, long start_pos, long end_pos);
+// gs_pm = GnuSpeech Parser Module
+static void gs_pm_condition_input(const char *input, char *output, long length, long *output_length);
+static int gs_pm_mark_modes(char *input, char *output, long length, long *output_length);
+static void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *stream_length);
+static int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
+                                  NXStream *stream2, long *stream2_length);
+static int gs_pm_get_state(const char *buffer, long *i, long length, long *mode, long *next_mode,
+                           long *current_state, long *next_state, long *raw_mode_flag,
+                           char *word, NXStream *stream);
+static int gs_pm_set_tone_group(NXStream *stream, long tg_pos, char *word);
+static float gs_pm_convert_silence(char *buffer, NXStream *stream);
+static int gs_pm_another_word_follows(const char *buffer, long i, long length, long mode);
+static int gs_pm_shift_silence(const char *buffer, long i, long length, long mode, NXStream *stream);
+static void gs_pm_insert_tag(NXStream *stream, long insert_point, char *word);
+static void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream);
+static int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *stream);
+static int gs_pm_illegal_token(char *token);
+static int gs_pm_illegal_slash_code(char *code);
+static int gs_pm_expand_tag_number(const char *buffer, long *j, long length, NXStream *stream);
+static int gs_pm_is_mode(char c);
+static int gs_pm_is_isolated(char *buffer, long i, long len);
+static int gs_pm_part_of_number(char *buffer, long i, long len);
+static int gs_pm_number_follows(char *buffer, long i, long len);
+static void gs_pm_delete_ellipsis(char *buffer, long *i, long length);
+static int gs_pm_convert_dash(char *buffer, long *i, long length);
+static int gs_pm_is_telephone_number(char *buffer, long i, long length);
+static int gs_pm_is_punctuation(char c);
+static int gs_pm_word_follows(char *buffer, long i, long length);
+static int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *stream);
+static void gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, long *status);
+static int gs_pm_is_all_upper_case(char *word);
+static char *gs_pm_to_lower_case(char *word);
+static const char *gs_pm_is_special_acronym(char *word);
+static int gs_pm_contains_primary_stress(const char *pronunciation);
+static int gs_pm_converted_stress(char *pronunciation);
+static int gs_pm_is_possessive(char *word);
+static void gs_pm_safety_check(NXStream *stream, long *stream_length);
+static void gs_pm_insert_chunk_marker(NXStream *stream, long insert_point, char tg_type);
+static void gs_pm_check_tonic(NXStream *stream, long start_pos, long end_pos);
 
 
 
@@ -271,12 +272,12 @@ int parser(const char *input, const char **output)
 	/*  CONDITION INPUT:  CONVERT NON-PRINTABLE CHARS TO SPACES
 	 (EXCEPT ESC CHAR), CONNECT WORDS HYPHENATED OVER A NEWLINE  */
     long buffer1_length;
-	condition_input(input, buffer1, input_length, &buffer1_length);
+	gs_pm_condition_input(input, buffer1, input_length, &buffer1_length);
 		
     int error;
     long buffer2_length;
 	/*  RATIONALIZE MODE MARKINGS, CHECKING FOR ERRORS  */
-	if ((error = mark_modes(buffer1, buffer2, buffer1_length, &buffer2_length)) != TTS_PARSER_SUCCESS) {
+	if ((error = gs_pm_mark_modes(buffer1, buffer2, buffer1_length, &buffer2_length)) != TTS_PARSER_SUCCESS) {
 		free(buffer1);
 		free(buffer2);
 		return(error);
@@ -294,7 +295,7 @@ int parser(const char *input, const char **output)
 	
 	/*  STRIP OUT OR CONVERT UNESSENTIAL PUNCTUATION  */
     long stream1_length;
-    strip_punctuation(buffer2, buffer2_length, stream1, &stream1_length);
+    gs_pm_strip_punctuation(buffer2, buffer2_length, stream1, &stream1_length);
 	
 	/*  FREE BUFFER 2  */
 	free(buffer2);
@@ -319,7 +320,7 @@ int parser(const char *input, const char **output)
 	
 	/*  DO FINAL CONVERSION  */
     long stream2_length;
-	if ((error = final_conversion(stream1, stream1_length, stream2, &stream2_length)) != TTS_PARSER_SUCCESS) {
+	if ((error = gs_pm_final_conversion(stream1, stream1_length, stream2, &stream2_length)) != TTS_PARSER_SUCCESS) {
 		NXCloseMemory(stream1, NX_FREEBUFFER);
 		NXCloseMemory(stream2, NX_FREEBUFFER);
 		stream2 = NULL;
@@ -330,7 +331,7 @@ int parser(const char *input, const char **output)
 	NXCloseMemory(stream1, NX_FREEBUFFER);
 	
 	/*  DO SAFETY CHECK;  MAKE SURE NOT TOO MANY FEET OR PHONES PER CHUNK  */
-	safety_check(stream2, &stream2_length);
+	gs_pm_safety_check(stream2, &stream2_length);
 	
 #if 0
 	/*  PRINT OUT STREAM 2  */
@@ -424,7 +425,7 @@ const char *lookup_word(const char *word, short *dict)
 
 /// Converts all non-printable characters (except escape character to blanks.  Also connects words hyphenated over a newline.
 
-static void condition_input(const char *input, char *output, long length, long *output_length)
+static void gs_pm_condition_input(const char *input, char *output, long length, long *output_length)
 {
 	int i, j = 0;
 	
@@ -464,7 +465,7 @@ static void condition_input(const char *input, char *output, long length, long *
 
 /// Parses input for modes, checking for errors, and marks output with mode start and end points.  Tagging and silence mode arguments are checked.
 
-static int mark_modes(char *input, char *output, long length, long *output_length)
+static int gs_pm_mark_modes(char *input, char *output, long length, long *output_length)
 {
 	int i, j = 0, pos, minus, period;
 	int mode_stack[MODE_NEST_MAX], stack_ptr = 0, mode;
@@ -697,7 +698,7 @@ static int mark_modes(char *input, char *output, long length, long *output_lengt
 
 /// Deletes unnecessary punctuation, and converts some punctuation to another form.
 
-static void strip_punctuation(char *buffer, long length, NXStream *stream, long *stream_length)
+static void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *stream_length)
 {
 	long i, mode = NORMAL_MODE, status;
 	
@@ -724,13 +725,13 @@ static void strip_punctuation(char *buffer, long length, NXStream *stream, long 
 							buffer[i] = ')';
 							break;
 						case '-':
-							if (!convert_dash(buffer, &i, length) && 
-								!number_follows(buffer, i, length) &&
-								!is_isolated(buffer, i, length))
+							if (!gs_pm_convert_dash(buffer, &i, length) && 
+								!gs_pm_number_follows(buffer, i, length) &&
+								!gs_pm_is_isolated(buffer, i, length))
 								buffer[i] = DELETED;
 							break;
 						case '+':
-							if (!part_of_number(buffer, i, length) && !is_isolated(buffer, i, length))
+							if (!gs_pm_part_of_number(buffer, i, length) && !gs_pm_is_isolated(buffer, i, length))
 								buffer[i] = DELETED;
 							break;
 						case '\'':
@@ -738,12 +739,12 @@ static void strip_punctuation(char *buffer, long length, NXStream *stream, long 
 								buffer[i] = DELETED;
 							break;
 						case '.':
-							delete_ellipsis(buffer, &i, length);
+							gs_pm_delete_ellipsis(buffer, &i, length);
 							break;
 						case '/':
 						case '$':
 						case '%':
-							if (!part_of_number(buffer, i, length))
+							if (!gs_pm_part_of_number(buffer, i, length))
 								buffer[i] = DELETED;
 							break;
 						case '<':
@@ -751,7 +752,7 @@ static void strip_punctuation(char *buffer, long length, NXStream *stream, long 
 						case '&':
 						case '=':
 						case '@':
-							if (!is_isolated(buffer, i, length))
+							if (!gs_pm_is_isolated(buffer, i, length))
 								buffer[i] = DELETED;
 							break;
 						case '"':
@@ -811,7 +812,7 @@ static void strip_punctuation(char *buffer, long length, NXStream *stream, long 
 								continue;
 							}
 							/*  ALLOW TELEPHONE NUMBER WITH AREA CODE:  (403)274-3877  */
-							if (is_telephone_number(buffer, i, length)) {
+							if (gs_pm_is_telephone_number(buffer, i, length)) {
 								int j;
 								for (j = 0; j < 12; j++)
 									NXPutc(stream,buffer[i++]); 
@@ -819,7 +820,7 @@ static void strip_punctuation(char *buffer, long length, NXStream *stream, long 
 								continue;
 							}
 							/*  CONVERT TO COMMA IF PRECEDED BY WORD, FOLLOWED BY WORD  */
-							if ((status == WORD) && word_follows(buffer, i, length)) {
+							if ((status == WORD) && gs_pm_word_follows(buffer, i, length)) {
 								buffer[i] = ' ';
 								NXPrintf(stream,", ");
 								status = PUNCTUATION;
@@ -831,7 +832,7 @@ static void strip_punctuation(char *buffer, long length, NXStream *stream, long 
 							break;
 						case ')':
 							/*  CONVERT TO COMMA IF PRECEDED BY WORD, FOLLOWED BY WORD  */
-							if ((status == WORD) && word_follows(buffer, i, length)) {
+							if ((status == WORD) && gs_pm_word_follows(buffer, i, length)) {
 								buffer[i] = ',';
 								NXPrintf(stream,", ");
 								status = PUNCTUATION;
@@ -846,7 +847,7 @@ static void strip_punctuation(char *buffer, long length, NXStream *stream, long 
 							status = WORD;
 							break;
 						case '+':
-							if (is_isolated(buffer, i, length))
+							if (gs_pm_is_isolated(buffer, i, length))
 								NXPrintf(stream,"%s",PLUS);
 							else
 								NXPutc(stream,'+');
@@ -865,7 +866,7 @@ static void strip_punctuation(char *buffer, long length, NXStream *stream, long 
 							status = WORD;
 							break;
 						case '-':
-							if (is_isolated(buffer, i, length))
+							if (gs_pm_is_isolated(buffer, i, length))
 								NXPrintf(stream,"%s",MINUS);
 							else
 								NXPutc(stream,'-');
@@ -876,14 +877,14 @@ static void strip_punctuation(char *buffer, long length, NXStream *stream, long 
 							status = WORD;
 							break;
 						case '.':
-							if (!expand_abbreviation(buffer, i, length, stream)) {
+							if (!gs_pm_expand_abbreviation(buffer, i, length, stream)) {
 								NXPutc(stream,buffer[i]);
 								status = PUNCTUATION;
 							}
 							break;
 						default:
 							NXPutc(stream,buffer[i]); 
-							if (is_punctuation(buffer[i]))
+							if (gs_pm_is_punctuation(buffer[i]))
 								status = PUNCTUATION;
 							else if (isalnum(buffer[i]))
 								status = WORD;
@@ -892,7 +893,7 @@ static void strip_punctuation(char *buffer, long length, NXStream *stream, long 
 				}
 				/*  EXPAND LETTER MODE CONTENTS TO PLAIN WORDS OR SINGLE LETTERS  */
 				else if (mode == LETTER_MODE) {
-					expand_letter_mode(buffer, &i, length, stream, &status);
+					gs_pm_expand_letter_mode(buffer, &i, length, stream, &status);
 					continue;
 				}
 				/*  ELSE PASS CHARACTERS STRAIGHT THROUGH  */
@@ -910,7 +911,7 @@ static void strip_punctuation(char *buffer, long length, NXStream *stream, long 
 
 /// Converts contents of stream1 to stream2.  Adds chunk, tone group, and associated markers;  expands words to pronunciations, and also expands other modes.
 
-static int final_conversion(NXStream *stream1, long stream1_length,
+static int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
 							NXStream *stream2, long *stream2_length)
 {
 	long i, last_word_end = UNDEFINED_POSITION, tg_marker_pos = UNDEFINED_POSITION;
@@ -944,7 +945,7 @@ static int final_conversion(NXStream *stream1, long stream1_length,
 				
 			default:
 				/*  GET STATE INFORMATION  */
-				if (get_state(input, &i, stream1_length, &mode, &next_mode, &current_state,
+				if (gs_pm_get_state(input, &i, stream1_length, &mode, &next_mode, &current_state,
 							  &next_state, &raw_mode_flag, word, stream2) != TTS_PARSER_SUCCESS)
 					return(TTS_PARSER_FAILURE);
 				
@@ -984,18 +985,18 @@ static int final_conversion(NXStream *stream1, long stream1_length,
 									/*  PUT IN LAST WORD MARKER  */
 									NXPrintf(stream2,"%s ",LAST_WORD);
 									/*  WRITE WORD TO STREAM WITH TONIC IF NO PRIOR TONICIZATION  */
-									expand_word(word, (!prior_tonic), stream2);
+									gs_pm_expand_word(word, (!prior_tonic), stream2);
 									break;
 								default:
 									/*  WRITE WORD TO STREAM WITHOUT TONIC  */
-									expand_word(word, TTS_NO, stream2);
+									gs_pm_expand_word(word, TTS_NO, stream2);
 									break;
 							}
 						}
 						else if (mode == EMPHASIS_MODE) {
 							/*  START NEW TONE GROUP IF PRIOR TONIC ALREADY SET  */
 							if (prior_tonic) {
-								if (set_tone_group(stream2, tg_marker_pos, ",") == TTS_PARSER_FAILURE)
+								if (gs_pm_set_tone_group(stream2, tg_marker_pos, ",") == TTS_PARSER_FAILURE)
 									return(TTS_PARSER_FAILURE);
 								NXPrintf(stream2,"%s %s ",TONE_GROUP_BOUNDARY,TG_UNDEFINED);
 								tg_marker_pos = NXTell(stream2) - 3;
@@ -1009,7 +1010,7 @@ static int final_conversion(NXStream *stream1, long stream1_length,
 								((next_state == STATE_WORD) && (next_mode == EMPHASIS_MODE)) )
 								NXPrintf(stream2,"%s ",LAST_WORD);
 							/*  TONICIZE WORD  */
-							expand_word(word, TTS_YES, stream2);
+							gs_pm_expand_word(word, TTS_YES, stream2);
 							prior_tonic = TTS_TRUE;
 						}
 						
@@ -1023,10 +1024,10 @@ static int final_conversion(NXStream *stream1, long stream1_length,
 						/*  APPEND LAST WORD MARK, PAUSE, TONE GROUP MARK (FALL-THRU DESIRED)  */
 						switch(last_written_state) {
 							case STATE_WORD:
-								if (shift_silence(input, i, stream1_length, mode, stream2))
+								if (gs_pm_shift_silence(input, i, stream1_length, mode, stream2))
 									last_word_end = NXTell(stream2);
 								else if ((next_state != STATE_END) && 
-										 another_word_follows(input, i, stream1_length, mode)) {
+										 gs_pm_another_word_follows(input, i, stream1_length, mode)) {
 									if (!strcmp(word,","))
 										NXPrintf(stream2,"%s %s ", UTTERANCE_BOUNDARY, MEDIAL_PAUSE);
 									else
@@ -1037,7 +1038,7 @@ static int final_conversion(NXStream *stream1, long stream1_length,
 							case STATE_SILENCE:
 								NXPrintf(stream2,"%s ",TONE_GROUP_BOUNDARY);
 								prior_tonic = TTS_FALSE;
-								if (set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
+								if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
 									return(TTS_PARSER_FAILURE);
 								tg_marker_pos = UNDEFINED_POSITION;
 								last_written_state = STATE_MEDIAL_PUNC;
@@ -1047,11 +1048,11 @@ static int final_conversion(NXStream *stream1, long stream1_length,
 						
 					case STATE_FINAL_PUNC:
 						if (last_written_state == STATE_WORD) {
-							if (shift_silence(input, i, stream1_length, mode, stream2)) {
+							if (gs_pm_shift_silence(input, i, stream1_length, mode, stream2)) {
 								last_word_end = NXTell(stream2);
 								NXPrintf(stream2,"%s ",TONE_GROUP_BOUNDARY);
 								prior_tonic = TTS_FALSE;
-								if (set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
+								if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
 									return(TTS_PARSER_FAILURE);
 								tg_marker_pos = UNDEFINED_POSITION;
 								/*  IF SILENCE INSERTED, THEN CONVERT FINAL PUNCTUATION TO MEDIAL  */
@@ -1061,7 +1062,7 @@ static int final_conversion(NXStream *stream1, long stream1_length,
 								NXPrintf(stream2,"%s %s %s ",UTTERANCE_BOUNDARY,
 										 TONE_GROUP_BOUNDARY,CHUNK_BOUNDARY);
 								prior_tonic = TTS_FALSE;
-								if (set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
+								if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
 									return(TTS_PARSER_FAILURE);
 								tg_marker_pos = UNDEFINED_POSITION;
 								last_written_state = STATE_FINAL_PUNC;
@@ -1070,7 +1071,7 @@ static int final_conversion(NXStream *stream1, long stream1_length,
 						else if (last_written_state == STATE_SILENCE) {
 							NXPrintf(stream2,"%s ",TONE_GROUP_BOUNDARY);
 							prior_tonic = TTS_FALSE;
-							if (set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
+							if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
 								return(TTS_PARSER_FAILURE);
 							tg_marker_pos = UNDEFINED_POSITION;
 							/*  IF SILENCE INSERTED, THEN CONVERT FINAL PUNCTUATION TO MEDIAL  */
@@ -1084,13 +1085,13 @@ static int final_conversion(NXStream *stream1, long stream1_length,
 							NXPrintf(stream2,"%s %s %s ",CHUNK_BOUNDARY,TONE_GROUP_BOUNDARY,TG_UNDEFINED);
 							prior_tonic = TTS_FALSE;
 							tg_marker_pos = NXTell(stream2) - 3;
-							if ((convert_silence(word, stream2) <= 0.0) && (next_state == STATE_END))
+							if ((gs_pm_convert_silence(word, stream2) <= 0.0) && (next_state == STATE_END))
 								return(TTS_PARSER_FAILURE);
 							last_written_state = STATE_SILENCE;
 							last_word_end = NXTell(stream2);
 						}
 						else if (last_written_state == STATE_WORD) {
-							convert_silence(word, stream2);
+							gs_pm_convert_silence(word, stream2);
 							last_written_state = STATE_SILENCE;
 							last_word_end = NXTell(stream2);
 						}
@@ -1098,7 +1099,7 @@ static int final_conversion(NXStream *stream1, long stream1_length,
 						
 						
 					case STATE_TAGGING:
-						insert_tag(stream2, last_word_end, word);
+						gs_pm_insert_tag(stream2, last_word_end, word);
 						last_word_end = UNDEFINED_POSITION;
 						break;
 						
@@ -1122,7 +1123,7 @@ static int final_conversion(NXStream *stream1, long stream1_length,
 		case STATE_SILENCE:
 			NXPrintf(stream2,"%s %s",TONE_GROUP_BOUNDARY,CHUNK_BOUNDARY);
 			prior_tonic = TTS_FALSE;
-			if (set_tone_group(stream2, tg_marker_pos, DEFAULT_END_PUNC) == TTS_PARSER_FAILURE)
+			if (gs_pm_set_tone_group(stream2, tg_marker_pos, DEFAULT_END_PUNC) == TTS_PARSER_FAILURE)
 				return(TTS_PARSER_FAILURE);
 			tg_marker_pos = UNDEFINED_POSITION;
 			break;
@@ -1147,7 +1148,7 @@ static int final_conversion(NXStream *stream1, long stream1_length,
 
 /// Determines the current state and next state in buffer.  A word or punctuation is put into word.  Raw mode contents are expanded and written to stream.
 
-static int get_state(const char *buffer, long *i, long length, long *mode, long *next_mode,
+static int gs_pm_get_state(const char *buffer, long *i, long length, long *mode, long *next_mode,
 					 long *current_state, long *next_state, long *raw_mode_flag,
 					 char *word, NXStream *stream)
 {
@@ -1183,7 +1184,7 @@ static int get_state(const char *buffer, long *i, long length, long *mode, long 
 						break;
 					
 					/*  PUNCTUATION  */
-					if (is_punctuation(buffer[j])) {
+					if (gs_pm_is_punctuation(buffer[j])) {
 						if ((buffer[j] == '.') && ((j+1) < length) && isdigit(buffer[j+1])) {
 							;  /*  DO NOTHING, HANDLE AS WORD BELOW  */
 						}
@@ -1223,12 +1224,12 @@ static int get_state(const char *buffer, long *i, long length, long *mode, long 
 						do {
 							word[k++] = buffer[j++];
 						} while ((j < length) && (buffer[j] != ' ') &&
-								 !is_mode(buffer[j]) && (k < WORD_LENGTH_MAX));
+								 !gs_pm_is_mode(buffer[j]) && (k < WORD_LENGTH_MAX));
 						word[k] = '\0'; j--;
 						
 						/*  BACK UP IF WORD ENDS WITH PUNCTUATION  */
 						while (k >= 1) {
-							if (is_punctuation(word[k-1])) {
+							if (gs_pm_is_punctuation(word[k-1])) {
 								word[--k] = '\0';
 								j--;
 							}
@@ -1256,7 +1257,7 @@ static int get_state(const char *buffer, long *i, long length, long *mode, long 
 					k = 0;
 					do {
 						word[k++] = buffer[j++];
-					} while ((j < length) && !is_mode(buffer[j]) && (k < WORD_LENGTH_MAX));
+					} while ((j < length) && !gs_pm_is_mode(buffer[j]) && (k < WORD_LENGTH_MAX));
 					word[k] = '\0';  j--;
 					
 					/*  SET OUTSIDE COUNTER  */
@@ -1273,7 +1274,7 @@ static int get_state(const char *buffer, long *i, long length, long *mode, long 
 					k = 0;
 					do {
 						word[k++] = buffer[j++];
-					} while ((j < length) && !is_mode(buffer[j]) && (k < WORD_LENGTH_MAX));
+					} while ((j < length) && !gs_pm_is_mode(buffer[j]) && (k < WORD_LENGTH_MAX));
 					word[k] = '\0';  j--;
 					
 					/*  SET OUTSIDE COUNTER  */
@@ -1287,7 +1288,7 @@ static int get_state(const char *buffer, long *i, long length, long *mode, long 
 				}
 				else if ((current_mode == RAW_MODE) && (state == 0)) {
 					/*  EXPAND RAW MODE IN CURRENT STATE ONLY  */
-					if (expand_raw_mode(buffer, &j, length, stream) != TTS_PARSER_SUCCESS)
+					if (gs_pm_expand_raw_mode(buffer, &j, length, stream) != TTS_PARSER_SUCCESS)
 						return(TTS_PARSER_FAILURE);
 					
 					/*  SET RAW_MODE FLAG  */
@@ -1328,7 +1329,7 @@ static int get_state(const char *buffer, long *i, long length, long *mode, long 
 
 /// Set the tone group marker according to the punctuation passed in as "word".  The marker is inserted in the stream at position "tg_pos".
 
-static int set_tone_group(NXStream *stream, long tg_pos, char *word)
+static int gs_pm_set_tone_group(NXStream *stream, long tg_pos, char *word)
 {
 	long current_pos;
 	
@@ -1379,7 +1380,7 @@ static int set_tone_group(NXStream *stream, long tg_pos, char *word)
 /// Converts numeric quantity in "buffer" to appropriate number of silence phones, which are written onto the
 /// end of stream.  Rounding is performed.  Returns actual length of silence.
 
-static float convert_silence(char *buffer, NXStream *stream)
+static float gs_pm_convert_silence(char *buffer, NXStream *stream)
 {
 	int j, number_silence_phones;
 	double silence_length;
@@ -1408,7 +1409,7 @@ static float convert_silence(char *buffer, NXStream *stream)
 
 /// Returns 1 if another word follows in buffer, after position i.  Else, 0 is returned.
 
-static int another_word_follows(const char *buffer, long i, long length, long mode)
+static int gs_pm_another_word_follows(const char *buffer, long i, long length, long mode)
 {
 	long j;
 	
@@ -1430,7 +1431,7 @@ static int another_word_follows(const char *buffer, long i, long length, long mo
 			default:
 				if ((mode == NORMAL_MODE) || (mode == EMPHASIS_MODE)) {
 					/*  WORD HAS BEEN FOUND  */
-					if (!is_punctuation(buffer[j]))
+					if (!gs_pm_is_punctuation(buffer[j]))
 						return(1);
 				}
 				break;
@@ -1447,7 +1448,7 @@ static int another_word_follows(const char *buffer, long i, long length, long mo
 /// the silence to the current point on the stream.  The the numeric quantity is converted to equivalent silence
 /// phones, and a 1 is returned.  0 is returned otherwise.
 
-static int shift_silence(const char *buffer, long i, long length, long mode, NXStream *stream)
+static int gs_pm_shift_silence(const char *buffer, long i, long length, long mode, NXStream *stream)
 {
 	long j;
 	char word[WORD_LENGTH_MAX+1];
@@ -1473,7 +1474,7 @@ static int shift_silence(const char *buffer, long i, long length, long mode, NXS
 					if (buffer[j] == ' ')
 						continue;
 					/*  WORD HERE, SO RETURN WITHOUT SHIFTING  */
-					if (!is_punctuation(buffer[j]))
+					if (!gs_pm_is_punctuation(buffer[j]))
 						return(0);
 				}
 				else if (mode == RAW_MODE)
@@ -1484,10 +1485,10 @@ static int shift_silence(const char *buffer, long i, long length, long mode, NXS
 					int k = 0;
 					do {
 						word[k++] = buffer[j++];
-					} while ((j < length) && !is_mode(buffer[j]) && (k < WORD_LENGTH_MAX));
+					} while ((j < length) && !gs_pm_is_mode(buffer[j]) && (k < WORD_LENGTH_MAX));
 					word[k] = '\0';
 					/*  CONVERT WORD TO SILENCE PHONES, APPENDING TO STREAM  */
-					convert_silence(word, stream);
+					gs_pm_convert_silence(word, stream);
 					/*  RETURN, INDICATING SILENCE SHIFTED BACKWARDS  */
 					return(1);
 				}
@@ -1503,7 +1504,7 @@ static int shift_silence(const char *buffer, long i, long length, long mode, NXS
 
 /// Inserts the tag contained in word onto the stream at the insert_point.
 
-static void insert_tag(NXStream *stream, long insert_point, char *word)
+static void gs_pm_insert_tag(NXStream *stream, long insert_point, char *word)
 {
 	long j, end_point, length;
 	char *temp;
@@ -1544,7 +1545,7 @@ static void insert_tag(NXStream *stream, long insert_point, char *word)
 /// characters, and upper case words (including special acronyms) if necessary.  Add special marks if word
 /// is tonic.
 
-static void expand_word(char *word, long is_tonic, NXStream *stream)
+static void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
 {
 	short dictionary;
 	const char *pronunciation, *ptr;
@@ -1554,7 +1555,7 @@ static void expand_word(char *word, long is_tonic, NXStream *stream)
 	
 	
 	/*  STRIP OF POSSESSIVE ENDING IF WORD ENDS WITH 's, SET FLAG  */
-	possessive = is_possessive(word);
+	possessive = gs_pm_is_possessive(word);
 	
 	/*  USE degenerate_string IF WORD IS A SINGLE CHARACTER
 	 (EXCEPT SMALL, NON-POSSESSIVE A)  */
@@ -1567,22 +1568,22 @@ static void expand_word(char *word, long is_tonic, NXStream *stream)
 	}
 	/*  ALL UPPER CASE WORDS PRONOUNCED ONE LETTER AT A TIME,
 	 EXCEPT SPECIAL ACRONYMS  */
-	else if (is_all_upper_case(word)) {
-		if (!(pronunciation = is_special_acronym(word)))
+	else if (gs_pm_is_all_upper_case(word)) {
+		if (!(pronunciation = gs_pm_is_special_acronym(word)))
 			pronunciation = degenerate_string((const char *)word);
 		
 		dictionary = TTS_LETTER_TO_SOUND;
 	}
 	/*  ALL OTHER WORDS ARE LOOKED UP IN DICTIONARIES, AFTER CONVERTING TO LOWER CASE  */
 	else
-		pronunciation = lookup_word((const char *)to_lower_case(word), &dictionary);
+		pronunciation = lookup_word((const char *)gs_pm_to_lower_case(word), &dictionary);
 	
 	
 	/*  ADD FOOT BEGIN MARKER TO FRONT OF WORD IF IT HAS NO PRIMARY STRESS AND IT IS
 	 TO RECEIVE A TONIC;  IF ONLY A SECONDARY STRESS MARKER, CONVERT TO PRIMARY  */
 	last_foot_begin = UNDEFINED_POSITION;
-	if (is_tonic && !contains_primary_stress(pronunciation)) {
-		if (!converted_stress((char *)pronunciation)) {
+	if (is_tonic && !gs_pm_contains_primary_stress(pronunciation)) {
+		if (!gs_pm_converted_stress((char *)pronunciation)) {
 			NXPrintf(stream, FOOT_BEGIN);
 			last_foot_begin = NXTell(stream) - 2;
 		}
@@ -1660,7 +1661,7 @@ static void expand_word(char *word, long is_tonic, NXStream *stream)
 
 /// Writes raw mode contents to stream, checking phones and markers.
 
-static int expand_raw_mode(const char *buffer, long *j, long length, NXStream *stream)
+static int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *stream)
 {
 	int k, super_raw_mode = TTS_FALSE, delimiter = TTS_FALSE, blank = TTS_TRUE;
 	char token[SYMBOL_LENGTH_MAX+1];
@@ -1672,7 +1673,7 @@ static int expand_raw_mode(const char *buffer, long *j, long length, NXStream *s
 		/*  CHECK IF ENTERING OR EXITING SUPER RAW MODE  */
 		if (buffer[*j] == '%') {
 			if (!super_raw_mode) {
-				if (illegal_token(token))
+				if (gs_pm_illegal_token(token))
 					return(TTS_PARSER_FAILURE);
 				super_raw_mode = TTS_TRUE;
 				token[k=0] = '\0';
@@ -1691,7 +1692,7 @@ static int expand_raw_mode(const char *buffer, long *j, long length, NXStream *s
 				case '/':
 					/*  SLASH CODE  */
 					/*  EVALUATE PENDING TOKEN  */
-					if (illegal_token(token))
+					if (gs_pm_illegal_token(token))
 						return(TTS_PARSER_FAILURE);
 					/*  PUT SLASH CODE INTO TOKEN BUFFER  */
 					token[0] = '/';
@@ -1700,11 +1701,11 @@ static int expand_raw_mode(const char *buffer, long *j, long length, NXStream *s
 						token[1] = buffer[*j];
 						token[2] = '\0';
 						/*  CHECK LEGALITY OF SLASH CODE  */
-						if (illegal_slash_code(token))
+						if (gs_pm_illegal_slash_code(token))
 							return(TTS_PARSER_FAILURE);
 						/*  CHECK ANY TAG AND TAG NUMBER  */
 						if (!strcmp(token,TAG_BEGIN)) {
-							if (expand_tag_number(buffer, j, length, stream) == TTS_PARSER_FAILURE)
+							if (gs_pm_expand_tag_number(buffer, j, length, stream) == TTS_PARSER_FAILURE)
 								return(TTS_PARSER_FAILURE);
 						}
 						/*  RESET FLAGS  */
@@ -1723,7 +1724,7 @@ static int expand_raw_mode(const char *buffer, long *j, long length, NXStream *s
 					delimiter++;
 					blank = TTS_FALSE;
 					/*  EVALUATE PENDING TOKEN  */
-					if (illegal_token(token))
+					if (gs_pm_illegal_token(token))
 						return(TTS_PARSER_FAILURE);
 					/*  RESET FLAGS  */
 					token[k=0] = '\0';
@@ -1737,7 +1738,7 @@ static int expand_raw_mode(const char *buffer, long *j, long length, NXStream *s
 					blank++;
 					delimiter = TTS_FALSE;
 					/*  EVALUATE PENDING TOKEN  */
-					if (illegal_token(token))
+					if (gs_pm_illegal_token(token))
 						return(TTS_PARSER_FAILURE);
 					/*  RESET FLAGS  */
 					token[k=0] = '\0';
@@ -1758,7 +1759,7 @@ static int expand_raw_mode(const char *buffer, long *j, long length, NXStream *s
 	}
 	
 	/*  CHECK ANY REMAINING TOKENS  */
-	if (illegal_token(token))
+	if (gs_pm_illegal_token(token))
 		return(TTS_PARSER_FAILURE);
 	
 	/*  CANNOT END WITH A DELIMITER  */
@@ -1777,7 +1778,7 @@ static int expand_raw_mode(const char *buffer, long *j, long length, NXStream *s
 
 /// Returns 1 if token is not a valid DEGAS phone.  Otherwise, 0 is returned.
 
-static int illegal_token(char *token)
+static int gs_pm_illegal_token(char *token)
 {
 	/*  RETURN IMMEDIATELY IF ZERO LENGTH STRING  */
 	if (strlen(token) == 0)
@@ -1794,7 +1795,7 @@ static int illegal_token(char *token)
 
 /// Returns 1 if code is illegal, 0 otherwise.
 
-static int illegal_slash_code(char *code)
+static int gs_pm_illegal_slash_code(char *code)
 {
 	int i = 0;
 	static char *legal_code[] = {CHUNK_BOUNDARY,TONE_GROUP_BOUNDARY,FOOT_BEGIN,
@@ -1816,7 +1817,7 @@ static int illegal_slash_code(char *code)
 /// Expand tag number in buffer at position j and write to stream.  Perform error checking, returning error code
 /// if format of tag number is illegal.
 
-static int expand_tag_number(const char *buffer, long *j, long length, NXStream *stream)
+static int gs_pm_expand_tag_number(const char *buffer, long *j, long length, NXStream *stream)
 {
 	int sign = 0;
 	
@@ -1847,7 +1848,7 @@ static int expand_tag_number(const char *buffer, long *j, long length, NXStream 
 
 /// Returns 1 if character is a mode marker, 0 otherwise.
 
-static int is_mode(char c)
+static int gs_pm_is_mode(char c)
 {
 	if ((c >= SILENCE_MODE_END) && (c <= RAW_MODE_BEGIN))
 		return(1);
@@ -1860,10 +1861,10 @@ static int is_mode(char c)
 /// Returns 1 if character at position i is isolated, i.e. is surrounded by space or mode marker.  Returns
 /// 0 otherwise.
 
-static int is_isolated(char *buffer, long i, long len)
+static int gs_pm_is_isolated(char *buffer, long i, long len)
 {
-	if ( ((i == 0) || (((i-1) >= 0) && (is_mode(buffer[i-1]) || (buffer[i-1] == ' ')))) && 
-		((i == (len-1)) || (((i+1) < len) && (is_mode(buffer[i+1]) || (buffer[i+1] == ' ')))))
+	if ( ((i == 0) || (((i-1) >= 0) && (gs_pm_is_mode(buffer[i-1]) || (buffer[i-1] == ' ')))) && 
+		((i == (len-1)) || (((i+1) < len) && (gs_pm_is_mode(buffer[i+1]) || (buffer[i+1] == ' ')))))
 		return(1);
 	else
 		return(0);
@@ -1874,13 +1875,13 @@ static int is_isolated(char *buffer, long i, long len)
 /// Returns 1 if character at position i is part of a number (including mixtures with non-numeric
 /// characters).  Returns 0 otherwise.
 
-static int part_of_number(char *buffer, long i, long len)
+static int gs_pm_part_of_number(char *buffer, long i, long len)
 {
-	while( (--i >= 0) && (buffer[i] != ' ') && (buffer[i] != DELETED) && (!is_mode(buffer[i])) )
+	while( (--i >= 0) && (buffer[i] != ' ') && (buffer[i] != DELETED) && (!gs_pm_is_mode(buffer[i])) )
 		if (isdigit(buffer[i]))
 			return(1);
 	
-	while( (++i < len) && (buffer[i] != ' ') && (buffer[i] != DELETED) && (!is_mode(buffer[i])) )
+	while( (++i < len) && (buffer[i] != ' ') && (buffer[i] != DELETED) && (!gs_pm_is_mode(buffer[i])) )
 		if (isdigit(buffer[i]))
 			return(1);
 	
@@ -1892,10 +1893,10 @@ static int part_of_number(char *buffer, long i, long len)
 /// Returns a 1 if at least one digit follows the character at position i, up to white space or mode marker.
 /// Returns 0 otherwise.
 
-static int number_follows(char *buffer, long i, long len)
+static int gs_pm_number_follows(char *buffer, long i, long len)
 {
 	while( (++i < len) && (buffer[i] != ' ') && 
-		  (buffer[i] != DELETED) && (!is_mode(buffer[i])) )
+		  (buffer[i] != DELETED) && (!gs_pm_is_mode(buffer[i])) )
 		if (isdigit(buffer[i]))
 			return(1);
 	
@@ -1906,7 +1907,7 @@ static int number_follows(char *buffer, long i, long len)
 
 /// Deletes three dots in a row (disregarding white space).  If four dots, then the last three are deleted.
 
-static void delete_ellipsis(char *buffer, long *i, long length)
+static void gs_pm_delete_ellipsis(char *buffer, long *i, long length)
 {
 	/*  SET POSITION OF FIRST DOT  */
 	long pos1 = *i, pos2, pos3;
@@ -1940,7 +1941,7 @@ static void delete_ellipsis(char *buffer, long *i, long length)
 /// Converts "--" to ", ", and "---" to ",  "
 /// Returns 1 if this is done, 0 otherwise.
 
-static int convert_dash(char *buffer, long *i, long length)
+static int gs_pm_convert_dash(char *buffer, long *i, long length)
 {
 	/*  SET POSITION OF INITIAL DASH  */
 	long pos1 = *i;
@@ -1964,7 +1965,7 @@ static int convert_dash(char *buffer, long *i, long length)
 /// Returns 1 if string at position i in buffer is of the form:  (ddd)ddd-dddd
 /// where each d is a digit.
 
-static int is_telephone_number(char *buffer, long i, long length)
+static int gs_pm_is_telephone_number(char *buffer, long i, long length)
 {
 	/*  CHECK FORMAT: (ddd)ddd-dddd  */
 	if ( ((i+12) < length) && 
@@ -1978,7 +1979,7 @@ static int is_telephone_number(char *buffer, long i, long length)
 		if ( ((i+13) == length) ||
 			( ((i+13) < length) &&
 			 (
-			  is_punctuation(buffer[i+13]) || is_mode(buffer[i+13]) ||
+			  gs_pm_is_punctuation(buffer[i+13]) || gs_pm_is_mode(buffer[i+13]) ||
 			  (buffer[i+13] == ' ') || (buffer[i+13] == DELETED)
 			  )
 			 )
@@ -1995,7 +1996,7 @@ static int is_telephone_number(char *buffer, long i, long length)
 /// Returns 1 if character is a .,;:?!
 /// Returns 0 otherwise.
 
-static int is_punctuation(char c)
+static int gs_pm_is_punctuation(char c)
 {
 	switch(c) {
 		case '.':
@@ -2015,7 +2016,7 @@ static int is_punctuation(char c)
 /// Returns a 1 if a word or speakable symbol (letter mode) follows the position i in buffer.  Raw, tagging, and
 /// silence mode contents are ignored.  Returns a 0 if any punctuation (except . as part of number) follows.
 
-static int word_follows(char *buffer, long i, long length)
+static int gs_pm_word_follows(char *buffer, long i, long length)
 {
 	long j, mode = NORMAL_MODE;
 	
@@ -2039,7 +2040,7 @@ static int word_follows(char *buffer, long i, long length)
 						if ((buffer[j] == ' ') || (buffer[j] == DELETED))
 							continue;
 						/*  PUNCTUATION MEANS NO WORD FOLLOWS (UNLESS PERIOD PART OF NUMBER)  */
-						else if (is_punctuation(buffer[j])) {
+						else if (gs_pm_is_punctuation(buffer[j])) {
 							if ((buffer[j] == '.') && ((j+1) < length) && isdigit(buffer[j+1]))
 								return(1);
 							else
@@ -2071,14 +2072,14 @@ static int word_follows(char *buffer, long i, long length)
 /// Single alphabetic characters have periods deleted, but no expansion is made.  They are also capitalized.
 /// Returns 1 if expansion made (i.e. period is deleted), 0 otherwise.
 
-static int expand_abbreviation(char *buffer, long i, long length, NXStream *stream)
+static int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *stream)
 {
 	long j, k, word_length = 0;
 	char word[5];
 	
 	/*  DELETE PERIOD AFTER SINGLE CHARACTER (EXCEPT p.)  */
 	if ( ((i-1) == 0) ||  ( ((i-2) >= 0) &&
-						   ( (buffer[i-2] == ' ') || (buffer[i-2] == '.') || (is_mode(buffer[i-2])) )
+						   ( (buffer[i-2] == ' ') || (buffer[i-2] == '.') || (gs_pm_is_mode(buffer[i-2])) )
 						   ) ) {
 		if (isalpha(buffer[i-1])) {
 			if ((buffer[i-1] == 'p') && (((i-1) == 0) || (((i-2) >= 0) && (buffer[i-2] != '.')) ) ) {
@@ -2101,7 +2102,7 @@ static int expand_abbreviation(char *buffer, long i, long length, NXStream *stre
 	/*  GET LENGTH OF PRECEDING ISOLATED STRING, UP TO 4 CHARACTERS  */
 	for (j = 2; j <= 4; j++) {
 		if (((i-j) == 0) ||
-			(((i-(j+1)) >= 0) && ((buffer[i-(j+1)] == ' ') || (is_mode(buffer[i-(j+1)]))) ) ) {
+			(((i-(j+1)) >= 0) && ((buffer[i-(j+1)] == ' ') || (gs_pm_is_mode(buffer[i-(j+1)]))) ) ) {
 			if (isalpha(buffer[i-j]) && isalpha(buffer[i-j+1])) {
 				word_length = j;
 				break;
@@ -2123,7 +2124,7 @@ static int expand_abbreviation(char *buffer, long i, long length, NXStream *stre
 				while (((i+1) < length) && ((buffer[i+1] == ' ') || (buffer[i+1] == DELETED)))
 					i++;
 				/*  EXPAND ONLY IF NUMBER FOLLOWS  */
-				if (number_follows(buffer, i, length)) {
+				if (gs_pm_number_follows(buffer, i, length)) {
 					NXSeek(stream, -word_length, NX_FROMCURRENT);
 					NXPrintf(stream,"%s ",abbr_with_number[j][EXPANSION]);
 					return(1);
@@ -2150,7 +2151,7 @@ static int expand_abbreviation(char *buffer, long i, long length, NXStream *stre
 /// Expands contents of letter mode string to word or words.  A comma is added after each expansion, except
 /// the last letter when it is followed by punctuation.
 
-static void expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, long *status)
+static void gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, long *status)
 {
 	for ( ; ((*i) < length) && (buffer[*i] != LETTER_MODE_END); (*i)++) {
 		/*  CONVERT LETTER TO WORD OR WORDS  */
@@ -2255,7 +2256,7 @@ static void expand_letter_mode(char *buffer, long *i, long length, NXStream *str
 		/*  APPEND COMMA, UNLESS PUNCTUATION FOLLOWS LAST LETTER  */
 		if ( (((*i)+1) < length) &&
 			(buffer[(*i)+1] == LETTER_MODE_END) &&
-			!word_follows(buffer, (*i), length)) {
+			!gs_pm_word_follows(buffer, (*i), length)) {
 			NXPrintf(stream," ");
 			*status = WORD;
 		}
@@ -2272,7 +2273,7 @@ static void expand_letter_mode(char *buffer, long *i, long length, NXStream *str
 
 /// Returns 1 if all letters of the word are upper case, 0 otherwise.
 
-static int is_all_upper_case(char *word)
+static int gs_pm_is_all_upper_case(char *word)
 {
 	while (*word) {
 		if (!isupper(*word))
@@ -2287,7 +2288,7 @@ static int is_all_upper_case(char *word)
 
 /// Converts any upper case letter in word to lower case.
 
-static char *to_lower_case(char *word)
+static char *gs_pm_to_lower_case(char *word)
 {
 	char *ptr = word;
 	
@@ -2304,7 +2305,7 @@ static char *to_lower_case(char *word)
 
 /// Returns a pointer to the pronunciation of a special acronym if it is defined in the list.  Otherwise, NULL is returned.
 
-static const char *is_special_acronym(char *word)
+static const char *gs_pm_is_special_acronym(char *word)
 {	
 	NSString * w = [NSString stringWithCString:word encoding:NSASCIIStringEncoding];
 	NSString * pr;
@@ -2321,7 +2322,7 @@ static const char *is_special_acronym(char *word)
 
 /// Returns 1 if the pronunciation contains ' (and ` for backwards compatibility).  Otherwise 0 is returned.
 
-static int contains_primary_stress(const char *pronunciation)
+static int gs_pm_contains_primary_stress(const char *pronunciation)
 {
 	for ( ; *pronunciation && (*pronunciation != '%'); pronunciation++)
 		if ((*pronunciation == '\'') || (*pronunciation == '`'))
@@ -2334,7 +2335,7 @@ static int contains_primary_stress(const char *pronunciation)
 
 /// Returns 1 if the first " is converted to a ', otherwise 0 is returned.
 
-static int converted_stress(char *pronunciation)
+static int gs_pm_converted_stress(char *pronunciation)
 {
 	/*  LOOP THRU PRONUNCIATION UNTIL " FOUND, REPLACE WITH '  */
 	for ( ; *pronunciation && (*pronunciation != '%'); pronunciation++)
@@ -2351,7 +2352,7 @@ static int converted_stress(char *pronunciation)
 
 /// Returns 1 if 's is found at end of word, and removes the 's ending from the word.  Otherwise, 0 is returned.
 
-static int is_possessive(char *word)
+static int gs_pm_is_possessive(char *word)
 {
 	/*  LOOP UNTIL 's FOUND, REPLACE ' WITH NULL  */
 	for ( ; *word; word++)
@@ -2369,7 +2370,7 @@ static int is_possessive(char *word)
 /// Checks to make sure that there are not too many feet phones per chunk.  If there are, the input is split
 /// into two or mor chunks.
 
-static void safety_check(NXStream *stream, long *stream_length)
+static void gs_pm_safety_check(NXStream *stream, long *stream_length)
 {
 	int  c, number_of_feet = 0, number_of_phones = 0, state = NON_PHONEME;
 	long last_word_pos = UNDEFINED_POSITION, last_tg_pos = UNDEFINED_POSITION;
@@ -2403,9 +2404,9 @@ static void safety_check(NXStream *stream, long *stream_length)
 						/*  FOOT AND TONIC FOOT MARKERS  */
 						if (++number_of_feet > MAX_FEET_PER_CHUNK) {
 							/*  SPLIT STREAM INTO TWO CHUNKS  */
-							insert_chunk_marker(stream, last_word_pos, last_tg_type);
-							set_tone_group(stream, last_tg_pos, ",");
-							check_tonic(stream, last_tg_pos, last_word_pos);
+							gs_pm_insert_chunk_marker(stream, last_word_pos, last_tg_type);
+							gs_pm_set_tone_group(stream, last_tg_pos, ",");
+							gs_pm_check_tonic(stream, last_tg_pos, last_word_pos);
 						}
 						break;
 					case 't':
@@ -2444,9 +2445,9 @@ static void safety_check(NXStream *stream, long *stream_length)
 				if (state == PHONEME) {
 					if (++number_of_phones > MAX_PHONES_PER_CHUNK) {
 						/*  SPLIT STREAM INTO TWO CHUNKS  */
-						insert_chunk_marker(stream, last_word_pos, last_tg_type);
-						set_tone_group(stream, last_tg_pos, ",");
-						check_tonic(stream, last_tg_pos, last_word_pos);
+						gs_pm_insert_chunk_marker(stream, last_word_pos, last_tg_type);
+						gs_pm_set_tone_group(stream, last_tg_pos, ",");
+						gs_pm_check_tonic(stream, last_tg_pos, last_word_pos);
 						state = NON_PHONEME;
 						break;
 					}
@@ -2470,7 +2471,7 @@ static void safety_check(NXStream *stream, long *stream_length)
 /// Insert chunk markers and associated markers in the stream at the insert point.  Use the tone group type
 /// passed in as an argument.
 
-static void insert_chunk_marker(NXStream *stream, long insert_point, char tg_type)
+static void gs_pm_insert_chunk_marker(NXStream *stream, long insert_point, char tg_type)
 {
 	NXStream *temp_stream;
 	long new_position;
@@ -2510,7 +2511,7 @@ static void insert_chunk_marker(NXStream *stream, long insert_point, char tg_typ
 /// Checks to see if a tonic marker is present in the stream between the start and end positions.  If no
 /// tonic is present, then put one in at the last foot marker if it exists.
 
-static void check_tonic(NXStream *stream, long start_pos, long end_pos)
+static void gs_pm_check_tonic(NXStream *stream, long start_pos, long end_pos)
 {
 	long temp_pos, i, extent, last_foot_pos = UNDEFINED_POSITION;
 	
