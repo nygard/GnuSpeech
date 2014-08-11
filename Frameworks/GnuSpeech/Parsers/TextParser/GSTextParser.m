@@ -1,5 +1,6 @@
 #import "GSTextParser.h"
 
+#import "NSRegularExpression-GSExtensions.h"
 #import "NSString-Extensions.h"
 #import "GSPronunciationDictionary.h"
 #import "GSDBMPronunciationDictionary.h"
@@ -94,7 +95,7 @@
     NSError *reError;
     NSRegularExpression *re_hyphenation = [[NSRegularExpression alloc] initWithPattern:@"([:alnum:])-[\t\v\f\r ]*\n[\t\v\f\r ]*" options:0 error:&reError];
     //NSLog(@"re_hyphenation: %@, error: %@", re_hyphenation, reError);
-    NSString *s1 = [re_hyphenation stringByReplacingMatchesInString:str options:0 range:NSMakeRange(0, [str length]) withTemplate:@"$1"];
+    NSString *s1 = [re_hyphenation stringByReplacingMatchesInString:str options:0 withTemplate:@"$1"];
     //NSLog(@"s1: '%@'", s1);
 
     NSMutableCharacterSet *printableAndEscape = [[NSCharacterSet alphanumericCharacterSet] mutableCopy];

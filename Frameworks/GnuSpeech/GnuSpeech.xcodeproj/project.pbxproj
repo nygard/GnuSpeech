@@ -92,6 +92,8 @@
 		0186C61719994213002AB929 /* ConditionInputTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0186C61619994213002AB929 /* ConditionInputTests.m */; };
 		0186C640199943C0002AB929 /* GnuSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* GnuSpeech.framework */; };
 		0186C64219994BED002AB929 /* RegularExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0186C64119994BED002AB929 /* RegularExpressionTests.m */; };
+		0186C64519995920002AB929 /* NSRegularExpression-GSExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0186C64319995920002AB929 /* NSRegularExpression-GSExtensions.h */; };
+		0186C64619995920002AB929 /* NSRegularExpression-GSExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0186C64419995920002AB929 /* NSRegularExpression-GSExtensions.m */; };
 		019745A5153F8A2100695CD7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019745A4153F8A2100695CD7 /* AVFoundation.framework */; };
 		01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01ACA5E01544A80A00278339 /* MMGroupedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 01ACA5DE1544A80700278339 /* MMGroupedObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -267,6 +269,8 @@
 		0186C5E51999409D002AB929 /* GnuSpeechTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GnuSpeechTests.m; sourceTree = "<group>"; };
 		0186C61619994213002AB929 /* ConditionInputTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConditionInputTests.m; sourceTree = "<group>"; };
 		0186C64119994BED002AB929 /* RegularExpressionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegularExpressionTests.m; sourceTree = "<group>"; };
+		0186C64319995920002AB929 /* NSRegularExpression-GSExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSRegularExpression-GSExtensions.h"; path = "Extensions/NSRegularExpression-GSExtensions.h"; sourceTree = "<group>"; };
+		0186C64419995920002AB929 /* NSRegularExpression-GSExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSRegularExpression-GSExtensions.m"; path = "Extensions/NSRegularExpression-GSExtensions.m"; sourceTree = "<group>"; };
 		019745A4153F8A2100695CD7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GnuSpeech.h; sourceTree = "<group>"; };
 		01ACA5DE1544A80700278339 /* MMGroupedObject.h */ = {isa = PBXFileReference; fileEncoding = 30; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = MMGroupedObject.h; path = MonetModel/MMGroupedObject.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
@@ -431,6 +435,8 @@
 				0155E3830B7BE80D008D8879 /* NSCharacterSet-Extensions.m */,
 				0155E3860B7BE80D008D8879 /* NSObject-Extensions.h */,
 				0155E3870B7BE80D008D8879 /* NSObject-Extensions.m */,
+				0186C64319995920002AB929 /* NSRegularExpression-GSExtensions.h */,
+				0186C64419995920002AB929 /* NSRegularExpression-GSExtensions.m */,
 				0155E3880B7BE80D008D8879 /* NSScanner-Extensions.h */,
 				0155E3890B7BE80D008D8879 /* NSScanner-Extensions.m */,
 				0155E38A0B7BE80D008D8879 /* NSString-Extensions.h */,
@@ -800,6 +806,7 @@
 				0155E3DE0B7BE8AC008D8879 /* GSXMLFunctions.h in Headers */,
 				012D53B20B7FF9DC001B50FC /* GSSuffix.h in Headers */,
 				012D53B00B7FF9DC001B50FC /* GSSimplePronunciationDictionary.h in Headers */,
+				0186C64519995920002AB929 /* NSRegularExpression-GSExtensions.h in Headers */,
 				012D53AE0B7FF9DC001B50FC /* GSPronunciationDictionary.h in Headers */,
 				012D53AC0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h in Headers */,
 				0155E4440B7BE8FA008D8879 /* EventList.h in Headers */,
@@ -992,6 +999,7 @@
 				6951479F0FB0D73000B6DDD6 /* MMBooleanExpression.m in Sources */,
 				695147A10FB0D73000B6DDD6 /* MMBooleanNode.m in Sources */,
 				695147A30FB0D73000B6DDD6 /* MMBooleanParser.m in Sources */,
+				0186C64619995920002AB929 /* NSRegularExpression-GSExtensions.m in Sources */,
 				695147A60FB0D73000B6DDD6 /* MMBooleanTerminal.m in Sources */,
 				695148730FB0DB5500B6DDD6 /* MMFormulaExpression.m in Sources */,
 				695148750FB0DB5500B6DDD6 /* MMFormulaNode.m in Sources */,
