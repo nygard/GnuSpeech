@@ -424,17 +424,22 @@ void gs_pm_condition_input(const char *input, char *output, long input_length, l
 
 
 /// Parses input for modes, checking for errors, and marks output with mode start and end points.  Tagging and silence mode arguments are checked.
+/// Returns TTS_PARSER_SUCCESS (-1) on success, or index of error.
+///   - errors can be:
+///     - Trying to end raw mode with empty mode stack.
+/// %[rR][bB] - begin raw mode
+/// %[rR][eE] - end raw mode
 
 int gs_pm_mark_modes(char *input, char *output, long length, long *output_length)
 {
 	int i, j = 0, pos, minus, period;
 	int mode_stack[MODE_NEST_MAX], stack_ptr = 0, mode;
 	int mode_marker[5][2] = {
-        {RAW_MODE_BEGIN,      RAW_MODE_END},
-        {LETTER_MODE_BEGIN,   LETTER_MODE_END},
-		{EMPHASIS_MODE_BEGIN, EMPHASIS_MODE_END},
-		{TAGGING_MODE_BEGIN,  TAGGING_MODE_END},
-		{SILENCE_MODE_BEGIN,  SILENCE_MODE_END},
+        { RAW_MODE_BEGIN,      RAW_MODE_END      },
+        { LETTER_MODE_BEGIN,   LETTER_MODE_END   },
+		{ EMPHASIS_MODE_BEGIN, EMPHASIS_MODE_END },
+		{ TAGGING_MODE_BEGIN,  TAGGING_MODE_END  },
+		{ SILENCE_MODE_BEGIN,  SILENCE_MODE_END  },
     };
 	
 	
@@ -449,12 +454,12 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
 			/*  IF IN RAW MODE  */
 			if (mode_stack[stack_ptr] == RAW_MODE) {
 				/*  CHECK FOR RAW MODE END  */
-				if ( ((i+2) < length) &&
-					((input[i+1] == 'r') || (input[i+1] == 'R')) &&
-					((input[i+2] == 'e') || (input[i+2] == 'E')) ) {
+				if ( ((i+2) < length)
+                    && ((input[i+1] == 'r') || (input[i+1] == 'R'))
+                    && ((input[i+2] == 'e') || (input[i+2] == 'E')) ) {
 					/*  DECREMENT STACK POINTER, CHECKING FOR STACK UNDERFLOW  */
 					if ((--stack_ptr) < 0)
-						return(i);
+						return i;
 					/*  MARK END OF RAW MODE  */
 					output[j++] = mode_marker[RAW_MODE][END];
 					/*  INCREMENT INPUT INDEX  */
@@ -651,7 +656,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
 	/*  SET LENGTH OF OUTPUT STRING  */
 	*output_length = j;
 	
-	return(TTS_PARSER_SUCCESS);
+	return TTS_PARSER_SUCCESS;
 }
 
 
