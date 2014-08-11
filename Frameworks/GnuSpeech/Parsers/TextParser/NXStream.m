@@ -157,7 +157,7 @@
 
 - (void)vprintf:(const char *)format argumentList:(va_list)args;
 {
-	char * buf;	
+	char *buf;	
 
 	if (vasprintf(&buf, format, args) == -1) {
 		NSLog(@"printf: Sufficient space could not be allocated.");

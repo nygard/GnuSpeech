@@ -193,11 +193,8 @@ void init_parser_module(void)
 	stream2 = NULL;
 	
 	userDictionary = nil;
-	
 	appDictionary = nil;
-	
 	mainDictionary = nil;
-	
 	specialAcronymsDictionary = nil;
 	
 	escape_character = '%';  // default escape character
@@ -209,10 +206,8 @@ void init_parser_module(void)
 
 int set_escape_code(char new_escape_code)
 {
-	/*  SET GLOBAL ESCAPE CHARACTER  */
 	escape_character = new_escape_code;
 	
-	/*  RETURN SUCCESS  */
 	return(TTS_PARSER_SUCCESS);
 }
 
@@ -226,8 +221,6 @@ int set_dict_data(const int16_t order[4],
 				  GSPronunciationDictionary *mainDict,
 				  NSDictionary *specialAcronymsDict)
 {
-	int i, j;
-	
 	/*  INITIALIZE GLOBAL ORDER VARIABLE  */
 	dictionaryOrder[0] = TTS_EMPTY;
 	dictionaryOrder[1] = TTS_EMPTY;
@@ -235,28 +228,27 @@ int set_dict_data(const int16_t order[4],
 	dictionaryOrder[3] = TTS_EMPTY;
 	
 	/*  COPY POINTER TO DICTIONARIES INTO GLOBAL VARIABLES  */
-	
 	userDictionary = userDict;
 	appDictionary = appDict;
 	mainDictionary = mainDict;
 	specialAcronymsDictionary = specialAcronymsDict;
 	
 	/*  COPY ORDER TO GLOBAL VARIABLE, ACCOUNT FOR UNOPENABLE PREDITOR-NOT DICTIONARIES  */
-	j = 0;
-	for (i = 0; i < 4; i++) {
-		if (order[i] == TTS_USER_DICTIONARY) {
+	NSUInteger j = 0;
+	for (NSUInteger index = 0; index < 4; index++) {
+		if (order[index] == TTS_USER_DICTIONARY) {
 			if (userDictionary != nil)
-				dictionaryOrder[j++] = order[i];
+				dictionaryOrder[j++] = order[index];
 		}
-		else if (order[i] == TTS_APPLICATION_DICTIONARY) {
+		else if (order[index] == TTS_APPLICATION_DICTIONARY) {
 			if (appDictionary != nil)
-				dictionaryOrder[j++] = order[i];
+				dictionaryOrder[j++] = order[index];
 		}
-		else
-			dictionaryOrder[j++] = order[i];
+        else {
+			dictionaryOrder[j++] = order[index];
+        }
 	}
 	
-	/*  RETURN SUCCESS  */
 	return(TTS_PARSER_SUCCESS);
 }
 
@@ -269,23 +261,20 @@ int set_dict_data(const int16_t order[4],
 
 int parser(const char *input, const char **output)
 {
-	int error, len, maxlen;
-	long input_length, buffer1_length, buffer2_length;
-	char *buffer1, *buffer2;
-	NXStream *stream1;
-	long stream1_length, stream2_length;
-			
 	/*  FIND LENGTH OF INPUT  */
-	input_length = strlen(input);
+	long input_length = strlen(input);
 	
 	/*  ALLOCATE BUFFER1, BUFFER2  */
-	buffer1 = (char *)malloc(input_length+1);
-	buffer2 = (char *)malloc(input_length+1);
+    char *buffer1 = (char *)malloc(input_length+1);
+    char *buffer2 = (char *)malloc(input_length+1);
 	
 	/*  CONDITION INPUT:  CONVERT NON-PRINTABLE CHARS TO SPACES
 	 (EXCEPT ESC CHAR), CONNECT WORDS HYPHENATED OVER A NEWLINE  */
+    long buffer1_length;
 	condition_input(input, buffer1, input_length, &buffer1_length);
 		
+    int error;
+    long buffer2_length;
 	/*  RATIONALIZE MODE MARKINGS, CHECKING FOR ERRORS  */
 	if ((error = mark_modes(buffer1, buffer2, buffer1_length, &buffer2_length)) != TTS_PARSER_SUCCESS) {
 		free(buffer1);
@@ -297,13 +286,15 @@ int parser(const char *input, const char **output)
 	free(buffer1);
 	
 	/*  OPEN MEMORY STREAM 1  */
+    NXStream *stream1;
 	if ((stream1 = NXOpenMemory(NULL,0,NX_READWRITE)) == NULL) {
 		NXLogError("TTS Server:  Cannot open memory stream (parser).");
 		return(TTS_PARSER_FAILURE);
 	}
 	
 	/*  STRIP OUT OR CONVERT UNESSENTIAL PUNCTUATION  */
-	strip_punctuation(buffer2, buffer2_length, stream1, &stream1_length);
+    long stream1_length;
+    strip_punctuation(buffer2, buffer2_length, stream1, &stream1_length);
 	
 	/*  FREE BUFFER 2  */
 	free(buffer2);
@@ -327,6 +318,7 @@ int parser(const char *input, const char **output)
 	}
 	
 	/*  DO FINAL CONVERSION  */
+    long stream2_length;
 	if ((error = final_conversion(stream1, stream1_length, stream2, &stream2_length)) != TTS_PARSER_SUCCESS) {
 		NXCloseMemory(stream1, NX_FREEBUFFER);
 		NXCloseMemory(stream2, NX_FREEBUFFER);
@@ -348,6 +340,7 @@ int parser(const char *input, const char **output)
 	
 	/*  SET OUTPUT POINTER TO MEMORY STREAM BUFFER
 	 THIS STREAM PERSISTS BETWEEN CALLS  */
+    int len, maxlen;
 	NXGetMemoryBuffer(stream2, output, &len, &maxlen);
 	
 	/*  RETURN SUCCESS  */
@@ -364,12 +357,11 @@ const char *lookup_word(const char *word, short *dict)
 	NSString *w;
 	
 	const char *pronunciation;
-	int i;
-	
+
 	
 	/*  SEARCH DICTIONARIES IN USER ORDER TILL PRONUNCIATION FOUND  */
-	for (i = 0; i < 4; i++) {
-		switch(dictionaryOrder[i]) {
+	for (NSUInteger index = 0; index < 4; index++) {
+		switch(dictionaryOrder[index]) {
 			case TTS_EMPTY:
 				break;
 			case TTS_NUMBER_PARSER:
@@ -476,11 +468,13 @@ static int mark_modes(char *input, char *output, long length, long *output_lengt
 {
 	int i, j = 0, pos, minus, period;
 	int mode_stack[MODE_NEST_MAX], stack_ptr = 0, mode;
-	int mode_marker[5][2] = {{RAW_MODE_BEGIN,      RAW_MODE_END},
-		{LETTER_MODE_BEGIN,   LETTER_MODE_END},
+	int mode_marker[5][2] = {
+        {RAW_MODE_BEGIN,      RAW_MODE_END},
+        {LETTER_MODE_BEGIN,   LETTER_MODE_END},
 		{EMPHASIS_MODE_BEGIN, EMPHASIS_MODE_END},
 		{TAGGING_MODE_BEGIN,  TAGGING_MODE_END},
-		{SILENCE_MODE_BEGIN,  SILENCE_MODE_END}};
+		{SILENCE_MODE_BEGIN,  SILENCE_MODE_END},
+    };
 	
 	
 	

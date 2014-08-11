@@ -40,8 +40,9 @@
 #define NX_FREEBUFFER		0
 #define NX_TRUNCATEBUFFER	1
 
-@interface NXStream : NSObject {
-	NSMutableString * streamBuffer;
+@interface NXStream : NSObject
+{
+	NSMutableString *streamBuffer;
 	long streamPosition;
 }
 
