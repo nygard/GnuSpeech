@@ -126,13 +126,6 @@
 {
     NSString *s1 = [_re_condition_hyphenation stringByReplacingMatchesInString:str options:0 withTemplate:@"$1"];
 
-    NSMutableCharacterSet *printableAndEscape = [[NSCharacterSet alphanumericCharacterSet] mutableCopy];
-    [printableAndEscape formUnionWithCharacterSet:[NSCharacterSet punctuationCharacterSet]];
-    [printableAndEscape formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
-    NSParameterAssert([self.escapeCharacter length] == 1);
-    [printableAndEscape addCharactersInString:self.escapeCharacter];
-    [printableAndEscape addCharactersInString:@" "];
-
     // Keep escape character and printable characters, change everything else to a space.
     NSString *s2 = [s1 stringByReplacingCharactersInSet:_cs_condition_printableAndEscape_inverted withString:@" "];
 
