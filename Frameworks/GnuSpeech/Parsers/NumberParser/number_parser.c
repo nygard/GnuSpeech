@@ -18,12 +18,12 @@
  *          containing the number or number string to be parsed.
  *       2) mode - an integer, specifying in what mode the number or
  *          number string is to be parsed.  Three constants are defined
- *          in number_parser.h:  NP_NORMAL, NP_OVERRIDE_YEARS, and
- *          NP_FORCE_SPELL.  Using NP_NORMAL, the function attempts
+ *          in number_parser.h:  NP_MODE_NORMAL, NP_MODE_OVERRIDE_YEARS, and
+ *          NP_MODE_FORCE_SPELL.  Using NP_MODE_NORMAL, the function attempts
  *          to parse the number string according to the guidelines
- *          listed below.  NP_OVERRIDE_YEARS forces the function to
+ *          listed below.  NP_MODE_OVERRIDE_YEARS forces the function to
  *          interpret numbers from 1000 to 1999 NOT as years, but as
- *          ordinary integers.  NP_FORCE_SPELL forces the function to
+ *          ordinary integers.  NP_MODE_FORCE_SPELL forces the function to
  *          spell out each character of the number string.  This may
  *          be useful with very long numbers, or when the numbers are
  *          not to be interpreted in the usual way.
@@ -80,13 +80,13 @@
  *       10) Years.  Integers from 1000 to 1999 are pronounced as two pairs.
  *           Eg:  1906 is pronounced as nineteen oh six, NOT one thousand,
  *           nine hundred and six.  This default can be changed by setting
- *           the mode to NP_OVERRIDE_YEARS.
+ *           the mode to NP_MODEOVERRIDE_YEARS.
  *
  *       If the function cannot put the number string it receives into
  *       any of the above cases, it will pronounce the string one character
  *       at a time.  If the calling routine wishes to have character-by-
  *       character pronunciation as the default, the mode should be set to
- *       NP_FORCE_SPELL.  Using the function degenerate_string() will also
+ *       NP_MODE_FORCE_SPELL.  Using the function degenerate_string() will also
  *       achieve the same thing.
  *
  *******************************************************************************/
@@ -283,8 +283,8 @@ void process_digit(char digit, char *output, int ordinal, int ordinal_plural, in
  *       arguments:      word_ptr:  a pointer to the NULL terminated number
  *                         string which is to be parsed.
  *                       mode:  determines how the number string is to be
- *                         parsed.  Should be set to NP_NORMAL,
- *                         NP_OVERRIDE_YEARS, or NP_FORCE_SPELL.
+ *                         parsed.  Should be set to NP_MODE_NORMAL,
+ *                         NP_MODE_OVERRIDE_YEARS, or NP_MODE_FORCE_SPELL.
  *
  ******************************************************************************/
 
@@ -488,7 +488,7 @@ int error_check(int mode)
         return NO_NUMERALS;
 
     /* IF MODE SET TO FORCE_SPELL, USE degenerate_string()  */
-    if (mode == NP_FORCE_SPELL)
+    if (mode == NP_MODE_FORCE_SPELL)
         return DEGENERATE;
 
     /*  CANNOT HAVE UNSPECIFIED SYMBOLS, OR ANY MORE THAN ONE OF EACH OF THE FOLLOWING:  . $ % + / ( ) blank  */
@@ -799,7 +799,7 @@ char *process_word(int mode)
     }
     /*  PROCESS FOR YEAR IF INTEGER IN RANGE 1000 TO 1999  */
     if ((integer_digits == 4) && (word_length == 4) &&
-        (word[integer_digits_pos[0]] == '1') && (mode != NP_OVERRIDE_YEARS)) {
+        (word[integer_digits_pos[0]] == '1') && (mode != NP_MODE_OVERRIDE_YEARS)) {
         triad[0] = '0';
         triad[1] = word[integer_digits_pos[0]];
         triad[2] = word[integer_digits_pos[1]];

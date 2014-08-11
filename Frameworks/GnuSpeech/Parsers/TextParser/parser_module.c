@@ -326,7 +326,7 @@ const char *lookup_word(const char *word, short *dict)
 			case TTS_EMPTY:
 				break;
 			case TTS_NUMBER_PARSER:
-				if ((pronunciation = number_parser(word,NP_NORMAL)) != NULL) {
+				if ((pronunciation = number_parser(word, NP_MODE_NORMAL)) != NULL) {
 					*dict = TTS_NUMBER_PARSER;
 					return((const char *)pronunciation);
 				}
