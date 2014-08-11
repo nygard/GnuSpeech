@@ -318,6 +318,14 @@ static int      military, seconds;
 
 
 
+char *number_parser(const char *word_ptr, int mode);
+void initial_parse(void);
+int error_check(int mode);
+char *process_word(int mode);
+char *degenerate_string(const char *word);
+int process_triad(char *triad, char *output, int pause, int ordinal, int right_zero_pad, int ordinal_plural, int special_flag);
+void process_digit(char digit, char *output, int ordinal, int ordinal_plural, int special_flag);
+
 /******************************************************************************
  *
  *	function:	number_parser
@@ -344,9 +352,6 @@ static int      military, seconds;
 char *number_parser(const char *word_ptr, int mode)
 {
     int status;
-    char *process_word();
-    void initial_parse();
-    int error_check();
 
     /*  MAKE POINTER TO WORD TO BE PARSED GLOBAL TO THIS FILE  */
     word = (char *)word_ptr;
@@ -389,7 +394,7 @@ char *number_parser(const char *word_ptr, int mode)
  *
  ******************************************************************************/
 
-void initial_parse()
+void initial_parse(void)
 {
     long i;
 
@@ -566,7 +571,6 @@ void initial_parse()
 int error_check(int mode)
 {
     long i;
-    int atoi();
 
     /*  IF THERE ARE NO DIGITS THEN RETURN  */
     if ((integer_digits + fractional_digits) == 0)
@@ -814,13 +818,9 @@ int error_check(int mode)
  *
  ******************************************************************************/
 
-char *
-process_word(mode)
-int mode;
+char *process_word(int mode)
 {
     long i;
-    int process_triad();
-    void process_digit();
 
     /*  SPECIAL PROCESSING OF WORD;  EACH RETURNS IMMEDIATELY  */
     /*  PROCESS CLOCK TIMES  */
@@ -1263,13 +1263,8 @@ char *degenerate_string(const char *word)
  *
  ******************************************************************************/
 
-int process_triad(triad, output, pause, ordinal, right_zero_pad,
-                  ordinal_plural, special_flag)
-char *triad, *output;
-int  pause, ordinal, right_zero_pad, ordinal_plural, special_flag;
+int process_triad(char *triad, char *output, int pause, int ordinal, int right_zero_pad, int ordinal_plural, int special_flag)
 {
-    void process_digit();
-
     /*  IF TRIAD IS 000, RETURN ZERO  */
     if ((*(triad) == '0') && (*(triad+1) == '0') && (*(triad+2) == '0'))
         return (0);
@@ -1406,9 +1401,7 @@ int  pause, ordinal, right_zero_pad, ordinal_plural, special_flag;
  *
  ******************************************************************************/
 
-void process_digit(digit, output, ordinal, ordinal_plural, special_flag)
-char digit, *output;
-int ordinal, ordinal_plural, special_flag;
+void process_digit(char digit, char *output, int ordinal, int ordinal_plural, int special_flag)
 {
     /*  DO SPECIAL PROCESSING IF FLAG SET  */
     if (special_flag == HALF_FLAG) {
