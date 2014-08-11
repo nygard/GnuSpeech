@@ -2,10 +2,7 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "letter_to_sound.h"
-#import "word_to_patphone.h"
-#import "isp_trans.h"
-#import "syllabify.h"
-#import "apply_stress.h"
+#import "letter_to_sound_private.h"
 #import "tail.h"
 #import <strings.h>
 #import <stdio.h>

@@ -1,15 +1,7 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules.
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import "word_to_patphone.h"
-#import "vowel_before.h"
-#import "check_word_list.h"
-#import "final_s.h"
-#import "ie_to_y.h"
-#import "mark_final_e.h"
-#import "long_medial_vowels.h"
-#import "medial_silent_e.h"
-#import "medial_s.h"
+#import "letter_to_sound_private.h"
 #import "number_pronunciations.h"
 #import <strings.h>
 

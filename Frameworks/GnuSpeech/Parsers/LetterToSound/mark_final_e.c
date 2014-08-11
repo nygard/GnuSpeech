@@ -1,13 +1,7 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules.
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import "mark_final_e.h"
-#import "vowel_before.h"
-#import "ends_with.h"
-#import "member.h"
-#import "insert_mark.h"
-#import "suffix.h"
-
+#import "letter_to_sound_private.h"
 
 /*  GLOBAL VARIABLES (LOCAL TO THIS FILE)  ***********************************/
 static char *suffix_list_1 = "elba/ylba/de/ne/re/yre/tse/ye/gni/ssel/yl/tnem/ssen/ro/luf/";
