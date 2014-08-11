@@ -9,15 +9,15 @@
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8DC2EF4F0486A6940098B216"
-               BuildableName = "GnuSpeech.framework"
-               BlueprintName = "GnuSpeech"
-               ReferencedContainer = "container:Frameworks/GnuSpeech/GnuSpeech.xcodeproj">
+               BlueprintIdentifier = "0186C5E01999409D002AB929"
+               BuildableName = "GnuSpeechTests.xctest"
+               BlueprintName = "GnuSpeechTests"
+               ReferencedContainer = "container:GnuSpeech.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,23 +35,23 @@
                BlueprintIdentifier = "0186C5E01999409D002AB929"
                BuildableName = "GnuSpeechTests.xctest"
                BlueprintName = "GnuSpeechTests"
-               ReferencedContainer = "container:Frameworks/GnuSpeech/GnuSpeech.xcodeproj">
+               ReferencedContainer = "container:GnuSpeech.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8DC2EF4F0486A6940098B216"
-            BuildableName = "GnuSpeech.framework"
-            BlueprintName = "GnuSpeech"
-            ReferencedContainer = "container:Frameworks/GnuSpeech/GnuSpeech.xcodeproj">
+            BlueprintIdentifier = "0186C5E01999409D002AB929"
+            BuildableName = "GnuSpeechTests.xctest"
+            BlueprintName = "GnuSpeechTests"
+            ReferencedContainer = "container:GnuSpeech.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
    <LaunchAction
-      selectedDebuggerIdentifier = ""
-      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Debug"
@@ -61,10 +61,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8DC2EF4F0486A6940098B216"
-            BuildableName = "GnuSpeech.framework"
-            BlueprintName = "GnuSpeech"
-            ReferencedContainer = "container:Frameworks/GnuSpeech/GnuSpeech.xcodeproj">
+            BlueprintIdentifier = "0186C5E01999409D002AB929"
+            BuildableName = "GnuSpeechTests.xctest"
+            BlueprintName = "GnuSpeechTests"
+            ReferencedContainer = "container:GnuSpeech.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -79,10 +79,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8DC2EF4F0486A6940098B216"
-            BuildableName = "GnuSpeech.framework"
-            BlueprintName = "GnuSpeech"
-            ReferencedContainer = "container:Frameworks/GnuSpeech/GnuSpeech.xcodeproj">
+            BlueprintIdentifier = "0186C5E01999409D002AB929"
+            BuildableName = "GnuSpeechTests.xctest"
+            BlueprintName = "GnuSpeechTests"
+            ReferencedContainer = "container:GnuSpeech.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

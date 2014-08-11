@@ -9,9 +9,19 @@
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
+		<key>GnuSpeechTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>11</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>0186C5E01999409D002AB929</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>8DC2EF4F0486A6940098B216</key>
 		<dict>
 			<key>primary</key>

@@ -88,6 +88,7 @@
 		0186C5D719985DB3002AB929 /* GSTextParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 0186C5D519985DB3002AB929 /* GSTextParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0186C5D819985DB3002AB929 /* GSTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0186C5D619985DB3002AB929 /* GSTextParser.m */; };
 		0186C5DA199871B7002AB929 /* SpecialAcronyms.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0186C5D9199871B7002AB929 /* SpecialAcronyms.dict */; };
+		0186C5E61999409D002AB929 /* GnuSpeechTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0186C5E51999409D002AB929 /* GnuSpeechTests.m */; };
 		019745A5153F8A2100695CD7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019745A4153F8A2100695CD7 /* AVFoundation.framework */; };
 		01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01ACA5E01544A80A00278339 /* MMGroupedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 01ACA5DE1544A80700278339 /* MMGroupedObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -258,6 +259,9 @@
 		0186C5D9199871B7002AB929 /* SpecialAcronyms.dict */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = SpecialAcronyms.dict; path = TextProcessing/SpecialAcronyms.dict; sourceTree = "<group>"; };
 		0186C5DB1998B3D1002AB929 /* letter_to_sound_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = letter_to_sound_private.h; sourceTree = "<group>"; };
 		0186C5DC19994026002AB929 /* GSTextParser-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GSTextParser-Private.h"; sourceTree = "<group>"; };
+		0186C5E11999409D002AB929 /* GnuSpeechTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GnuSpeechTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0186C5E41999409D002AB929 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0186C5E51999409D002AB929 /* GnuSpeechTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GnuSpeechTests.m; sourceTree = "<group>"; };
 		019745A4153F8A2100695CD7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GnuSpeech.h; sourceTree = "<group>"; };
 		01ACA5DE1544A80700278339 /* MMGroupedObject.h */ = {isa = PBXFileReference; fileEncoding = 30; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = MMGroupedObject.h; path = MonetModel/MMGroupedObject.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
@@ -352,6 +356,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0186C5DE1999409D002AB929 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF560486A6940098B216 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -510,10 +521,28 @@
 			path = TextParser;
 			sourceTree = "<group>";
 		};
+		0186C5E21999409D002AB929 /* GnuSpeechTests */ = {
+			isa = PBXGroup;
+			children = (
+				0186C5E51999409D002AB929 /* GnuSpeechTests.m */,
+				0186C5E31999409D002AB929 /* Supporting Files */,
+			);
+			path = GnuSpeechTests;
+			sourceTree = "<group>";
+		};
+		0186C5E31999409D002AB929 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0186C5E41999409D002AB929 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				8DC2EF5B0486A6940098B216 /* GnuSpeech.framework */,
+				0186C5E11999409D002AB929 /* GnuSpeechTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -524,6 +553,7 @@
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
+				0186C5E21999409D002AB929 /* GnuSpeechTests */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
 			);
@@ -809,6 +839,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		0186C5E01999409D002AB929 /* GnuSpeechTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0186C5E71999409D002AB929 /* Build configuration list for PBXNativeTarget "GnuSpeechTests" */;
+			buildPhases = (
+				0186C5DD1999409D002AB929 /* Sources */,
+				0186C5DE1999409D002AB929 /* Frameworks */,
+				0186C5DF1999409D002AB929 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GnuSpeechTests;
+			productName = GnuSpeechTests;
+			productReference = 0186C5E11999409D002AB929 /* GnuSpeechTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		8DC2EF4F0486A6940098B216 /* GnuSpeech */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "GnuSpeech" */;
@@ -835,6 +882,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0600;
+				TargetAttributes = {
+					0186C5E01999409D002AB929 = {
+						CreatedOnToolsVersion = 6.0;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "GnuSpeech" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -849,11 +901,19 @@
 			projectRoot = ../..;
 			targets = (
 				8DC2EF4F0486A6940098B216 /* GnuSpeech */,
+				0186C5E01999409D002AB929 /* GnuSpeechTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0186C5DF1999409D002AB929 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF520486A6940098B216 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -870,6 +930,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0186C5DD1999409D002AB929 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0186C5E61999409D002AB929 /* GnuSpeechTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF540486A6940098B216 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -971,6 +1039,60 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0186C5E81999409D002AB929 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = GnuSpeechTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0186C5E91999409D002AB929 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = GnuSpeechTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		1DEB91AE08733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1102,6 +1224,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0186C5E71999409D002AB929 /* Build configuration list for PBXNativeTarget "GnuSpeechTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0186C5E81999409D002AB929 /* Debug */,
+				0186C5E91999409D002AB929 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "GnuSpeech" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
