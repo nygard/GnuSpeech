@@ -18,8 +18,8 @@ typedef enum : NSUInteger {
 @property (strong) GSPronunciationDictionary *mainDictionary;
 @property (strong) GSPronunciationDictionary *specialAcronymDictionary;
 
-/// This contains an array of NSNumbers (GSDictionarySource), to indicate the order of dictionary lookup.
-@property (strong) NSArray *dictionaryOrder;
+/// This contains an array of NSNumbers (GSPronunciationSource), to indicate the order of pronunciation lookup.
+@property (strong) NSArray *pronunciationSourceOrder;
 
 /// This defaults to "%".  Not sure what the valid values could be.
 @property (strong) NSString *escapeCharacter;

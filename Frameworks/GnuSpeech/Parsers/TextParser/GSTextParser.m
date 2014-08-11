@@ -11,7 +11,7 @@
     GSPronunciationDictionary *_mainDictionary;
     GSPronunciationDictionary *_specialAcronymDictionary;
 
-    NSArray *_dictionaryOrder;
+    NSArray *_pronunciationSourceOrder;
     NSString *_escapeCharacter;
 }
 
@@ -21,7 +21,11 @@
         _mainDictionary           = [GSDBMPronunciationDictionary mainDictionary];
         _specialAcronymDictionary = [GSSimplePronunciationDictionary specialAcronymDictionary];
         
-        _dictionaryOrder = @[ @(GSPronunciationSource_NumberParser), @(GSPronunciationSource_UserDictionary), @(GSPronunciationSource_ApplicationDictionary), @(GSPronunciationSource_MainDictionary)];
+        _pronunciationSourceOrder = @[ @(GSPronunciationSource_NumberParser),
+                                       @(GSPronunciationSource_UserDictionary),
+                                       @(GSPronunciationSource_ApplicationDictionary),
+                                       @(GSPronunciationSource_MainDictionary),
+                                       ];
         _escapeCharacter = @"%";
     }
 
@@ -47,7 +51,7 @@
 
 - (NSString *)pronunciationForWord:(NSString *)word andReturnPronunciationSource:(GSPronunciationSource *)source;
 {
-    for (NSNumber *dictionarySource in self.dictionaryOrder) {
+    for (NSNumber *dictionarySource in self.pronunciationSourceOrder) {
         NSString *pronunciation = [self _pronunciationForWord:word fromSource:[dictionarySource unsignedIntegerValue]];
 
         if (pronunciation != nil) {
@@ -63,7 +67,7 @@
         return pronunciation;
     }
 
-    // Use degenerate_string() / GSDict_LetterToSound.
+    // Use degenerate_string() / GSPronunciationSource_LetterToSound.
 
     return nil;
 }
