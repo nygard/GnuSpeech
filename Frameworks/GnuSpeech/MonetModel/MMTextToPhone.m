@@ -32,12 +32,12 @@
     return self;
 }
 
-- (NSString *)phoneForText:(NSString *)text;
+- (NSString *)phoneStringFromText:(NSString *)text;
 {
-    NSString *inputString = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];	
+    NSString *inputString = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     TTSParser *parser = [[TTSParser alloc] initWithPronunciationDictionary:self.pronunciationDictionary];
     NSString *resultString = [parser parseString:inputString];
-	
+
     return resultString;	
 }
 

@@ -34,7 +34,7 @@
 
 - (void)speakText:(NSString *)text;
 {
-	NSString *phoneString = [m_textToPhone phoneForText:text];
+	NSString *phoneString = [m_textToPhone phoneStringFromText:text];
 	[m_phoneToSpeech speakPhoneString:phoneString];
 }
 

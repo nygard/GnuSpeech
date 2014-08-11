@@ -218,7 +218,7 @@
     [_textStringTextField addItemsWithObjectValues:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_DefaultUtterances]];
     [_textStringTextField selectItemAtIndex:0];
 	[_phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];	
-	[_phoneStringTextView setString:[_textToPhone phoneForText:[_textStringTextField stringValue]]];
+	[_phoneStringTextView setString:[_textToPhone phoneStringFromText:[_textStringTextField stringValue]]];
 	
     [[[_eventTableView tableColumnWithIdentifier:@"flag"] dataCell] setFormatter:defaultNumberFormatter];
 	
@@ -425,12 +425,12 @@
 {
 	NSString *phoneString = [[_phoneStringTextView string] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	if (phoneString == NULL || [phoneString length] == 0) {
-		phoneString = [[_textToPhone phoneForText:[_textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		phoneString = [[_textToPhone phoneStringFromText:[_textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		[_phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];
 		[_phoneStringTextView setString:phoneString];
 		[_textStringTextField setTextColor:[NSColor blackColor]];
 	} else {
-		NSString *textStringPhones = [[_textToPhone phoneForText:[_textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		NSString *textStringPhones = [[_textToPhone phoneStringFromText:[_textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		if ([phoneString isEqualToString:textStringPhones]) {
 			[_textStringTextField setTextColor:[NSColor blackColor]];
 			[_phoneStringTextView setTextColor:[NSColor blackColor]];
@@ -460,7 +460,7 @@
 
 - (void)parseText:(id)sender;
 {
-	NSString *phoneString = [_textToPhone phoneForText:[_textStringTextField stringValue]];
+	NSString *phoneString = [_textToPhone phoneStringFromText:[_textStringTextField stringValue]];
 	[_phoneStringTextView setTextColor:[NSColor blackColor]];	
 	[_phoneStringTextView setString:phoneString];
 	[_textStringTextField setTextColor:[NSColor blackColor]];
@@ -647,7 +647,7 @@
     [_textStringTextField insertItemWithObjectValue:str atIndex:0];
 	[_textStringTextField setTextColor:[NSColor blackColor]];
 
-	str = [[_textToPhone phoneForText:[_textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	str = [[_textToPhone phoneStringFromText:[_textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	[_phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];
 	[_phoneStringTextView setString:str];
 	[_phoneStringTextView setTextColor:[NSColor blackColor]];

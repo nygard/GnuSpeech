@@ -52,7 +52,7 @@
     inputString = [[inputTextView string] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSLog(@"parseText: inputString is: %@", inputString);
 
-    resultString = [textToPhone phoneForText:inputString];
+    resultString = [textToPhone phoneStringFromText:inputString];
 
     [outputTextView setString:resultString];
     [outputTextView selectAll:nil];

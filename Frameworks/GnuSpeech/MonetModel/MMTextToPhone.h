@@ -13,6 +13,7 @@
 /// Designated intializer.
 - (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)pronunciationDictionary;
 
-- (NSString *)phoneForText:(NSString *)text;
+/// This method translates the text into a string of phones.
+- (NSString *)phoneStringFromText:(NSString *)text;
 
 @end
