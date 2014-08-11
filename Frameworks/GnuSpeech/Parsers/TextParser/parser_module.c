@@ -1,37 +1,7 @@
-/*******************************************************************************
- *
- *  Copyright (c) 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
- *  
- *  Contributors: Dalmazio Brisinda
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *******************************************************************************
- *
- *  parser_module.c
- *  GnuSpeech
- *
- *  Created by Leonard Manzara.
- *
- *  Version: 0.9.1
- *
- *******************************************************************************
- *
- *     parser_module.c
- *
- *     History:
- *
+//  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules.
+//  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
+
+/*
  *     July 7th, 1992          Completed.
  *
  *     December 12th, 1994     Added word begin /w and utterance
@@ -216,23 +186,7 @@ static void check_tonic(NXStream *stream, long start_pos, long end_pos);
 
 
 
-/******************************************************************************
- *
- *       function:       init_parser_module
- *
- *       purpose:        Sets up parser module for subsequent use.  This must
- *                       be called before parser() is ever used.
- *
- *       arguments:      none
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      none
- *                       
- *
- ******************************************************************************/
+/// Sets up parser module for subsequent use.  This must be called before parser() is ever used.
 
 void init_parser_module(void)
 {
@@ -251,23 +205,7 @@ void init_parser_module(void)
 
 
 
-/******************************************************************************
- *
- *       function:       set_escape_code
- *
- *       purpose:        Sets escape code for parsing.  Assumes Objective C
- *                       client library checks validity of argument.
- *
- *       arguments:      new_escape_code
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      none
- *                       
- *
- ******************************************************************************/
+/// Sets escape code for parsing.  Assumes Objective C client library checks validity of argument.
 
 int set_escape_code(char new_escape_code)
 {
@@ -280,25 +218,7 @@ int set_escape_code(char new_escape_code)
 
 
 
-/******************************************************************************
- *
- *       function:       set_dict_data
- *
- *       purpose:        Sets the dictionary order, and sets the user and
- *                       application dictionaries (all globals).  Assumes
- *                       Objective C client library checks validity of
- *                       arguments.
- *
- *       arguments:      order, userDict, appDict
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      none
- *                       
- *
- ******************************************************************************/
+/// Sets the dictionary order, and sets the user and application dictionaries (all globals).  Assumes Objective C client library checks validity of arguments.
 
 int set_dict_data(const int16_t order[4], 
 				  GSPronunciationDictionary *userDict, 
@@ -342,31 +262,10 @@ int set_dict_data(const int16_t order[4],
 
 
 
-/******************************************************************************
- *
- *       function:       parser
- *
- *       purpose:        Takes plain english input, and produces phonetic
- *                       output suitable for further processing in the TTS
- *                       system.  If a parse error occurs, a value of 0 or
- *                       above is returned.  Usually this will point to the
- *                       position of the error in the input buffer, but in
- *                       later stages of the parse only a 0 is returned since
- *                       positional information is lost.  If no parser error,
- *                       then TTS_PARSER_SUCCESS is returned.
- *
- *       arguments:      input, output
- *
- *       internal
- *       functions:      conditon_input, mark_modes, strip_punctuation,
- *                       final_conversion, safety_check, print_stream
- *
- *       library
- *       functions:      strlen, malloc, free, NXLogError, NXSeek, NXOpenMemory,
- *                       NXCloseMemory, NXGetMemoryBuffer, (printf)
- *                       
- *
- ******************************************************************************/
+/// Takes plain english input, and produces phonetic output suitable for further processing in the TTS system.
+/// If a parse error occurs, a value of 0 or above is returned.  Usually this will point to the position of the
+/// error in the input buffer, but in later stages of the parse only a 0 is returned since positional information
+/// is lost.  If no parser error, then TTS_PARSER_SUCCESS is returned.
 
 int parser(const char *input, const char **output)
 {
@@ -457,30 +356,12 @@ int parser(const char *input, const char **output)
 
 
 
-/******************************************************************************
- *
- *       function:       lookup_word
- *
- *       purpose:        Returns the pronunciation of word, and sets dict to
- *                       the dictionary in which it was found.  Relies on the
- *                       global dictionaryOrder.
- *
- *       arguments:      word, dict
- *
- *       internal
- *       functions:      number_parser, preditor_get_entry, mainDict_get_entry,
- *                       letter_to_sound, degenerate_string
- *
- *       library
- *       functions:      none
- *                       
- *
- ******************************************************************************/
+/// Returns the pronunciation of word, and sets dict to the dictionary in which it was found.  Relies on the global dictionaryOrder.
 
 const char *lookup_word(const char *word, short *dict)
 {
-	NSString * pr;
-	NSString * w;
+	NSString *pr;
+	NSString *w;
 	
 	const char *pronunciation;
 	int i;
@@ -549,24 +430,7 @@ const char *lookup_word(const char *word, short *dict)
 
 
 
-/******************************************************************************
- *
- *       function:       condition_input
- *
- *       purpose:        Converts all non-printable characters (except escape
- *                       character to blanks.  Also connects words hyphenated
- *                       over a newline.
- *
- *       arguments:      input, output, length, output_length
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      isalpha, isspace, isprint
- *                       
- *
- ******************************************************************************/
+/// Converts all non-printable characters (except escape character to blanks.  Also connects words hyphenated over a newline.
 
 static void condition_input(const char *input, char *output, long length, long *output_length)
 {
@@ -606,24 +470,7 @@ static void condition_input(const char *input, char *output, long length, long *
 
 
 
-/******************************************************************************
- *
- *       function:       mark_modes
- *
- *       purpose:        Parses input for modes, checking for errors, and
- *                       marks output with mode start and end points.
- *                       Tagging and silence mode arguments are checked.
- *
- *       arguments:      input, output, length, output_length
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      isprint, isdigit
- *                       
- *
- ******************************************************************************/
+/// Parses input for modes, checking for errors, and marks output with mode start and end points.  Tagging and silence mode arguments are checked.
 
 static int mark_modes(char *input, char *output, long length, long *output_length)
 {
@@ -854,25 +701,7 @@ static int mark_modes(char *input, char *output, long length, long *output_lengt
 
 
 
-/******************************************************************************
- *
- *       function:       strip_punctuation
- *
- *       purpose:        Deletes unnecessary punctuation, and converts some
- *                       punctuation to another form.
- *
- *       arguments:      buffer, length, stream, stream_length
- *
- *       internal
- *       functions:      is_mode, is_isolated, number_follows, convert_dash,
- *                       delete_ellipsis, part_of_number, is_telephone_number,
- *                       word_follows, is_punctuation, expand_abbreviation
- *
- *       library
- *       functions:      isalpha, NXSeek, NXPutc, NXPrintf, isalnum, NXTell
- *                       
- *
- ******************************************************************************/
+/// Deletes unnecessary punctuation, and converts some punctuation to another form.
 
 static void strip_punctuation(char *buffer, long length, NXStream *stream, long *stream_length)
 {
@@ -1085,25 +914,7 @@ static void strip_punctuation(char *buffer, long length, NXStream *stream, long 
 
 
 
-/******************************************************************************
- *
- *       function:       final_conversion
- *
- *       purpose:        Converts contents of stream1 to stream2.  Adds chunk,
- *                       tone group, and associated markers;  expands words to
- *                       pronunciations, and also expands other modes.
- *
- *       arguments:      stream1, stream1_length, stream2, stream2_length
- *
- *       internal
- *       functions:      get_state, expand_word, set_tone_group, shift_silence,
- *                       another_word_follows, convert_silence, insert_tag
- *
- *       library
- *       functions:      NXSeek, NXGetMemoryBuffer, NXPrintf, NXTell, NXPutc
- *                       
- *
- ******************************************************************************/
+/// Converts contents of stream1 to stream2.  Adds chunk, tone group, and associated markers;  expands words to pronunciations, and also expands other modes.
 
 static int final_conversion(NXStream *stream1, long stream1_length,
 							NXStream *stream2, long *stream2_length)
@@ -1340,25 +1151,7 @@ static int final_conversion(NXStream *stream1, long stream1_length,
 
 
 
-/******************************************************************************
- *
- *       function:       get_state
- *
- *       purpose:        Determines the current state and next state in buffer.
- *                       A word or punctuation is put into word.  Raw mode
- *                       contents are expanded and written to stream.
- *
- *       arguments:      buffer, i, length, mode, next_mode, current_state,
- *                       next_state, raw_mode_flag, word, stream
- *
- *       internal
- *       functions:      is_punctuation, is_mode, expand_raw_mode
- *
- *       library
- *       functions:      isdigit
- *                       
- *
- ******************************************************************************/
+/// Determines the current state and next state in buffer.  A word or punctuation is put into word.  Raw mode contents are expanded and written to stream.
 
 static int get_state(const char *buffer, long *i, long length, long *mode, long *next_mode,
 					 long *current_state, long *next_state, long *raw_mode_flag,
@@ -1539,24 +1332,7 @@ static int get_state(const char *buffer, long *i, long length, long *mode, long 
 
 
 
-/******************************************************************************
- *
- *       function:       set_tone_group
- *
- *       purpose:        Set the tone group marker according to the punctuation
- *                       passed in as "word".  The marker is inserted in the
- *                       stream at position "tg_pos".
- *
- *       arguments:      stream, tg_pos, word
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      NXTell, NXSeek, NXPrintf
- *                       
- *
- ******************************************************************************/
+/// Set the tone group marker according to the punctuation passed in as "word".  The marker is inserted in the stream at position "tg_pos".
 
 static int set_tone_group(NXStream *stream, long tg_pos, char *word)
 {
@@ -1606,26 +1382,8 @@ static int set_tone_group(NXStream *stream, long tg_pos, char *word)
 
 
 
-/******************************************************************************
- *
- *       function:       convert_silence
- *
- *       purpose:        Converts numeric quantity in "buffer" to appropriate
- *                       number of silence phones, which are written onto the
- *                       end of stream.  Rounding is performed.  Returns actual
- *                       length of silence.
- *                       
- *
- *       arguments:      buffer, stream
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      strtod, rint, NXPrintf
- *                       
- *
- ******************************************************************************/
+/// Converts numeric quantity in "buffer" to appropriate number of silence phones, which are written onto the
+/// end of stream.  Rounding is performed.  Returns actual length of silence.
 
 static float convert_silence(char *buffer, NXStream *stream)
 {
@@ -1654,23 +1412,7 @@ static float convert_silence(char *buffer, NXStream *stream)
 
 
 
-/******************************************************************************
- *
- *       function:       another_word_follows
- *
- *       purpose:        Returns 1 if another word follows in buffer, after
- *                       position i.  Else, 0 is returned.
- *
- *       arguments:      buffer, i, length, mode
- *
- *       internal
- *       functions:      is_punctuation
- *
- *       library
- *       functions:      none
- *                       
- *
- ******************************************************************************/
+/// Returns 1 if another word follows in buffer, after position i.  Else, 0 is returned.
 
 static int another_word_follows(const char *buffer, long i, long length, long mode)
 {
@@ -1707,26 +1449,9 @@ static int another_word_follows(const char *buffer, long i, long length, long mo
 
 
 
-/******************************************************************************
- *
- *       function:       shift_silence
- *
- *       purpose:        Looks past punctuation to see if some silence occurs
- *                       before the next word (or raw mode contents), and shifts
- *                       the silence to the current point on the stream.  The
- *                       the numeric quantity is converted to equivalent silence
- *                       phones, and a 1 is returned.  0 is returned otherwise.
- *
- *       arguments:      buffer, i, length, mode, stream
- *
- *       internal
- *       functions:      is_punctuation, is_mode, convert_silence
- *
- *       library
- *       functions:      none
- *                       
- *
- ******************************************************************************/
+/// Looks past punctuation to see if some silence occurs before the next word (or raw mode contents), and shifts
+/// the silence to the current point on the stream.  The the numeric quantity is converted to equivalent silence
+/// phones, and a 1 is returned.  0 is returned otherwise.
 
 static int shift_silence(const char *buffer, long i, long length, long mode, NXStream *stream)
 {
@@ -1782,23 +1507,7 @@ static int shift_silence(const char *buffer, long i, long length, long mode, NXS
 
 
 
-/******************************************************************************
- *
- *       function:       insert_tag
- *
- *       purpose:        Inserts the tag contained in word onto the stream at
- *                       the insert_point.
- *
- *       arguments:      stream, insert_point, word
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      NXTell, NXPrintf, malloc, NXSeek, NXGetc, free
- *                       
- *
- ******************************************************************************/
+/// Inserts the tag contained in word onto the stream at the insert_point.
 
 static void insert_tag(NXStream *stream, long insert_point, char *word)
 {
@@ -1837,28 +1546,9 @@ static void insert_tag(NXStream *stream, long insert_point, char *word)
 
 
 
-/******************************************************************************
- *
- *       function:       expand_word
- *
- *       purpose:        Write pronunciation of word to stream.  Deal with
- *                       possessives if necessary.  Also, deal with single
- *                       characters, and upper case words (including special
- *                       acronyms) if necessary.  Add special marks if word
- *                       is tonic.
- *
- *       arguments:      word, is_tonic, stream
- *
- *       internal
- *       functions:      is_possessive, degenerate_string, is_all_upper_case,
- *                       is_special_acronym, lookup_word,
- *                       contains_primary_stress, converted_stress
- *
- *       library
- *       functions:      strlen, isalpha, strcmp, NXPrintf, NXTell, NXSeek
- *                       
- *
- ******************************************************************************/
+/// Write pronunciation of word to stream.  Deal with possessives if necessary.  Also, deal with single
+/// characters, and upper case words (including special acronyms) if necessary.  Add special marks if word
+/// is tonic.
 
 static void expand_word(char *word, long is_tonic, NXStream *stream)
 {
@@ -1974,23 +1664,7 @@ static void expand_word(char *word, long is_tonic, NXStream *stream)
 
 
 
-/******************************************************************************
- *
- *       function:       expand_raw_mode
- *
- *       purpose:        Writes raw mode contents to stream, checking phones
- *                       and markers.
- *
- *       arguments:      buffer, j, length, stream
- *
- *       internal
- *       functions:      illegal_token, illegal_slash_code, expand_tag_number
- *
- *       library
- *       functions:      NXPrintf, strcmp
- *                       
- *
- ******************************************************************************/
+/// Writes raw mode contents to stream, checking phones and markers.
 
 static int expand_raw_mode(const char *buffer, long *j, long length, NXStream *stream)
 {
@@ -2107,23 +1781,7 @@ static int expand_raw_mode(const char *buffer, long *j, long length, NXStream *s
 
 
 
-/******************************************************************************
- *
- *       function:       illegal_token
- *
- *       purpose:        Returns 1 if token is not a valid DEGAS phone.
- *                       Otherwise, 0 is returned.
- *
- *       arguments:      token
- *
- *       internal
- *       functions:      validPhone
- *
- *       library
- *       functions:      strlen
- *                       
- *
- ******************************************************************************/
+/// Returns 1 if token is not a valid DEGAS phone.  Otherwise, 0 is returned.
 
 static int illegal_token(char *token)
 {
@@ -2140,22 +1798,7 @@ static int illegal_token(char *token)
 
 
 
-/******************************************************************************
- *
- *       function:       illegal_slash_code
- *
- *       purpose:        Returns 1 if code is illegal, 0 otherwise.
- *
- *       arguments:      code
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      strcmp
- *                       
- *
- ******************************************************************************/
+/// Returns 1 if code is illegal, 0 otherwise.
 
 static int illegal_slash_code(char *code)
 {
@@ -2176,24 +1819,8 @@ static int illegal_slash_code(char *code)
 
 
 
-/******************************************************************************
- *
- *       function:       expand_tag_number
- *
- *       purpose:        Expand tag number in buffer at position j and write to
- *                       stream.  Perform error checking, returning error code
- *                       if format of tag number is illegal.
- *
- *       arguments:      buffer, j, length, stream
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      NXPrintf, isdigit
- *                       
- *
- ******************************************************************************/
+/// Expand tag number in buffer at position j and write to stream.  Perform error checking, returning error code
+/// if format of tag number is illegal.
 
 static int expand_tag_number(const char *buffer, long *j, long length, NXStream *stream)
 {
@@ -2224,23 +1851,7 @@ static int expand_tag_number(const char *buffer, long *j, long length, NXStream 
 
 
 
-/******************************************************************************
- *
- *       function:       is_mode
- *
- *       purpose:        Returns 1 if character is a mode marker,
- *                       0 otherwise.
- *
- *       arguments:      c
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      none
- *                       
- *
- ******************************************************************************/
+/// Returns 1 if character is a mode marker, 0 otherwise.
 
 static int is_mode(char c)
 {
@@ -2252,24 +1863,8 @@ static int is_mode(char c)
 
 
 
-/******************************************************************************
- *
- *       function:       is_isolated
- *
- *       purpose:        Returns 1 if character at position i is isolated,
- *                       i.e. is surrounded by space or mode marker.  Returns
- *                       0 otherwise.
- *
- *       arguments:      buffer, i, len
- *
- *       internal
- *       functions:      is_mode
- *
- *       library
- *       functions:      none
- *                       
- *
- ******************************************************************************/
+/// Returns 1 if character at position i is isolated, i.e. is surrounded by space or mode marker.  Returns
+/// 0 otherwise.
 
 static int is_isolated(char *buffer, long i, long len)
 {
@@ -2282,24 +1877,8 @@ static int is_isolated(char *buffer, long i, long len)
 
 
 
-/******************************************************************************
- *
- *       function:       part_of_number
- *
- *       purpose:        Returns 1 if character at position i is part of
- *                       a number (including mixtures with non-numeric
- *                       characters).  Returns 0 otherwise.
- *
- *       arguments:      buffer, i, len
- *
- *       internal
- *       functions:      is_mode
- *
- *       library
- *       functions:      isdigit
- *                       
- *
- ******************************************************************************/
+/// Returns 1 if character at position i is part of a number (including mixtures with non-numeric
+/// characters).  Returns 0 otherwise.
 
 static int part_of_number(char *buffer, long i, long len)
 {
@@ -2316,24 +1895,8 @@ static int part_of_number(char *buffer, long i, long len)
 
 
 
-/******************************************************************************
- *
- *       function:       number_follows
- *
- *       purpose:        Returns a 1 if at least one digit follows the character
- *                       at position i, up to white space or mode marker.
- *                       Returns 0 otherwise.
- *
- *       arguments:      buffer, i, len
- *
- *       internal
- *       functions:      is_mode
- *
- *       library
- *       functions:      isdigit
- *                       
- *
- ******************************************************************************/
+/// Returns a 1 if at least one digit follows the character at position i, up to white space or mode marker.
+/// Returns 0 otherwise.
 
 static int number_follows(char *buffer, long i, long len)
 {
@@ -2347,24 +1910,7 @@ static int number_follows(char *buffer, long i, long len)
 
 
 
-/******************************************************************************
- *
- *       function:       delete_ellipsis
- *
- *       purpose:        Deletes three dots in a row (disregarding white
- *                       space).  If four dots, then the last three are
- *                       deleted.
- *
- *       arguments:      buffer, i, length
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      none
- *                       
- *
- ******************************************************************************/
+/// Deletes three dots in a row (disregarding white space).  If four dots, then the last three are deleted.
 
 static void delete_ellipsis(char *buffer, long *i, long length)
 {
@@ -2397,23 +1943,8 @@ static void delete_ellipsis(char *buffer, long *i, long length)
 
 
 
-/******************************************************************************
- *
- *       function:       convert_dash
- *
- *       purpose:        Converts "--" to ", ", and "---" to ",  "
- *                       Returns 1 if this is done, 0 otherwise.
- *
- *       arguments:      buffer, i, length
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      none
- *                       
- *
- ******************************************************************************/
+/// Converts "--" to ", ", and "---" to ",  "
+/// Returns 1 if this is done, 0 otherwise.
 
 static int convert_dash(char *buffer, long *i, long length)
 {
@@ -2436,24 +1967,8 @@ static int convert_dash(char *buffer, long *i, long length)
 
 
 
-/******************************************************************************
- *
- *       function:       is_telephone_number
- *
- *       purpose:        Returns 1 if string at position i in buffer is of the
- *                       form:  (ddd)ddd-dddd
- *                       where each d is a digit.
- *
- *       arguments:      buffer, i, length
- *
- *       internal
- *       functions:      is_punctuation, is_mode
- *
- *       library
- *       functions:      isdigit
- *                       
- *
- ******************************************************************************/
+/// Returns 1 if string at position i in buffer is of the form:  (ddd)ddd-dddd
+/// where each d is a digit.
 
 static int is_telephone_number(char *buffer, long i, long length)
 {
@@ -2483,23 +1998,8 @@ static int is_telephone_number(char *buffer, long i, long length)
 
 
 
-/******************************************************************************
- *
- *       function:       is_punctuation
- *
- *       purpose:        Returns 1 if character is a .,;:?!
- *                       Returns 0 otherwise.
- *
- *       arguments:      c
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      none
- *                       
- *
- ******************************************************************************/
+/// Returns 1 if character is a .,;:?!
+/// Returns 0 otherwise.
 
 static int is_punctuation(char c)
 {
@@ -2518,25 +2018,8 @@ static int is_punctuation(char c)
 
 
 
-/******************************************************************************
- *
- *       function:       word_follows 
- *
- *       purpose:        Returns a 1 if a word or speakable symbol (letter mode)
- *                       follows the position i in buffer.  Raw, tagging, and
- *                       silence mode contents are ignored.  Returns a 0 if any
- *                       punctuation (except . as part of number) follows.
- *
- *       arguments:      buffer, i, length
- *
- *       internal
- *       functions:      is_punctuation
- *
- *       library
- *       functions:      isdigit
- *                       
- *
- ******************************************************************************/
+/// Returns a 1 if a word or speakable symbol (letter mode) follows the position i in buffer.  Raw, tagging, and
+/// silence mode contents are ignored.  Returns a 0 if any punctuation (except . as part of number) follows.
 
 static int word_follows(char *buffer, long i, long length)
 {
@@ -2589,29 +2072,10 @@ static int word_follows(char *buffer, long i, long length)
 
 
 
-/******************************************************************************
- *
- *       function:       expand_abbreviation
- *
- *       purpose:        Expands listed abbreviations.  Two lists are used (see
- *                       abbreviations.h):  one list expands unconditionally,
- *                       the other only if the abbreviation is followed by a
- *                       number.  The abbreviation p. is expanded to page.
- *                       Single alphabetic characters have periods deleted, but
- *                       no expansion is made.  They are also capitalized.
- *                       Returns 1 if expansion made (i.e. period is deleted),
- *                       0 otherwise.
- *
- *       arguments:      buffer, i, length, stream
- *
- *       internal
- *       functions:      is_mode, number_follows
- *
- *       library
- *       functions:      isalpha, NXSeek, NXPrintf, NXPutc
- *                       
- *
- ******************************************************************************/
+/// Expands listed abbreviations.  Two lists are used (see abbreviations.h):  one list expands unconditionally,
+/// the other only if the abbreviation is followed by a number.  The abbreviation p. is expanded to page.
+/// Single alphabetic characters have periods deleted, but no expansion is made.  They are also capitalized.
+/// Returns 1 if expansion made (i.e. period is deleted), 0 otherwise.
 
 static int expand_abbreviation(char *buffer, long i, long length, NXStream *stream)
 {
@@ -2689,24 +2153,8 @@ static int expand_abbreviation(char *buffer, long i, long length, NXStream *stre
 
 
 
-/******************************************************************************
- *
- *       function:       expand_letter_mode
- *
- *       purpose:        Expands contents of letter mode string to word or
- *                       words.  A comma is added after each expansion, except
- *                       the last letter when it is followed by punctuation.
- *
- *       arguments:      buffer, i, length, stream, status
- *
- *       internal
- *       functions:      word_follows
- *
- *       library
- *       functions:      NXPrintf
- *                       
- *
- ******************************************************************************/
+/// Expands contents of letter mode string to word or words.  A comma is added after each expansion, except
+/// the last letter when it is followed by punctuation.
 
 static void expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, long *status)
 {
@@ -2828,23 +2276,7 @@ static void expand_letter_mode(char *buffer, long *i, long length, NXStream *str
 
 
 
-/******************************************************************************
- *
- *       function:       is_all_upper_case
- *
- *       purpose:        Returns 1 if all letters of the word are upper case,
- *                       0 otherwise.
- *
- *       arguments:      word
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      isupper
- *                       
- *
- ******************************************************************************/
+/// Returns 1 if all letters of the word are upper case, 0 otherwise.
 
 static int is_all_upper_case(char *word)
 {
@@ -2859,22 +2291,7 @@ static int is_all_upper_case(char *word)
 
 
 
-/******************************************************************************
- *
- *       function:       to_lower_case
- *
- *       purpose:        Converts any upper case letter in word to lower case.
- *
- *       arguments:      word
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      isupper, tolower
- *                       
- *
- ******************************************************************************/
+/// Converts any upper case letter in word to lower case.
 
 static char *to_lower_case(char *word)
 {
@@ -2891,24 +2308,7 @@ static char *to_lower_case(char *word)
 
 
 
-/******************************************************************************
- *
- *       function:       is_special_acronym
- *
- *       purpose:        Returns a pointer to the pronunciation of a special
- *                       acronym if it is defined in the list.  Otherwise,
- *                       NULL is returned.
- *
- *       arguments:      word
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      none
- *                       
- *
- ******************************************************************************/
+/// Returns a pointer to the pronunciation of a special acronym if it is defined in the list.  Otherwise, NULL is returned.
 
 static const char *is_special_acronym(char *word)
 {	
@@ -2925,23 +2325,7 @@ static const char *is_special_acronym(char *word)
 
 
 
-/******************************************************************************
- *
- *       function:       contains_primary_stress
- *
- *       purpose:        Returns 1 if the pronunciation contains ' (and ` for
- *                       backwards compatibility).  Otherwise 0 is returned.
- *
- *       arguments:      pronunciation
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      none
- *                       
- *
- ******************************************************************************/
+/// Returns 1 if the pronunciation contains ' (and ` for backwards compatibility).  Otherwise 0 is returned.
 
 static int contains_primary_stress(const char *pronunciation)
 {
@@ -2954,23 +2338,7 @@ static int contains_primary_stress(const char *pronunciation)
 
 
 
-/******************************************************************************
- *
- *       function:       converted_stress
- *
- *       purpose:        Returns 1 if the first " is converted to a ',
- *                       otherwise 0 is returned.
- *
- *       arguments:      pronunciation
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      none
- *                       
- *
- ******************************************************************************/
+/// Returns 1 if the first " is converted to a ', otherwise 0 is returned.
 
 static int converted_stress(char *pronunciation)
 {
@@ -2987,23 +2355,7 @@ static int converted_stress(char *pronunciation)
 
 
 
-/******************************************************************************
- *
- *       function:       is_possessive
- *
- *       purpose:        Returns 1 if 's is found at end of word, and removes
- *                       the 's ending from the word.  Otherwise, 0 is returned.
- *
- *       arguments:      word
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      none
- *                       
- *
- ******************************************************************************/
+/// Returns 1 if 's is found at end of word, and removes the 's ending from the word.  Otherwise, 0 is returned.
 
 static int is_possessive(char *word)
 {
@@ -3020,24 +2372,8 @@ static int is_possessive(char *word)
 
 
 
-/******************************************************************************
- *
- *       function:       safety_check
- *
- *       purpose:        Checks to make sure that there are not too many feet
- *                       phones per chunk.  If there are, the input is split
- *                       into two or mor chunks.
- *
- *       arguments:      stream, stream_length
- *
- *       internal
- *       functions:      insert_chunk_marker, set_tone_group, check_tonic
- *
- *       library
- *       functions:      NXSeek, NXGetc, NXUngetc, NXTell
- *                       
- *
- ******************************************************************************/
+/// Checks to make sure that there are not too many feet phones per chunk.  If there are, the input is split
+/// into two or mor chunks.
 
 static void safety_check(NXStream *stream, long *stream_length)
 {
@@ -3137,25 +2473,8 @@ static void safety_check(NXStream *stream, long *stream_length)
 
 
 
-/******************************************************************************
- *
- *       function:       insert_chunk_marker
- *
- *       purpose:        Insert chunk markers and associated markers in the
- *                       stream at the insert point.  Use the tone group type
- *                       passed in as an argument.
- *
- *       arguments:      stream, insert_point, tg_type
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      NXOpenMemory, NXSeek, NXPutc, NXPrintf, NXTell,
- *                       NXGetc, NXCloseMemory
- *                       
- *
- ******************************************************************************/
+/// Insert chunk markers and associated markers in the stream at the insert point.  Use the tone group type
+/// passed in as an argument.
 
 static void insert_chunk_marker(NXStream *stream, long insert_point, char tg_type)
 {
@@ -3194,25 +2513,8 @@ static void insert_chunk_marker(NXStream *stream, long insert_point, char tg_typ
 
 
 
-/******************************************************************************
- *
- *       function:       check_tonic
- *
- *       purpose:        Checks to see if a tonic marker is present in the
- *                       stream between the start and end positions.  If no
- *                       tonic is present, then put one in at the last foot
- *                       marker if it exists.
- *
- *       arguments:      stream, start_pos, end_pos
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      NXTell, NXSeek, NXGetc, NXPutc
- *                       
- *
- ******************************************************************************/
+/// Checks to see if a tonic marker is present in the stream between the start and end positions.  If no
+/// tonic is present, then put one in at the last foot marker if it exists.
 
 static void check_tonic(NXStream *stream, long start_pos, long end_pos)
 {
@@ -3255,23 +2557,7 @@ static void check_tonic(NXStream *stream, long start_pos, long end_pos)
 
 
 
-/******************************************************************************
- *
- *       function:       print_stream
- *
- *       purpose:        Prints out the contents of a parser stream, inserting
- *                       visible mode markers.
- *
- *       arguments:      stream, stream_length
- *
- *       internal
- *       functions:      none
- *
- *       library
- *       functions:      NXSeek, printf, NXGetc
- *                       
- *
- ******************************************************************************/
+/// Prints out the contents of a parser stream, inserting visible mode markers.
 #if 0
 static void print_stream(NXStream *stream, long stream_length)
 {
