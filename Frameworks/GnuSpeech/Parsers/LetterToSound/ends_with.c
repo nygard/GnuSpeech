@@ -9,12 +9,12 @@ char *ends_with(char *in, char *end, char *set)
     register char      *temp;
 
     while (*set) {
-                temp = end + 1;
-                while (*--temp == *set)
-                        set++;
-                if (*set == '/')
-                        return(temp);
-                while (*set++ != '/');
+        temp = end + 1;
+        while (*--temp == *set)
+            set++;
+        if (*set == '/')
+            return(temp);
+        while (*set++ != '/');
     }
     return(0);
 }

@@ -35,22 +35,22 @@ char *letter_to_sound(char *word)
 
     /*  CONVERT WORD TO PRONUNCIATION  */
     if (!word_to_patphone(buffer)) {
-                isp_trans(buffer, pronunciation);
-                /*  ATTEMPT TO MARK SYLL/STRESS  */
-                number_of_syllables = syllabify(pronunciation);
-                if (apply_stress(pronunciation, word))
-                        return NULL;
+        isp_trans(buffer, pronunciation);
+        /*  ATTEMPT TO MARK SYLL/STRESS  */
+        number_of_syllables = syllabify(pronunciation);
+        if (apply_stress(pronunciation, word))
+            return NULL;
     } else
-                strcpy(pronunciation, buffer);
+        strcpy(pronunciation, buffer);
 
     /*  APPEND WORD_TYPE_DELIMITER  */
     pronunciation[strlen(pronunciation) - 1] = WORD_TYPE_DELIMITER;
 
     /*  GUESS TYPE OF WORD  */
     if (number_of_syllables != 1)
-                strcat(pronunciation, word_type(word));
+        strcat(pronunciation, word_type(word));
     else
-                strcat(pronunciation, WORD_TYPE_UNKNOWN);
+        strcat(pronunciation, WORD_TYPE_UNKNOWN);
 
     /*  RETURN RESULTING PRONUNCIATION  */
     return(pronunciation);
@@ -65,8 +65,8 @@ static char *word_type(char *word)
 
     /*  IF WORD END MATCHES LIST, RETURN CORRESPONDING TYPE  */
     for (list_ptr = tail_list; list_ptr->tail; list_ptr++)
-                if (WORDEND(word, list_ptr->tail))
-                        return(list_ptr->type);
+        if (WORDEND(word, list_ptr->tail))
+            return(list_ptr->type);
 
     /*  ELSE RETURN UNKNOWN WORD TYPE  */
     return(WORD_TYPE_UNKNOWN);

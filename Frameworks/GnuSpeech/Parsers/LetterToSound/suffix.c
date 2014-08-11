@@ -12,6 +12,6 @@ char *suffix(char *in, char *end, char *suflist)
 
     temp = (char *)ends_with(in, end, suflist);
     if (temp && vowel_before(in, temp + 1))
-                return(temp);
+        return(temp);
     return(0);
 }

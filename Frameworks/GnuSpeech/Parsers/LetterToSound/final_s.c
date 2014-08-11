@@ -11,25 +11,25 @@ char final_s(char *in, char **eow)
 
     /*  STRIP TRAILING S's  */
     if ((*(end - 1) == '\'') && (*(end - 2) == 's')) {
-                *--end = '#';
-                *eow = end;
+        *--end = '#';
+        *eow = end;
     }
 
     /*  NOW LOOK FOR FINAL S  */
     if (*(end - 1) == 's') {
-                *--end = '#';
-                *eow = end;
+        *--end = '#';
+        *eow = end;
 
-                if (member(*(end - 1), "cfkpt"))
-                        retval = 's';
-                else
-                        retval = 'z';
+        if (member(*(end - 1), "cfkpt"))
+            retval = 's';
+        else
+            retval = 'z';
 
-                /*  STRIP 'S  */
-                if (*(end - 1) == '\'') {
-                        *--end = '#';
-                        *eow = end;
-                }
+        /*  STRIP 'S  */
+        if (*(end - 1) == '\'') {
+            *--end = '#';
+            *eow = end;
+        }
     }
     return(retval);
 }
