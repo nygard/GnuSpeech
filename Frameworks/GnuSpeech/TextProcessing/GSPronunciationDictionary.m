@@ -39,6 +39,23 @@
     return self;
 }
 
+#pragma mark - Debugging
+
+- (NSString *)description;
+{
+    if (_hasBeenLoaded) {
+        return [NSString stringWithFormat:@"<%@: %p> filename: %@, suffix count: %lu, version: %@",
+                NSStringFromClass([self class]), self,
+                self.filename, [_suffixOrder count], self.version];
+    }
+
+    return [NSString stringWithFormat:@"<%@: %p> filename: %@, not loaded",
+            NSStringFromClass([self class]), self,
+            self.filename];
+}
+
+#pragma mark -
+
 - (NSString *)version;
 {
     [self loadDictionaryIfNecessary];
@@ -131,13 +148,6 @@
     }
 
     //NSLog(@"<  %s", _cmd);
-}
-
-- (NSString *)description;
-{
-    return [NSString stringWithFormat:@"<%@: %p> suffix count: %lu, version: %@",
-            NSStringFromClass([self class]), self,
-            [_suffixOrder count], self.version];
 }
 
 @end
