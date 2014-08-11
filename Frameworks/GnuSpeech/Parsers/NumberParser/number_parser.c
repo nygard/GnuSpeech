@@ -271,8 +271,8 @@ void initial_parse(void);
 int error_check(int mode);
 char *process_word(int mode);
 char *degenerate_string(const char *word);
-int process_triad(char *triad, char *output, int pause, int ordinal, int right_zero_pad, int ordinal_plural, int special_flag);
-void process_digit(char digit, char *output, int ordinal, int ordinal_plural, int special_flag);
+int process_triad(char *triad, char *output, long pause, long ordinal, long right_zero_pad, long ordinal_plural, long special_flag);
+void process_digit(char digit, char *output, long ordinal, long ordinal_plural, long special_flag);
 
 /******************************************************************************
  *
@@ -1115,7 +1115,7 @@ char *degenerate_string(const char *word)
  *
  ******************************************************************************/
 
-int process_triad(char *triad, char *output, int pause, int ordinal, int right_zero_pad, int ordinal_plural, int special_flag)
+int process_triad(char *triad, char *output, long pause, long ordinal, long right_zero_pad, long ordinal_plural, long special_flag)
 {
     /*  IF TRIAD IS 000, RETURN ZERO  */
     if ((*(triad) == '0') && (*(triad + 1) == '0') && (*(triad + 2) == '0'))
@@ -1240,7 +1240,7 @@ int process_triad(char *triad, char *output, int pause, int ordinal, int right_z
  *
  ******************************************************************************/
 
-void process_digit(char digit, char *output, int ordinal, int ordinal_plural, int special_flag)
+void process_digit(char digit, char *output, long ordinal, long ordinal_plural, long special_flag)
 {
     /*  DO SPECIAL PROCESSING IF FLAG SET  */
     if (special_flag == HALF_FLAG) {
