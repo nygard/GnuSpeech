@@ -59,6 +59,10 @@
 #import <GnuSpeech/TTSNumberPronunciations.h>
 #import <GnuSpeech/TTSParser.h>
 
+#import <GnuSpeech/GSTextParser.h>
+// Just for testing
+#import <GnuSpeech/parser_module.h>
+
 // Tube
 #import <GnuSpeech/TRMData.h>
 #import <GnuSpeech/TRMSynthesizer.h>

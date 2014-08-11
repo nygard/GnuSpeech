@@ -88,7 +88,32 @@
 
     NSString *path = [[NSBundle mainBundle] pathForResource:@"Diphones" ofType:@"mxml"];
     //path = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"mxml"];	
-    [self _loadMonetXMLFile:path];	
+    [self _loadMonetXMLFile:path];
+
+    {
+        char str[10] = "ab\tcd\n";
+        for (NSUInteger index = 0; index < strlen(str); index++) {
+            NSLog(@"index: %lu, isprint()? %d", index, isprint(str[index]));
+        }
+
+        char buf1[1000] = "fu-x\n bar"; buf1[3] = 0x07;
+        char buf2[1000] = "fu- \n bar";
+        char out[1000];
+        long outLength;
+
+        outLength = sizeof(out);
+        gs_pm_condition_input(buf1, out, strlen(buf1), &outLength);
+        NSLog(@"one: '%s'", out);
+
+        outLength = sizeof(out);
+        gs_pm_condition_input(buf2, out, strlen(buf2), &outLength);
+        NSLog(@"two: '%s'", out);
+
+        GSTextParser *p1 = [[GSTextParser alloc] init];
+        NSLog(@"p1: %@", p1);
+
+        [p1 parseString:@"fu- \n bar" error:NULL];
+    }
 	
     //NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
 }

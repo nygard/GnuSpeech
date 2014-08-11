@@ -85,7 +85,7 @@
 		015E9CD3154932E200E6974F /* STLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 015E9CD1154932E200E6974F /* STLogger.m */; };
 		0165043D1543B42700D64E98 /* MMDriftGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 0165043B1543B42700D64E98 /* MMDriftGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0165043E1543B42700D64E98 /* MMDriftGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0165043C1543B42700D64E98 /* MMDriftGenerator.m */; };
-		0186C5D719985DB3002AB929 /* GSTextParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 0186C5D519985DB3002AB929 /* GSTextParser.h */; };
+		0186C5D719985DB3002AB929 /* GSTextParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 0186C5D519985DB3002AB929 /* GSTextParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0186C5D819985DB3002AB929 /* GSTextParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0186C5D619985DB3002AB929 /* GSTextParser.m */; };
 		0186C5DA199871B7002AB929 /* SpecialAcronyms.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0186C5D9199871B7002AB929 /* SpecialAcronyms.dict */; };
 		019745A5153F8A2100695CD7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019745A4153F8A2100695CD7 /* AVFoundation.framework */; };
@@ -779,7 +779,6 @@
 				012D53B40B7FF9DC001B50FC /* TTSNumberPronunciations.h in Headers */,
 				0155E4770B7BE92A008D8879 /* TRMSynthesizer.h in Headers */,
 				0155E3980B7BE80D008D8879 /* NSString-Extensions.h in Headers */,
-				0186C5D719985DB3002AB929 /* GSTextParser.h in Headers */,
 				0155E3960B7BE80D008D8879 /* NSScanner-Extensions.h in Headers */,
 				0155E3940B7BE80D008D8879 /* NSObject-Extensions.h in Headers */,
 				0155E3900B7BE80D008D8879 /* NSCharacterSet-Extensions.h in Headers */,
@@ -860,6 +859,7 @@
 				69E228680FB13394001B3C04 /* vowel_before.h in Headers */,
 				0157785815410A48008C2ECF /* GnuSpeechServerProtocol.h in Headers */,
 				01E6107C1996A566009CDE09 /* MMPhone.h in Headers */,
+				0186C5D719985DB3002AB929 /* GSTextParser.h in Headers */,
 				0165043D1543B42700D64E98 /* MMDriftGenerator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

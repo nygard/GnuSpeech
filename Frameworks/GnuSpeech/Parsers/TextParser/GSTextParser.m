@@ -4,6 +4,8 @@
 #import "GSDBMPronunciationDictionary.h"
 #import "GSSimplePronunciationDictionary.h"
 
+// <http://userguide.icu-project.org/strings/regexp>
+
 @implementation GSTextParser
 {
     GSPronunciationDictionary *_userDictionary;
@@ -74,15 +76,25 @@
 
 - (NSString *)parseString:(NSString *)string error:(NSError **)error;
 {
-    return nil;
+    NSString *str = [self _conditionInputString:string];
+    return str;
 }
 
 #pragma mark -
 
 /// Convert all non-printable characters (except escape character) to blanks.
 /// Also connect words hyphenated over a newline.
-- (void)_conditionInputString:(NSMutableString *)str;
+- (NSString *)_conditionInputString:(NSString *)str;
 {
+    NSLog(@" > %s", __PRETTY_FUNCTION__);
+    NSLog(@"str: '%@'", str);
+    NSError *reError;
+    NSRegularExpression *re_hyphenation = [[NSRegularExpression alloc] initWithPattern:@"([a-zA-Z0-9])-[\t\v\f\r ]*\n[\t\v\f\r ]*" options:0 error:&reError];
+    NSLog(@"re_hyphenation: %@, error: %@", re_hyphenation, reError);
+    NSString *s1 = [re_hyphenation stringByReplacingMatchesInString:str options:0 range:NSMakeRange(0, [str length]) withTemplate:@"$1"];
+    NSLog(@"s1: '%@'", s1);
+    NSLog(@"<  %s", __PRETTY_FUNCTION__);
+    return s1;
 }
 
 @end
