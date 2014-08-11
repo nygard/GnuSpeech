@@ -20,7 +20,7 @@ const char *lookup_word(const char *word, short *dict);
 
 // Internal functions, exposed just for testing.
 // gs_pm = GnuSpeech Parser Module
-void  gs_pm_condition_input(const char *input, char *output, long length, long *output_length);
+void  gs_pm_condition_input(const char *input, char *output, long input_length, long *output_length_ptr);
 int   gs_pm_mark_modes(char *input, char *output, long length, long *output_length);
 void  gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *stream_length);
 int   gs_pm_final_conversion(NXStream *stream1, long stream1_length,

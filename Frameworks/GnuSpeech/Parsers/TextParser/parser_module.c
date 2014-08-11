@@ -385,23 +385,23 @@ const char *lookup_word(const char *word, short *dict)
 
 /// Converts all non-printable characters (except escape character to blanks.  Also connects words hyphenated over a newline.
 
-void gs_pm_condition_input(const char *input, char *output, long length, long *output_length)
+void gs_pm_condition_input(const char *input, char *output, long input_length, long *output_length_ptr)
 {
 	int i, j = 0;
 	
-	for (i = 0; i < length; i++) {
+	for (i = 0; i < input_length; i++) {
 		if ((input[i] == '-') && ((i-1) >= 0) && isalpha(input[i-1])) {
 			/*  CONNECT HYPHENATED WORD OVER NEWLINE  */
 			int ii = i;
 			/*  IGNORE ANY WHITE SPACE UP TO NEWLINE  */
-			while (((ii+1) < length) && (input[ii+1] != '\n') &&
+			while (((ii+1) < input_length) && (input[ii+1] != '\n') &&
 				   (input[ii+1] != escape_character) && isspace(input[ii+1]))
 				ii++;
 			/*  IF NEWLINE, THEN CONCATENATE WORD  */
-			if (((ii+1) < length) && input[ii+1] == '\n') {
+			if (((ii+1) < input_length) && input[ii+1] == '\n') {
 				i = ++ii;
 				/*  IGNORE ANY WHITE SPACE  */
-				while (((i+1) < length) && (input[i+1] != escape_character) && isspace(input[i+1]))
+				while (((i+1) < input_length) && (input[i+1] != escape_character) && isspace(input[i+1]))
 					i++;
 			}
 			/*  ELSE, OUTPUT HYPHEN  */
@@ -418,7 +418,7 @@ void gs_pm_condition_input(const char *input, char *output, long length, long *o
 	
 	/*  BE SURE TO APPEND NULL TO STRING  */
 	output[j] = '\0';
-	*output_length = j;
+	*output_length_ptr = j;
 }
 
 
