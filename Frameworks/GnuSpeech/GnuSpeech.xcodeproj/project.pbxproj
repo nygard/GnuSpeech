@@ -257,6 +257,7 @@
 		0186C5D619985DB3002AB929 /* GSTextParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSTextParser.m; sourceTree = "<group>"; };
 		0186C5D9199871B7002AB929 /* SpecialAcronyms.dict */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = SpecialAcronyms.dict; path = TextProcessing/SpecialAcronyms.dict; sourceTree = "<group>"; };
 		0186C5DB1998B3D1002AB929 /* letter_to_sound_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = letter_to_sound_private.h; sourceTree = "<group>"; };
+		0186C5DC19994026002AB929 /* GSTextParser-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GSTextParser-Private.h"; sourceTree = "<group>"; };
 		019745A4153F8A2100695CD7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GnuSpeech.h; sourceTree = "<group>"; };
 		01ACA5DE1544A80700278339 /* MMGroupedObject.h */ = {isa = PBXFileReference; fileEncoding = 30; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = MMGroupedObject.h; path = MonetModel/MMGroupedObject.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
@@ -503,6 +504,7 @@
 			children = (
 				0186C5D519985DB3002AB929 /* GSTextParser.h */,
 				0186C5D619985DB3002AB929 /* GSTextParser.m */,
+				0186C5DC19994026002AB929 /* GSTextParser-Private.h */,
 			);
 			name = "Text Parser 2.0";
 			path = TextParser;
