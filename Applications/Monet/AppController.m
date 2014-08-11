@@ -108,11 +108,6 @@
         outLength = sizeof(out);
         gs_pm_condition_input(buf2, out, strlen(buf2), &outLength);
         NSLog(@"two: '%s'", out);
-
-        GSTextParser *p1 = [[GSTextParser alloc] init];
-        NSLog(@"p1: %@", p1);
-
-        [p1 parseString:@"fu- \n bar" error:NULL];
     }
 	
     //NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
