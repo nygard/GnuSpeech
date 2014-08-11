@@ -1,7 +1,6 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules.
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-/*  HEADER FILES  ************************************************************/
 #import "letter_to_sound.h"
 #import "word_to_patphone.h"
 #import "isp_trans.h"
