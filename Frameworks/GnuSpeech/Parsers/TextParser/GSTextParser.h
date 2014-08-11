@@ -29,4 +29,11 @@ typedef enum : NSUInteger {
 /// Returns nil if no pronunciation found.
 - (NSString *)pronunciationForWord:(NSString *)word andReturnPronunciationSource:(GSPronunciationSource *)source;
 
+
+/// Takes plain English input, and produces phonetic output suitable for further processing in the TTS system.
+/// Return nil if a parse error occurs, and optionally set error.  The error userInfo will contain a key for
+/// the position of the error in the input buffer, if possible, but in later stages of the parse positional
+/// information is lost.
+- (NSString *)parseString:(NSString *)string error:(NSError **)error;
+
 @end

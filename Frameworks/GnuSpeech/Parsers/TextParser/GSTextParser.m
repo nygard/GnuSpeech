@@ -72,4 +72,9 @@
     return nil;
 }
 
+- (NSString *)parseString:(NSString *)string error:(NSError **)error;
+{
+    return nil;
+}
+
 @end
