@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>FunctionTester.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
 		<key>GnuSpeech.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
@@ -17,6 +22,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>0127C35019998C7600BF1830</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>0186C5E01999409D002AB929</key>
 		<dict>
 			<key>primary</key>
