@@ -89,12 +89,18 @@
     NSLog(@" > %s", __PRETTY_FUNCTION__);
     NSLog(@"str: '%@'", str);
     NSError *reError;
-    NSRegularExpression *re_hyphenation = [[NSRegularExpression alloc] initWithPattern:@"([a-zA-Z0-9])-[\t\v\f\r ]*\n[\t\v\f\r ]*" options:0 error:&reError];
+    NSRegularExpression *re_hyphenation = [[NSRegularExpression alloc] initWithPattern:@"([:alnum:])-[\t\v\f\r ]*\n[\t\v\f\r ]*" options:0 error:&reError];
     NSLog(@"re_hyphenation: %@, error: %@", re_hyphenation, reError);
     NSString *s1 = [re_hyphenation stringByReplacingMatchesInString:str options:0 range:NSMakeRange(0, [str length]) withTemplate:@"$1"];
     NSLog(@"s1: '%@'", s1);
+
+    // Keep escape character and printable characters, change everything else to a space.
+    NSRegularExpression *re_printable = [[NSRegularExpression alloc] initWithPattern:@"[:^print:]" options:0 error:&reError];
+    NSLog(@"re_printable: %@, error: %@", re_printable, reError);
+    NSString *s2 = [re_printable stringByReplacingMatchesInString:s1 options:0 range:NSMakeRange(0, [s1 length]) withTemplate:@" "];
+
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
-    return s1;
+    return s2;
 }
 
 @end
