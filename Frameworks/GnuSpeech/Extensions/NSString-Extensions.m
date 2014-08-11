@@ -133,6 +133,23 @@
     return [NSString stringWithString:str];
 }
 
+- (NSString *)stringByReplacingCharactersInSet:(NSCharacterSet *)set withString:(NSString *)str;
+{
+    NSScanner *scanner = [[NSScanner alloc] initWithString:self];
+    [scanner setCharactersToBeSkipped:[NSCharacterSet characterSetWithCharactersInString:@""]];
+    NSMutableString *result = [[NSMutableString alloc] init];
+    while (![scanner isAtEnd]) {
+        NSString *str;
+        if ([scanner scanUpToCharactersFromSet:set intoString:&str]) [result appendString:str];
+
+        if ([scanner scanCharactersFromSet:set intoString:&str]) {
+            // 2014-08-11: Strictly speaking, this method should append spaces of the same length, but one space should be good enough for my needs.
+            [result appendString:@" "];
+        }
+    }
+    return [result copy];
+}
+
 @end
 
 @implementation NSMutableString (Extensions)

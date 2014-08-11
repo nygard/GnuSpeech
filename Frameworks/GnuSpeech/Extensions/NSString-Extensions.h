@@ -24,6 +24,8 @@
 - (BOOL)containsPrimaryStress;
 - (NSString *)convertedStress;
 
+- (NSString *)stringByReplacingCharactersInSet:(NSCharacterSet *)set withString:(NSString *)str;
+
 @end
 
 @interface NSMutableString (Extensions)
