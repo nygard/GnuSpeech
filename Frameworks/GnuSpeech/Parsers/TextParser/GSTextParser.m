@@ -17,6 +17,9 @@
 
     NSArray *_pronunciationSourceOrder;
     NSString *_escapeCharacter;
+
+    NSRegularExpression *_re_condition_hyphenation;
+    NSCharacterSet *_cs_condition_printableAndEscape_inverted;
 }
 
 - (id)init;
@@ -31,9 +34,42 @@
                                        @(GSPronunciationSource_MainDictionary),
                                        ];
         _escapeCharacter = @"%";
+
+        [self _setupRegularExpressionsAndCharacterSets];
     }
 
     return self;
+}
+
+- (void)_setupRegularExpressionsAndCharacterSets;
+{
+    NSError *error;
+    _re_condition_hyphenation = [[NSRegularExpression alloc] initWithPattern:@"([:alnum:])-[\t\v\f\r ]*\n[\t\v\f\r ]*" options:0 error:&error];
+    if (_re_condition_hyphenation == nil) {
+        NSLog(@"_re_condition_hyphenation: %@, error: %@", _re_condition_hyphenation, error);
+    }
+
+    [self _regeneratePrintableAndEscape];
+}
+
+- (void)_regeneratePrintableAndEscape;
+{
+    NSMutableCharacterSet *printableAndEscape = [[NSCharacterSet alphanumericCharacterSet] mutableCopy];
+    [printableAndEscape formUnionWithCharacterSet:[NSCharacterSet punctuationCharacterSet]];
+    [printableAndEscape formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
+    NSParameterAssert([self.escapeCharacter length] == 1);
+    [printableAndEscape addCharactersInString:self.escapeCharacter];
+    [printableAndEscape addCharactersInString:@" "];
+    _cs_condition_printableAndEscape_inverted = [printableAndEscape invertedSet];
+}
+
+#pragma mark -
+
+- (void)setEscapeCharacter:(NSString *)escapeCharacter;
+{
+    NSParameterAssert([escapeCharacter length] == 1);
+    _escapeCharacter = escapeCharacter;
+    [self _regeneratePrintableAndEscape];
 }
 
 #pragma mark -
@@ -84,19 +120,11 @@
 
 #pragma mark -
 
-// TODO: (2014-08-11) The regular expressions and character sets should not be created each time in this method.  Create them in init.
-
 /// Convert all non-printable characters (except escape character) to blanks.
 /// Also connect words hyphenated over a newline.
 - (NSString *)_conditionInputString:(NSString *)str;
 {
-    NSLog(@" > %s", __PRETTY_FUNCTION__);
-    NSLog(@"str: '%@'", str);
-    NSError *reError;
-    NSRegularExpression *re_hyphenation = [[NSRegularExpression alloc] initWithPattern:@"([:alnum:])-[\t\v\f\r ]*\n[\t\v\f\r ]*" options:0 error:&reError];
-    //NSLog(@"re_hyphenation: %@, error: %@", re_hyphenation, reError);
-    NSString *s1 = [re_hyphenation stringByReplacingMatchesInString:str options:0 withTemplate:@"$1"];
-    //NSLog(@"s1: '%@'", s1);
+    NSString *s1 = [_re_condition_hyphenation stringByReplacingMatchesInString:str options:0 withTemplate:@"$1"];
 
     NSMutableCharacterSet *printableAndEscape = [[NSCharacterSet alphanumericCharacterSet] mutableCopy];
     [printableAndEscape formUnionWithCharacterSet:[NSCharacterSet punctuationCharacterSet]];
@@ -106,9 +134,8 @@
     [printableAndEscape addCharactersInString:@" "];
 
     // Keep escape character and printable characters, change everything else to a space.
-    NSString *s2 = [s1 stringByReplacingCharactersInSet:[printableAndEscape invertedSet] withString:@" "];
+    NSString *s2 = [s1 stringByReplacingCharactersInSet:_cs_condition_printableAndEscape_inverted withString:@" "];
 
-    NSLog(@"<  %s", __PRETTY_FUNCTION__);
     return s2;
 }
 
