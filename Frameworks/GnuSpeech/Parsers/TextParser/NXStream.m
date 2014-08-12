@@ -84,20 +84,20 @@
     return _position;
 }
 
-- (BOOL)seekWithOffset:(long)offset fromPosition:(int)whence;
+- (BOOL)seekWithOffset:(long)offset fromPosition:(NXStreamLocation)whence;
 {
     long streamLength = [_buffer length];
     long newPosition;
 
-    if (whence == NX_FROMSTART) {  // from beginning
+    if (whence == NXStreamLocation_Start) {  // from beginning
 
         newPosition = offset;
 
-    } else if (whence == NX_FROMCURRENT) {  // from current
+    } else if (whence == NXStreamLocation_Current) {  // from current
 
         newPosition = _position + offset;
 
-    } else if (whence == NX_FROMEND) {  // from end
+    } else if (whence == NXStreamLocation_End) {  // from end
 
         newPosition = streamLength + offset;
 

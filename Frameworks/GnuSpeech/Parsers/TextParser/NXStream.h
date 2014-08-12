@@ -21,9 +21,11 @@
 
 #import <Foundation/Foundation.h>
 
-#define NX_FROMSTART      (0)
-#define NX_FROMCURRENT    (1)
-#define NX_FROMEND        (2)
+typedef enum : NSUInteger {
+    NXStreamLocation_Start   = 0,
+    NXStreamLocation_Current = 1,
+    NXStreamLocation_End     = 2,
+} NXStreamLocation;
 
 @interface NXStream : NSObject
 
@@ -37,7 +39,7 @@
 - (void)ungetChar;
 
 - (long)position;
-- (BOOL)seekWithOffset:(long)offset fromPosition:(int)whence;
+- (BOOL)seekWithOffset:(long)offset fromPosition:(NXStreamLocation)whence;
 
 - (void)printf:(const char *)format, ...;
 
