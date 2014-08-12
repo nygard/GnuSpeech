@@ -21,15 +21,9 @@
 
 #import <Foundation/Foundation.h>
 
-#define NX_READWRITE      (0)
-#define NX_READONLY       (1)
-
 #define NX_FROMSTART      (0)
 #define NX_FROMCURRENT    (1)
 #define NX_FROMEND        (2)
-
-#define NX_FREEBUFFER     (0)
-#define NX_TRUNCATEBUFFER (1)
 
 @interface NXStream : NSObject
 
@@ -44,9 +38,7 @@
 
 - (long)tell;
 - (BOOL)seekWithOffset:(long)offset fromPosition:(int)whence;
-- (BOOL)atEOS;
 
 - (void)printf:(const char *)format, ...;
-- (void)vprintf:(const char *)format argumentList:(va_list)args;
 
 @end
