@@ -1333,20 +1333,14 @@ int gs_pm_set_tone_group(NXStream *stream, long tg_pos, char *word)
 double gs_pm_convert_silence(char *buffer, NXStream *stream)
 {
     double silence_length = strtod(buffer, NULL);
-
-    /*  LIMIT SILENCE LENGTH TO MAXIMUM  */
-    silence_length = MIN(silence_length, kSilenceMax);
-
-    /*  FIND EQUIVALENT NUMBER OF SILENCE PHONES, PERFORMING ROUNDING  */
-    long number_silence_phones = rintl(silence_length / kSilencePhoneLength);
+    silence_length = MIN(silence_length, kSilenceMax);                        // Limit silence length to maximum.
+    long number_silence_phones = rintl(silence_length / kSilencePhoneLength); // Find equivalent number of silence phones, performing rounding.
 
     [stream printf:"%s ", UTTERANCE_BOUNDARY];
-
-    for (long index = 0; index < number_silence_phones; index++)
+    for (NSUInteger index = 0; index < number_silence_phones; index++)
         [stream printf:"%s ", SILENCE_PHONE];
 
-    /*  RETURN ACTUAL LENGTH OF SILENCE  */
-    return number_silence_phones * kSilencePhoneLength;
+    return number_silence_phones * kSilencePhoneLength;                       // Return actual length of silence.
 }
 
 
@@ -1458,26 +1452,24 @@ int gs_pm_shift_silence(const char *buffer, long offset, long bufferLength, long
 
 void gs_pm_insert_tag(NXStream *stream, long insert_point, char *word)
 {
-    long j, end_point, length;
-    char *temp;
-
     /*  RETURN IMMEDIATELY IF NO INSERT POINT  */
     if (insert_point == UNDEFINED_POSITION)
         return;
 
-    end_point = [stream position];
+    long end_point = [stream position];
 
     /*  CALCULATE HOW MANY CHARACTERS TO SHIFT  */
-    length = end_point - insert_point;
+    long length = end_point - insert_point;
 
     /*  IF LENGTH IS 0, THEN SIMPLY APPEND TAG TO STREAM  */
-    if (length == 0)
+    if (length == 0) {
         [stream printf:"%s %s ", TAG_BEGIN, word];
-    else {
+    } else {
         /*  ELSE, SAVE STREAM AFTER INSERT POINT  */
-        temp = (char *)malloc(length+1);
+        char *temp = (char *)malloc(length+1);
         assert(temp != NULL);
         [stream seekWithOffset:insert_point fromPosition:NXStreamLocation_Start];
+        long j;
         for (j = 0; j < length; j++)
             temp[j] = [stream getChar];
         temp[j] = '\0';
@@ -1501,12 +1493,11 @@ void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
     short dictionary;
     const char *pronunciation, *ptr;
     long last_foot_begin, temporary_position;
-    int possessive = TTS_NO;
     char last_phoneme[SYMBOL_LENGTH_MAX+1], *last_phoneme_ptr;
 
 
     /*  STRIP OF POSSESSIVE ENDING IF WORD ENDS WITH 's, SET FLAG  */
-    possessive = gs_pm_is_possessive(word);
+    int possessive = gs_pm_is_possessive(word);
 
     /*  USE degenerate_string IF WORD IS A SINGLE CHARACTER
      (EXCEPT SMALL, NON-POSSESSIVE A)  */
@@ -1737,8 +1728,8 @@ int gs_pm_illegal_token(char *token)
     /*  IF PHONE A VALID DEGAS PHONE, RETURN 0;  1 OTHERWISE  */
     if (validPhone(token))
         return 0;
-    else
-        return 1;
+
+    return 1;
 }
 
 
@@ -1747,15 +1738,27 @@ int gs_pm_illegal_token(char *token)
 
 int gs_pm_illegal_slash_code(char *code)
 {
-    int i = 0;
-    static char *legal_code[] = {CHUNK_BOUNDARY,TONE_GROUP_BOUNDARY,FOOT_BEGIN,
-        TONIC_BEGIN,SECONDARY_STRESS,LAST_WORD,TAG_BEGIN,
-        WORD_BEGIN,TG_STATEMENT,TG_EXCLAMATION,TG_QUESTION,
-        TG_CONTINUATION,TG_HALF_PERIOD,NULL};
+    static char *legal_code[] = {
+        CHUNK_BOUNDARY,
+        TONE_GROUP_BOUNDARY,
+        FOOT_BEGIN,
+        TONIC_BEGIN,
+        SECONDARY_STRESS,
+        LAST_WORD,
+        TAG_BEGIN,
+        WORD_BEGIN,
+        TG_STATEMENT,
+        TG_EXCLAMATION,
+        TG_QUESTION,
+        TG_CONTINUATION,
+        TG_HALF_PERIOD,
+        NULL
+    };
 
     /*  COMPARE CODE WITH LEGAL CODES, RETURN 0 IMMEDIATELY IF A MATCH  */
-    while (legal_code[i] != NULL)
-        if (!strcmp(legal_code[i++],code))
+    int index = 0;
+    while (legal_code[index] != NULL)
+        if (!strcmp(legal_code[index++], code))
             return 0;
 
     /*  IF HERE, THEN NO MATCH;  RETURN 1, INDICATING ILLEGAL CODE  */
@@ -1797,12 +1800,12 @@ int gs_pm_expand_tag_number(const char *buffer, long *j, long length, NXStream *
 
 /// @return Return 1 if character is a mode marker, 0 otherwise.
 
-int gs_pm_is_mode(char c)
+int gs_pm_is_mode(char ch)
 {
-    if ((c >= SILENCE_MODE_END) && (c <= RAW_MODE_BEGIN))
+    if ((ch >= SILENCE_MODE_END) && (ch <= RAW_MODE_BEGIN))
         return 1;
-    else
-        return 0;
+
+    return 0;
 }
 
 
@@ -1812,11 +1815,13 @@ int gs_pm_is_mode(char c)
 
 int gs_pm_is_isolated(char *buffer, long i, long len)
 {
-    if ( ((i == 0) || (((i-1) >= 0) && (gs_pm_is_mode(buffer[i-1]) || (buffer[i-1] == ' ')))) &&
-        ((i == (len-1)) || (((i+1) < len) && (gs_pm_is_mode(buffer[i+1]) || (buffer[i+1] == ' ')))))
+    if (   ((i == 0)       || (((i-1) >= 0)  && (gs_pm_is_mode(buffer[i-1]) || (buffer[i-1] == ' '))))
+        && ((i == (len-1)) || (((i+1) < len) && (gs_pm_is_mode(buffer[i+1]) || (buffer[i+1] == ' ')))))
+    {
         return 1;
-    else
-        return 0;
+    }
+
+    return 0;
 }
 
 
@@ -1826,13 +1831,23 @@ int gs_pm_is_isolated(char *buffer, long i, long len)
 
 int gs_pm_part_of_number(char *buffer, long i, long len)
 {
-    while( (--i >= 0) && (buffer[i] != ' ') && (buffer[i] != DELETED) && (!gs_pm_is_mode(buffer[i])) )
+    while (   (--i >= 0)
+           && (buffer[i] != ' ')
+           && (buffer[i] != DELETED)
+           && (!gs_pm_is_mode(buffer[i])) )
+    {
         if (isdigit(buffer[i]))
             return 1;
+    }
 
-    while( (++i < len) && (buffer[i] != ' ') && (buffer[i] != DELETED) && (!gs_pm_is_mode(buffer[i])) )
+    while (   (++i < len)
+           && (buffer[i] != ' ')
+           && (buffer[i] != DELETED)
+           && (!gs_pm_is_mode(buffer[i])) )
+    {
         if (isdigit(buffer[i]))
             return 1;
+    }
 
     return 0;
 }
@@ -1844,10 +1859,14 @@ int gs_pm_part_of_number(char *buffer, long i, long len)
 
 int gs_pm_number_follows(char *buffer, long i, long len)
 {
-    while( (++i < len) && (buffer[i] != ' ') &&
-          (buffer[i] != DELETED) && (!gs_pm_is_mode(buffer[i])) )
+    while (   (++i < len)
+           && (buffer[i] != ' ')
+           && (buffer[i] != DELETED)
+           && (!gs_pm_is_mode(buffer[i])) )
+    {
         if (isdigit(buffer[i]))
             return 1;
+    }
 
     return 0;
 }
@@ -1917,26 +1936,29 @@ int gs_pm_convert_dash(char *buffer, long *i, long length)
 int gs_pm_is_telephone_number(char *buffer, long i, long length)
 {
     /*  CHECK FORMAT: (ddd)ddd-dddd  */
-    if ( ((i+12) < length) &&
-        isdigit(buffer[i+1]) && isdigit(buffer[i+2]) && isdigit(buffer[i+3]) &&
-        (buffer[i+4] == ')') &&
-        isdigit(buffer[i+5]) && isdigit(buffer[i+6]) && isdigit(buffer[i+7]) &&
-        (buffer[i+8] == '-') &&
-        isdigit(buffer[i+9]) && isdigit(buffer[i+10]) &&
-        isdigit(buffer[i+11]) && isdigit(buffer[i+12]) ) {
+    if ( ((i+12) < length)
+        && isdigit(buffer[i+1]) && isdigit(buffer[i+2]) && isdigit(buffer[i+3])
+        && (buffer[i+4] == ')')
+        && isdigit(buffer[i+5]) && isdigit(buffer[i+6]) && isdigit(buffer[i+7])
+        && (buffer[i+8] == '-')
+        && isdigit(buffer[i+9]) && isdigit(buffer[i+10]) && isdigit(buffer[i+11]) && isdigit(buffer[i+12]) )
+    {
         /*  MAKE SURE STRING ENDS WITH WHITE SPACE, MODE, OR PUNCTUATION  */
-        if ( ((i+13) == length) ||
-            ( ((i+13) < length) &&
-             (
-              gs_pm_is_punctuation(buffer[i+13]) || gs_pm_is_mode(buffer[i+13]) ||
-              (buffer[i+13] == ' ') || (buffer[i+13] == DELETED)
-              )
-             )
+        if ( ((i+13) == length)
+            || ( ((i+13) < length)
+                && ( gs_pm_is_punctuation(buffer[i+13])
+                    || gs_pm_is_mode(buffer[i+13])
+                    || (buffer[i+13] == ' ')
+                    || (buffer[i+13] == DELETED)
+                    )
+                )
             )
-        /*  RETURN 1 IF ALL ABOVE CONDITIONS ARE MET  */
+        {
             return 1;
+        }
     }
-    /*  IF HERE, THEN STRING IS NOT IN SPECIFIED FORMAT  */
+
+    /*  STRING IS NOT IN SPECIFIED FORMAT  */
     return 0;
 }
 
@@ -1945,9 +1967,9 @@ int gs_pm_is_telephone_number(char *buffer, long i, long length)
 /// @return Return 1 if character is a .,;:?!
 /// @return Return 0 otherwise.
 
-int gs_pm_is_punctuation(char c)
+int gs_pm_is_punctuation(char ch)
 {
-    switch (c) {
+    switch (ch) {
         case '.':
         case ',':
         case ';':
@@ -1968,9 +1990,9 @@ int gs_pm_is_punctuation(char c)
 
 int gs_pm_word_follows(char *buffer, long i, long length)
 {
-    long j, mode = NORMAL_MODE;
+    long mode = NORMAL_MODE;
 
-    for (j = (i+1); j < length; j++) {
+    for (long j = (i+1); j < length; j++) {
         switch (buffer[j]) {
             case RAW_MODE_BEGIN:      mode = RAW_MODE;      break;
             case LETTER_MODE_BEGIN:   mode = LETTER_MODE;   break;
@@ -2259,14 +2281,12 @@ char *gs_pm_to_lower_case(char *word)
 
 const char *gs_pm_is_special_acronym(char *word)
 {
-    NSString * w = [NSString stringWithCString:word encoding:NSASCIIStringEncoding];
-    NSString * pr;
-
     /*  CHECK IF MATCH FOUND, RETURN PRONUNCIATION  */
-    if ((pr = [_specialAcronymsDictionary objectForKey:w]) != nil)
-        return [pr cStringUsingEncoding:NSASCIIStringEncoding];
+    NSString *pronunciation = [_specialAcronymsDictionary objectForKey:[NSString stringWithCString:word encoding:NSASCIIStringEncoding]];
+    if (pronunciation != nil)
+        return [pronunciation cStringUsingEncoding:NSASCIIStringEncoding];
 
-    /*  IF HERE, NO SPECIAL ACRONYM FOUND  */
+    /*  NO SPECIAL ACRONYM FOUND  */
     return NULL;
 }
 
@@ -2327,20 +2347,19 @@ int gs_pm_is_possessive(char *word)
 
 void gs_pm_safety_check(NXStream *stream, long *stream_length)
 {
-    int  c, number_of_feet = 0, number_of_phones = 0, state = NON_PHONEME;
+    int  ch, number_of_feet = 0, number_of_phones = 0, state = NON_PHONEME;
     long last_word_pos = UNDEFINED_POSITION, last_tg_pos = UNDEFINED_POSITION;
     char last_tg_type = '0';
 
-    /*  REWIND STREAM TO BEGINNING  */
     [stream seekWithOffset:0 fromPosition:NXStreamLocation_Start];
 
     /*  LOOP THROUGH STREAM, INSERTING NEW CHUNK MARKERS IF NECESSARY  */
-    while ((c = [stream getChar]) != '\0' && c != EOF) {
-        switch (c) {
+    while ((ch = [stream getChar]) != '\0' && ch != EOF) {
+        switch (ch) {
             case '%':
                 /*  IGNORE SUPER RAW MODE CONTENTS  */
-                while ((c = [stream getChar]) != '%') {
-                    if (c == '\0' || c == EOF) {
+                while ((ch = [stream getChar]) != '%') {
+                    if (ch == '\0' || ch == EOF) {
                         [stream ungetChar];
                         break;
                     }
@@ -2349,7 +2368,7 @@ void gs_pm_safety_check(NXStream *stream, long *stream_length)
                 break;
             case '/':
                 /*  SLASH CODES  */
-                switch (c = [stream getChar]) {
+                switch (ch = [stream getChar]) {
                     case 'c':
                         /*  CHUNK MARKER (/c)  */
                         number_of_feet = number_of_phones = 0;
@@ -2367,12 +2386,12 @@ void gs_pm_safety_check(NXStream *stream, long *stream_length)
                     case 't':
                         /*  IGNORE TAGGING MODE CONTENTS  */
                         /*  SKIP WHITE  */
-                        while ((c = [stream getChar]) == ' ')
+                        while ((ch = [stream getChar]) == ' ')
                             ;
                         [stream ungetChar];
                         /*  SKIP OVER TAG NUMBER  */
-                        while ((c = [stream getChar]) != ' ') {
-                            if (c == '\0' || c == EOF) {
+                        while ((ch = [stream getChar]) != ' ') {
+                            if (ch == '\0' || ch == EOF) {
                                 [stream ungetChar];
                                 break;
                             }
@@ -2384,7 +2403,7 @@ void gs_pm_safety_check(NXStream *stream, long *stream_length)
                     case '3':
                     case '4':
                         /*  REMEMBER TONE GROUP TYPE AND POSITION  */
-                        last_tg_type = c;
+                        last_tg_type = ch;
                         last_tg_pos = [stream position] - 2;
                         break;
                     default:
@@ -2406,7 +2425,7 @@ void gs_pm_safety_check(NXStream *stream, long *stream_length)
                         state = NON_PHONEME;
                         break;
                     }
-                    if (c == ' ')
+                    if (ch == ' ')
                         last_word_pos = [stream position];
                 }
                 state = NON_PHONEME;
@@ -2428,28 +2447,26 @@ void gs_pm_safety_check(NXStream *stream, long *stream_length)
 
 void gs_pm_insert_chunk_marker(NXStream *stream, long insert_point, char tg_type)
 {
-    long new_position;
-    char c;
+    char ch;
 
 
-    /*  OPEN TEMPORARY STREAM  */
     NXStream *temp_stream = [[NXStream alloc] init];
 
     /*  COPY STREAM FROM INSERT POINT TO END TO BUFFER TO ANOTHER STREAM  */
     [stream seekWithOffset:insert_point fromPosition:NXStreamLocation_Start];
-    while ((c = [stream getChar]) != '\0')
-        [temp_stream putChar:c];
+    while ((ch = [stream getChar]) != '\0')
+        [temp_stream putChar:ch];
     [temp_stream putChar:'\0'];
 
     /*  PUT IN MARKERS AT INSERT POINT  */
     [stream seekWithOffset:insert_point fromPosition:NXStreamLocation_Start];
     [stream printf:"%s %s %s /%c ", TONE_GROUP_BOUNDARY, CHUNK_BOUNDARY, TONE_GROUP_BOUNDARY, tg_type];
-    new_position = [stream position] - 9;
+    long new_position = [stream position] - 9;
 
     /*  APPEND CONTENTS OF TEMPORARY STREAM  */
     [temp_stream seekWithOffset:0 fromPosition:NXStreamLocation_Start];
-    while ((c = [temp_stream getChar]) != '\0')
-        [stream putChar:c];
+    while ((ch = [temp_stream getChar]) != '\0')
+        [stream putChar:ch];
     [stream putChar:'\0'];
 
     /*  POSITION THE STREAM AT THE NEW /c MARKER  */

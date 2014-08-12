@@ -38,14 +38,14 @@ int    gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream 
 int    gs_pm_illegal_token(char *token);
 int    gs_pm_illegal_slash_code(char *code);
 int    gs_pm_expand_tag_number(const char *buffer, long *j, long length, NXStream *stream);
-int    gs_pm_is_mode(char c);
+int    gs_pm_is_mode(char ch);
 int    gs_pm_is_isolated(char *buffer, long i, long len);
 int    gs_pm_part_of_number(char *buffer, long i, long len);
 int    gs_pm_number_follows(char *buffer, long i, long len);
 void   gs_pm_delete_ellipsis(char *buffer, long *i, long length);
 int    gs_pm_convert_dash(char *buffer, long *i, long length);
 int    gs_pm_is_telephone_number(char *buffer, long i, long length);
-int    gs_pm_is_punctuation(char c);
+int    gs_pm_is_punctuation(char ch);
 int    gs_pm_word_follows(char *buffer, long i, long length);
 int    gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *stream);
 void   gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, long *status);
