@@ -1,7 +1,6 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules.
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-/*  INCLUDE FILES  ***********************************************************/
 #import "diphone_module.h"
 #import "template.h"
 #import "categories.h"
@@ -11,6 +10,9 @@
 #import <stdlib.h>
 #import <strings.h>
 #import <mach/vm_types.h>
+
+/*  DEFINES  */
+#define CACHE_SIZE      400    /* CAN BE CHANGED HERE  */
 
 
 /*  CONSTANTS  ***************************************************************/

@@ -1726,6 +1726,7 @@ int gs_pm_illegal_token(char *token)
         return 0;
 
     /*  IF PHONE A VALID DEGAS PHONE, RETURN 0;  1 OTHERWISE  */
+    // TODO: (2014-08-11) Nothing calls init_diphone_module() first.
     if (validPhone(token))
         return 0;
     else
