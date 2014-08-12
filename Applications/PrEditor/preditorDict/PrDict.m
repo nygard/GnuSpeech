@@ -344,7 +344,7 @@ char *getNameWithoutExtensionOfFile(char *fileName)
 //				for (c = 0; c < [self count]; c++){
 //					key = [self valueAtPos:c];
 //					data = [self valueForKey:key];
-//					NXPrintf(stream, "%s %s\n", key, PreditorToTTS(data));
+//					[stream printf:"%s %s\n", key, PreditorToTTS(data));
 //				}
 //			
 //			NX_HANDLER		/* Simple handler to close stream if an exception occurs. */

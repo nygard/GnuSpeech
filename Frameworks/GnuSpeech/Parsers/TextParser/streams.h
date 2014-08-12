@@ -21,6 +21,4 @@
 
 @class NXStream;
 
-void NXPrintf(NXStream *stream, const char *format, ...);
-
 void NXLogError(const char *format, ...);

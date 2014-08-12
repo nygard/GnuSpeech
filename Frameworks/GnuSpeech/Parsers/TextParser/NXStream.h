@@ -46,6 +46,7 @@
 - (BOOL)seekWithOffset:(long)offset fromPosition:(int)whence;
 - (BOOL)atEOS;
 
+- (void)printf:(const char *)format, ...;
 - (void)vprintf:(const char *)format argumentList:(va_list)args;
 
 @end
