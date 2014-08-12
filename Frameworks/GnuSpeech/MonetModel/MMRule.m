@@ -187,9 +187,7 @@
             break;
     }
 
-    if (tempEntry == nil) {
-        NSLog(@"CANNOT find temp entry");
-    }
+    NSParameterAssert(tempEntry != nil);
 
     aParameterList = [self.model parameters];
     for (i = 0; i < [aParameterList count]; i++) {
