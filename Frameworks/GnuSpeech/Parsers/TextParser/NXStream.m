@@ -25,8 +25,8 @@
 
 @implementation NXStream
 {
-    NSMutableString *streamBuffer;
-    long streamPosition;
+    NSMutableData *_streamBuffer;
+    long _streamPosition;
 }
 
 - (id)init;
@@ -37,31 +37,21 @@
 - (id)initWithCapacity:(NSUInteger)capacity;
 {
     if ((self =	[super init])) {
-        streamBuffer = [[NSMutableString alloc] initWithCapacity:capacity];
-        streamPosition = 0;
+        _streamBuffer = [[NSMutableData alloc] initWithCapacity:capacity];
+        _streamPosition = 0;
     }
 
     return self;
 }
 
-- (NSMutableString *)buffer;
-{
-    return streamBuffer;
-}
-
 - (NSUInteger)length;
 {
-    return [streamBuffer length];
+    return [_streamBuffer length];
 }
 
-- (const char *)cStringUsingEncoding:(NSStringEncoding)encoding;
+- (void *)mutableBytes;
 {
-    return [streamBuffer cStringUsingEncoding:encoding];
-}
-
-- (const char *)cString;
-{
-    return [streamBuffer cStringUsingEncoding:NSASCIIStringEncoding];
+    return [_streamBuffer mutableBytes];
 }
 
 - (int)putChar:(char)c;
@@ -71,40 +61,42 @@
     buf[1] = '\0';
 
     NSRange range;
-    range.location = streamPosition;
+    range.location = _streamPosition;
     range.length = 1;
 
-    if (streamPosition == [streamBuffer length])
-        [streamBuffer appendString:[NSString stringWithCString:buf encoding:NSASCIIStringEncoding]];
-    else
-        [streamBuffer replaceCharactersInRange:range
-                                    withString:[NSString stringWithCString:buf encoding:NSASCIIStringEncoding]];
+    if (_streamPosition == [_streamBuffer length]) {
+        [_streamBuffer appendBytes:buf length:1];
+    } else {
+        [_streamBuffer replaceBytesInRange:range withBytes:buf];
+    }
 
-    streamPosition++;
+    _streamPosition++;
 
     return (int)c;  // make it behave similar to the stdio *putc() functions
 }
 
 - (int)getChar;
 {
-    if (streamPosition == [streamBuffer length])
+    if (_streamPosition == [_streamBuffer length])
         return EOF;
-    return (int)[streamBuffer characterAtIndex:streamPosition++];
+    int ch;
+    [_streamBuffer getBytes:&ch range:NSMakeRange(_streamPosition++, 1)];
+    return ch;
 }
 
 - (void)ungetChar;
 {
-    streamPosition--;
+    _streamPosition--;
 }
 
 - (long)tell;
 {
-    return streamPosition;
+    return _streamPosition;
 }
 
 - (BOOL)seekWithOffset:(long)offset fromPosition:(int)whence;
 {
-    long streamLength = [streamBuffer length];
+    long streamLength = [_streamBuffer length];
     long newPosition;
 
     if (whence == NX_FROMSTART) {  // from beginning
@@ -113,7 +105,7 @@
 
     } else if (whence == NX_FROMCURRENT) {  // from current
 
-        newPosition = streamPosition + offset;
+        newPosition = _streamPosition + offset;
 
     } else if (whence == NX_FROMEND) {  // from end
 
@@ -125,18 +117,18 @@
     }
 
     if (newPosition > streamLength)
-        streamPosition = streamLength;
+        _streamPosition = streamLength;
     else if (newPosition < 0)
-        streamPosition = 0;
+        _streamPosition = 0;
     else
-        streamPosition = newPosition;
+        _streamPosition = newPosition;
 
     return YES;
 }
 
 - (BOOL)atEOS;
 {
-    if (streamPosition == [streamBuffer length])
+    if (_streamPosition == [_streamBuffer length])
         return YES;
     return NO;
 }
@@ -162,30 +154,28 @@
     long buflen = strlen(buf);
 
     NSRange range;
-    range.location = streamPosition;
+    range.location = _streamPosition;
     range.length = buflen;
 
     if ([self atEOS]) {
 
-        [streamBuffer appendString:[NSString stringWithCString:buf encoding:NSASCIIStringEncoding]];
+        [_streamBuffer appendBytes:buf length:buflen];
 
     } else {
 
-        NSUInteger streamBufferLength = [streamBuffer length];
-        if (streamPosition > (int)streamBufferLength - (int)range.length) {  // range to write is beyond string bounds; note necessary casts to (int)
+        NSUInteger streamBufferLength = [_streamBuffer length];
+        if (_streamPosition > (int)streamBufferLength - (int)range.length) {  // range to write is beyond string bounds; note necessary casts to (int)
 
-            range.length = streamBufferLength - streamPosition;  // adjust range to be within stream buffer bounds
-            [streamBuffer replaceCharactersInRange:range
-                                        withString:[NSString stringWithCString:buf encoding:NSASCIIStringEncoding]];		
+            range.length = streamBufferLength - _streamPosition;  // adjust range to be within stream buffer bounds
+            [_streamBuffer replaceBytesInRange:range withBytes:buf length:buflen];
             
         } else {  // range to write is within string bounds; replace characters in range
             
-            [streamBuffer replaceCharactersInRange:range 
-                                        withString:[NSString stringWithCString:buf encoding:NSASCIIStringEncoding]];
+            [_streamBuffer replaceBytesInRange:range withBytes:buf];
         }
     }
     
-    streamPosition += buflen;
+    _streamPosition += buflen;
     
     free(buf);
 }

@@ -29,7 +29,7 @@ NXStream *NXOpenMemory(const char *address, int size, int mode)
 
 void NXGetMemoryBuffer(NXStream *stream, const char **streambuf, int *len, int *maxLen)
 {
-    *streambuf = [stream cStringUsingEncoding:NSASCIIStringEncoding];
+    *streambuf = [stream mutableBytes];
     if (len != NULL)    *len = (int)[stream length];
     if (maxLen != NULL) *maxLen = INT_MAX;
 }

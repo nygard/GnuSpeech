@@ -36,7 +36,7 @@
 - (id)initWithCapacity:(NSUInteger)size;
 
 - (NSUInteger)length;
-- (const char *)cStringUsingEncoding:(NSStringEncoding)encoding;
+- (void *)mutableBytes NS_RETURNS_INNER_POINTER;
 
 - (int)putChar:(char)c;
 - (int)getChar;
