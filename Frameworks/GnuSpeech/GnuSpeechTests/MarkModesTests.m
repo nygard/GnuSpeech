@@ -392,7 +392,9 @@
 - (void)testMismatchEnd;
 {
     NSString *inputString = @"%tb %se one";
-    XCTAssertThrows([_parser _markModesInString:inputString]);
+    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+
+    XCTAssert(outputString == nil);
 }
 
 @end

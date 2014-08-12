@@ -164,8 +164,10 @@ NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_SilenceVa
         if ([scanner scanString:self.escapeCharacter intoString:&s1]) {
             if (modeStack.currentMode == GSTextParserMode_Raw) {
                 NSString *ignore;
-                if ([scanner scanString:@"re" intoString:&ignore]) { // re, rE, Re, RE -- raw end
-                    [modeStack popMode:GSTextParserMode_Raw];
+                if ([scanner scanString:@"re" intoString:&ignore]) { // TODO: (2014-08-12) Should be case insensitive: re, rE, Re, RE -- raw end
+                    if (![modeStack popMode:GSTextParserMode_Raw]) {
+                        return nil;
+                    }
                 } else {
                     // Pass through escape character, if printable.
                     NSDictionary *attrs = @{ GSTextParserAttribute_Mode : @(modeStack.currentMode) };
@@ -220,7 +222,9 @@ NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_SilenceVa
                             {
                                 // This has an explicit end tag.
                             } else {
-                                [modeStack popMode:GSTextParserMode_Tagging];
+                                if (![modeStack popMode:GSTextParserMode_Tagging]) {
+                                    return nil;
+                                }
                             }
                         } else if ([modeString isEqualToString:@"s"]) {
                             scanner.scanLocation += 2;
@@ -247,7 +251,9 @@ NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_SilenceVa
                             {
                                 // This has an explicit end tag.
                             } else {
-                                [modeStack popMode:GSTextParserMode_Silence];
+                                if (![modeStack popMode:GSTextParserMode_Silence]) {
+                                    return nil;
+                                }
                             }
                         } else {
                             // Pass through escape character, if printable.
@@ -261,19 +267,29 @@ NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_SilenceVa
                         NSString *modeString = [remainingString substringWithRange:NSMakeRange(0, 1)];
                         if ([modeString isEqualToString:@"r"]) {
                             scanner.scanLocation += 2;
-                            [modeStack popMode:GSTextParserMode_Raw];
+                            if (![modeStack popMode:GSTextParserMode_Raw]) {
+                                return nil;
+                            }
                         } else if ([modeString isEqualToString:@"l"]) {
                             scanner.scanLocation += 2;
-                            [modeStack popMode:GSTextParserMode_Letter];
+                            if (![modeStack popMode:GSTextParserMode_Letter]) {
+                                return nil;
+                            }
                         } else if ([modeString isEqualToString:@"e"]) {
                             scanner.scanLocation += 2;
-                            [modeStack popMode:GSTextParserMode_Emphasis];
+                            if (![modeStack popMode:GSTextParserMode_Emphasis]) {
+                                return nil;
+                            }
                         } else if ([modeString isEqualToString:@"t"]) {
                             scanner.scanLocation += 2;
-                            [modeStack popMode:GSTextParserMode_Tagging];
+                            if (![modeStack popMode:GSTextParserMode_Tagging]) {
+                                return nil;
+                            }
                         } else if ([modeString isEqualToString:@"s"]) {
                             scanner.scanLocation += 2;
-                            [modeStack popMode:GSTextParserMode_Silence];
+                            if (![modeStack popMode:GSTextParserMode_Silence]) {
+                                return nil;
+                            }
                         } else {
                             // Pass through escape character, if printable.
                             NSDictionary *attrs = @{ GSTextParserAttribute_Mode : @(modeStack.currentMode) };

@@ -15,6 +15,6 @@ typedef enum : NSUInteger {
 @property (readonly) GSTextParserMode currentMode;
 
 - (void)pushMode:(GSTextParserMode)mode;
-- (void)popMode:(GSTextParserMode)mode;
+- (BOOL)popMode:(GSTextParserMode)mode;
 
 @end

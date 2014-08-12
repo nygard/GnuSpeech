@@ -28,11 +28,15 @@
     [self.stack addObject:@(mode)];
 }
 
-- (void)popMode:(GSTextParserMode)mode;
+- (BOOL)popMode:(GSTextParserMode)mode;
 {
-    NSParameterAssert(self.currentMode == mode);
-    [self.stack removeLastObject];
-    self.currentMode = [[self.stack lastObject] unsignedIntegerValue];
+    if (self.currentMode == mode) {
+        [self.stack removeLastObject];
+        self.currentMode = [[self.stack lastObject] unsignedIntegerValue];
+        return YES;
+    }
+
+    return NO;
 }
 
 @end
