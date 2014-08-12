@@ -36,7 +36,6 @@
 #import "streams.h"
 #import "NXStream.h"
 #import "TTS_types.h"
-#import "diphone_module.h"
 
 #import <ctype.h>
 #import <stdio.h>
@@ -145,6 +144,15 @@ static NSDictionary *_specialAcronymsDictionary;
 static NXStream *_persistentStream;
 
 
+/// Returns a 1 if the phone is valid (exists in the currently initialized database), 0 otherwise.
+
+static int validPhone(char *phone)
+{
+    // This is used in raw mode, turned on with %rb.
+    // TODO: (2014-08-11) This needs to look up the phone in the Monet data.  Previously it was using the unitialized Degas function, but the app crashed before it even got that far.
+    return 1;
+}
+
 
 
 
@@ -229,6 +237,7 @@ int parser(const char *input, const char **output)
      (EXCEPT ESC CHAR), CONNECT WORDS HYPHENATED OVER A NEWLINE  */
     long buffer1_length;
     gs_pm_condition_input(input, buffer1, input_length, &buffer1_length);
+    NSLog(@"conditioned input: '%s'", buffer1);
 
     int error;
     long buffer2_length = input_length + 1;
@@ -263,6 +272,8 @@ int parser(const char *input, const char **output)
         NXLogError("TTS Server:  Cannot open memory stream (parser).");
         return TTS_PARSER_FAILURE;
     }
+
+//    NSLog(@"stream1: '%@'", [stream1 buffer]);
 
     /*  DO FINAL CONVERSION  */
     long persistent_stream_length;

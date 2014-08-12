@@ -143,18 +143,6 @@
 		69B1086E0EDD307400DEF197 /* TRMData.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B1086C0EDD307400DEF197 /* TRMData.m */; };
 		69E226500FB0EC35001B3C04 /* MMTextToPhone.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E2264E0FB0EC35001B3C04 /* MMTextToPhone.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		69E226510FB0EC35001B3C04 /* MMTextToPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E2264F0FB0EC35001B3C04 /* MMTextToPhone.m */; };
-		69E227BB0FB12AB0001B3C04 /* categories.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E227AF0FB12AAF001B3C04 /* categories.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69E227BC0FB12AB0001B3C04 /* diphone_module.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E227B00FB12AAF001B3C04 /* diphone_module.c */; };
-		69E227BD0FB12AB0001B3C04 /* diphone_module.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E227B10FB12AAF001B3C04 /* diphone_module.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69E227BE0FB12AB0001B3C04 /* evaluate.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E227B20FB12AAF001B3C04 /* evaluate.c */; };
-		69E227BF0FB12AB0001B3C04 /* evaluate.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E227B30FB12AAF001B3C04 /* evaluate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69E227C00FB12AB0001B3C04 /* phoneDescription.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E227B40FB12AAF001B3C04 /* phoneDescription.c */; };
-		69E227C10FB12AB0001B3C04 /* phoneDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E227B50FB12AAF001B3C04 /* phoneDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69E227C20FB12AB0001B3C04 /* rule.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E227B60FB12AAF001B3C04 /* rule.c */; };
-		69E227C30FB12AB0001B3C04 /* rule.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E227B70FB12AAF001B3C04 /* rule.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69E227C40FB12AB0001B3C04 /* template.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E227B80FB12AAF001B3C04 /* template.c */; };
-		69E227C50FB12AB0001B3C04 /* template.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E227B90FB12AAF001B3C04 /* template.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		69E227C60FB12AB0001B3C04 /* categories.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E227BA0FB12AAF001B3C04 /* categories.c */; };
 		69E228450FB13394001B3C04 /* apply_stress.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E2281F0FB13393001B3C04 /* apply_stress.c */; };
 		69E228470FB13394001B3C04 /* check_word_list.c in Sources */ = {isa = PBXBuildFile; fileRef = 69E228210FB13393001B3C04 /* check_word_list.c */; };
 		69E228490FB13394001B3C04 /* clusters.h in Headers */ = {isa = PBXBuildFile; fileRef = 69E228230FB13393001B3C04 /* clusters.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -340,18 +328,6 @@
 		69B1086C0EDD307400DEF197 /* TRMData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TRMData.m; path = Tube/TRMData.m; sourceTree = "<group>"; };
 		69E2264E0FB0EC35001B3C04 /* MMTextToPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMTextToPhone.h; path = MonetModel/MMTextToPhone.h; sourceTree = "<group>"; };
 		69E2264F0FB0EC35001B3C04 /* MMTextToPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMTextToPhone.m; path = MonetModel/MMTextToPhone.m; sourceTree = "<group>"; };
-		69E227AF0FB12AAF001B3C04 /* categories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = categories.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		69E227B00FB12AAF001B3C04 /* diphone_module.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = diphone_module.c; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
-		69E227B10FB12AAF001B3C04 /* diphone_module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = diphone_module.h; sourceTree = "<group>"; };
-		69E227B20FB12AAF001B3C04 /* evaluate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = evaluate.c; sourceTree = "<group>"; };
-		69E227B30FB12AAF001B3C04 /* evaluate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = evaluate.h; sourceTree = "<group>"; };
-		69E227B40FB12AAF001B3C04 /* phoneDescription.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = phoneDescription.c; sourceTree = "<group>"; };
-		69E227B50FB12AAF001B3C04 /* phoneDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = phoneDescription.h; sourceTree = "<group>"; };
-		69E227B60FB12AAF001B3C04 /* rule.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rule.c; sourceTree = "<group>"; };
-		69E227B70FB12AAF001B3C04 /* rule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rule.h; sourceTree = "<group>"; };
-		69E227B80FB12AAF001B3C04 /* template.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = template.c; sourceTree = "<group>"; };
-		69E227B90FB12AAF001B3C04 /* template.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = template.h; sourceTree = "<group>"; };
-		69E227BA0FB12AAF001B3C04 /* categories.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = categories.c; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
 		69E2281F0FB13393001B3C04 /* apply_stress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = apply_stress.c; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
 		69E228210FB13393001B3C04 /* check_word_list.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = check_word_list.c; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
 		69E228230FB13393001B3C04 /* clusters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = clusters.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -416,25 +392,6 @@
 				0127C35319998C7600BF1830 /* main.m */,
 			);
 			path = FunctionTester;
-			sourceTree = "<group>";
-		};
-		0127C3591999C42700BF1830 /* Looks like old Degas code */ = {
-			isa = PBXGroup;
-			children = (
-				69E227B00FB12AAF001B3C04 /* diphone_module.c */,
-				69E227B10FB12AAF001B3C04 /* diphone_module.h */,
-				69E227B60FB12AAF001B3C04 /* rule.c */,
-				69E227B70FB12AAF001B3C04 /* rule.h */,
-				69E227B20FB12AAF001B3C04 /* evaluate.c */,
-				69E227B30FB12AAF001B3C04 /* evaluate.h */,
-				69E227B40FB12AAF001B3C04 /* phoneDescription.c */,
-				69E227B50FB12AAF001B3C04 /* phoneDescription.h */,
-				69E227B80FB12AAF001B3C04 /* template.c */,
-				69E227B90FB12AAF001B3C04 /* template.h */,
-				69E227AF0FB12AAF001B3C04 /* categories.h */,
-				69E227BA0FB12AAF001B3C04 /* categories.c */,
-			);
-			name = "Looks like old Degas code";
 			sourceTree = "<group>";
 		};
 		012D53A00B7FF9BD001B50FC /* Text Processing */ = {
@@ -762,7 +719,6 @@
 		695148BA0FB0DEB000B6DDD6 /* Text Parser */ = {
 			isa = PBXGroup;
 			children = (
-				0127C3591999C42700BF1830 /* Looks like old Degas code */,
 				695148BB0FB0DEB000B6DDD6 /* abbreviations.h */,
 				695148BC0FB0DEB000B6DDD6 /* NXStream.h */,
 				695148BD0FB0DEB000B6DDD6 /* NXStream.m */,
@@ -875,12 +831,6 @@
 				695148CB0FB0DEB000B6DDD6 /* streams.h in Headers */,
 				695148CE0FB0DEB000B6DDD6 /* TTS_types.h in Headers */,
 				69E226500FB0EC35001B3C04 /* MMTextToPhone.h in Headers */,
-				69E227BB0FB12AB0001B3C04 /* categories.h in Headers */,
-				69E227BD0FB12AB0001B3C04 /* diphone_module.h in Headers */,
-				69E227BF0FB12AB0001B3C04 /* evaluate.h in Headers */,
-				69E227C10FB12AB0001B3C04 /* phoneDescription.h in Headers */,
-				69E227C30FB12AB0001B3C04 /* rule.h in Headers */,
-				69E227C50FB12AB0001B3C04 /* template.h in Headers */,
 				69E228490FB13394001B3C04 /* clusters.h in Headers */,
 				69E228550FB13394001B3C04 /* letter_to_sound.h in Headers */,
 				69E228600FB13394001B3C04 /* stresstables.h in Headers */,
@@ -1081,13 +1031,7 @@
 				695148C80FB0DEB000B6DDD6 /* parser_module.c in Sources */,
 				695148CA0FB0DEB000B6DDD6 /* streams.c in Sources */,
 				69E226510FB0EC35001B3C04 /* MMTextToPhone.m in Sources */,
-				69E227BC0FB12AB0001B3C04 /* diphone_module.c in Sources */,
-				69E227BE0FB12AB0001B3C04 /* evaluate.c in Sources */,
-				69E227C00FB12AB0001B3C04 /* phoneDescription.c in Sources */,
 				0186C5D819985DB3002AB929 /* GSTextParser.m in Sources */,
-				69E227C20FB12AB0001B3C04 /* rule.c in Sources */,
-				69E227C40FB12AB0001B3C04 /* template.c in Sources */,
-				69E227C60FB12AB0001B3C04 /* categories.c in Sources */,
 				69E228450FB13394001B3C04 /* apply_stress.c in Sources */,
 				69E228470FB13394001B3C04 /* check_word_list.c in Sources */,
 				69E2284A0FB13394001B3C04 /* ends_with.c in Sources */,
@@ -1360,6 +1304,7 @@
 				0127C35619998C7600BF1830 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0186C5E71999409D002AB929 /* Build configuration list for PBXNativeTarget "GnuSpeechTests" */ = {
 			isa = XCConfigurationList;

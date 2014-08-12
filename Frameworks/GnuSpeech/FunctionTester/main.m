@@ -8,7 +8,7 @@ int main(int argc, const char *argv[])
     {
         NSLog(@"Hey");
         init_parser_module();
-        char input[1000] = "one %tb 123 two %te three";
+        char input[1000] = "I'm %rb sorry David, I'm afraid I can't do that.";
         char output[1000];
         long outputLength = sizeof(output);
         gs_pm_mark_modes(input, output, strlen(input), &outputLength);
