@@ -440,7 +440,9 @@ void gs_pm_condition_input(const char *input, char *output, long input_length, l
 // %[?][bB] - anything else is undefined.
 // - in anything other than raw mode... beginning a mode emits that mode begin, puts mode on stack.
 // - begin tagging mode:
-//   - skip whitespace
+//   - skip whitespace.  [+-]?[0-9]+[\w]*           (\w whitespace?)
+//   - will consume trailing %[tT][eE] immediately, if present.  Otherwise will add the end mode anyway.
+//   - so both "%tb 12345   %te foo" and just "%tb 12345 foo" are valid.
 
 
 int gs_pm_mark_modes(char *input, char *output, long length, long *output_length)
@@ -457,6 +459,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
 
     /*  INITIALIZE MODE STACK TO NORMAL MODE */
     int mode_stack[MODE_NEST_MAX], stack_ptr = 0;
+    memset(output, 0, *output_length); // Zero it out, to make debugging easier.
     for (NSUInteger index = 0; index < MODE_NEST_MAX; index++) mode_stack[index] = 1000; // Just for debugging.
     mode_stack[stack_ptr] = NORMAL_MODE;
 
@@ -504,7 +507,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                 /*  CHECK FOR BEGINNING OF MODE  */
                 else if ( ((inputIndex + 2) < length) && ((input[inputIndex + 2] == 'b') || (input[inputIndex + 2] == 'B')) ) {
                     /*  CHECK FOR WHICH MODE  */
-                    switch(input[inputIndex+1]) {
+                    switch(input[inputIndex + 1]) {
                         case 'r':
                         case 'R': mode = RAW_MODE;       break;
                         case 'l':
@@ -541,20 +544,28 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                             while (((inputIndex + 1) < length) && (input[inputIndex + 1] != ' ') && (input[inputIndex + 1] != escape_character)) {
                                 inputIndex++;
                                 /*  ALLOW ONLY MINUS OR PLUS SIGN AND DIGITS  */
-                                if (!isdigit(input[inputIndex]) && (input[inputIndex] != '-') && (input[inputIndex] != '+'))
+                                if (!isdigit(input[inputIndex]) && (input[inputIndex] != '-') && (input[inputIndex] != '+')) {
+                                    //fprintf(stderr, "[1] failed at index: %d, input: '%s', output: '%s'\n", inputIndex, input+inputIndex, output);
                                     return inputIndex;
+                                }
                                 /*  MINUS OR PLUS SIGN AT BEGINNING ONLY  */
-                                if ((pos > 0) && ((input[inputIndex] == '-') || (input[inputIndex] == '+')))
+                                if ((pos > 0) && ((input[inputIndex] == '-') || (input[inputIndex] == '+'))) {
+                                    //fprintf(stderr, "[2] failed at index: %d, input: '%s', output: '%s'\n", inputIndex, input+inputIndex, output);
                                     return inputIndex;
+                                }
                                 /*  OUTPUT CHARACTER, KEEPING TRACK OF POSITION AND MINUS SIGN  */
                                 output[outputIndex++] = input[inputIndex];
-                                if ((input[inputIndex] == '-') || (input[inputIndex] == '+'))
+                                if ((input[inputIndex] == '-') || (input[inputIndex] == '+')) {
                                     has_minus_or_plus++;
+                                }
                                 pos++;
                             }
+                            fprintf(stderr, "Done loop\n");
                             /*  MAKE SURE MINUS OR PLUS SIGN HAS NUMBER FOLLOWING IT  */
-                            if (has_minus_or_plus >= pos)
+                            if (has_minus_or_plus >= pos) {
+                                //fprintf(stderr, "[3] failed at index: %d, input: '%s', output: '%s'\n", inputIndex, input+inputIndex, output);
                                 return inputIndex;
+                            }
                             /*  IGNORE ANY WHITE SPACE  */
                             while (((inputIndex + 1) < length) && (input[inputIndex + 1] == ' '))
                                 inputIndex++;
