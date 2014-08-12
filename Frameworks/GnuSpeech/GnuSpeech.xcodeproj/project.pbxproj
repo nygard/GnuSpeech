@@ -12,6 +12,8 @@
 		010DE75A15463851005E337E /* MMFRuleSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE75915463851005E337E /* MMFRuleSymbols.m */; };
 		01102E25199A0012002B4522 /* MarkModesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 01102E24199A0012002B4522 /* MarkModesTests.m */; };
 		01102E27199A8EDA002B4522 /* ScannerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 01102E26199A8EDA002B4522 /* ScannerTests.m */; };
+		01102E2A199A9E95002B4522 /* GSTextParserModeStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 01102E28199A9E95002B4522 /* GSTextParserModeStack.h */; };
+		01102E2B199A9E95002B4522 /* GSTextParserModeStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 01102E29199A9E95002B4522 /* GSTextParserModeStack.m */; };
 		0127C35419998C7600BF1830 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0127C35319998C7600BF1830 /* main.m */; };
 		0127C35819998C8D00BF1830 /* GnuSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* GnuSpeech.framework */; };
 		012D53AC0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -187,6 +189,8 @@
 		010DE75915463851005E337E /* MMFRuleSymbols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFRuleSymbols.m; sourceTree = "<group>"; };
 		01102E24199A0012002B4522 /* MarkModesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkModesTests.m; sourceTree = "<group>"; };
 		01102E26199A8EDA002B4522 /* ScannerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannerTests.m; sourceTree = "<group>"; };
+		01102E28199A9E95002B4522 /* GSTextParserModeStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSTextParserModeStack.h; sourceTree = "<group>"; };
+		01102E29199A9E95002B4522 /* GSTextParserModeStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSTextParserModeStack.m; sourceTree = "<group>"; };
 		0127C35119998C7600BF1830 /* FunctionTester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FunctionTester; sourceTree = BUILT_PRODUCTS_DIR; };
 		0127C35319998C7600BF1830 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSDBMPronunciationDictionary.h; path = TextProcessing/GSDBMPronunciationDictionary.h; sourceTree = "<group>"; };
@@ -533,6 +537,8 @@
 		0186C5D419985D93002AB929 /* Text Parser 2.0 */ = {
 			isa = PBXGroup;
 			children = (
+				01102E28199A9E95002B4522 /* GSTextParserModeStack.h */,
+				01102E29199A9E95002B4522 /* GSTextParserModeStack.m */,
 				0186C5D519985DB3002AB929 /* GSTextParser.h */,
 				0186C5D619985DB3002AB929 /* GSTextParser.m */,
 				0186C5DC19994026002AB929 /* GSTextParser-Private.h */,
@@ -790,6 +796,7 @@
 				0155E4600B7BE8FA008D8879 /* MMSlopeRatio.h in Headers */,
 				0155E45E0B7BE8FA008D8879 /* MMSlope.h in Headers */,
 				0155E45C0B7BE8FA008D8879 /* MMRule.h in Headers */,
+				01102E2A199A9E95002B4522 /* GSTextParserModeStack.h in Headers */,
 				0155E45A0B7BE8FA008D8879 /* MMPostureRewriter.h in Headers */,
 				0155E4580B7BE8FA008D8879 /* MMPosture.h in Headers */,
 				0155E4560B7BE8FA008D8879 /* MMPoint.h in Headers */,
@@ -1016,6 +1023,7 @@
 				012D53B30B7FF9DC001B50FC /* GSSuffix.m in Sources */,
 				012D53B60B7FF9DC001B50FC /* TTSParserOld.m in Sources */,
 				69B1086E0EDD307400DEF197 /* TRMData.m in Sources */,
+				01102E2B199A9E95002B4522 /* GSTextParserModeStack.m in Sources */,
 				69300A3F0FAB841E0041EBFB /* TTSParser.m in Sources */,
 				694157980FAB8D66009D4192 /* GSParser.m in Sources */,
 				6951479F0FB0D73000B6DDD6 /* MMBooleanExpression.m in Sources */,

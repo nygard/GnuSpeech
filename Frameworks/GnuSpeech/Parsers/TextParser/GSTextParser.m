@@ -6,16 +6,7 @@
 #import "GSPronunciationDictionary.h"
 #import "GSDBMPronunciationDictionary.h"
 #import "GSSimplePronunciationDictionary.h"
-
-typedef enum : NSUInteger {
-    GSTextParserMode_Normal    = 0,
-    GSTextParserMode_Raw       = 1,
-    GSTextParserMode_Letter    = 2,
-    GSTextParserMode_Emphasis  = 3,
-    GSTextParserMode_Tagging   = 4,
-    GSTextParserMode_Silence   = 5,
-    GSTextParserMode_Undefined = 6,
-} GSTextParserMode;
+#import "GSTextParserModeStack.h"
 
 /// Contains an NSNumber wrapping GSTextParserMode.  If this attribute isn't present, assume GSTextParserMode_Normal.
 static NSString *GSTextParserAttribute_Mode = @"GSTextParserAttribute_Mode";
@@ -149,17 +140,11 @@ static NSString *GSTextParserAttribute_TagValue = @"GSTextParserAttribute_TagVal
     return s2;
 }
 
-#define PUSH_MODE(m) { mode = m; [modeStack addObject:@(m)]; }
-#define POP_MODE(m)  { NSParameterAssert(m == mode); [modeStack removeLastObject]; mode = [[modeStack lastObject] unsignedIntegerValue]; }
-
 - (NSAttributedString *)_markModesInString:(NSString *)str;
 {
     NSParameterAssert(str != nil);
 
-    NSMutableArray *modeStack = [[NSMutableArray alloc] init];
-    GSTextParserMode mode;
-
-    PUSH_MODE(GSTextParserMode_Normal);
+    GSTextParserModeStack *modeStack = [[GSTextParserModeStack alloc] init];
 
     NSMutableAttributedString *resultString = [[NSMutableAttributedString alloc] init];;
 
@@ -169,18 +154,18 @@ static NSString *GSTextParserAttribute_TagValue = @"GSTextParserAttribute_TagVal
     while (![scanner isAtEnd]) {
         NSString *s1;
         if ([scanner scanUpToString:self.escapeCharacter intoString:&s1]) {
-            NSDictionary *attrs = @{ GSTextParserAttribute_Mode : [modeStack lastObject] };
+            NSDictionary *attrs = @{ GSTextParserAttribute_Mode : @(modeStack.currentMode) };
             NSAttributedString *astr = [[NSAttributedString alloc] initWithString:s1 attributes:attrs];
             [resultString appendAttributedString:astr];
         }
         if ([scanner scanString:self.escapeCharacter intoString:&s1]) {
-            if (mode == GSTextParserMode_Raw) {
+            if (modeStack.currentMode == GSTextParserMode_Raw) {
                 NSString *ignore;
                 if ([scanner scanString:@"re" intoString:&ignore]) { // re, rE, Re, RE -- raw end
-                    POP_MODE(GSTextParserMode_Raw);
+                    [modeStack popMode:GSTextParserMode_Raw];
                 } else {
                     // Pass through escape character, if printable.
-                    NSDictionary *attrs = @{ GSTextParserAttribute_Mode : [modeStack lastObject] };
+                    NSDictionary *attrs = @{ GSTextParserAttribute_Mode : @(modeStack.currentMode) };
                     NSAttributedString *astr = [[NSAttributedString alloc] initWithString:self.escapeCharacter attributes:attrs];
                     [resultString appendAttributedString:astr];
                 }
@@ -188,7 +173,7 @@ static NSString *GSTextParserAttribute_TagValue = @"GSTextParserAttribute_TagVal
                 // Check for double escape
                 if ([scanner scanString:self.escapeCharacter intoString:&s1]) {
                     // Pass through escape character, if printable.
-                    NSDictionary *attrs = @{ GSTextParserAttribute_Mode : [modeStack lastObject] };
+                    NSDictionary *attrs = @{ GSTextParserAttribute_Mode : @(modeStack.currentMode) };
                     NSAttributedString *astr = [[NSAttributedString alloc] initWithString:self.escapeCharacter attributes:attrs];
                     [resultString appendAttributedString:astr];
                 } else {
@@ -198,16 +183,16 @@ static NSString *GSTextParserAttribute_TagValue = @"GSTextParserAttribute_TagVal
                         NSString *modeString = [[remainingString substringWithRange:NSMakeRange(0, 1)] lowercaseString];
                         if ([modeString isEqualToString:@"r"]) {
                             scanner.scanLocation += 2;
-                            PUSH_MODE(GSTextParserMode_Raw);
+                            [modeStack pushMode:GSTextParserMode_Raw];
                         } else if ([modeString isEqualToString:@"l"]) {
                             scanner.scanLocation += 2;
-                            PUSH_MODE(GSTextParserMode_Letter);
+                            [modeStack pushMode:GSTextParserMode_Letter];
                         } else if ([modeString isEqualToString:@"e"]) {
                             scanner.scanLocation += 2;
-                            PUSH_MODE(GSTextParserMode_Emphasis);
+                            [modeStack pushMode:GSTextParserMode_Emphasis];
                         } else if ([modeString isEqualToString:@"t"]) {
                             scanner.scanLocation += 2;
-                            PUSH_MODE(GSTextParserMode_Tagging);
+                            [modeStack pushMode:GSTextParserMode_Tagging];
 
                             NSCharacterSet *spaceCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@" "];
                             NSString *s2;
@@ -216,7 +201,7 @@ static NSString *GSTextParserAttribute_TagValue = @"GSTextParserAttribute_TagVal
                             if ([scanner scanInteger:&value]) {
                                 // Pass through escape character, if printable.
                                 NSDictionary *attrs = @{
-                                                        GSTextParserAttribute_Mode     : [modeStack lastObject],
+                                                        GSTextParserAttribute_Mode     : @(modeStack.currentMode),
                                                         GSTextParserAttribute_TagValue : @(value),
                                                         };
                                 NSAttributedString *astr = [[NSAttributedString alloc] initWithString:@"<tagging mode>" attributes:attrs];
@@ -230,15 +215,15 @@ static NSString *GSTextParserAttribute_TagValue = @"GSTextParserAttribute_TagVal
                             {
                                 // This has an explicit end tag.
                             } else {
-                                POP_MODE(GSTextParserMode_Tagging);
+                                [modeStack popMode:GSTextParserMode_Tagging];
                             }
                         } else if ([modeString isEqualToString:@"s"]) {
                             scanner.scanLocation += 2;
-                            PUSH_MODE(GSTextParserMode_Silence);
+                            [modeStack pushMode:GSTextParserMode_Silence];
                             // TODO: (2014-08-12) Extra stuff here.
                         } else {
                             // Pass through escape character, if printable.
-                            NSDictionary *attrs = @{ GSTextParserAttribute_Mode : [modeStack lastObject] };
+                            NSDictionary *attrs = @{ GSTextParserAttribute_Mode : @(modeStack.currentMode) };
                             NSAttributedString *astr = [[NSAttributedString alloc] initWithString:self.escapeCharacter attributes:attrs];
                             [resultString appendAttributedString:astr];
                         }
@@ -248,28 +233,28 @@ static NSString *GSTextParserAttribute_TagValue = @"GSTextParserAttribute_TagVal
                         NSString *modeString = [remainingString substringWithRange:NSMakeRange(0, 1)];
                         if ([modeString isEqualToString:@"r"]) {
                             scanner.scanLocation += 2;
-                            POP_MODE(GSTextParserMode_Raw);
+                            [modeStack popMode:GSTextParserMode_Raw];
                         } else if ([modeString isEqualToString:@"l"]) {
                             scanner.scanLocation += 2;
-                            POP_MODE(GSTextParserMode_Letter);
+                            [modeStack popMode:GSTextParserMode_Letter];
                         } else if ([modeString isEqualToString:@"e"]) {
                             scanner.scanLocation += 2;
-                            POP_MODE(GSTextParserMode_Emphasis);
+                            [modeStack popMode:GSTextParserMode_Emphasis];
                         } else if ([modeString isEqualToString:@"t"]) {
                             scanner.scanLocation += 2;
-                            POP_MODE(GSTextParserMode_Tagging);
+                            [modeStack popMode:GSTextParserMode_Tagging];
                         } else if ([modeString isEqualToString:@"s"]) {
                             scanner.scanLocation += 2;
-                            POP_MODE(GSTextParserMode_Silence);
+                            [modeStack popMode:GSTextParserMode_Silence];
                         } else {
                             // Pass through escape character, if printable.
-                            NSDictionary *attrs = @{ GSTextParserAttribute_Mode : [modeStack lastObject] };
+                            NSDictionary *attrs = @{ GSTextParserAttribute_Mode : @(modeStack.currentMode) };
                             NSAttributedString *astr = [[NSAttributedString alloc] initWithString:self.escapeCharacter attributes:attrs];
                             [resultString appendAttributedString:astr];
                         }
                     } else {
                         // Pass through escape character, if printable.
-                        NSDictionary *attrs = @{ GSTextParserAttribute_Mode : [modeStack lastObject] }; // Or just @(mode).
+                        NSDictionary *attrs = @{ GSTextParserAttribute_Mode : @(modeStack.currentMode) };
                         NSAttributedString *astr = [[NSAttributedString alloc] initWithString:self.escapeCharacter attributes:attrs];
                         [resultString appendAttributedString:astr];
                     }
