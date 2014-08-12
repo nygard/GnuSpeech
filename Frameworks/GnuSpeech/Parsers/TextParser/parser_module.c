@@ -481,7 +481,8 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
     /*  MARK THE MODES OF INPUT, CHECKING FOR ERRORS  */
     for (int inputIndex = 0; inputIndex < length; inputIndex++) {
         if (input[inputIndex] == _escape_character) {
-            if (mode_stack[stack_ptr] == RAW_MODE) {
+            if (mode_stack[stack_ptr] == RAW_MODE)
+            {
                 /*  CHECK FOR RAW MODE END  */
                 if ( ((inputIndex + 2) < length)
                     && ((input[inputIndex + 1] == 'r') || (input[inputIndex + 1] == 'R'))
@@ -498,7 +499,8 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                 }
             }
             /*  ELSE, IF IN ANY OTHER MODE  */
-            else {
+            else
+            {
                 /*  CHECK FOR DOUBLE ESCAPE CHARACTER  */
                 if ( ((inputIndex + 1) < length) && (input[inputIndex + 1] == _escape_character) ) {
                     OUTPUT_ESCAPE_IF_PRINTABLE();
@@ -526,7 +528,8 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                         MARK_BEGINNING_OF_MODE(mode);
                         inputIndex += 2;
                         /*  ADD TAGGING MODE END, IF NOT GIVEN, GETTING RID OF BLANKS  */
-                        if (mode == TAGGING_MODE) {
+                        if (mode == TAGGING_MODE)
+                        {
                             /*  IGNORE ANY WHITE SPACE  */
                             while (((inputIndex + 1) < length) && (input[inputIndex + 1] == ' ')) {
                                 inputIndex++;
@@ -574,7 +577,8 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                                 MARK_BEGINNING_OF_STACKED_MODE();
                             }
                         }
-                        else if (mode == SILENCE_MODE) {
+                        else if (mode == SILENCE_MODE)
+                        {
                             /*  IGNORE ANY WHITE SPACE  */
                             while (((inputIndex + 1) < length) && (input[inputIndex + 1] == ' ')) {
                                 inputIndex++;
@@ -618,7 +622,8 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                     }
                 }
                 /*  CHECK FOR END OF MODE  */
-                else if ( ((inputIndex + 2) < length) && ((input[inputIndex + 2] == 'e') || (input[inputIndex + 2] == 'E')) ) {
+                else if ( ((inputIndex + 2) < length) && ((input[inputIndex + 2] == 'e') || (input[inputIndex + 2] == 'E')) )
+                {
                     /*  CHECK FOR WHICH MODE  */
                     switch (input[inputIndex + 1]) {
                         case 'r':
@@ -2514,7 +2519,7 @@ void gs_pm_check_tonic(NXStream *stream, long start_pos, long end_pos)
 
 
 
-/// Print out the contents of a parser stream, with visible mode markers.
+/// Print out the contents of a parser stream, inserting visible mode markers.
 #if 0
 static void print_stream(NXStream *stream, long stream_length)
 {

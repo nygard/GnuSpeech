@@ -25,7 +25,7 @@
 {
     //[self skipCharacters];
 
-    if ([self isAtEnd] == YES)
+    if ([self isAtEnd])
         return nil;
 
     return [[self string] substringWithRange:NSMakeRange([self scanLocation], 1)];
@@ -36,11 +36,19 @@
     return [[self string] characterAtIndex:[self scanLocation]];
 }
 
+- (NSString *)remainingString;
+{
+    if (self.isAtEnd)
+        return @"";
+
+    return [self.string substringFromIndex:self.scanLocation];
+}
+
 - (BOOL)scanCharacter:(unichar *)value;
 {
     //[self skipCharacters];
 
-    if ([self isAtEnd] == YES)
+    if ([self isAtEnd])
         return NO;
 
     unichar ch = [[self string] characterAtIndex:[self scanLocation]];
@@ -57,7 +65,7 @@
     unichar ch;
 
     BOOL result = [self scanCharacter:&ch];
-    if (result == YES)
+    if (result)
         *value = [NSString stringWithUnichar:ch];
 
     return result;
@@ -72,11 +80,11 @@
 {
     //[self skipCharacters];
 
-    if ([self isAtEnd] == YES)
+    if ([self isAtEnd])
         return NO;
 
     unichar ch = [[self string] characterAtIndex:[self scanLocation]];
-    if ([set characterIsMember:ch] == YES) {
+    if ([set characterIsMember:ch]) {
         if (value != NULL) {
             *value = [NSString stringWithUnichar:ch];
         }
@@ -128,14 +136,14 @@
 {
     NSString *start, *remainder;
 
-    if ([self scanString:@"?" intoString:stringPointer] == YES) {
+    if ([self scanString:@"?" intoString:stringPointer]) {
         return YES;
     }
 
-    if ([self scanCharacterFromSet:[NSCharacterSet letterCharacterSet] intoString:&start] == YES) {
+    if ([self scanCharacterFromSet:[NSCharacterSet letterCharacterSet] intoString:&start]) {
         NSString *str;
 
-        if ([self my_scanCharactersFromSet:[NSCharacterSet alphanumericCharacterSet] intoString:&remainder] == YES) {
+        if ([self my_scanCharactersFromSet:[NSCharacterSet alphanumericCharacterSet] intoString:&remainder]) {
             str = [start stringByAppendingString:remainder];
         } else {
             str = start;

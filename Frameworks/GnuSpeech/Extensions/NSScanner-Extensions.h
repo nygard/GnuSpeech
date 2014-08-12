@@ -9,6 +9,7 @@
 
 - (NSString *)peekCharacter;
 - (unichar)peekChar;
+- (NSString *)remainingString;
 - (BOOL)scanCharacter:(unichar *)value;
 - (BOOL)scanCharacterIntoString:(NSString **)value;
 - (BOOL)scanCharacterFromString:(NSString *)aString intoString:(NSString **)value;
