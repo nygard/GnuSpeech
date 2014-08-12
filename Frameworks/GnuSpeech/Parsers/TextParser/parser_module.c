@@ -138,7 +138,7 @@ static char _escape_character;
 static short _dictionaryOrder[4];
 static GSPronunciationDictionary *_userDictionary, *_appDictionary, *_mainDictionary;
 static NSDictionary *_specialAcronymsDictionary;
-static NXStream *_stream2;
+static NXStream *_persistentStream;
 
 
 
@@ -149,7 +149,7 @@ static NXStream *_stream2;
 
 void init_parser_module(void)
 {
-    _stream2 = NULL;
+    _persistentStream = NULL;
 
     _userDictionary = nil;
     _appDictionary = nil;
@@ -252,29 +252,28 @@ int parser(const char *input, const char **output)
     free(buffer2);
 
     /*  THIS STREAM PERSISTS BETWEEN CALLS  */
-    _stream2 = nil;
+    _persistentStream = nil;
 
-    _stream2 = NXOpenMemory(NULL, 0, NX_READWRITE);
-    if (_stream2 == nil) {
+    _persistentStream = NXOpenMemory(NULL, 0, NX_READWRITE);
+    if (_persistentStream == nil) {
         NXLogError("TTS Server:  Cannot open memory stream (parser).");
         return TTS_PARSER_FAILURE;
     }
 
     /*  DO FINAL CONVERSION  */
-    long stream2_length;
-    error = gs_pm_final_conversion(stream1, stream1_length, _stream2, &stream2_length);
+    long persistent_stream_length;
+    error = gs_pm_final_conversion(stream1, stream1_length, _persistentStream, &persistent_stream_length);
     if (error != TTS_PARSER_SUCCESS) {
-        _stream2 = nil;
+        _persistentStream = nil;
         return error;
     }
 
     /*  DO SAFETY CHECK;  MAKE SURE NOT TOO MANY FEET OR PHONES PER CHUNK  */
-    gs_pm_safety_check(_stream2, &stream2_length);
+    gs_pm_safety_check(_persistentStream, &persistent_stream_length);
 
     /*  SET OUTPUT POINTER TO MEMORY STREAM BUFFER
      THIS STREAM PERSISTS BETWEEN CALLS  */
-    int len, maxlen;
-    NXGetMemoryBuffer(_stream2, output, &len, &maxlen);
+    NXGetMemoryBuffer(_persistentStream, output, NULL, NULL);
 
     /*  RETURN SUCCESS  */
     return TTS_PARSER_SUCCESS;

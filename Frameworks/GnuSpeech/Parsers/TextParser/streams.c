@@ -29,8 +29,8 @@ NXStream *NXOpenMemory(const char *address, int size, int mode)
 void NXGetMemoryBuffer(NXStream *stream, const char **streambuf, int *len, int *maxLen)
 {
     *streambuf = [stream cStringUsingEncoding:NSASCIIStringEncoding];
-    *len = (int)[stream length];
-    *maxLen = INT_MAX;
+    if (len != NULL)    *len = (int)[stream length];
+    if (maxLen != NULL) *maxLen = INT_MAX;
 }
 
 int NXPutc(NXStream *stream, char c)
