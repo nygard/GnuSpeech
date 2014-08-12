@@ -9,13 +9,13 @@
 #import "GSTextParserModeStack.h"
 
 /// Contains an NSNumber wrapping GSTextParserMode.  If this attribute isn't present, assume GSTextParserMode_Normal.
-static NSString *GSTextParserAttribute_Mode = @"GSTextParserAttribute_Mode";
+NSString *GSTextParserAttribute_Mode = @"GSTextParserAttribute_Mode";
 
 /// Containers an NSNumber wrapping an NSInteger.
-static NSString *GSTextParserAttribute_TagValue = @"GSTextParserAttribute_TagValue";
+NSString *GSTextParserAttribute_TagValue = @"GSTextParserAttribute_TagValue";
 
 /// Containers an NSNumber wrapping a double.
-static NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_SilenceValue";
+NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_SilenceValue";
 
 // <http://userguide.icu-project.org/strings/regexp>
 
@@ -207,7 +207,9 @@ static NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_Si
                                                         GSTextParserAttribute_Mode     : @(modeStack.currentMode),
                                                         GSTextParserAttribute_TagValue : @(value),
                                                         };
-                                NSAttributedString *astr = [[NSAttributedString alloc] initWithString:@"<tagging mode>" attributes:attrs];
+                                // Only need one character to store attributes.  Helps when multiple adjacent with same attributes.  Dot so I can see how many when logged (spaces not good).
+                                // 2014-08-12: Is a special Unicode character we could use, like the text attachment character.
+                                NSAttributedString *astr = [[NSAttributedString alloc] initWithString:@"." attributes:attrs];
                                 [resultString appendAttributedString:astr];
                                 [scanner scanCharacterFromSet:spaceCharacterSet intoString:&s2]; // Skip trailing whitespace
                             }
@@ -234,7 +236,7 @@ static NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_Si
                                                         GSTextParserAttribute_Mode         : @(modeStack.currentMode),
                                                         GSTextParserAttribute_SilenceValue : @(value),
                                                         };
-                                NSAttributedString *astr = [[NSAttributedString alloc] initWithString:@"<silence mode>" attributes:attrs];
+                                NSAttributedString *astr = [[NSAttributedString alloc] initWithString:@"." attributes:attrs];
                                 [resultString appendAttributedString:astr];
                                 [scanner scanCharacterFromSet:spaceCharacterSet intoString:&s2]; // Skip trailing whitespace
                             }
