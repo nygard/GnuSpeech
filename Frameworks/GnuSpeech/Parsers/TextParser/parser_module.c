@@ -169,7 +169,7 @@ int set_escape_code(char new_escape_code)
 {
     escape_character = new_escape_code;
 
-    return(TTS_PARSER_SUCCESS);
+    return TTS_PARSER_SUCCESS;
 }
 
 
@@ -210,7 +210,7 @@ int set_dict_data(const int16_t order[4],
         }
     }
 
-    return(TTS_PARSER_SUCCESS);
+    return TTS_PARSER_SUCCESS;
 }
 
 
@@ -240,7 +240,7 @@ int parser(const char *input, const char **output)
     if ((error = gs_pm_mark_modes(buffer1, buffer2, buffer1_length, &buffer2_length)) != TTS_PARSER_SUCCESS) {
         free(buffer1);
         free(buffer2);
-        return(error);
+        return error;
     }
 
     /*  FREE BUFFER 1  */
@@ -250,7 +250,7 @@ int parser(const char *input, const char **output)
     NXStream *stream1;
     if ((stream1 = NXOpenMemory(NULL,0,NX_READWRITE)) == NULL) {
         NXLogError("TTS Server:  Cannot open memory stream (parser).");
-        return(TTS_PARSER_FAILURE);
+        return TTS_PARSER_FAILURE;
     }
 
     /*  STRIP OUT OR CONVERT UNESSENTIAL PUNCTUATION  */
@@ -275,7 +275,7 @@ int parser(const char *input, const char **output)
     /*  OPEN MEMORY STREAM 2  */
     if ((stream2 = NXOpenMemory(NULL,0,NX_READWRITE)) == NULL) {
         NXLogError("TTS Server:  Cannot open memory stream (parser).");
-        return(TTS_PARSER_FAILURE);
+        return TTS_PARSER_FAILURE;
     }
 
     /*  DO FINAL CONVERSION  */
@@ -284,7 +284,7 @@ int parser(const char *input, const char **output)
         NXCloseMemory(stream1, NX_FREEBUFFER);
         NXCloseMemory(stream2, NX_FREEBUFFER);
         stream2 = NULL;
-        return(error);
+        return error;
     }
 
     /*  CLOSE STREAM 1  */
@@ -305,7 +305,7 @@ int parser(const char *input, const char **output)
     NXGetMemoryBuffer(stream2, output, &len, &maxlen);
 
     /*  RETURN SUCCESS  */
-    return(TTS_PARSER_SUCCESS);
+    return TTS_PARSER_SUCCESS;
 }
 
 
@@ -328,7 +328,7 @@ const char *lookup_word(const char *word, short *dict)
             case TTS_NUMBER_PARSER:
                 if ((pronunciation = number_parser(word, NP_MODE_NORMAL)) != NULL) {
                     *dict = TTS_NUMBER_PARSER;
-                    return((const char *)pronunciation);
+                    return (const char *)pronunciation;
                 }
                 break;
             case TTS_USER_DICTIONARY:
@@ -336,7 +336,7 @@ const char *lookup_word(const char *word, short *dict)
                 if ((pr = [userDictionary pronunciationForWord:w]) != nil) {
                     pronunciation = [pr cStringUsingEncoding:NSASCIIStringEncoding];
                     *dict = TTS_USER_DICTIONARY;
-                    return((const char *)pronunciation);
+                    return (const char *)pronunciation;
                 }
                 break;
             case TTS_APPLICATION_DICTIONARY:
@@ -344,7 +344,7 @@ const char *lookup_word(const char *word, short *dict)
                 if ((pr = [appDictionary pronunciationForWord:w]) != nil) {
                     pronunciation = [pr cStringUsingEncoding:NSASCIIStringEncoding];
                     *dict = TTS_APPLICATION_DICTIONARY;
-                    return((const char *)pronunciation);
+                    return (const char *)pronunciation;
                 }
                 break;
             case TTS_MAIN_DICTIONARY:
@@ -352,17 +352,17 @@ const char *lookup_word(const char *word, short *dict)
                 if ((pr = [mainDictionary pronunciationForWord:w]) != nil) {
                     pronunciation = [pr cStringUsingEncoding:NSASCIIStringEncoding];
                     *dict = TTS_MAIN_DICTIONARY;
-                    return((const char *)pronunciation);
+                    return (const char *)pronunciation;
                 }
                 break;
             case TTS_LETTER_TO_SOUND:
                 if ((pronunciation = letter_to_sound((char *)word)) != NULL) {
                     *dict = TTS_LETTER_TO_SOUND;
-                    return((const char *)pronunciation);
+                    return (const char *)pronunciation;
                 }
                 else {
                     *dict = TTS_LETTER_TO_SOUND;
-                    return((const char *)degenerate_string(word));
+                    return (const char *)degenerate_string(word);
                 }
                 break;
             default:
@@ -374,11 +374,11 @@ const char *lookup_word(const char *word, short *dict)
     /*  THIS IS GUARANTEED TO FIND A PRONUNCIATION OF SOME SORT  */
     if ((pronunciation = letter_to_sound((char *)word)) != NULL) {
         *dict = TTS_LETTER_TO_SOUND;
-        return((const char *)pronunciation);
+        return (const char *)pronunciation;
     }
 
     *dict = TTS_LETTER_TO_SOUND;
-    return((const char *)degenerate_string(word));
+    return (const char *)degenerate_string(word);
 }
 
 
@@ -593,7 +593,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                                 inputIndex++;
                                 /*  ALLOW ONLY DIGITS AND PERIOD  */
                                 if (!isdigit(input[inputIndex]) && (input[inputIndex] != '.')) {
-                                    return(inputIndex);
+                                    return inputIndex;
                                 }
                                 /*  ALLOW ONLY ONE PERIOD  */
                                 if (period && (input[inputIndex] == '.')) {
@@ -924,7 +924,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                 /*  GET STATE INFORMATION  */
                 if (gs_pm_get_state(input, &i, stream1_length, &mode, &next_mode, &current_state,
                                     &next_state, &raw_mode_flag, word, stream2) != TTS_PARSER_SUCCESS)
-                    return(TTS_PARSER_FAILURE);
+                    return TTS_PARSER_FAILURE;
 
 #if 0
                 printf("last_written_state = %-d current_state = %-d next_state = %-d ",
@@ -974,7 +974,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                             /*  START NEW TONE GROUP IF PRIOR TONIC ALREADY SET  */
                             if (prior_tonic) {
                                 if (gs_pm_set_tone_group(stream2, tg_marker_pos, ",") == TTS_PARSER_FAILURE)
-                                    return(TTS_PARSER_FAILURE);
+                                    return TTS_PARSER_FAILURE;
                                 NXPrintf(stream2, "%s %s ", TONE_GROUP_BOUNDARY, TG_UNDEFINED);
                                 tg_marker_pos = NXTell(stream2) - 3;
                             }
@@ -1016,7 +1016,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                                 NXPrintf(stream2, "%s ", TONE_GROUP_BOUNDARY);
                                 prior_tonic = TTS_FALSE;
                                 if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
-                                    return(TTS_PARSER_FAILURE);
+                                    return TTS_PARSER_FAILURE;
                                 tg_marker_pos = UNDEFINED_POSITION;
                                 last_written_state = STATE_MEDIAL_PUNC;
                         }
@@ -1030,7 +1030,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                                 NXPrintf(stream2, "%s ", TONE_GROUP_BOUNDARY);
                                 prior_tonic = TTS_FALSE;
                                 if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
-                                    return(TTS_PARSER_FAILURE);
+                                    return TTS_PARSER_FAILURE;
                                 tg_marker_pos = UNDEFINED_POSITION;
                                 /*  IF SILENCE INSERTED, THEN CONVERT FINAL PUNCTUATION TO MEDIAL  */
                                 last_written_state = STATE_MEDIAL_PUNC;
@@ -1040,7 +1040,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                                          TONE_GROUP_BOUNDARY,CHUNK_BOUNDARY);
                                 prior_tonic = TTS_FALSE;
                                 if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
-                                    return(TTS_PARSER_FAILURE);
+                                    return TTS_PARSER_FAILURE;
                                 tg_marker_pos = UNDEFINED_POSITION;
                                 last_written_state = STATE_FINAL_PUNC;
                             }
@@ -1049,7 +1049,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                             NXPrintf(stream2, "%s ", TONE_GROUP_BOUNDARY);
                             prior_tonic = TTS_FALSE;
                             if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
-                                return(TTS_PARSER_FAILURE);
+                                return TTS_PARSER_FAILURE;
                             tg_marker_pos = UNDEFINED_POSITION;
                             /*  IF SILENCE INSERTED, THEN CONVERT FINAL PUNCTUATION TO MEDIAL  */
                             last_written_state = STATE_MEDIAL_PUNC;
@@ -1063,7 +1063,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                             prior_tonic = TTS_FALSE;
                             tg_marker_pos = NXTell(stream2) - 3;
                             if ((gs_pm_convert_silence(word, stream2) <= 0.0) && (next_state == STATE_END))
-                                return(TTS_PARSER_FAILURE);
+                                return TTS_PARSER_FAILURE;
                             last_written_state = STATE_SILENCE;
                             last_word_end = NXTell(stream2);
                         }
@@ -1101,13 +1101,13 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
             NXPrintf(stream2, "%s %s", TONE_GROUP_BOUNDARY, CHUNK_BOUNDARY);
             prior_tonic = TTS_FALSE;
             if (gs_pm_set_tone_group(stream2, tg_marker_pos, DEFAULT_END_PUNC) == TTS_PARSER_FAILURE)
-                return(TTS_PARSER_FAILURE);
+                return TTS_PARSER_FAILURE;
             tg_marker_pos = UNDEFINED_POSITION;
             break;
 
         case STATE_BEGIN:
             if (!raw_mode_flag)
-                return(TTS_PARSER_FAILURE);
+                return TTS_PARSER_FAILURE;
             break;
     }
 
@@ -1118,7 +1118,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
     *stream2_length = NXTell(stream2);
 
     /*  RETURN SUCCESS  */
-    return(TTS_PARSER_SUCCESS);
+    return TTS_PARSER_SUCCESS;
 }
 
 
@@ -1266,7 +1266,7 @@ int gs_pm_get_state(const char *buffer, long *i, long length, long *mode, long *
                 else if ((current_mode == RAW_MODE) && (state == 0)) {
                     /*  EXPAND RAW MODE IN CURRENT STATE ONLY  */
                     if (gs_pm_expand_raw_mode(buffer, &j, length, stream) != TTS_PARSER_SUCCESS)
-                        return(TTS_PARSER_FAILURE);
+                        return TTS_PARSER_FAILURE;
 
                     /*  SET RAW_MODE FLAG  */
                     *raw_mode_flag = TTS_TRUE;
@@ -1279,7 +1279,7 @@ int gs_pm_get_state(const char *buffer, long *i, long length, long *mode, long *
 
         /*  ONLY NEED TWO STATES  */
         if (state >= 2)
-            return(TTS_PARSER_SUCCESS);
+            return TTS_PARSER_SUCCESS;
     }
 
 
@@ -1299,7 +1299,7 @@ int gs_pm_get_state(const char *buffer, long *i, long length, long *mode, long *
         *next_state = STATE_END;
 
     /*  RETURN SUCCESS  */
-    return(TTS_PARSER_SUCCESS);
+    return TTS_PARSER_SUCCESS;
 }
 
 
@@ -1312,7 +1312,7 @@ int gs_pm_set_tone_group(NXStream *stream, long tg_pos, char *word)
 
     /*  RETURN IMMEDIATELY IF tg_pos NOT LEGAL  */
     if (tg_pos == UNDEFINED_POSITION)
-        return(TTS_PARSER_FAILURE);
+        return TTS_PARSER_FAILURE;
 
     /*  GET CURRENT POSITION IN STREAM  */
     current_pos = NXTell(stream);
@@ -1341,7 +1341,7 @@ int gs_pm_set_tone_group(NXStream *stream, long tg_pos, char *word)
             NXPrintf(stream, "%s", TG_CONTINUATION);
             break;
         default:
-            return(TTS_PARSER_FAILURE);
+            return TTS_PARSER_FAILURE;
             break;
     }
 
@@ -1349,7 +1349,7 @@ int gs_pm_set_tone_group(NXStream *stream, long tg_pos, char *word)
     NXSeek(stream, current_pos, NX_FROMSTART);
 
     /*  RETURN SUCCESS */
-    return(TTS_PARSER_SUCCESS);
+    return TTS_PARSER_SUCCESS;
 }
 
 
@@ -1379,7 +1379,7 @@ float gs_pm_convert_silence(char *buffer, NXStream *stream)
         NXPrintf(stream, "%s ", SILENCE_PHONE);
 
     /*  RETURN ACTUAL LENGTH OF SILENCE  */
-    return((float)(number_silence_phones * SILENCE_PHONE_LENGTH));
+    return (float)(number_silence_phones * SILENCE_PHONE_LENGTH);
 }
 
 
@@ -1409,14 +1409,14 @@ int gs_pm_another_word_follows(const char *buffer, long i, long length, long mod
                 if ((mode == NORMAL_MODE) || (mode == EMPHASIS_MODE)) {
                     /*  WORD HAS BEEN FOUND  */
                     if (!gs_pm_is_punctuation(buffer[j]))
-                        return(1);
+                        return 1;
                 }
                 break;
         }
     }
 
     /*  IF HERE, THEN NO WORD FOLLOWS  */
-    return(0);
+    return 0;
 }
 
 
@@ -1452,11 +1452,11 @@ int gs_pm_shift_silence(const char *buffer, long i, long length, long mode, NXSt
                         continue;
                     /*  WORD HERE, SO RETURN WITHOUT SHIFTING  */
                     if (!gs_pm_is_punctuation(buffer[j]))
-                        return(0);
+                        return 0;
                 }
                 else if (mode == RAW_MODE)
                 /*  ASSUME RAW MODE CONTAINS WORD OF SOME SORT  */
-                    return(0);
+                    return 0;
                 else if (mode == SILENCE_MODE) {
                     /*  COLLECT SILENCE DIGITS INTO WORD BUFFER  */
                     int k = 0;
@@ -1467,14 +1467,14 @@ int gs_pm_shift_silence(const char *buffer, long i, long length, long mode, NXSt
                     /*  CONVERT WORD TO SILENCE PHONES, APPENDING TO STREAM  */
                     gs_pm_convert_silence(word, stream);
                     /*  RETURN, INDICATING SILENCE SHIFTED BACKWARDS  */
-                    return(1);
+                    return 1;
                 }
                 break;
         }
     }
 
     /*  IF HERE, THEN SILENCE NOT SHIFTED  */
-    return(0);
+    return 0;
 }
 
 
@@ -1651,7 +1651,7 @@ int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *st
         if (buffer[*j] == '%') {
             if (!super_raw_mode) {
                 if (gs_pm_illegal_token(token))
-                    return(TTS_PARSER_FAILURE);
+                    return TTS_PARSER_FAILURE;
                 super_raw_mode = TTS_TRUE;
                 token[k=0] = '\0';
                 continue;
@@ -1670,7 +1670,7 @@ int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *st
                     /*  SLASH CODE  */
                     /*  EVALUATE PENDING TOKEN  */
                     if (gs_pm_illegal_token(token))
-                        return(TTS_PARSER_FAILURE);
+                        return TTS_PARSER_FAILURE;
                     /*  PUT SLASH CODE INTO TOKEN BUFFER  */
                     token[0] = '/';
                     if ((++(*j) < length) && (buffer[*j] != RAW_MODE_END)) {
@@ -1679,30 +1679,30 @@ int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *st
                         token[2] = '\0';
                         /*  CHECK LEGALITY OF SLASH CODE  */
                         if (gs_pm_illegal_slash_code(token))
-                            return(TTS_PARSER_FAILURE);
+                            return TTS_PARSER_FAILURE;
                         /*  CHECK ANY TAG AND TAG NUMBER  */
                         if (!strcmp(token,TAG_BEGIN)) {
                             if (gs_pm_expand_tag_number(buffer, j, length, stream) == TTS_PARSER_FAILURE)
-                                return(TTS_PARSER_FAILURE);
+                                return TTS_PARSER_FAILURE;
                         }
                         /*  RESET FLAGS  */
                         token[k=0] = '\0';
                         delimiter = blank = TTS_FALSE;
                     }
                     else
-                        return(TTS_PARSER_FAILURE);
+                        return TTS_PARSER_FAILURE;
                     break;
                 case '_':
                 case '.':
                     /*  SYLLABLE DELIMITERS  */
                     /*  DON'T ALLOW REPEATED DELIMITERS, OR DELIMITERS AFTER BLANK  */
                     if (delimiter || blank)
-                        return(TTS_PARSER_FAILURE);
+                        return TTS_PARSER_FAILURE;
                     delimiter++;
                     blank = TTS_FALSE;
                     /*  EVALUATE PENDING TOKEN  */
                     if (gs_pm_illegal_token(token))
-                        return(TTS_PARSER_FAILURE);
+                        return TTS_PARSER_FAILURE;
                     /*  RESET FLAGS  */
                     token[k=0] = '\0';
                     break;
@@ -1710,13 +1710,13 @@ int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *st
                     /*  WORD DELIMITER  */
                     /*  DON'T ALLOW SYLLABLE DELIMITER BEFORE BLANK  */
                     if (delimiter)
-                        return(TTS_PARSER_FAILURE);
+                        return TTS_PARSER_FAILURE;
                     /*  SET FLAGS  */
                     blank++;
                     delimiter = TTS_FALSE;
                     /*  EVALUATE PENDING TOKEN  */
                     if (gs_pm_illegal_token(token))
-                        return(TTS_PARSER_FAILURE);
+                        return TTS_PARSER_FAILURE;
                     /*  RESET FLAGS  */
                     token[k=0] = '\0';
                     break;
@@ -1729,7 +1729,7 @@ int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *st
                     if (k <= SYMBOL_LENGTH_MAX)
                         token[k] = '\0';
                     else
-                        return(TTS_PARSER_FAILURE);
+                        return TTS_PARSER_FAILURE;
                     break;
             }
         }
@@ -1737,18 +1737,18 @@ int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *st
 
     /*  CHECK ANY REMAINING TOKENS  */
     if (gs_pm_illegal_token(token))
-        return(TTS_PARSER_FAILURE);
+        return TTS_PARSER_FAILURE;
 
     /*  CANNOT END WITH A DELIMITER  */
     if (delimiter)
-        return(TTS_PARSER_FAILURE);
+        return TTS_PARSER_FAILURE;
 
     /*  PAD WITH SPACE, RESET EXTERNAL COUNTER  */
     NXPrintf(stream, " ");
     (*j)--;
 
     /*  RETURN SUCCESS  */
-    return(TTS_PARSER_SUCCESS);
+    return TTS_PARSER_SUCCESS;
 }
 
 
@@ -1759,13 +1759,13 @@ int gs_pm_illegal_token(char *token)
 {
     /*  RETURN IMMEDIATELY IF ZERO LENGTH STRING  */
     if (strlen(token) == 0)
-        return(0);
+        return 0;
 
     /*  IF PHONE A VALID DEGAS PHONE, RETURN 0;  1 OTHERWISE  */
     if (validPhone(token))
-        return(0);
+        return 0;
     else
-        return(1);
+        return 1;
 }
 
 
@@ -1783,10 +1783,10 @@ int gs_pm_illegal_slash_code(char *code)
     /*  COMPARE CODE WITH LEGAL CODES, RETURN 0 IMMEDIATELY IF A MATCH  */
     while (legal_code[i] != NULL)
         if (!strcmp(legal_code[i++],code))
-            return(0);
+            return 0;
 
     /*  IF HERE, THEN NO MATCH;  RETURN 1, INDICATING ILLEGAL CODE  */
-    return(1);
+    return 1;
 }
 
 
@@ -1810,15 +1810,15 @@ int gs_pm_expand_tag_number(const char *buffer, long *j, long length, NXStream *
         NXPrintf(stream, "%c", buffer[++(*j)]);
         if ((buffer[*j] == '-') || (buffer[*j] == '+')) {
             if (sign)
-                return(TTS_PARSER_FAILURE);
+                return TTS_PARSER_FAILURE;
             sign++;
         }
         else if (!isdigit(buffer[*j]))
-            return(TTS_PARSER_FAILURE);
+            return TTS_PARSER_FAILURE;
     }
 
     /*  RETURN SUCCESS  */
-    return(TTS_PARSER_SUCCESS);
+    return TTS_PARSER_SUCCESS;
 }
 
 
@@ -1828,9 +1828,9 @@ int gs_pm_expand_tag_number(const char *buffer, long *j, long length, NXStream *
 int gs_pm_is_mode(char c)
 {
     if ((c >= SILENCE_MODE_END) && (c <= RAW_MODE_BEGIN))
-        return(1);
+        return 1;
     else
-        return(0);
+        return 0;
 }
 
 
@@ -1842,9 +1842,9 @@ int gs_pm_is_isolated(char *buffer, long i, long len)
 {
     if ( ((i == 0) || (((i-1) >= 0) && (gs_pm_is_mode(buffer[i-1]) || (buffer[i-1] == ' ')))) &&
         ((i == (len-1)) || (((i+1) < len) && (gs_pm_is_mode(buffer[i+1]) || (buffer[i+1] == ' ')))))
-        return(1);
+        return 1;
     else
-        return(0);
+        return 0;
 }
 
 
@@ -1856,13 +1856,13 @@ int gs_pm_part_of_number(char *buffer, long i, long len)
 {
     while( (--i >= 0) && (buffer[i] != ' ') && (buffer[i] != DELETED) && (!gs_pm_is_mode(buffer[i])) )
         if (isdigit(buffer[i]))
-            return(1);
+            return 1;
 
     while( (++i < len) && (buffer[i] != ' ') && (buffer[i] != DELETED) && (!gs_pm_is_mode(buffer[i])) )
         if (isdigit(buffer[i]))
-            return(1);
+            return 1;
 
-    return(0);
+    return 0;
 }
 
 
@@ -1875,9 +1875,9 @@ int gs_pm_number_follows(char *buffer, long i, long len)
     while( (++i < len) && (buffer[i] != ' ') &&
           (buffer[i] != DELETED) && (!gs_pm_is_mode(buffer[i])) )
         if (isdigit(buffer[i]))
-            return(1);
+            return 1;
 
-    return(0);
+    return 0;
 }
 
 
@@ -1930,11 +1930,11 @@ int gs_pm_convert_dash(char *buffer, long *i, long length)
         /*  CHECK FOR 3RD DASH  */
         if (((*i+1) < length) && (buffer[*i+1] == '-'))
             buffer[++(*i)] = DELETED;
-        return(1);
+        return 1;
     }
 
     /*  RETURN ZERO IF NOT CONVERTED  */
-    return(0);
+    return 0;
 }
 
 
@@ -1962,10 +1962,10 @@ int gs_pm_is_telephone_number(char *buffer, long i, long length)
              )
             )
         /*  RETURN 1 IF ALL ABOVE CONDITIONS ARE MET  */
-            return(1);
+            return 1;
     }
     /*  IF HERE, THEN STRING IS NOT IN SPECIFIED FORMAT  */
-    return(0);
+    return 0;
 }
 
 
@@ -1982,9 +1982,9 @@ int gs_pm_is_punctuation(char c)
         case ':':
         case '?':
         case '!':
-            return(1);
+            return 1;
         default:
-            return(0);
+            return 0;
     }
 }
 
@@ -2019,16 +2019,16 @@ int gs_pm_word_follows(char *buffer, long i, long length)
                         /*  PUNCTUATION MEANS NO WORD FOLLOWS (UNLESS PERIOD PART OF NUMBER)  */
                         else if (gs_pm_is_punctuation(buffer[j])) {
                             if ((buffer[j] == '.') && ((j+1) < length) && isdigit(buffer[j+1]))
-                                return(1);
+                                return 1;
                             else
-                                return(0);
+                                return 0;
                         }
                         /*  ELSE, SOME WORD FOLLOWS  */
                         else
-                            return(1);
+                            return 1;
                     case LETTER_MODE:
                         /*  IF LETTER MODE CONTAINS ANY SYMBOLS, THEN RETURN 1  */
-                        return(1);
+                        return 1;
                     case RAW_MODE:
                     case SILENCE_MODE:
                     case TAGGING_MODE:
@@ -2039,7 +2039,7 @@ int gs_pm_word_follows(char *buffer, long i, long length)
     }
 
     /*  IF HERE, THEN A FOLLOWING WORD NOT FOUND  */
-    return(0);
+    return 0;
 }
 
 
@@ -2072,7 +2072,7 @@ int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *strea
                 NXPrintf(stream, "%c ", buffer[i-1]);
             }
             /*  INDICATE ABBREVIATION EXPANDED  */
-            return(1);
+            return 1;
         }
     }
 
@@ -2104,7 +2104,7 @@ int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *strea
                 if (gs_pm_number_follows(buffer, i, length)) {
                     NXSeek(stream, -word_length, NX_FROMCURRENT);
                     NXPrintf(stream, "%s ", abbr_with_number[j][EXPANSION]);
-                    return(1);
+                    return 1;
                 }
             }
         }
@@ -2114,13 +2114,13 @@ int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *strea
             if (!strcmp(abbreviation[j][ABBREVIATION],word)) {
                 NXSeek(stream, -word_length, NX_FROMCURRENT);
                 NXPrintf(stream, "%s ", abbreviation[j][EXPANSION]);
-                return(1);
+                return 1;
             }
         }
     }
 
     /*  IF HERE, THEN NO EXPANSION MADE  */
-    return(0);
+    return 0;
 }
 
 
@@ -2254,11 +2254,11 @@ int gs_pm_is_all_upper_case(char *word)
 {
     while (*word) {
         if (!isupper(*word))
-            return(0);
+            return 0;
         word++;
     }
 
-    return(1);
+    return 1;
 }
 
 
@@ -2275,7 +2275,7 @@ char *gs_pm_to_lower_case(char *word)
         ptr++;
     }
 
-    return(word);
+    return word;
 }
 
 
@@ -2292,7 +2292,7 @@ const char *gs_pm_is_special_acronym(char *word)
         return [pr cStringUsingEncoding:NSASCIIStringEncoding];
 
     /*  IF HERE, NO SPECIAL ACRONYM FOUND, RETURN NULL  */
-    return(NULL);
+    return NULL;
 }
 
 
@@ -2303,9 +2303,9 @@ int gs_pm_contains_primary_stress(const char *pronunciation)
 {
     for ( ; *pronunciation && (*pronunciation != '%'); pronunciation++)
         if ((*pronunciation == '\'') || (*pronunciation == '`'))
-            return(TTS_YES);
+            return TTS_YES;
 
-    return(TTS_NO);
+    return TTS_NO;
 }
 
 
@@ -2318,11 +2318,11 @@ int gs_pm_converted_stress(char *pronunciation)
     for ( ; *pronunciation && (*pronunciation != '%'); pronunciation++)
         if (*pronunciation == '"') {
             *pronunciation = '\'';
-            return(TTS_YES);
+            return TTS_YES;
         }
 
     /*  IF HERE, NO " FOUND  */
-    return(TTS_NO);
+    return TTS_NO;
 }
 
 
@@ -2335,11 +2335,11 @@ int gs_pm_is_possessive(char *word)
     for ( ; *word; word++)
         if ((*word == '\'') && *(word+1) && (*(word+1) == 's') && (*(word+2) == '\0')) {
             *word = '\0';
-            return(TTS_YES);
+            return TTS_YES;
         }
 
     /*  IF HERE, NO 's FOUND, RETURN FAILURE  */
-    return(TTS_NO);
+    return TTS_NO;
 }
 
 
