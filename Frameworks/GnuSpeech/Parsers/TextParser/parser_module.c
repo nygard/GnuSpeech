@@ -1076,10 +1076,10 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
             NXPrintf(stream2, "%s ", UTTERANCE_BOUNDARY);
         case STATE_SILENCE:
             NXPrintf(stream2, "%s %s", TONE_GROUP_BOUNDARY, CHUNK_BOUNDARY);
-            prior_tonic = TTS_NO;
+            //prior_tonic = TTS_NO;
             if (gs_pm_set_tone_group(stream2, tg_marker_pos, DEFAULT_END_PUNC) == TTS_PARSER_FAILURE)
                 return TTS_PARSER_FAILURE;
-            tg_marker_pos = UNDEFINED_POSITION;
+            //tg_marker_pos = UNDEFINED_POSITION;
             break;
 
         case STATE_BEGIN:
