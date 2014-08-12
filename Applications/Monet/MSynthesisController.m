@@ -648,6 +648,7 @@
 	[_textStringTextField setTextColor:[NSColor blackColor]];
 
 	str = [[_textToPhone phoneStringFromText:[_textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (str == nil) str = @"";
 	[_phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];
 	[_phoneStringTextView setString:str];
 	[_phoneStringTextView setTextColor:[NSColor blackColor]];
