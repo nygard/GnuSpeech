@@ -1,4 +1,5 @@
 #import "GSTextParser.h"
+#import "GSTextParser-Private.h"
 
 #import "NSRegularExpression-GSExtensions.h"
 #import "NSScanner-Extensions.h"
@@ -7,6 +8,8 @@
 #import "GSDBMPronunciationDictionary.h"
 #import "GSSimplePronunciationDictionary.h"
 #import "GSTextParserModeStack.h"
+
+NSString *GSTextParserErrorDomain = @"GSTextParserErrorDomain";
 
 /// Contains an NSNumber wrapping GSTextParserMode.  If this attribute isn't present, assume GSTextParserMode_Normal.
 NSString *GSTextParserAttribute_Mode = @"GSTextParserAttribute_Mode";
@@ -143,7 +146,19 @@ NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_SilenceVa
     return s2;
 }
 
-- (NSAttributedString *)_markModesInString:(NSString *)str;
+#define MM_SET_ERROR_FOR_POP(m) { \
+    if (error != NULL) { \
+        NSDictionary *userInfo = @{ \
+                                   @"inputLocation" : @(scanner.scanLocation), \
+                                   @"partialResult" : [resultString copy], \
+                                   @"currentMode"   : @(modeStack.currentMode), \
+                                   @"popMode"       : @(GSTextParserMode_Raw), \
+                                   }; \
+        *error = [NSError errorWithDomain:GSTextParserErrorDomain code:GSTextParserError_UnbalancedPop userInfo:userInfo]; \
+    } \
+}
+
+- (NSAttributedString *)_markModesInString:(NSString *)str error:(NSError **)error;
 {
     NSParameterAssert(str != nil);
 
@@ -166,6 +181,7 @@ NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_SilenceVa
                 NSString *ignore;
                 if ([scanner scanString:@"re" intoString:&ignore]) { // TODO: (2014-08-12) Should be case insensitive: re, rE, Re, RE -- raw end
                     if (![modeStack popMode:GSTextParserMode_Raw]) {
+                        MM_SET_ERROR_FOR_POP(GSTextParserMode_Raw);
                         return nil;
                     }
                 } else {
@@ -223,6 +239,7 @@ NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_SilenceVa
                                 // This has an explicit end tag.
                             } else {
                                 if (![modeStack popMode:GSTextParserMode_Tagging]) {
+                                    MM_SET_ERROR_FOR_POP(GSTextParserMode_Tagging);
                                     return nil;
                                 }
                             }
@@ -252,6 +269,7 @@ NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_SilenceVa
                                 // This has an explicit end tag.
                             } else {
                                 if (![modeStack popMode:GSTextParserMode_Silence]) {
+                                    MM_SET_ERROR_FOR_POP(GSTextParserMode_Silence);
                                     return nil;
                                 }
                             }
@@ -268,26 +286,31 @@ NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_SilenceVa
                         if ([modeString isEqualToString:@"r"]) {
                             scanner.scanLocation += 2;
                             if (![modeStack popMode:GSTextParserMode_Raw]) {
+                                MM_SET_ERROR_FOR_POP(GSTextParserMode_Raw);
                                 return nil;
                             }
                         } else if ([modeString isEqualToString:@"l"]) {
                             scanner.scanLocation += 2;
                             if (![modeStack popMode:GSTextParserMode_Letter]) {
+                                MM_SET_ERROR_FOR_POP(GSTextParserMode_Letter);
                                 return nil;
                             }
                         } else if ([modeString isEqualToString:@"e"]) {
                             scanner.scanLocation += 2;
                             if (![modeStack popMode:GSTextParserMode_Emphasis]) {
+                                MM_SET_ERROR_FOR_POP(GSTextParserMode_Emphasis);
                                 return nil;
                             }
                         } else if ([modeString isEqualToString:@"t"]) {
                             scanner.scanLocation += 2;
                             if (![modeStack popMode:GSTextParserMode_Tagging]) {
+                                MM_SET_ERROR_FOR_POP(GSTextParserMode_Tagging);
                                 return nil;
                             }
                         } else if ([modeString isEqualToString:@"s"]) {
                             scanner.scanLocation += 2;
                             if (![modeStack popMode:GSTextParserMode_Silence]) {
+                                MM_SET_ERROR_FOR_POP(GSTextParserMode_Silence);
                                 return nil;
                             }
                         } else {

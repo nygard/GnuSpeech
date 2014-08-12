@@ -32,7 +32,7 @@
 - (void)testNormal;
 {
     NSString *inputString = @"This text is all normal";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -46,7 +46,7 @@
 - (void)testBeginModeEndsPrevious;
 {
     NSString *inputString = @"one %eb two %tb 123 blah";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -80,7 +80,7 @@
 - (void)testTagging;
 {
     NSString *inputString = @"%tb 1234 %te one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -95,7 +95,7 @@
 - (void)testTaggingImplicitEnd;
 {
     NSString *inputString = @"%tb 1234 two";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -110,7 +110,7 @@
 - (void)testDoubleTag;
 {
     NSString *inputString = @"%tb 1234 %tb 5678";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -131,7 +131,7 @@
 - (void)testDoubleIdenticalTag;
 {
     NSString *inputString = @"%tb 1234 %tb 1234";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -146,7 +146,7 @@
 - (void)testNegativeTag;
 {
     NSString *inputString = @"%tb -23 one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -161,7 +161,7 @@
 - (void)testPositiveTag;
 {
     NSString *inputString = @"%tb +45 one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -176,7 +176,7 @@
 - (void)testEmptyTag;
 {
     NSString *inputString = @"%tb %te one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -190,7 +190,7 @@
 - (void)testEmptyTagImplicitEnd;
 {
     NSString *inputString = @"%tb one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -206,7 +206,7 @@
 - (void)testSilence;
 {
     NSString *inputString = @"%sb 1234 %se one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -221,7 +221,7 @@
 - (void)testSilenceImplicitEnd;
 {
     NSString *inputString = @"%sb 1234 two";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -236,7 +236,7 @@
 - (void)testDoubleSilence;
 {
     NSString *inputString = @"%sb 1234 %sb 5678";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -257,7 +257,7 @@
 - (void)testDoubleIdenticalSilence;
 {
     NSString *inputString = @"%sb 1234 %sb 1234";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -272,7 +272,7 @@
 - (void)testNegativeSilence;
 {
     NSString *inputString = @"%sb -23 one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -287,7 +287,7 @@
 - (void)testPositiveSilence;
 {
     NSString *inputString = @"%sb +45 one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -302,7 +302,7 @@
 - (void)testFractionalSilence;
 {
     NSString *inputString = @"%sb 0.5 one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -317,7 +317,7 @@
 - (void)testEmptySilence;
 {
     NSString *inputString = @"%sb %se one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -331,7 +331,7 @@
 - (void)testEmptySilenceImplicitEnd;
 {
     NSString *inputString = @"%sb one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -347,7 +347,7 @@
 - (void)testRaw;
 {
     NSString *inputString = @"%rb one %re two";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -361,7 +361,7 @@
 - (void)testRawIgnoresOtherBegins;
 {
     NSString *inputString = @"%rb one %eb two";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -375,7 +375,7 @@
 - (void)testRawIgnoresOtherEnds;
 {
     NSString *inputString = @"%rb one %ee two";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString != nil);
 
@@ -388,11 +388,22 @@
 
 #pragma mark - Failures
 
-// TODO: (2014-08-12) This should just return nil, with an error, rather than throw an exception.  But at least we notice the error!
 - (void)testMismatchEnd;
 {
     NSString *inputString = @"%tb %se one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+    NSError *error;
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:&error];
+
+    XCTAssert(outputString == nil);
+    XCTAssert(error != nil);
+    XCTAssertEqualObjects(error.domain, GSTextParserErrorDomain);
+    XCTAssert(error.code == GSTextParserError_UnbalancedPop);
+}
+
+- (void)testIgnoreError;
+{
+    NSString *inputString = @"%tb %se one";
+    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
 
     XCTAssert(outputString == nil);
 }
