@@ -418,6 +418,25 @@
 			path = FunctionTester;
 			sourceTree = "<group>";
 		};
+		0127C3591999C42700BF1830 /* Looks like old Degas code */ = {
+			isa = PBXGroup;
+			children = (
+				69E227B00FB12AAF001B3C04 /* diphone_module.c */,
+				69E227B10FB12AAF001B3C04 /* diphone_module.h */,
+				69E227B60FB12AAF001B3C04 /* rule.c */,
+				69E227B70FB12AAF001B3C04 /* rule.h */,
+				69E227B20FB12AAF001B3C04 /* evaluate.c */,
+				69E227B30FB12AAF001B3C04 /* evaluate.h */,
+				69E227B40FB12AAF001B3C04 /* phoneDescription.c */,
+				69E227B50FB12AAF001B3C04 /* phoneDescription.h */,
+				69E227B80FB12AAF001B3C04 /* template.c */,
+				69E227B90FB12AAF001B3C04 /* template.h */,
+				69E227AF0FB12AAF001B3C04 /* categories.h */,
+				69E227BA0FB12AAF001B3C04 /* categories.c */,
+			);
+			name = "Looks like old Degas code";
+			sourceTree = "<group>";
+		};
 		012D53A00B7FF9BD001B50FC /* Text Processing */ = {
 			isa = PBXGroup;
 			children = (
@@ -743,19 +762,8 @@
 		695148BA0FB0DEB000B6DDD6 /* Text Parser */ = {
 			isa = PBXGroup;
 			children = (
+				0127C3591999C42700BF1830 /* Looks like old Degas code */,
 				695148BB0FB0DEB000B6DDD6 /* abbreviations.h */,
-				69E227AF0FB12AAF001B3C04 /* categories.h */,
-				69E227B00FB12AAF001B3C04 /* diphone_module.c */,
-				69E227B10FB12AAF001B3C04 /* diphone_module.h */,
-				69E227B20FB12AAF001B3C04 /* evaluate.c */,
-				69E227B30FB12AAF001B3C04 /* evaluate.h */,
-				69E227B40FB12AAF001B3C04 /* phoneDescription.c */,
-				69E227B50FB12AAF001B3C04 /* phoneDescription.h */,
-				69E227B60FB12AAF001B3C04 /* rule.c */,
-				69E227B70FB12AAF001B3C04 /* rule.h */,
-				69E227B80FB12AAF001B3C04 /* template.c */,
-				69E227B90FB12AAF001B3C04 /* template.h */,
-				69E227BA0FB12AAF001B3C04 /* categories.c */,
 				695148BC0FB0DEB000B6DDD6 /* NXStream.h */,
 				695148BD0FB0DEB000B6DDD6 /* NXStream.m */,
 				695148BE0FB0DEB000B6DDD6 /* parser_module.c */,
