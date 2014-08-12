@@ -524,7 +524,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)parsePhoneString:(NSString *)str;
 {
     NSUInteger lastFoot = 0, markedFoot = 0;
-    double footTempo = 1.0;
     double ruleTempo = 1.0;
     double aPhoneTempo = 1.0;
     NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet phoneStringWhitespaceCharacterSet];
@@ -580,7 +579,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 [self newFoot];
                 if (lastFoot)
                     [self setCurrentFootLast];
-                footTempo = 1.0;
                 lastFoot = 0;
                 markedFoot = 0;
             }
@@ -592,7 +590,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 if (lastFoot)
                     [self setCurrentFootLast];
 
-                footTempo = 1.0;
                 lastFoot = 0;
                 markedFoot = 1;
             }
