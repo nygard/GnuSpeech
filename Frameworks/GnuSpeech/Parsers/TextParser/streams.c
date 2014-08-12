@@ -22,31 +22,11 @@
 #include "streams.h"
 #import "NXStream.h"
 
-NXStream *NXOpenMemory(const char *address, int size, int mode)
-{
-    return [[NXStream alloc] init];  // this will grow if required
-}
-
 void NXGetMemoryBuffer(NXStream *stream, const char **streambuf, int *len, int *maxLen)
 {
     *streambuf = [stream mutableBytes];
     if (len != NULL)    *len = (int)[stream length];
     if (maxLen != NULL) *maxLen = INT_MAX;
-}
-
-int NXPutc(NXStream *stream, char c)
-{
-    return [stream putChar:c];
-}
-
-int NXGetc(NXStream *stream)
-{
-    return [stream getChar];
-}
-
-void NXUngetc(NXStream *stream)
-{
-    [stream ungetChar];
 }
 
 void NXVPrintf(NXStream *stream, const char *format, va_list args)
@@ -66,16 +46,6 @@ void NXSeek(NXStream *stream, long offset, int whence)
 {
     if (![stream seekWithOffset:offset fromPosition:whence])
         NSLog(@"NXSeek(): Cannot seek to offset.");
-}
-
-BOOL NXAtEOS(NXStream *stream)
-{
-    return [stream atEOS];
-}
-
-long NXTell(NXStream *stream)
-{
-    return [stream tell];
 }
 
 void NXVLogError(const char * format, va_list args)

@@ -448,7 +448,7 @@ char *getNameWithoutExtensionOfFile(char *fileName)
 //					if (NXScanf(stream, "%s ", wordToken) == 1){
 //						count = 0;
 //						do{
-//							pronunciationToken[count] = NXGetc(stream);
+//							pronunciationToken[count] = [stream getChar];
 //						} while (	(pronunciationToken[count] != '\n') &&	/* Quit on newline or end of file. */
 //									(pronunciationToken[count] != EOF) &&
 //									(++count < MAX_WORD_LENGTH));

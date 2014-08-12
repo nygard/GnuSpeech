@@ -21,16 +21,10 @@
 
 @class NXStream;
 
-NXStream *NXOpenMemory(const char *address, int size, int mode);
 void NXGetMemoryBuffer(NXStream *stream, const char **streambuf, int *len, int *maxLen);
-
-int NXPutc(NXStream *stream, char c);
-int NXGetc(NXStream *stream);
-void NXUngetc(NXStream *stream);
 
 void NXPrintf(NXStream *stream, const char *format, ...);
 
 void NXSeek(NXStream *stream, long offset, int whence);
-long NXTell(NXStream *stream);
 
 void NXLogError(const char *format, ...);
