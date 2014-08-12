@@ -120,8 +120,9 @@
 #define SYMBOL_LENGTH_MAX     12
 
 #define WORD_LENGTH_MAX       1024
-#define SILENCE_MAX           5.0
-#define SILENCE_PHONE_LENGTH  0.1     /*  SILENCE PHONE IS 100ms  */
+
+static double kSilenceMax         = 5.0;
+static double kSilencePhoneLength = 0.1; // Silence phone is 100 ms.
 
 #define DEFAULT_END_PUNC      "."
 #define MODE_NEST_MAX         100
@@ -136,7 +137,9 @@
 /*  GLOBAL VARIABLES, LOCAL TO THIS FILE  ************************************/
 static char _escape_character;
 static short _dictionaryOrder[4];
-static GSPronunciationDictionary *_userDictionary, *_appDictionary, *_mainDictionary;
+static GSPronunciationDictionary *_userDictionary;
+static GSPronunciationDictionary *_appDictionary;
+static GSPronunciationDictionary *_mainDictionary;
 static NSDictionary *_specialAcronymsDictionary;
 static NXStream *_persistentStream;
 
@@ -367,27 +370,30 @@ void gs_pm_condition_input(const char *input, char *output, long input_length, l
             /*  IGNORE ANY WHITE SPACE UP TO NEWLINE  */
             while (((ii + 1) < input_length) && (input[ii + 1] != '\n') &&
                    (input[ii + 1] != _escape_character) && isspace(input[ii + 1]))
+            {
                 ii++;
+            }
             /*  IF NEWLINE, THEN CONCATENATE WORD  */
             if (((ii + 1) < input_length) && input[ii + 1] == '\n') {
                 inputIndex = ++ii;
                 /*  IGNORE ANY WHITE SPACE  */
-                while (((inputIndex + 1) < input_length) && (input[inputIndex + 1] != _escape_character) && isspace(input[inputIndex + 1]))
+                while (((inputIndex + 1) < input_length) && (input[inputIndex + 1] != _escape_character) && isspace(input[inputIndex + 1])) {
                     inputIndex++;
+                }
             }
-            /*  ELSE, OUTPUT HYPHEN  */
-            else
+            else {
+                /*  ELSE, OUTPUT HYPHEN  */
                 output[outputIndex++] = input[inputIndex];
+            }
         }
-        else if ((!isascii(input[inputIndex])) || ((!isprint(input[inputIndex])) && (input[inputIndex] != _escape_character)))
-        /*  CONVERT NONPRINTABLE CHARACTERS TO SPACE  */
+        else if ((!isascii(input[inputIndex])) || ((!isprint(input[inputIndex])) && (input[inputIndex] != _escape_character))) {
+            /*  CONVERT NONPRINTABLE CHARACTERS TO SPACE  */
             output[outputIndex++] = ' ';
-        else
-        /*  PASS EVERYTHING ELSE THROUGH  */
+        } else {
             output[outputIndex++] = input[inputIndex];
+        }
     }
 
-    /*  BE SURE TO APPEND NULL TO STRING  */
     output[outputIndex] = '\0';
     *output_length_ptr = outputIndex;
 }
@@ -448,12 +454,12 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
 
     /*  INITIALIZE MODE STACK TO NORMAL MODE */
     int mode_stack[MODE_NEST_MAX], stack_ptr = 0;
+
     memset(output, 0, *output_length); // Zero it out, to make debugging easier.
     for (NSUInteger index = 0; index < MODE_NEST_MAX; index++) mode_stack[index] = 1000; // Just for debugging.
+
     mode_stack[stack_ptr] = NORMAL_MODE;
-
     int mode;
-
     int outputIndex = 0;
 
     /*  MARK THE MODES OF INPUT, CHECKING FOR ERRORS  */
@@ -866,7 +872,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
     long mode = NORMAL_MODE, next_mode, prior_tonic = TTS_NO, raw_mode_flag = TTS_NO;
     long last_written_state = STATE_BEGIN, current_state, next_state;
     const char *input;
-    char word[WORD_LENGTH_MAX+1];
+    char word[WORD_LENGTH_MAX + 1];
     long length, max_length;
 
 
@@ -1279,78 +1285,57 @@ int gs_pm_get_state(const char *buffer, long *i, long length, long *mode, long *
 
 int gs_pm_set_tone_group(NXStream *stream, long tg_pos, char *word)
 {
-    long current_pos;
-
-    /*  RETURN IMMEDIATELY IF tg_pos NOT LEGAL  */
     if (tg_pos == UNDEFINED_POSITION)
         return TTS_PARSER_FAILURE;
 
-    /*  GET CURRENT POSITION IN STREAM  */
-    current_pos = NXTell(stream);
+    long current_pos = NXTell(stream);
 
     /*  SEEK TO TONE GROUP MARKER POSITION  */
     NXSeek(stream, tg_pos, NX_FROMSTART);
 
     /*  WRITE APPROPRIATE TONE GROUP TYPE  */
     switch (word[0]) {
-        case '.':
-            NXPrintf(stream, "%s", TG_STATEMENT);
-            break;
-        case '!':
-            NXPrintf(stream, "%s", TG_EXCLAMATION);
-            break;
-        case '?':
-            NXPrintf(stream, "%s", TG_QUESTION);
-            break;
-        case ',':
-            NXPrintf(stream, "%s", TG_CONTINUATION);
-            break;
-        case ';':
-            NXPrintf(stream, "%s", TG_HALF_PERIOD);
-            break;
-        case ':':
-            NXPrintf(stream, "%s", TG_CONTINUATION);
-            break;
-        default:
-            return TTS_PARSER_FAILURE;
-            break;
+        case '.': NXPrintf(stream, "%s", TG_STATEMENT);    break;
+        case '!': NXPrintf(stream, "%s", TG_EXCLAMATION);  break;
+        case '?': NXPrintf(stream, "%s", TG_QUESTION);     break;
+        case ',': NXPrintf(stream, "%s", TG_CONTINUATION); break;
+        case ';': NXPrintf(stream, "%s", TG_HALF_PERIOD);  break;
+        case ':': NXPrintf(stream, "%s", TG_CONTINUATION); break;
+        default:  return TTS_PARSER_FAILURE;
     }
 
     /*  SEEK TO ORIGINAL POSITION ON STREAM  */
     NXSeek(stream, current_pos, NX_FROMSTART);
 
-    /*  RETURN SUCCESS */
     return TTS_PARSER_SUCCESS;
 }
 
 
 
 /// Converts numeric quantity in "buffer" to appropriate number of silence phones, which are written onto the
-/// end of stream.  Rounding is performed.  Returns actual length of silence.
+/// end of stream.  Rounding is performed.
+///
+/// Returns actual length of silence.
 
-float gs_pm_convert_silence(char *buffer, NXStream *stream)
+double gs_pm_convert_silence(char *buffer, NXStream *stream)
 {
-    int j, number_silence_phones;
-    double silence_length;
-
-    /*  CONVERT BUFFER TO DOUBLE  */
-    silence_length = strtod(buffer, NULL);
+    double silence_length = strtod(buffer, NULL);
 
     /*  LIMIT SILENCE LENGTH TO MAXIMUM  */
-    silence_length = (silence_length > SILENCE_MAX) ? SILENCE_MAX : silence_length;
+    silence_length = MIN(silence_length, kSilenceMax);
 
     /*  FIND EQUIVALENT NUMBER OF SILENCE PHONES, PERFORMING ROUNDING  */
-    number_silence_phones = (int)rint(silence_length/SILENCE_PHONE_LENGTH);
+    long number_silence_phones = rintl(silence_length / kSilencePhoneLength);
 
     /*  PUT IN UTTERANCE BOUNDARY MARKER  */
     NXPrintf(stream, "%s ", UTTERANCE_BOUNDARY);
 
     /*  WRITE OUT SILENCE PHONES TO STREAMS  */
-    for (j = 0; j < number_silence_phones; j++)
+    for (long index = 0; index < number_silence_phones; index++)
         NXPrintf(stream, "%s ", SILENCE_PHONE);
 
     /*  RETURN ACTUAL LENGTH OF SILENCE  */
-    return (float)(number_silence_phones * SILENCE_PHONE_LENGTH);
+    return number_silence_phones * kSilencePhoneLength;
 }
 
 
@@ -1359,9 +1344,7 @@ float gs_pm_convert_silence(char *buffer, NXStream *stream)
 
 int gs_pm_another_word_follows(const char *buffer, long i, long length, long mode)
 {
-    long j;
-
-    for (j = i+1; j < length; j++) {
+    for (long j = i + 1; j < length; j++) {
         /*  FILTER THROUGH EACH CHARACTER  */
         switch (buffer[j]) {
             case RAW_MODE_BEGIN:      mode = RAW_MODE;      break;
@@ -1392,32 +1375,37 @@ int gs_pm_another_word_follows(const char *buffer, long i, long length, long mod
 
 
 
-/// Looks past punctuation to see if some silence occurs before the next word (or raw mode contents), and shifts
-/// the silence to the current point on the stream.  The the numeric quantity is converted to equivalent silence
-/// phones, and a 1 is returned.  0 is returned otherwise.
+/// Look past punctuation to see if some silence occurs before the next word (or raw mode contents).
+/// If so, the numeric quantity is converted to the equivalent silence phones on the outputStream.
+///
+/// @param buffer       The input buffer.
+/// @param offset       The offset into the input buffer.
+/// @param bufferLength The length of the input buffer.
+/// @param currentMode  The current mode at the offset of the buffer.
+/// @param outputStream The output stream.
+///
+/// @return 1 if silence was shifted.
+/// @return 0 otherwise.
 
-int gs_pm_shift_silence(const char *buffer, long i, long length, long mode, NXStream *stream)
+int gs_pm_shift_silence(const char *buffer, long offset, long bufferLength, long currentMode, NXStream *outputStream)
 {
-    long j;
-    char word[WORD_LENGTH_MAX+1];
-
-    for (j = i+1; j < length; j++) {
+    for (long j = offset + 1; j < bufferLength; j++) {
         /*  FILTER THROUGH EACH CHARACTER  */
         switch (buffer[j]) {
-            case RAW_MODE_BEGIN:      mode = RAW_MODE;      break;
-            case LETTER_MODE_BEGIN:   mode = LETTER_MODE;   break;
-            case EMPHASIS_MODE_BEGIN: mode = EMPHASIS_MODE; break;
-            case TAGGING_MODE_BEGIN:  mode = TAGGING_MODE;  break;
-            case SILENCE_MODE_BEGIN:  mode = SILENCE_MODE;  break;
+            case RAW_MODE_BEGIN:      currentMode = RAW_MODE;      break;
+            case LETTER_MODE_BEGIN:   currentMode = LETTER_MODE;   break;
+            case EMPHASIS_MODE_BEGIN: currentMode = EMPHASIS_MODE; break;
+            case TAGGING_MODE_BEGIN:  currentMode = TAGGING_MODE;  break;
+            case SILENCE_MODE_BEGIN:  currentMode = SILENCE_MODE;  break;
 
             case RAW_MODE_END:
             case LETTER_MODE_END:
             case EMPHASIS_MODE_END:
             case TAGGING_MODE_END:
-            case SILENCE_MODE_END:    mode = NORMAL_MODE;   break;
+            case SILENCE_MODE_END:    currentMode = NORMAL_MODE;   break;
 
             default:
-                if ((mode == NORMAL_MODE) || (mode == EMPHASIS_MODE)) {
+                if ((currentMode == NORMAL_MODE) || (currentMode == EMPHASIS_MODE)) {
                     /*  SKIP WHITE SPACE  */
                     if (buffer[j] == ' ')
                         continue;
@@ -1425,18 +1413,22 @@ int gs_pm_shift_silence(const char *buffer, long i, long length, long mode, NXSt
                     if (!gs_pm_is_punctuation(buffer[j]))
                         return 0;
                 }
-                else if (mode == RAW_MODE)
+                else if (currentMode == RAW_MODE) {
                 /*  ASSUME RAW MODE CONTAINS WORD OF SOME SORT  */
                     return 0;
-                else if (mode == SILENCE_MODE) {
+                } else if (currentMode == SILENCE_MODE) {
                     /*  COLLECT SILENCE DIGITS INTO WORD BUFFER  */
-                    int k = 0;
+                    char word[WORD_LENGTH_MAX + 1];
+                    
+                    int wordIndex = 0;
                     do {
-                        word[k++] = buffer[j++];
-                    } while ((j < length) && !gs_pm_is_mode(buffer[j]) && (k < WORD_LENGTH_MAX));
-                    word[k] = '\0';
+                        word[wordIndex++] = buffer[j++];
+                    } while ((j < bufferLength) && !gs_pm_is_mode(buffer[j]) && (wordIndex < WORD_LENGTH_MAX));
+                    word[wordIndex] = '\0';
+
                     /*  CONVERT WORD TO SILENCE PHONES, APPENDING TO STREAM  */
-                    gs_pm_convert_silence(word, stream);
+                    gs_pm_convert_silence(word, outputStream);
+
                     /*  RETURN, INDICATING SILENCE SHIFTED BACKWARDS  */
                     return 1;
                 }
