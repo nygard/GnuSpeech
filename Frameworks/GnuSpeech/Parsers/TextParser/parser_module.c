@@ -445,7 +445,6 @@ void gs_pm_condition_input(const char *input, char *output, long input_length, l
 
 int gs_pm_mark_modes(char *input, char *output, long length, long *output_length)
 {
-    int pos, minus, period;
     int mode_marker[5][2] = {
         { RAW_MODE_BEGIN,      RAW_MODE_END      },
         { LETTER_MODE_BEGIN,   LETTER_MODE_END   },
@@ -537,7 +536,8 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                             while (((inputIndex + 1) < length) && (input[inputIndex + 1] == ' '))
                                 inputIndex++;
                             /*  COPY NUMBER, CHECKING VALIDITY  */
-                            pos = minus = 0;
+                            int has_minus_or_plus = 0;
+                            int pos = 0;
                             while (((inputIndex + 1) < length) && (input[inputIndex + 1] != ' ') && (input[inputIndex + 1] != escape_character)) {
                                 inputIndex++;
                                 /*  ALLOW ONLY MINUS OR PLUS SIGN AND DIGITS  */
@@ -549,11 +549,11 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                                 /*  OUTPUT CHARACTER, KEEPING TRACK OF POSITION AND MINUS SIGN  */
                                 output[outputIndex++] = input[inputIndex];
                                 if ((input[inputIndex] == '-') || (input[inputIndex] == '+'))
-                                    minus++;
+                                    has_minus_or_plus++;
                                 pos++;
                             }
                             /*  MAKE SURE MINUS OR PLUS SIGN HAS NUMBER FOLLOWING IT  */
-                            if (minus >= pos)
+                            if (has_minus_or_plus >= pos)
                                 return inputIndex;
                             /*  IGNORE ANY WHITE SPACE  */
                             while (((inputIndex + 1) < length) && (input[inputIndex + 1] == ' '))
@@ -577,7 +577,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                             while (((inputIndex + 1) < length) && (input[inputIndex + 1] == ' '))
                                 inputIndex++;
                             /*  COPY NUMBER, CHECKING VALIDITY  */
-                            period = 0;
+                            int period = 0;
                             while (((inputIndex + 1) < length) && (input[inputIndex + 1] != ' ') && (input[inputIndex + 1] != escape_character)) {
                                 inputIndex++;
                                 /*  ALLOW ONLY DIGITS AND PERIOD  */
