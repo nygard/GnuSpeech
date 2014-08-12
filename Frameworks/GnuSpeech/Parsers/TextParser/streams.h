@@ -25,6 +25,4 @@ void NXGetMemoryBuffer(NXStream *stream, const char **streambuf, int *len, int *
 
 void NXPrintf(NXStream *stream, const char *format, ...);
 
-void NXSeek(NXStream *stream, long offset, int whence);
-
 void NXLogError(const char *format, ...);

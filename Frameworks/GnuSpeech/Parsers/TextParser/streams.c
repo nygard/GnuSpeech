@@ -42,12 +42,6 @@ void NXPrintf(NXStream *stream, const char *format, ...)
     va_end(args);
 }
 
-void NXSeek(NXStream *stream, long offset, int whence)
-{
-    if (![stream seekWithOffset:offset fromPosition:whence])
-        NSLog(@"NXSeek(): Cannot seek to offset.");
-}
-
 void NXVLogError(const char * format, va_list args)
 {
     NSLogv([NSString stringWithCString:format encoding:NSASCIIStringEncoding], args);

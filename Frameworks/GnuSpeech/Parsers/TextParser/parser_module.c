@@ -743,7 +743,7 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *
     }
 
     /*  SECOND PASS  */
-    NXSeek(stream, 0, NX_FROMSTART);
+    [stream seekWithOffset:0 fromPosition:NX_FROMSTART];
     mode = NORMAL_MODE;  status = PUNCTUATION;
     for (i = 0; i < length; i++) {
         switch (buffer[i]) {
@@ -889,7 +889,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
 
 
     /*  REWIND STREAM2 BACK TO BEGINNING  */
-    NXSeek(stream2, 0, NX_FROMSTART);
+    [stream2 seekWithOffset:0 fromPosition:NX_FROMSTART];
 
     /*  GET MEMORY BUFFER ASSOCIATED WITH STREAM1  */
     NXGetMemoryBuffer(stream1, &input, (int *)&length, (int *)&max_length);
@@ -1303,7 +1303,7 @@ int gs_pm_set_tone_group(NXStream *stream, long tg_pos, char *word)
     long current_pos = [stream tell];
 
     /*  SEEK TO TONE GROUP MARKER POSITION  */
-    NXSeek(stream, tg_pos, NX_FROMSTART);
+    [stream seekWithOffset:tg_pos fromPosition:NX_FROMSTART];
 
     /*  WRITE APPROPRIATE TONE GROUP TYPE  */
     switch (word[0]) {
@@ -1317,7 +1317,7 @@ int gs_pm_set_tone_group(NXStream *stream, long tg_pos, char *word)
     }
 
     /*  SEEK TO ORIGINAL POSITION ON STREAM  */
-    NXSeek(stream, current_pos, NX_FROMSTART);
+    [stream seekWithOffset:current_pos fromPosition:NX_FROMSTART];
 
     return TTS_PARSER_SUCCESS;
 }
@@ -1478,13 +1478,13 @@ void gs_pm_insert_tag(NXStream *stream, long insert_point, char *word)
         /*  ELSE, SAVE STREAM AFTER INSERT POINT  */
         temp = (char *)malloc(length+1);
 //        assert(temp != NULL);
-        NXSeek(stream, insert_point, NX_FROMSTART);
+        [stream seekWithOffset:insert_point fromPosition:NX_FROMSTART];
         for (j = 0; j < length; j++)
             temp[j] = [stream getChar];
         temp[j] = '\0';
 
         /*  INSERT TAG; ADD TEMPORARY MATERIAL  */
-        NXSeek(stream, insert_point, NX_FROMSTART);
+        [stream seekWithOffset:insert_point fromPosition:NX_FROMSTART];
         NXPrintf(stream, "%s %s %s", TAG_BEGIN, word, temp);
 
         /*  FREE TEMPORARY STORAGE  */
@@ -1604,9 +1604,9 @@ void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
     /*  IF TONIC, CONVERT LAST FOOT MARKER TO TONIC MARKER  */
     if (is_tonic && (last_foot_begin != UNDEFINED_POSITION)) {
         temporary_position = [stream tell];
-        NXSeek(stream, last_foot_begin, NX_FROMSTART);
+        [stream seekWithOffset:last_foot_begin fromPosition:NX_FROMSTART];
         NXPrintf(stream, TONIC_BEGIN);
-        NXSeek(stream, temporary_position, NX_FROMSTART);
+        [stream seekWithOffset:temporary_position fromPosition:NX_FROMSTART];
     }
 }
 
@@ -2038,12 +2038,12 @@ int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *strea
         if (isalpha(buffer[i-1])) {
             if ((buffer[i-1] == 'p') && (((i-1) == 0) || (((i-2) >= 0) && (buffer[i-2] != '.')) ) ) {
                 /*  EXPAND p. TO page  */
-                NXSeek(stream, -1, NX_FROMCURRENT);
+                [stream seekWithOffset:-1 fromPosition:NX_FROMCURRENT];
                 NXPrintf(stream, "page ");
             }
             else {
                 /*  ELSE, CAPITALIZE CHARACTER IF NECESSARY, BLANK OUT PERIOD  */
-                NXSeek(stream, -1, NX_FROMCURRENT);
+                [stream seekWithOffset:-1 fromPosition:NX_FROMCURRENT];
                 if (islower(buffer[i-1]))
                     buffer[i-1] = toupper(buffer[i-1]);
                 NXPrintf(stream, "%c ", buffer[i-1]);
@@ -2079,7 +2079,7 @@ int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *strea
                     i++;
                 /*  EXPAND ONLY IF NUMBER FOLLOWS  */
                 if (gs_pm_number_follows(buffer, i, length)) {
-                    NXSeek(stream, -word_length, NX_FROMCURRENT);
+                    [stream seekWithOffset:-word_length fromPosition:NX_FROMCURRENT];
                     NXPrintf(stream, "%s ", abbr_with_number[j][EXPANSION]);
                     return 1;
                 }
@@ -2089,7 +2089,7 @@ int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *strea
         /*  EXPAND THESE ABBREVIATIONS UNCONDITIONALLY  */
         for (j = 0; abbreviation[j][ABBREVIATION] != NULL; j++) {
             if (!strcmp(abbreviation[j][ABBREVIATION],word)) {
-                NXSeek(stream, -word_length, NX_FROMCURRENT);
+                [stream seekWithOffset:-word_length fromPosition:NX_FROMCURRENT];
                 NXPrintf(stream, "%s ", abbreviation[j][EXPANSION]);
                 return 1;
             }
@@ -2331,7 +2331,7 @@ void gs_pm_safety_check(NXStream *stream, long *stream_length)
     char last_tg_type = '0';
 
     /*  REWIND STREAM TO BEGINNING  */
-    NXSeek(stream, 0, NX_FROMSTART);
+    [stream seekWithOffset:0 fromPosition:NX_FROMSTART];
 
     /*  LOOP THROUGH STREAM, INSERTING NEW CHUNK MARKERS IF NECESSARY  */
     while ((c = [stream getChar]) != '\0' && c != EOF) {
@@ -2435,24 +2435,24 @@ void gs_pm_insert_chunk_marker(NXStream *stream, long insert_point, char tg_type
     NXStream *temp_stream = [[NXStream alloc] init];
 
     /*  COPY STREAM FROM INSERT POINT TO END TO BUFFER TO ANOTHER STREAM  */
-    NXSeek(stream, insert_point, NX_FROMSTART);
+    [stream seekWithOffset:insert_point fromPosition:NX_FROMSTART];
     while ((c = [stream getChar]) != '\0')
         [temp_stream putChar:c];
     [temp_stream putChar:'\0'];
 
     /*  PUT IN MARKERS AT INSERT POINT  */
-    NXSeek(stream, insert_point, NX_FROMSTART);
+    [stream seekWithOffset:insert_point fromPosition:NX_FROMSTART];
     NXPrintf(stream, "%s %s %s /%c ", TONE_GROUP_BOUNDARY, CHUNK_BOUNDARY, TONE_GROUP_BOUNDARY, tg_type);
     new_position = [stream tell] - 9;
 
     /*  APPEND CONTENTS OF TEMPORARY STREAM  */
-    NXSeek(temp_stream, 0, NX_FROMSTART);
+    [temp_stream seekWithOffset:0 fromPosition:NX_FROMSTART];
     while ((c = [temp_stream getChar]) != '\0')
         [stream putChar:c];
     [stream putChar:'\0'];
 
     /*  POSITION THE STREAM AT THE NEW /c MARKER  */
-    NXSeek(stream, new_position, NX_FROMSTART);
+    [stream seekWithOffset:new_position fromPosition:NX_FROMSTART];
 }
 
 
@@ -2472,7 +2472,7 @@ void gs_pm_check_tonic(NXStream *stream, long start_pos, long end_pos)
     extent = end_pos - start_pos;
 
     /*  REWIND STREAM TO START POSITION  */
-    NXSeek(stream, start_pos, NX_FROMSTART);
+    [stream seekWithOffset:start_pos fromPosition:NX_FROMSTART];
 
     /*  LOOP THROUGH STREAM, DETERMINING LAST FOOT POSITION, AND PRESENCE OF TONIC  */
     for (i = 0; i < extent; i++) {
@@ -2483,7 +2483,7 @@ void gs_pm_check_tonic(NXStream *stream, long start_pos, long end_pos)
                     break;
                 case '*':
                     /*  GO TO ORIGINAL POSITION ON STREAM, AND RETURN IMMEDIATELY  */
-                    NXSeek(stream, temp_pos, NX_FROMSTART);
+                    [stream seekWithOffset:temp_pos fromPosition:NX_FROMSTART];
                     return;
             }
         }
@@ -2491,12 +2491,12 @@ void gs_pm_check_tonic(NXStream *stream, long start_pos, long end_pos)
 
     /*  IF HERE, NO TONIC, SO INSERT TONIC MARKER  */
     if (last_foot_pos != UNDEFINED_POSITION) {
-        NXSeek(stream, last_foot_pos, NX_FROMSTART);
+        [stream seekWithOffset:last_foot_pos fromPosition:NX_FROMSTART];
         [stream putChar:'*'];
     }
 
     /*  GO TO ORIGINAL POSITION ON STREAM  */
-    NXSeek(stream, temp_pos, NX_FROMSTART);
+    [stream seekWithOffset:temp_pos fromPosition:NX_FROMSTART];
 }
 
 
@@ -2506,7 +2506,7 @@ void gs_pm_check_tonic(NXStream *stream, long start_pos, long end_pos)
 static void print_stream(NXStream *stream, long stream_length)
 {
     /*  REWIND STREAM TO BEGINNING  */
-    NXSeek(stream, 0, NX_FROMSTART);
+    [stream seekWithOffset:0 fromPosition:NX_FROMSTART];
 
     /*  PRINT LOOP  */
     printf("stream_length = %-ld\n<begin>", stream_length);

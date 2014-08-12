@@ -112,6 +112,7 @@
         newPosition = streamLength + offset;
 
     } else {
+        NSLog(@"%s: Cannot seek to offset.", __PRETTY_FUNCTION__);
 
         return NO;
     }
