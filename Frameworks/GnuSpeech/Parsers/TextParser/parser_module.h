@@ -59,4 +59,4 @@ int   gs_pm_converted_stress(char *pronunciation);
 int   gs_pm_is_possessive(char *word);
 void  gs_pm_safety_check(NXStream *stream, long *stream_length);
 void  gs_pm_insert_chunk_marker(NXStream *stream, long insert_point, char tg_type);
-void  gs_pm_check_tonic(NXStream *stream, long start_pos, long end_pos);
+void  gs_pm_check_tonic(NXStream *stream, long startPosition, long endPosition);

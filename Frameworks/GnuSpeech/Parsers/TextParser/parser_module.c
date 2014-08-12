@@ -2461,43 +2461,35 @@ void gs_pm_insert_chunk_marker(NXStream *stream, long insert_point, char tg_type
 /// Check to see if a tonic marker is present in the stream between the start and end positions.  If no
 /// tonic is present, then put one in at the last foot marker if it exists.
 
-void gs_pm_check_tonic(NXStream *stream, long start_pos, long end_pos)
+void gs_pm_check_tonic(NXStream *stream, long startPosition, long endPosition)
 {
-    long temp_pos, i, extent, last_foot_pos = UNDEFINED_POSITION;
+    long originalPosition = [stream tell];
+    long length = endPosition - startPosition;
 
+    [stream seekWithOffset:startPosition fromPosition:NX_FROMSTART];
 
-    /*  REMEMBER CURRENT POSITION IN STREAM  */
-    temp_pos = [stream tell];
-
-    /*  CALCULATE EXTENT OF STREAM TO LOOP THROUGH  */
-    extent = end_pos - start_pos;
-
-    /*  REWIND STREAM TO START POSITION  */
-    [stream seekWithOffset:start_pos fromPosition:NX_FROMSTART];
-
-    /*  LOOP THROUGH STREAM, DETERMINING LAST FOOT POSITION, AND PRESENCE OF TONIC  */
-    for (i = 0; i < extent; i++) {
-        if (([stream getChar] == '/') && (++i < extent)) {
+    // Dertermine last foot position, and presence of tonic.
+    long lastFootPosition = UNDEFINED_POSITION;
+    for (long index = 0; index < length; index++) {
+        if (([stream getChar] == '/') && (++index < length)) {
             switch ([stream getChar]) {
                 case '_':
-                    last_foot_pos = [stream tell] - 1;
+                    lastFootPosition = [stream tell] - 1;
                     break;
                 case '*':
-                    /*  GO TO ORIGINAL POSITION ON STREAM, AND RETURN IMMEDIATELY  */
-                    [stream seekWithOffset:temp_pos fromPosition:NX_FROMSTART];
+                    [stream seekWithOffset:originalPosition fromPosition:NX_FROMSTART];
                     return;
             }
         }
     }
 
     /*  IF HERE, NO TONIC, SO INSERT TONIC MARKER  */
-    if (last_foot_pos != UNDEFINED_POSITION) {
-        [stream seekWithOffset:last_foot_pos fromPosition:NX_FROMSTART];
+    if (lastFootPosition != UNDEFINED_POSITION) {
+        [stream seekWithOffset:lastFootPosition fromPosition:NX_FROMSTART];
         [stream putChar:'*'];
     }
 
-    /*  GO TO ORIGINAL POSITION ON STREAM  */
-    [stream seekWithOffset:temp_pos fromPosition:NX_FROMSTART];
+    [stream seekWithOffset:originalPosition fromPosition:NX_FROMSTART];
 }
 
 
