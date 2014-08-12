@@ -135,8 +135,6 @@
 		695148C70FB0DEB000B6DDD6 /* NXStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 695148BD0FB0DEB000B6DDD6 /* NXStream.m */; };
 		695148C80FB0DEB000B6DDD6 /* parser_module.c in Sources */ = {isa = PBXBuildFile; fileRef = 695148BE0FB0DEB000B6DDD6 /* parser_module.c */; };
 		695148C90FB0DEB000B6DDD6 /* parser_module.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148BF0FB0DEB000B6DDD6 /* parser_module.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		695148CA0FB0DEB000B6DDD6 /* streams.c in Sources */ = {isa = PBXBuildFile; fileRef = 695148C00FB0DEB000B6DDD6 /* streams.c */; };
-		695148CB0FB0DEB000B6DDD6 /* streams.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148C10FB0DEB000B6DDD6 /* streams.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		695148CE0FB0DEB000B6DDD6 /* TTS_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 695148C40FB0DEB000B6DDD6 /* TTS_types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		697930D30F91906B00E6B2EC /* ChangeLog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 697930D20F91906B00E6B2EC /* ChangeLog.txt */; };
 		69B1086D0EDD307400DEF197 /* TRMData.h in Headers */ = {isa = PBXBuildFile; fileRef = 69B1086B0EDD307400DEF197 /* TRMData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -320,8 +318,6 @@
 		695148BD0FB0DEB000B6DDD6 /* NXStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXStream.m; sourceTree = "<group>"; };
 		695148BE0FB0DEB000B6DDD6 /* parser_module.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parser_module.c; sourceTree = "<group>"; };
 		695148BF0FB0DEB000B6DDD6 /* parser_module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = parser_module.h; sourceTree = "<group>"; };
-		695148C00FB0DEB000B6DDD6 /* streams.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = streams.c; sourceTree = "<group>"; };
-		695148C10FB0DEB000B6DDD6 /* streams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = streams.h; sourceTree = "<group>"; };
 		695148C40FB0DEB000B6DDD6 /* TTS_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTS_types.h; sourceTree = "<group>"; };
 		697930D20F91906B00E6B2EC /* ChangeLog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog.txt; sourceTree = "<group>"; };
 		69B1086B0EDD307400DEF197 /* TRMData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TRMData.h; path = Tube/TRMData.h; sourceTree = "<group>"; };
@@ -724,8 +720,6 @@
 				695148BD0FB0DEB000B6DDD6 /* NXStream.m */,
 				695148BE0FB0DEB000B6DDD6 /* parser_module.c */,
 				695148BF0FB0DEB000B6DDD6 /* parser_module.h */,
-				695148C00FB0DEB000B6DDD6 /* streams.c */,
-				695148C10FB0DEB000B6DDD6 /* streams.h */,
 				695148C40FB0DEB000B6DDD6 /* TTS_types.h */,
 			);
 			name = "Text Parser";
@@ -828,7 +822,6 @@
 				695148C50FB0DEB000B6DDD6 /* abbreviations.h in Headers */,
 				695148C60FB0DEB000B6DDD6 /* NXStream.h in Headers */,
 				695148C90FB0DEB000B6DDD6 /* parser_module.h in Headers */,
-				695148CB0FB0DEB000B6DDD6 /* streams.h in Headers */,
 				695148CE0FB0DEB000B6DDD6 /* TTS_types.h in Headers */,
 				69E226500FB0EC35001B3C04 /* MMTextToPhone.h in Headers */,
 				69E228490FB13394001B3C04 /* clusters.h in Headers */,
@@ -1029,7 +1022,6 @@
 				695148B10FB0DDAA00B6DDD6 /* number_parser.c in Sources */,
 				695148C70FB0DEB000B6DDD6 /* NXStream.m in Sources */,
 				695148C80FB0DEB000B6DDD6 /* parser_module.c in Sources */,
-				695148CA0FB0DEB000B6DDD6 /* streams.c in Sources */,
 				69E226510FB0EC35001B3C04 /* MMTextToPhone.m in Sources */,
 				0186C5D819985DB3002AB929 /* GSTextParser.m in Sources */,
 				69E228450FB13394001B3C04 /* apply_stress.c in Sources */,
