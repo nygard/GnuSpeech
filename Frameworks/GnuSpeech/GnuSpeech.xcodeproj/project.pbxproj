@@ -11,6 +11,7 @@
 		010DE7341545598D005E337E /* MMToneGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE7321545598D005E337E /* MMToneGroup.m */; };
 		010DE75A15463851005E337E /* MMFRuleSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE75915463851005E337E /* MMFRuleSymbols.m */; };
 		01102E25199A0012002B4522 /* MarkModesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 01102E24199A0012002B4522 /* MarkModesTests.m */; };
+		01102E27199A8EDA002B4522 /* ScannerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 01102E26199A8EDA002B4522 /* ScannerTests.m */; };
 		0127C35419998C7600BF1830 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0127C35319998C7600BF1830 /* main.m */; };
 		0127C35819998C8D00BF1830 /* GnuSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* GnuSpeech.framework */; };
 		012D53AC0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -185,6 +186,7 @@
 		010DE7321545598D005E337E /* MMToneGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMToneGroup.m; path = MonetModel/MMToneGroup.m; sourceTree = "<group>"; };
 		010DE75915463851005E337E /* MMFRuleSymbols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFRuleSymbols.m; sourceTree = "<group>"; };
 		01102E24199A0012002B4522 /* MarkModesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkModesTests.m; sourceTree = "<group>"; };
+		01102E26199A8EDA002B4522 /* ScannerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannerTests.m; sourceTree = "<group>"; };
 		0127C35119998C7600BF1830 /* FunctionTester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FunctionTester; sourceTree = BUILT_PRODUCTS_DIR; };
 		0127C35319998C7600BF1830 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSDBMPronunciationDictionary.h; path = TextProcessing/GSDBMPronunciationDictionary.h; sourceTree = "<group>"; };
@@ -544,6 +546,7 @@
 			children = (
 				0186C5E51999409D002AB929 /* GnuSpeechTests.m */,
 				0186C64119994BED002AB929 /* RegularExpressionTests.m */,
+				01102E26199A8EDA002B4522 /* ScannerTests.m */,
 				0186C61619994213002AB929 /* ConditionInputTests.m */,
 				01102E24199A0012002B4522 /* MarkModesTests.m */,
 				0186C5E31999409D002AB929 /* Supporting Files */,
@@ -966,6 +969,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01102E27199A8EDA002B4522 /* ScannerTests.m in Sources */,
 				0186C61719994213002AB929 /* ConditionInputTests.m in Sources */,
 				01102E25199A0012002B4522 /* MarkModesTests.m in Sources */,
 				0186C5E61999409D002AB929 /* GnuSpeechTests.m in Sources */,
