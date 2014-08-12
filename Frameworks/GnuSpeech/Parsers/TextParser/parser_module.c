@@ -878,7 +878,7 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *
         }
     }
 
-    *stream_length = [stream tell];
+    *stream_length = [stream position];
 }
 
 
@@ -941,7 +941,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                                 prior_tonic = TTS_NO;
                             case STATE_MEDIAL_PUNC:
                                 [stream2 printf:"%s ", TG_UNDEFINED];
-                                tg_marker_pos = [stream2 tell] - 3;
+                                tg_marker_pos = [stream2 position] - 3;
                             case STATE_SILENCE:
                                 [stream2 printf:"%s ", UTTERANCE_BOUNDARY];
                         }
@@ -971,7 +971,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                                 if (gs_pm_set_tone_group(stream2, tg_marker_pos, ",") == TTS_PARSER_FAILURE)
                                     return TTS_PARSER_FAILURE;
                                 [stream2 printf:"%s %s ", TONE_GROUP_BOUNDARY, TG_UNDEFINED];
-                                tg_marker_pos = [stream2 tell] - 3;
+                                tg_marker_pos = [stream2 position] - 3;
                             }
                             /*  PUT IN WORD MARKER  */
                             [stream2 printf:"%s ", WORD_BEGIN];
@@ -988,7 +988,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
 
                         /*  SET LAST WRITTEN STATE, AND END POSITION AFTER THE WORD  */
                         last_written_state = STATE_WORD;
-                        last_word_end = [stream2 tell];
+                        last_word_end = [stream2 position];
                         break;
 
 
@@ -997,7 +997,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                         switch (last_written_state) {
                             case STATE_WORD:
                                 if (gs_pm_shift_silence(input, i, stream1_length, mode, stream2))
-                                    last_word_end = [stream2 tell];
+                                    last_word_end = [stream2 position];
                                 else if ((next_state != STATE_END) &&
                                          gs_pm_another_word_follows(input, i, stream1_length, mode)) {
                                     if (!strcmp(word,","))
@@ -1021,7 +1021,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                     case STATE_FINAL_PUNC:
                         if (last_written_state == STATE_WORD) {
                             if (gs_pm_shift_silence(input, i, stream1_length, mode, stream2)) {
-                                last_word_end = [stream2 tell];
+                                last_word_end = [stream2 position];
                                 [stream2 printf:"%s ", TONE_GROUP_BOUNDARY];
                                 prior_tonic = TTS_NO;
                                 if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
@@ -1056,16 +1056,16 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                         if (last_written_state == STATE_BEGIN) {
                             [stream2 printf:"%s %s %s ", CHUNK_BOUNDARY, TONE_GROUP_BOUNDARY, TG_UNDEFINED];
                             prior_tonic = TTS_NO;
-                            tg_marker_pos = [stream2 tell] - 3;
+                            tg_marker_pos = [stream2 position] - 3;
                             if ((gs_pm_convert_silence(word, stream2) <= 0.0) && (next_state == STATE_END))
                                 return TTS_PARSER_FAILURE;
                             last_written_state = STATE_SILENCE;
-                            last_word_end = [stream2 tell];
+                            last_word_end = [stream2 position];
                         }
                         else if (last_written_state == STATE_WORD) {
                             gs_pm_convert_silence(word, stream2);
                             last_written_state = STATE_SILENCE;
-                            last_word_end = [stream2 tell];
+                            last_word_end = [stream2 position];
                         }
                         break;
 
@@ -1107,7 +1107,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
     }
 
     [stream2 putChar:'\0'];
-    *stream2_length = [stream2 tell];
+    *stream2_length = [stream2 position];
 
     return TTS_PARSER_SUCCESS;
 }
@@ -1301,7 +1301,7 @@ int gs_pm_set_tone_group(NXStream *stream, long tg_pos, char *word)
     if (tg_pos == UNDEFINED_POSITION)
         return TTS_PARSER_FAILURE;
 
-    long current_pos = [stream tell];
+    long current_pos = [stream position];
 
     /*  SEEK TO TONE GROUP MARKER POSITION  */
     [stream seekWithOffset:tg_pos fromPosition:NX_FROMSTART];
@@ -1465,7 +1465,7 @@ void gs_pm_insert_tag(NXStream *stream, long insert_point, char *word)
     if (insert_point == UNDEFINED_POSITION)
         return;
 
-    end_point = [stream tell];
+    end_point = [stream position];
 
     /*  CALCULATE HOW MANY CHARACTERS TO SHIFT  */
     length = end_point - insert_point;
@@ -1536,7 +1536,7 @@ void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
     if (is_tonic && !gs_pm_contains_primary_stress(pronunciation)) {
         if (!gs_pm_converted_stress((char *)pronunciation)) {
             [stream printf:FOOT_BEGIN];
-            last_foot_begin = [stream tell] - 2;
+            last_foot_begin = [stream position] - 2;
         }
     }
 
@@ -1550,7 +1550,7 @@ void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
             case '\'':
             case '`':
                 [stream printf:FOOT_BEGIN];
-                last_foot_begin = [stream tell] - 2;
+                last_foot_begin = [stream position] - 2;
                 last_phoneme[0] = '\0';
                 last_phoneme_ptr = last_phoneme;
                 break;
@@ -1601,7 +1601,7 @@ void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
 
     /*  IF TONIC, CONVERT LAST FOOT MARKER TO TONIC MARKER  */
     if (is_tonic && (last_foot_begin != UNDEFINED_POSITION)) {
-        temporary_position = [stream tell];
+        temporary_position = [stream position];
         [stream seekWithOffset:last_foot_begin fromPosition:NX_FROMSTART];
         [stream printf:TONIC_BEGIN];
         [stream seekWithOffset:temporary_position fromPosition:NX_FROMSTART];
@@ -2385,7 +2385,7 @@ void gs_pm_safety_check(NXStream *stream, long *stream_length)
                     case '4':
                         /*  REMEMBER TONE GROUP TYPE AND POSITION  */
                         last_tg_type = c;
-                        last_tg_pos = [stream tell] - 2;
+                        last_tg_pos = [stream position] - 2;
                         break;
                     default:
                         /*  IGNORE ALL OTHER SLASH CODES  */
@@ -2407,7 +2407,7 @@ void gs_pm_safety_check(NXStream *stream, long *stream_length)
                         break;
                     }
                     if (c == ' ')
-                        last_word_pos = [stream tell];
+                        last_word_pos = [stream position];
                 }
                 state = NON_PHONEME;
                 break;
@@ -2418,7 +2418,7 @@ void gs_pm_safety_check(NXStream *stream, long *stream_length)
     }
 
     /*  BE SURE TO RESET LENGTH OF STREAM  */
-    *stream_length = [stream tell];
+    *stream_length = [stream position];
 }
 
 
@@ -2444,7 +2444,7 @@ void gs_pm_insert_chunk_marker(NXStream *stream, long insert_point, char tg_type
     /*  PUT IN MARKERS AT INSERT POINT  */
     [stream seekWithOffset:insert_point fromPosition:NX_FROMSTART];
     [stream printf:"%s %s %s /%c ", TONE_GROUP_BOUNDARY, CHUNK_BOUNDARY, TONE_GROUP_BOUNDARY, tg_type];
-    new_position = [stream tell] - 9;
+    new_position = [stream position] - 9;
 
     /*  APPEND CONTENTS OF TEMPORARY STREAM  */
     [temp_stream seekWithOffset:0 fromPosition:NX_FROMSTART];
@@ -2463,7 +2463,7 @@ void gs_pm_insert_chunk_marker(NXStream *stream, long insert_point, char tg_type
 
 void gs_pm_check_tonic(NXStream *stream, long startPosition, long endPosition)
 {
-    long originalPosition = [stream tell];
+    long originalPosition = [stream position];
     long length = endPosition - startPosition;
 
     [stream seekWithOffset:startPosition fromPosition:NX_FROMSTART];
@@ -2474,7 +2474,7 @@ void gs_pm_check_tonic(NXStream *stream, long startPosition, long endPosition)
         if (([stream getChar] == '/') && (++index < length)) {
             switch ([stream getChar]) {
                 case '_':
-                    lastFootPosition = [stream tell] - 1;
+                    lastFootPosition = [stream position] - 1;
                     break;
                 case '*':
                     [stream seekWithOffset:originalPosition fromPosition:NX_FROMSTART];

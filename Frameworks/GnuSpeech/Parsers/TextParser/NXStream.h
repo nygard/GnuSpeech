@@ -32,11 +32,11 @@
 - (NSUInteger)length;
 - (void *)mutableBytes NS_RETURNS_INNER_POINTER;
 
-- (int)putChar:(char)c;
+- (void)putChar:(char)ch;
 - (int)getChar;
 - (void)ungetChar;
 
-- (long)tell;
+- (long)position;
 - (BOOL)seekWithOffset:(long)offset fromPosition:(int)whence;
 
 - (void)printf:(const char *)format, ...;

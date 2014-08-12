@@ -25,8 +25,8 @@
 
 @implementation NXStream
 {
-    NSMutableData *_streamBuffer;
-    long _streamPosition;
+    NSMutableData *_buffer;
+    long _position;
 }
 
 - (id)init;
@@ -37,8 +37,8 @@
 - (id)initWithCapacity:(NSUInteger)capacity;
 {
     if ((self =	[super init])) {
-        _streamBuffer = [[NSMutableData alloc] initWithCapacity:capacity];
-        _streamPosition = 0;
+        _buffer = [[NSMutableData alloc] initWithCapacity:capacity];
+        _position = 0;
     }
 
     return self;
@@ -46,57 +46,47 @@
 
 - (NSUInteger)length;
 {
-    return [_streamBuffer length];
+    return [_buffer length];
 }
 
 - (void *)mutableBytes;
 {
-    return [_streamBuffer mutableBytes];
+    return [_buffer mutableBytes];
 }
 
-- (int)putChar:(char)c;
+- (void)putChar:(char)ch;
 {
-    char buf[2];
-    buf[0] = c;
-    buf[1] = '\0';
-
-    NSRange range;
-    range.location = _streamPosition;
-    range.length = 1;
-
-    if (_streamPosition == [_streamBuffer length]) {
-        [_streamBuffer appendBytes:buf length:1];
+    if (_position == [_buffer length]) {
+        [_buffer appendBytes:&ch length:1];
     } else {
-        [_streamBuffer replaceBytesInRange:range withBytes:buf];
+        [_buffer replaceBytesInRange:NSMakeRange(_position, 1) withBytes:&ch];
     }
 
-    _streamPosition++;
-
-    return (int)c;  // make it behave similar to the stdio *putc() functions
+    _position++;
 }
 
 - (int)getChar;
 {
-    if (_streamPosition == [_streamBuffer length])
+    if (_position == [_buffer length])
         return EOF;
     int ch;
-    [_streamBuffer getBytes:&ch range:NSMakeRange(_streamPosition++, 1)];
+    [_buffer getBytes:&ch range:NSMakeRange(_position++, 1)];
     return ch;
 }
 
 - (void)ungetChar;
 {
-    _streamPosition--;
+    _position--;
 }
 
-- (long)tell;
+- (long)position;
 {
-    return _streamPosition;
+    return _position;
 }
 
 - (BOOL)seekWithOffset:(long)offset fromPosition:(int)whence;
 {
-    long streamLength = [_streamBuffer length];
+    long streamLength = [_buffer length];
     long newPosition;
 
     if (whence == NX_FROMSTART) {  // from beginning
@@ -105,7 +95,7 @@
 
     } else if (whence == NX_FROMCURRENT) {  // from current
 
-        newPosition = _streamPosition + offset;
+        newPosition = _position + offset;
 
     } else if (whence == NX_FROMEND) {  // from end
 
@@ -118,18 +108,18 @@
     }
 
     if (newPosition > streamLength)
-        _streamPosition = streamLength;
+        _position = streamLength;
     else if (newPosition < 0)
-        _streamPosition = 0;
+        _position = 0;
     else
-        _streamPosition = newPosition;
+        _position = newPosition;
 
     return YES;
 }
 
 - (BOOL)atEOS;
 {
-    if (_streamPosition == [_streamBuffer length])
+    if (_position == [_buffer length])
         return YES;
     return NO;
 }
@@ -155,28 +145,28 @@
     long buflen = strlen(buf);
 
     NSRange range;
-    range.location = _streamPosition;
+    range.location = _position;
     range.length = buflen;
 
     if ([self atEOS]) {
 
-        [_streamBuffer appendBytes:buf length:buflen];
+        [_buffer appendBytes:buf length:buflen];
 
     } else {
 
-        NSUInteger streamBufferLength = [_streamBuffer length];
-        if (_streamPosition > (int)streamBufferLength - (int)range.length) {  // range to write is beyond string bounds; note necessary casts to (int)
+        NSUInteger streamBufferLength = [_buffer length];
+        if (_position > (int)streamBufferLength - (int)range.length) {  // range to write is beyond string bounds; note necessary casts to (int)
 
-            range.length = streamBufferLength - _streamPosition;  // adjust range to be within stream buffer bounds
-            [_streamBuffer replaceBytesInRange:range withBytes:buf length:buflen];
+            range.length = streamBufferLength - _position;  // adjust range to be within stream buffer bounds
+            [_buffer replaceBytesInRange:range withBytes:buf length:buflen];
             
         } else {  // range to write is within string bounds; replace characters in range
             
-            [_streamBuffer replaceBytesInRange:range withBytes:buf];
+            [_buffer replaceBytesInRange:range withBytes:buf];
         }
     }
     
-    _streamPosition += buflen;
+    _position += buflen;
     
     free(buf);
 }
