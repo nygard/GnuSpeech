@@ -143,7 +143,11 @@ static NSDictionary *_specialAcronymsDictionary;
 static NXStream *_persistentStream;
 
 
-/// Returns a 1 if the phone is valid (exists in the currently initialized database), 0 otherwise.
+/// Check whether a phone is valid (exists in the currently initialized database).
+///
+/// @param phone Null terminated string.
+///
+/// @returns Returns a 1 if the phone is valid, 0 otherwise.
 
 static int validPhone(char *phone)
 {
@@ -156,7 +160,7 @@ static int validPhone(char *phone)
 
 
 
-/// Sets up parser module for subsequent use.  This must be called before parser() is ever used.
+/// Set up parser module for subsequent use.  This must be called before parser() is ever used.
 
 void init_parser_module(void)
 {
@@ -171,8 +175,9 @@ void init_parser_module(void)
 }
 
 
-
-/// Sets escape code for parsing.  Assumes Objective C client library checks validity of argument.
+/// Set escape code for parsing.  Assumes Objective C client library checks validity of argument.
+///
+/// @param new_escape_code New escape character.
 
 void set_escape_code(char new_escape_code)
 {
@@ -180,8 +185,7 @@ void set_escape_code(char new_escape_code)
 }
 
 
-
-/// Sets the dictionary order, and sets the user and application dictionaries (all globals).  Assumes Objective C client library checks validity of arguments.
+/// Set the dictionary order and the user and application dictionaries (all globals).  Assumes Objective C client library checks validity of arguments.
 
 void set_dict_data(const int16_t order[4],
                    GSPronunciationDictionary *userDict,
@@ -220,10 +224,14 @@ void set_dict_data(const int16_t order[4],
 
 
 
-/// Takes plain english input, and produces phonetic output suitable for further processing in the TTS system.
+/// Take plain english input, and produce phonetic output suitable for further processing in the TTS system.
+///
 /// If a parse error occurs, a value of 0 or above is returned.  Usually this will point to the position of the
 /// error in the input buffer, but in later stages of the parse only a 0 is returned since positional information
-/// is lost.  If no parser error, then TTS_PARSER_SUCCESS is returned.
+/// is lost.
+///
+/// @return If no parser error, then TTS_PARSER_SUCCESS is returned.
+/// @return If a parse error occurs, return >= 0.
 
 int parser(const char *input, const char **output)
 {
@@ -272,8 +280,6 @@ int parser(const char *input, const char **output)
         return TTS_PARSER_FAILURE;
     }
 
-//    NSLog(@"stream1: '%@'", [stream1 buffer]);
-
     /*  DO FINAL CONVERSION  */
     long persistent_stream_length;
     error = gs_pm_final_conversion(stream1, stream1_length, _persistentStream, &persistent_stream_length);
@@ -295,7 +301,7 @@ int parser(const char *input, const char **output)
 
 
 
-/// Returns the pronunciation of word, and sets dict to the dictionary in which it was found.  Relies on the global dictionaryOrder.
+/// Return the pronunciation of word, and set dict to the dictionary in which it was found.  Relies on the global dictionaryOrder.
 
 const char *lookup_word(const char *word, short *dict)
 {
@@ -368,7 +374,7 @@ const char *lookup_word(const char *word, short *dict)
 
 
 
-/// Converts all non-printable characters (except escape character to blanks.  Also connects words hyphenated over a newline.
+/// Convert all non-printable characters (except escape character to blanks.  Also connect words hyphenated over a newline.
 
 void gs_pm_condition_input(const char *input, char *output, long input_length, long *output_length_ptr)
 {
@@ -411,26 +417,6 @@ void gs_pm_condition_input(const char *input, char *output, long input_length, l
 
 
 
-/// Parses input for modes, checking for errors, and marks output with mode start and end points.  Tagging and silence mode arguments are checked.
-/// Returns TTS_PARSER_SUCCESS (-1) on success, or index of error.
-//   - errors can be:
-//     - Trying to end raw mode with empty mode stack.
-// %[rR][bB] - begin raw mode
-// %[rR][eE] - end raw mode
-// - in raw mode, only the "end raw mode" escape is recognized.  % or %r or %rb will just be passed through.  Escape character must be printable to be passed through.
-// - when raw mode ends, it marks the end of raw mode, and begins the mode at the top of the stack (if that isn't normal mode).
-// - this means that effectively they aren't nested.  Could be represented as an array of (mode, string) instead of embedding begin/end.
-// - double escape produces escape, as long as it is printable.  %%
-// %[lL][bB] - begin letter mode
-// %[eE][bB] - begin emphasis mode
-// %[tT][bB] - begin tagging mode
-// %[sS][bB] - beging silence mode
-// %[?][bB] - anything else is undefined.
-// - in anything other than raw mode... beginning a mode emits that mode begin, puts mode on stack.
-// - begin tagging mode:
-//   - skip whitespace.  [+-]?[0-9]+[\w]*           (\w whitespace?)
-//   - will consume trailing %[tT][eE] immediately, if present.  Otherwise will add the end mode anyway.
-//   - so both "%tb 12345   %te foo" and just "%tb 12345 foo" are valid.
 
 // Mark beginning of stacked mode, if not normal mode.
 #define MARK_BEGINNING_OF_STACKED_MODE() { if (mode_stack[stack_ptr] != NORMAL_MODE) { output[outputIndex++] = mode_marker[mode_stack[stack_ptr]][BEGIN]; } }
@@ -449,7 +435,26 @@ void gs_pm_condition_input(const char *input, char *output, long input_length, l
 
 #define PUSH_MODE(mode)                  { if ((++stack_ptr) >= MODE_NEST_MAX) { return inputIndex; } mode_stack[stack_ptr] = mode; }
 
-
+/// Parse input for modes, check for errors, and mark output with mode start and end points.  Also check tagging and silence mode arguments.
+/// @returns Return TTS_PARSER_SUCCESS (-1) on success, or index of error.
+//   - errors can be:
+//     - Trying to end raw mode with empty mode stack.
+// %[rR][bB] - begin raw mode
+// %[rR][eE] - end raw mode
+// - in raw mode, only the "end raw mode" escape is recognized.  % or %r or %rb will just be passed through.  Escape character must be printable to be passed through.
+// - when raw mode ends, it marks the end of raw mode, and begins the mode at the top of the stack (if that isn't normal mode).
+// - this means that effectively they aren't nested.  Could be represented as an array of (mode, string) instead of embedding begin/end.
+// - double escape produces escape, as long as it is printable.  %%
+// %[lL][bB] - begin letter mode
+// %[eE][bB] - begin emphasis mode
+// %[tT][bB] - begin tagging mode
+// %[sS][bB] - beging silence mode
+// %[?][bB] - anything else is undefined.
+// - in anything other than raw mode... beginning a mode emits that mode begin, puts mode on stack.
+// - begin tagging mode:
+//   - skip whitespace.  [+-]?[0-9]+[\w]*           (\w whitespace?)
+//   - will consume trailing %[tT][eE] immediately, if present.  Otherwise will add the end mode anyway.
+//   - so both "%tb 12345   %te foo" and just "%tb 12345 foo" are valid.
 
 int gs_pm_mark_modes(char *input, char *output, long length, long *output_length)
 {
@@ -661,7 +666,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
 
 
 
-/// Deletes unnecessary punctuation, and converts some punctuation to another form.
+/// Delete unnecessary punctuation, and convert some punctuation to another form.
 
 void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *stream_length)
 {
@@ -874,7 +879,7 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *
 
 
 
-/// Converts contents of stream1 to stream2.  Adds chunk, tone group, and associated markers;  expands words to pronunciations, and also expands other modes.
+/// Convert contents of stream1 to stream2.  Add chunk, tone group, and associated markers;  expand words to pronunciations, and also expand other modes.
 
 int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                            NXStream *stream2, long *stream2_length)
@@ -1113,7 +1118,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
 
 
 
-/// Determines the current state and next state in buffer.  A word or punctuation is put into word.  Raw mode contents are expanded and written to stream.
+/// Determine the current state and next state in buffer.  A word or punctuation is put into word.  Expand raw mode contents into stream.
 
 int gs_pm_get_state(const char *buffer, long *i, long length, long *mode, long *next_mode,
                     long *current_state, long *next_state, long *raw_mode_flag,
@@ -1325,10 +1330,10 @@ int gs_pm_set_tone_group(NXStream *stream, long tg_pos, char *word)
 
 
 
-/// Converts numeric quantity in "buffer" to appropriate number of silence phones, which are written onto the
-/// end of stream.  Rounding is performed.
+/// Convert numeric quantity in "buffer" to appropriate number of silence phones, and write these onto the
+/// end of stream.  Perform rounding.
 ///
-/// Returns actual length of silence.
+/// @returns Return actual length of silence.
 
 double gs_pm_convert_silence(char *buffer, NXStream *stream)
 {
@@ -1353,7 +1358,8 @@ double gs_pm_convert_silence(char *buffer, NXStream *stream)
 
 
 
-/// Returns 1 if another word follows in buffer, after position i.  Else, 0 is returned.
+/// @returns Return 1 if another word follows in buffer, after position i.
+/// @returns Otherwise, return 0.
 
 int gs_pm_another_word_follows(const char *buffer, long i, long length, long mode)
 {
@@ -1389,7 +1395,7 @@ int gs_pm_another_word_follows(const char *buffer, long i, long length, long mod
 
 
 /// Look past punctuation to see if some silence occurs before the next word (or raw mode contents).
-/// If so, the numeric quantity is converted to the equivalent silence phones on the outputStream.
+/// If so, convert the numeric quantity into the equivalent silence phones on the outputStream.
 ///
 /// @param buffer       The input buffer.
 /// @param offset       The offset into the input buffer.
@@ -1455,7 +1461,7 @@ int gs_pm_shift_silence(const char *buffer, long offset, long bufferLength, long
 
 
 
-/// Inserts the tag contained in word onto the stream at the insert_point.
+/// Insert the tag contained in word onto the stream at the insert_point.
 
 void gs_pm_insert_tag(NXStream *stream, long insert_point, char *word)
 {
@@ -1613,7 +1619,7 @@ void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
 
 
 
-/// Writes raw mode contents to stream, checking phones and markers.
+/// Write raw mode contents to stream, and check phones and markers.
 
 int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *stream)
 {
@@ -1730,7 +1736,8 @@ int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *st
 
 
 
-/// Returns 1 if token is not a valid DEGAS phone.  Otherwise, 0 is returned.
+/// @return Return 1 if token is not a valid Monet phone.
+/// @return Return 0 otherwise.
 
 int gs_pm_illegal_token(char *token)
 {
@@ -1739,7 +1746,6 @@ int gs_pm_illegal_token(char *token)
         return 0;
 
     /*  IF PHONE A VALID DEGAS PHONE, RETURN 0;  1 OTHERWISE  */
-    // TODO: (2014-08-11) Nothing calls init_diphone_module() first.
     if (validPhone(token))
         return 0;
     else
@@ -1748,7 +1754,7 @@ int gs_pm_illegal_token(char *token)
 
 
 
-/// Returns 1 if code is illegal, 0 otherwise.
+/// @return Return 1 if code is illegal, 0 otherwise.
 
 int gs_pm_illegal_slash_code(char *code)
 {
@@ -1769,8 +1775,8 @@ int gs_pm_illegal_slash_code(char *code)
 
 
 
-/// Expand tag number in buffer at position j and write to stream.  Perform error checking, returning error code
-/// if format of tag number is illegal.
+/// Expand tag number in buffer at position j and write to stream.  Perform error checking.
+/// @return Error code if format of tag number is illegal.
 
 int gs_pm_expand_tag_number(const char *buffer, long *j, long length, NXStream *stream)
 {
@@ -1801,7 +1807,7 @@ int gs_pm_expand_tag_number(const char *buffer, long *j, long length, NXStream *
 
 
 
-/// Returns 1 if character is a mode marker, 0 otherwise.
+/// @return Return 1 if character is a mode marker, 0 otherwise.
 
 int gs_pm_is_mode(char c)
 {
@@ -1813,8 +1819,8 @@ int gs_pm_is_mode(char c)
 
 
 
-/// Returns 1 if character at position i is isolated, i.e. is surrounded by space or mode marker.  Returns
-/// 0 otherwise.
+/// @return Return 1 if character at position i is isolated, i.e. is surrounded by space or mode marker.
+/// @return Return 0 otherwise.
 
 int gs_pm_is_isolated(char *buffer, long i, long len)
 {
@@ -1827,8 +1833,8 @@ int gs_pm_is_isolated(char *buffer, long i, long len)
 
 
 
-/// Returns 1 if character at position i is part of a number (including mixtures with non-numeric
-/// characters).  Returns 0 otherwise.
+/// @return Return 1 if character at position i is part of a number (including mixtures with non-numeric characters).
+/// @return Return 0 otherwise.
 
 int gs_pm_part_of_number(char *buffer, long i, long len)
 {
@@ -1845,8 +1851,8 @@ int gs_pm_part_of_number(char *buffer, long i, long len)
 
 
 
-/// Returns a 1 if at least one digit follows the character at position i, up to white space or mode marker.
-/// Returns 0 otherwise.
+/// @return Return a 1 if at least one digit follows the character at position i, up to white space or mode marker.
+/// @return Return 0 otherwise.
 
 int gs_pm_number_follows(char *buffer, long i, long len)
 {
@@ -1860,7 +1866,7 @@ int gs_pm_number_follows(char *buffer, long i, long len)
 
 
 
-/// Deletes three dots in a row (disregarding white space).  If four dots, then the last three are deleted.
+/// Delete three dots in a row (disregarding white space).  If four dots, then the last three are deleted.
 
 void gs_pm_delete_ellipsis(char *buffer, long *i, long length)
 {
@@ -1893,8 +1899,8 @@ void gs_pm_delete_ellipsis(char *buffer, long *i, long length)
 
 
 
-/// Converts "--" to ", ", and "---" to ",  "
-/// Returns 1 if this is done, 0 otherwise.
+/// Convert "--" to ", ", and "---" to ",  "
+/// @return Return 1 if this is done, 0 otherwise.
 
 int gs_pm_convert_dash(char *buffer, long *i, long length)
 {
@@ -1917,8 +1923,8 @@ int gs_pm_convert_dash(char *buffer, long *i, long length)
 
 
 
-/// Returns 1 if string at position i in buffer is of the form:  (ddd)ddd-dddd
-/// where each d is a digit.
+/// @return Return 1 if string at position i in buffer is of the form:  (ddd)ddd-dddd
+///         where each d is a digit.
 
 int gs_pm_is_telephone_number(char *buffer, long i, long length)
 {
@@ -1948,8 +1954,8 @@ int gs_pm_is_telephone_number(char *buffer, long i, long length)
 
 
 
-/// Returns 1 if character is a .,;:?!
-/// Returns 0 otherwise.
+/// @return Return 1 if character is a .,;:?!
+/// @return Return 0 otherwise.
 
 int gs_pm_is_punctuation(char c)
 {
@@ -1968,8 +1974,9 @@ int gs_pm_is_punctuation(char c)
 
 
 
-/// Returns a 1 if a word or speakable symbol (letter mode) follows the position i in buffer.  Raw, tagging, and
-/// silence mode contents are ignored.  Returns a 0 if any punctuation (except . as part of number) follows.
+/// @return Return a 1 if a word or speakable symbol (letter mode) follows the position i in buffer.  Raw, tagging, and
+///         silence mode contents are ignored.
+/// @return Return a 0 if any punctuation (except . as part of number) follows.
 
 int gs_pm_word_follows(char *buffer, long i, long length)
 {
@@ -2022,10 +2029,11 @@ int gs_pm_word_follows(char *buffer, long i, long length)
 
 
 
-/// Expands listed abbreviations.  Two lists are used (see abbreviations.h):  one list expands unconditionally,
+/// Expand listed abbreviations.  Two lists are used (see abbreviations.h):  one list expands unconditionally,
 /// the other only if the abbreviation is followed by a number.  The abbreviation p. is expanded to page.
 /// Single alphabetic characters have periods deleted, but no expansion is made.  They are also capitalized.
-/// Returns 1 if expansion made (i.e. period is deleted), 0 otherwise.
+///
+/// @return Returns 1 if expansion made (i.e. period is deleted), 0 otherwise.
 
 int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *stream)
 {
@@ -2103,7 +2111,7 @@ int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *strea
 
 
 
-/// Expands contents of letter mode string to word or words.  A comma is added after each expansion, except
+/// Expand contents of letter mode string to word or words.  Add a comma after each expansion, except
 /// the last letter when it is followed by punctuation.
 
 void gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, long *status)
@@ -2226,7 +2234,7 @@ void gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stre
 
 
 
-/// Returns 1 if all letters of the word are upper case, 0 otherwise.
+/// @return Return 1 if all letters of the word are upper case, 0 otherwise.
 
 int gs_pm_is_all_upper_case(char *word)
 {
@@ -2241,7 +2249,7 @@ int gs_pm_is_all_upper_case(char *word)
 
 
 
-/// Converts any upper case letter in word to lower case.
+/// Convert any upper case letter in word to lower case.
 
 char *gs_pm_to_lower_case(char *word)
 {
@@ -2258,7 +2266,8 @@ char *gs_pm_to_lower_case(char *word)
 
 
 
-/// Returns a pointer to the pronunciation of a special acronym if it is defined in the list.  Otherwise, NULL is returned.
+/// @return Return a pointer to the pronunciation of a special acronym if it is defined in the list.
+/// @return Otherwise, return NULL.
 
 const char *gs_pm_is_special_acronym(char *word)
 {
@@ -2275,7 +2284,8 @@ const char *gs_pm_is_special_acronym(char *word)
 
 
 
-/// Returns 1 if the pronunciation contains ' (and ` for backwards compatibility).  Otherwise 0 is returned.
+/// @return Return 1 if the pronunciation contains ' (and ` for backwards compatibility).
+/// @return Otherwise, return 0;
 
 int gs_pm_contains_primary_stress(const char *pronunciation)
 {
@@ -2288,7 +2298,8 @@ int gs_pm_contains_primary_stress(const char *pronunciation)
 
 
 
-/// Returns 1 if the first " is converted to a ', otherwise 0 is returned.
+/// @return Return 1 if the first " is converted to a '.
+/// @return Otherwise, return 0.
 
 int gs_pm_converted_stress(char *pronunciation)
 {
@@ -2305,7 +2316,8 @@ int gs_pm_converted_stress(char *pronunciation)
 
 
 
-/// Returns 1 if 's is found at end of word, and removes the 's ending from the word.  Otherwise, 0 is returned.
+/// @return Return 1 if 's is found at end of word, and removes the 's ending from the word.
+/// @return Otherwise, return 0.
 
 int gs_pm_is_possessive(char *word)
 {
@@ -2322,7 +2334,7 @@ int gs_pm_is_possessive(char *word)
 
 
 
-/// Checks to make sure that there are not too many feet phones per chunk.  If there are, the input is split
+/// Check to make sure that there are not too many feet phones per chunk.  If there are, the input is split
 /// into two or mor chunks.
 
 void gs_pm_safety_check(NXStream *stream, long *stream_length)
@@ -2458,7 +2470,7 @@ void gs_pm_insert_chunk_marker(NXStream *stream, long insert_point, char tg_type
 
 
 
-/// Checks to see if a tonic marker is present in the stream between the start and end positions.  If no
+/// Check to see if a tonic marker is present in the stream between the start and end positions.  If no
 /// tonic is present, then put one in at the last foot marker if it exists.
 
 void gs_pm_check_tonic(NXStream *stream, long start_pos, long end_pos)
@@ -2502,7 +2514,7 @@ void gs_pm_check_tonic(NXStream *stream, long start_pos, long end_pos)
 
 
 
-/// Prints out the contents of a parser stream, inserting visible mode markers.
+/// Print out the contents of a parser stream, with visible mode markers.
 #if 0
 static void print_stream(NXStream *stream, long stream_length)
 {
