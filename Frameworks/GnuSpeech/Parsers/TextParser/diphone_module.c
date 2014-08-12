@@ -239,18 +239,15 @@ int init_parameter_list(char **parameters)
 
 int init_cache(char *cache_preload_file_path)
 {
-    int i;
-    FILE *fp1;
     char buffer[(SYMBOL_LENGTH_MAX+1)*2];
     char phone1[SYMBOL_LENGTH_MAX+1], phone2[SYMBOL_LENGTH_MAX+1];
-    cacheItemPtr current_cache_ptr = NULL;
 
     /*  FREE PREVIOUS CACHE, IF NECESSARY;  INITIALIZE CACHE VARIABLES  */
     if (number_of_cache_items > 0) {
         void free_cacheItem(cacheItemPtr item_ptr);
         cacheItemPtr current_cache_ptr = cacheHead;
         cacheItemPtr temp_cache_ptr;
-        for (i = 0; i < number_of_cache_items; i++) {
+        for (int i = 0; i < number_of_cache_items; i++) {
             temp_cache_ptr = current_cache_ptr;
             current_cache_ptr = current_cache_ptr->next;
             free_cacheItem(temp_cache_ptr);
@@ -264,14 +261,16 @@ int init_cache(char *cache_preload_file_path)
         return(0);
 
     /*  TRY TO OPEN CACHE PRELOAD FILE, RETURN ERROR CODE IF NEEDED  */
-    if ((fp1 = fopen(cache_preload_file_path,"r")) == NULL)
+    FILE *fp1 = fopen(cache_preload_file_path,"r");
+    if (fp1 == NULL)
         return(-1);
 
+    cacheItemPtr current_cache_ptr = NULL;
+
     /*  READ IN DIPHONES, ONE LINE AT A TIME, PRELOAD CACHE  */
-    while ((fgets(buffer,((SYMBOL_LENGTH_MAX+1)*2),fp1) != NULL) &&
-           (number_of_cache_items < CACHE_SIZE)) {
-        long space_pos = index(buffer,' ') - buffer;
-        long newline_pos = index(buffer,'\n') - buffer;
+    while ((fgets(buffer,((SYMBOL_LENGTH_MAX+1)*2),fp1) != NULL) && (number_of_cache_items < CACHE_SIZE)) {
+        long space_pos   = index(buffer, ' ') - buffer;
+        long newline_pos = index(buffer, '\n') - buffer;
         /*  DECODE PHONE1  */
         phone1[0] = '\0';
         strncat(phone1,buffer,space_pos);
@@ -284,7 +283,7 @@ int init_cache(char *cache_preload_file_path)
             return(-1);
         }
         /*  ADD DIPHONE TO TAIL OF LIST  */
-        if (number_of_cache_items == 0) {
+        if (current_cache_ptr == NULL) {
             current_cache_ptr = cacheHead = cacheTail = new_cacheItem();
             current_cache_ptr->previous = NULL;
         }
