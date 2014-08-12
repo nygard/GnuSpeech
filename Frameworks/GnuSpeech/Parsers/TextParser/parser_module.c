@@ -114,8 +114,6 @@
 
 #define UNDEFINED_POSITION    (-1)
 
-#define TTS_FALSE             0
-#define TTS_TRUE              1
 #define TTS_NO                0
 #define TTS_YES               1
 
@@ -892,7 +890,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                            NXStream *stream2, long *stream2_length)
 {
     long i, last_word_end = UNDEFINED_POSITION, tg_marker_pos = UNDEFINED_POSITION;
-    long mode = NORMAL_MODE, next_mode, prior_tonic = TTS_FALSE, raw_mode_flag = TTS_FALSE;
+    long mode = NORMAL_MODE, next_mode, prior_tonic = TTS_NO, raw_mode_flag = TTS_NO;
     long last_written_state = STATE_BEGIN, current_state, next_state;
     const char *input;
     char word[WORD_LENGTH_MAX+1];
@@ -943,7 +941,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                                 NXPrintf(stream2, "%s ", CHUNK_BOUNDARY);
                             case STATE_FINAL_PUNC:
                                 NXPrintf(stream2, "%s ", TONE_GROUP_BOUNDARY);
-                                prior_tonic = TTS_FALSE;
+                                prior_tonic = TTS_NO;
                             case STATE_MEDIAL_PUNC:
                                 NXPrintf(stream2, "%s ", TG_UNDEFINED);
                                 tg_marker_pos = NXTell(stream2) - 3;
@@ -988,7 +986,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                                 NXPrintf(stream2, "%s ", LAST_WORD);
                             /*  TONICIZE WORD  */
                             gs_pm_expand_word(word, TTS_YES, stream2);
-                            prior_tonic = TTS_TRUE;
+                            prior_tonic = TTS_YES;
                         }
 
                         /*  SET LAST WRITTEN STATE, AND END POSITION AFTER THE WORD  */
@@ -1014,7 +1012,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                                     NXPrintf(stream2, "%s ", UTTERANCE_BOUNDARY);
                             case STATE_SILENCE:
                                 NXPrintf(stream2, "%s ", TONE_GROUP_BOUNDARY);
-                                prior_tonic = TTS_FALSE;
+                                prior_tonic = TTS_NO;
                                 if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
                                     return TTS_PARSER_FAILURE;
                                 tg_marker_pos = UNDEFINED_POSITION;
@@ -1028,7 +1026,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                             if (gs_pm_shift_silence(input, i, stream1_length, mode, stream2)) {
                                 last_word_end = NXTell(stream2);
                                 NXPrintf(stream2, "%s ", TONE_GROUP_BOUNDARY);
-                                prior_tonic = TTS_FALSE;
+                                prior_tonic = TTS_NO;
                                 if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
                                     return TTS_PARSER_FAILURE;
                                 tg_marker_pos = UNDEFINED_POSITION;
@@ -1038,7 +1036,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                             else {
                                 NXPrintf(stream2, "%s %s %s ", UTTERANCE_BOUNDARY,
                                          TONE_GROUP_BOUNDARY,CHUNK_BOUNDARY);
-                                prior_tonic = TTS_FALSE;
+                                prior_tonic = TTS_NO;
                                 if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
                                     return TTS_PARSER_FAILURE;
                                 tg_marker_pos = UNDEFINED_POSITION;
@@ -1047,7 +1045,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                         }
                         else if (last_written_state == STATE_SILENCE) {
                             NXPrintf(stream2, "%s ", TONE_GROUP_BOUNDARY);
-                            prior_tonic = TTS_FALSE;
+                            prior_tonic = TTS_NO;
                             if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
                                 return TTS_PARSER_FAILURE;
                             tg_marker_pos = UNDEFINED_POSITION;
@@ -1060,7 +1058,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                     case STATE_SILENCE:
                         if (last_written_state == STATE_BEGIN) {
                             NXPrintf(stream2, "%s %s %s ", CHUNK_BOUNDARY, TONE_GROUP_BOUNDARY, TG_UNDEFINED);
-                            prior_tonic = TTS_FALSE;
+                            prior_tonic = TTS_NO;
                             tg_marker_pos = NXTell(stream2) - 3;
                             if ((gs_pm_convert_silence(word, stream2) <= 0.0) && (next_state == STATE_END))
                                 return TTS_PARSER_FAILURE;
@@ -1099,7 +1097,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
             NXPrintf(stream2, "%s ", UTTERANCE_BOUNDARY);
         case STATE_SILENCE:
             NXPrintf(stream2, "%s %s", TONE_GROUP_BOUNDARY, CHUNK_BOUNDARY);
-            prior_tonic = TTS_FALSE;
+            prior_tonic = TTS_NO;
             if (gs_pm_set_tone_group(stream2, tg_marker_pos, DEFAULT_END_PUNC) == TTS_PARSER_FAILURE)
                 return TTS_PARSER_FAILURE;
             tg_marker_pos = UNDEFINED_POSITION;
@@ -1269,7 +1267,7 @@ int gs_pm_get_state(const char *buffer, long *i, long length, long *mode, long *
                         return TTS_PARSER_FAILURE;
 
                     /*  SET RAW_MODE FLAG  */
-                    *raw_mode_flag = TTS_TRUE;
+                    *raw_mode_flag = TTS_YES;
 
                     /*  SET OUTSIDE COUNTER  */
                     *i = j;
@@ -1640,7 +1638,7 @@ void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
 
 int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *stream)
 {
-    int k, super_raw_mode = TTS_FALSE, delimiter = TTS_FALSE, blank = TTS_TRUE;
+    int k, super_raw_mode = TTS_NO, delimiter = TTS_NO, blank = TTS_YES;
     char token[SYMBOL_LENGTH_MAX+1];
 
     /*  EXPAND AND CHECK RAW MODE CONTENTS TILL END OF RAW MODE  */
@@ -1652,14 +1650,14 @@ int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *st
             if (!super_raw_mode) {
                 if (gs_pm_illegal_token(token))
                     return TTS_PARSER_FAILURE;
-                super_raw_mode = TTS_TRUE;
+                super_raw_mode = TTS_YES;
                 token[k=0] = '\0';
                 continue;
             }
             else {
-                super_raw_mode = TTS_FALSE;
+                super_raw_mode = TTS_NO;
                 token[k=0] = '\0';
-                delimiter = blank = TTS_FALSE;
+                delimiter = blank = TTS_NO;
                 continue;
             }
         }
@@ -1687,7 +1685,7 @@ int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *st
                         }
                         /*  RESET FLAGS  */
                         token[k=0] = '\0';
-                        delimiter = blank = TTS_FALSE;
+                        delimiter = blank = TTS_NO;
                     }
                     else
                         return TTS_PARSER_FAILURE;
@@ -1699,7 +1697,7 @@ int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *st
                     if (delimiter || blank)
                         return TTS_PARSER_FAILURE;
                     delimiter++;
-                    blank = TTS_FALSE;
+                    blank = TTS_NO;
                     /*  EVALUATE PENDING TOKEN  */
                     if (gs_pm_illegal_token(token))
                         return TTS_PARSER_FAILURE;
@@ -1713,7 +1711,7 @@ int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *st
                         return TTS_PARSER_FAILURE;
                     /*  SET FLAGS  */
                     blank++;
-                    delimiter = TTS_FALSE;
+                    delimiter = TTS_NO;
                     /*  EVALUATE PENDING TOKEN  */
                     if (gs_pm_illegal_token(token))
                         return TTS_PARSER_FAILURE;
@@ -1723,7 +1721,7 @@ int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *st
                 default:
                     /*  PHONE SYMBOL  */
                     /*  RESET FLAGS  */
-                    delimiter = blank = TTS_FALSE;
+                    delimiter = blank = TTS_NO;
                     /*  ACCUMULATE PHONE SYMBOL IN TOKEN BUFFER  */
                     token[k++] = buffer[*j];
                     if (k <= SYMBOL_LENGTH_MAX)
