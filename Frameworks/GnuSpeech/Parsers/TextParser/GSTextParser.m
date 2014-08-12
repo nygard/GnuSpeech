@@ -14,6 +14,9 @@ static NSString *GSTextParserAttribute_Mode = @"GSTextParserAttribute_Mode";
 /// Containers an NSNumber wrapping an NSInteger.
 static NSString *GSTextParserAttribute_TagValue = @"GSTextParserAttribute_TagValue";
 
+/// Containers an NSNumber wrapping a double.
+static NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_SilenceValue";
+
 // <http://userguide.icu-project.org/strings/regexp>
 
 @implementation GSTextParser
@@ -220,7 +223,30 @@ static NSString *GSTextParserAttribute_TagValue = @"GSTextParserAttribute_TagVal
                         } else if ([modeString isEqualToString:@"s"]) {
                             scanner.scanLocation += 2;
                             [modeStack pushMode:GSTextParserMode_Silence];
-                            // TODO: (2014-08-12) Extra stuff here.
+
+                            NSCharacterSet *spaceCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@" "];
+                            NSString *s2;
+                            [scanner scanCharacterFromSet:spaceCharacterSet intoString:&s2]; // Skip leading whitespace
+                            double value;
+                            if ([scanner scanDouble:&value]) {
+                                // Pass through escape character, if printable.
+                                NSDictionary *attrs = @{
+                                                        GSTextParserAttribute_Mode         : @(modeStack.currentMode),
+                                                        GSTextParserAttribute_SilenceValue : @(value),
+                                                        };
+                                NSAttributedString *astr = [[NSAttributedString alloc] initWithString:@"<silence mode>" attributes:attrs];
+                                [resultString appendAttributedString:astr];
+                                [scanner scanCharacterFromSet:spaceCharacterSet intoString:&s2]; // Skip trailing whitespace
+                            }
+                            NSString *peekAtEndTag = [scanner remainingString];
+                            if ([peekAtEndTag length] >= 3
+                                && [peekAtEndTag hasPrefix:self.escapeCharacter]
+                                && [@"se" isEqualToString:[[peekAtEndTag substringWithRange:NSMakeRange(1, 2)] lowercaseString]])
+                            {
+                                // This has an explicit end tag.
+                            } else {
+                                [modeStack popMode:GSTextParserMode_Silence];
+                            }
                         } else {
                             // Pass through escape character, if printable.
                             NSDictionary *attrs = @{ GSTextParserAttribute_Mode : @(modeStack.currentMode) };

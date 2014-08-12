@@ -46,4 +46,14 @@
     NSLog(@"outputString: %@", outputString);
 }
 
+- (void)testSilence;
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    NSString *inputString = @"Be very, very quiet, we are hunting a rabbit. %sb +5.0 %se See? %sb 0.5 blah blah";
+    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+
+    NSLog(@"inputString: %@", inputString);
+    NSLog(@"outputString: %@", outputString);
+}
+
 @end
