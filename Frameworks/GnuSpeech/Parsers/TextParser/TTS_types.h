@@ -1,6 +1,15 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules.
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
+/*  Dictionary Ordering Definitions  */
+#define TTS_EMPTY                       (0)
+#define TTS_NUMBER_PARSER               (1)
+#define TTS_USER_DICTIONARY             (2)
+#define TTS_APPLICATION_DICTIONARY      (3)
+#define TTS_MAIN_DICTIONARY             (4)
+#define TTS_LETTER_TO_SOUND             (5)
+
+#if 0
 /*  Error return typedef  */
 typedef int tts_error_t;
 
@@ -101,16 +110,6 @@ typedef int tts_error_t;
 #define TTS_VOLUME_SOFT                 48.0
 #define TTS_VOLUME_OFF                  0.0
 
-
-/*  Dictionary Ordering Definitions  */
-#define TTS_EMPTY                       0
-#define TTS_NUMBER_PARSER               1
-#define TTS_USER_DICTIONARY             2
-#define TTS_APPLICATION_DICTIONARY      3
-#define TTS_MAIN_DICTIONARY             4
-#define TTS_LETTER_TO_SOUND             5
-
-
 /*  Escape Character Definition  */
 #define TTS_ESCAPE_CHARACTER_DEF        0x1B
 
@@ -135,3 +134,4 @@ typedef int tts_error_t;
 #define TTS_NXDEFAULT_SYSTEM_PATH       "systemPath"
 #define TTS_SERVER_NAME                 "TTS_Server"
 #define TTS_CLIENT_SLOTS_MAX            50
+#endif
