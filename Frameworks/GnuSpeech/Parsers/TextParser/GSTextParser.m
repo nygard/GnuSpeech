@@ -17,8 +17,11 @@ typedef enum : NSUInteger {
     GSTextParserMode_Undefined = 6,
 } GSTextParserMode;
 
-/// Contains a NSNumber wrapping GSTextParserMode.  If this attribute isn't present, assume GSTextParserMode_Normal.
+/// Contains an NSNumber wrapping GSTextParserMode.  If this attribute isn't present, assume GSTextParserMode_Normal.
 static NSString *GSTextParserAttribute_Mode = @"GSTextParserAttribute_Mode";
+
+/// Containers an NSNumber wrapping an NSInteger.
+static NSString *GSTextParserAttribute_TagValue = @"GSTextParserAttribute_TagValue";
 
 // <http://userguide.icu-project.org/strings/regexp>
 
@@ -189,20 +192,48 @@ static NSString *GSTextParserAttribute_Mode = @"GSTextParserAttribute_Mode";
                     NSAttributedString *astr = [[NSAttributedString alloc] initWithString:self.escapeCharacter attributes:attrs];
                     [resultString appendAttributedString:astr];
                 } else {
-                    NSString *remainingString = [[scanner remainingString] lowercaseString];
+                    NSString *remainingString = [scanner remainingString];
                     // Check for beginning of mode.
-                    if ([remainingString length] >= 2 && [@"b" isEqualToString:[remainingString substringWithRange:NSMakeRange(1, 1)]]) {
-                        NSString *modeString = [remainingString substringWithRange:NSMakeRange(0, 1)];
+                    if ([remainingString length] >= 2 && [@"b" isEqualToString:[[remainingString substringWithRange:NSMakeRange(1, 1)] lowercaseString]]) {
+                        NSString *modeString = [[remainingString substringWithRange:NSMakeRange(0, 1)] lowercaseString];
                         if ([modeString isEqualToString:@"r"]) {
+                            scanner.scanLocation += 2;
                             PUSH_MODE(GSTextParserMode_Raw);
                         } else if ([modeString isEqualToString:@"l"]) {
+                            scanner.scanLocation += 2;
                             PUSH_MODE(GSTextParserMode_Letter);
                         } else if ([modeString isEqualToString:@"e"]) {
+                            scanner.scanLocation += 2;
                             PUSH_MODE(GSTextParserMode_Emphasis);
                         } else if ([modeString isEqualToString:@"t"]) {
+                            scanner.scanLocation += 2;
                             PUSH_MODE(GSTextParserMode_Tagging);
-                            // TODO: (2014-08-12) Extra stuff here.
+
+                            NSCharacterSet *spaceCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@" "];
+                            NSString *s2;
+                            [scanner scanCharacterFromSet:spaceCharacterSet intoString:&s2]; // Skip leading whitespace
+                            NSInteger value;
+                            if ([scanner scanInteger:&value]) {
+                                // Pass through escape character, if printable.
+                                NSDictionary *attrs = @{
+                                                        GSTextParserAttribute_Mode     : [modeStack lastObject],
+                                                        GSTextParserAttribute_TagValue : @(value),
+                                                        };
+                                NSAttributedString *astr = [[NSAttributedString alloc] initWithString:@"<tagging mode>" attributes:attrs];
+                                [resultString appendAttributedString:astr];
+                                [scanner scanCharacterFromSet:spaceCharacterSet intoString:&s2]; // Skip trailing whitespace
+                            }
+                            NSString *peekAtEndTag = [scanner remainingString];
+                            if ([peekAtEndTag length] >= 3
+                                && [peekAtEndTag hasPrefix:self.escapeCharacter]
+                                && [@"te" isEqualToString:[[peekAtEndTag substringWithRange:NSMakeRange(1, 2)] lowercaseString]])
+                            {
+                                // This has an explicit end tag.
+                            } else {
+                                POP_MODE(GSTextParserMode_Tagging);
+                            }
                         } else if ([modeString isEqualToString:@"s"]) {
+                            scanner.scanLocation += 2;
                             PUSH_MODE(GSTextParserMode_Silence);
                             // TODO: (2014-08-12) Extra stuff here.
                         } else {
@@ -216,14 +247,19 @@ static NSString *GSTextParserAttribute_Mode = @"GSTextParserAttribute_Mode";
                     else if ([remainingString length] >= 2 && [@"e" isEqualToString:[remainingString substringWithRange:NSMakeRange(1, 1)]]) {
                         NSString *modeString = [remainingString substringWithRange:NSMakeRange(0, 1)];
                         if ([modeString isEqualToString:@"r"]) {
+                            scanner.scanLocation += 2;
                             POP_MODE(GSTextParserMode_Raw);
                         } else if ([modeString isEqualToString:@"l"]) {
+                            scanner.scanLocation += 2;
                             POP_MODE(GSTextParserMode_Letter);
                         } else if ([modeString isEqualToString:@"e"]) {
+                            scanner.scanLocation += 2;
                             POP_MODE(GSTextParserMode_Emphasis);
                         } else if ([modeString isEqualToString:@"t"]) {
+                            scanner.scanLocation += 2;
                             POP_MODE(GSTextParserMode_Tagging);
                         } else if ([modeString isEqualToString:@"s"]) {
+                            scanner.scanLocation += 2;
                             POP_MODE(GSTextParserMode_Silence);
                         } else {
                             // Pass through escape character, if printable.

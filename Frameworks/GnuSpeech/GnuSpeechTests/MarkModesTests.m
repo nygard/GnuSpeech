@@ -36,4 +36,14 @@
     NSLog(@"outputString: %@", outputString);
 }
 
+- (void)testTagging;
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    NSString *inputString = @"one two %tb 1234 %te three four %tb 5678 five";
+    NSAttributedString *outputString = [_parser _markModesInString:inputString];
+
+    NSLog(@"inputString: %@", inputString);
+    NSLog(@"outputString: %@", outputString);
+}
+
 @end
