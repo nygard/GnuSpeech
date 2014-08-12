@@ -295,7 +295,6 @@ int parser(const char *input, const char **output)
      THIS STREAM PERSISTS BETWEEN CALLS  */
     *output = [_persistentStream mutableBytes];
 
-    /*  RETURN SUCCESS  */
     return TTS_PARSER_SUCCESS;
 }
 
@@ -675,11 +674,11 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
 
 void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *stream_length)
 {
-    long i, mode = NORMAL_MODE, status;
+    long mode = NORMAL_MODE;
 
     /*  DELETE OR CONVERT PUNCTUATION  */
-    for (i = 0; i < length; i++) {
-        switch (buffer[i]) {
+    for (long index = 0; index < length; index++) {
+        switch (buffer[index]) {
             case RAW_MODE_BEGIN:      mode = RAW_MODE;      break;
             case LETTER_MODE_BEGIN:   mode = LETTER_MODE;   break;
             case EMPHASIS_MODE_BEGIN: mode = EMPHASIS_MODE; break;
@@ -692,43 +691,43 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *
             case SILENCE_MODE_END:    mode = NORMAL_MODE;   break;
             default:
                 if ((mode == NORMAL_MODE) || (mode == EMPHASIS_MODE)) {
-                    switch (buffer[i]) {
+                    switch (buffer[index]) {
                         case '[':
-                            buffer[i] = '(';
+                            buffer[index] = '(';
                             break;
                         case ']':
-                            buffer[i] = ')';
+                            buffer[index] = ')';
                             break;
                         case '-':
-                            if (!gs_pm_convert_dash(buffer, &i, length) &&
-                                !gs_pm_number_follows(buffer, i, length) &&
-                                !gs_pm_is_isolated(buffer, i, length))
-                                buffer[i] = DELETED;
+                            if (!gs_pm_convert_dash(buffer, &index, length) &&
+                                !gs_pm_number_follows(buffer, index, length) &&
+                                !gs_pm_is_isolated(buffer, index, length))
+                                buffer[index] = DELETED;
                             break;
                         case '+':
-                            if (!gs_pm_part_of_number(buffer, i, length) && !gs_pm_is_isolated(buffer, i, length))
-                                buffer[i] = DELETED;
+                            if (!gs_pm_part_of_number(buffer, index, length) && !gs_pm_is_isolated(buffer, index, length))
+                                buffer[index] = DELETED;
                             break;
                         case '\'':
-                            if (!(((i-1) >= 0) && isalpha(buffer[i-1]) && ((i+1) < length) && isalpha(buffer[i+1])))
-                                buffer[i] = DELETED;
+                            if (!(((index-1) >= 0) && isalpha(buffer[index-1]) && ((index+1) < length) && isalpha(buffer[index+1])))
+                                buffer[index] = DELETED;
                             break;
                         case '.':
-                            gs_pm_delete_ellipsis(buffer, &i, length);
+                            gs_pm_delete_ellipsis(buffer, &index, length);
                             break;
                         case '/':
                         case '$':
                         case '%':
-                            if (!gs_pm_part_of_number(buffer, i, length))
-                                buffer[i] = DELETED;
+                            if (!gs_pm_part_of_number(buffer, index, length))
+                                buffer[index] = DELETED;
                             break;
                         case '<':
                         case '>':
                         case '&':
                         case '=':
                         case '@':
-                            if (!gs_pm_is_isolated(buffer, i, length))
-                                buffer[i] = DELETED;
+                            if (!gs_pm_is_isolated(buffer, index, length))
+                                buffer[index] = DELETED;
                             break;
                         case '"':
                         case '`':
@@ -741,7 +740,7 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *
                         case '~':
                         case '{':
                         case '}':
-                            buffer[i] = DELETED;
+                            buffer[index] = DELETED;
                             break;
                         default:
                             break;
@@ -753,67 +752,68 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *
 
     /*  SECOND PASS  */
     [stream seekWithOffset:0 fromPosition:NX_FROMSTART];
-    mode = NORMAL_MODE;  status = PUNCTUATION;
-    for (i = 0; i < length; i++) {
-        switch (buffer[i]) {
-            case RAW_MODE_BEGIN:      mode = RAW_MODE;      [stream putChar:buffer[i]]; break;
-            case EMPHASIS_MODE_BEGIN: mode = EMPHASIS_MODE; [stream putChar:buffer[i]]; break;
-            case TAGGING_MODE_BEGIN:  mode = TAGGING_MODE;  [stream putChar:buffer[i]]; break;
-            case SILENCE_MODE_BEGIN:  mode = SILENCE_MODE;  [stream putChar:buffer[i]]; break;
+    mode = NORMAL_MODE;
+    long status = PUNCTUATION;
+    for (long index = 0; index < length; index++) {
+        switch (buffer[index]) {
+            case RAW_MODE_BEGIN:      mode = RAW_MODE;      [stream putChar:buffer[index]]; break;
+            case EMPHASIS_MODE_BEGIN: mode = EMPHASIS_MODE; [stream putChar:buffer[index]]; break;
+            case TAGGING_MODE_BEGIN:  mode = TAGGING_MODE;  [stream putChar:buffer[index]]; break;
+            case SILENCE_MODE_BEGIN:  mode = SILENCE_MODE;  [stream putChar:buffer[index]]; break;
             case LETTER_MODE_BEGIN:   mode = LETTER_MODE;   /*  expand below  */      ; break;
 
             case RAW_MODE_END:
             case EMPHASIS_MODE_END:
             case TAGGING_MODE_END:
-            case SILENCE_MODE_END:    mode = NORMAL_MODE;   [stream putChar:buffer[i]]; break;
+            case SILENCE_MODE_END:    mode = NORMAL_MODE;   [stream putChar:buffer[index]]; break;
             case LETTER_MODE_END:     mode = NORMAL_MODE;   /*  expand below  */      ; break;
 
             case DELETED:
                 /*  CONVERT ALL DELETED CHARACTERS TO BLANKS  */
-                buffer[i] = ' ';
+                buffer[index] = ' ';
                 [stream putChar:' '];
                 break;
 
             default:
                 if ((mode == NORMAL_MODE) || (mode == EMPHASIS_MODE)) {
-                    switch (buffer[i]) {
+                    switch (buffer[index]) {
                         case '(':
                             /*  CONVERT (?) AND (!) TO BLANKS  */
-                            if ( ((i+2) < length) && (buffer[i+2] == ')') &&
-                                ((buffer[i+1] == '!') || (buffer[i+1] == '?')) ) {
-                                buffer[i] = buffer[i+1] = buffer[i+2] = ' ';
+                            if ( ((index+2) < length) && (buffer[index+2] == ')') &&
+                                ((buffer[index+1] == '!') || (buffer[index+1] == '?')) ) {
+                                buffer[index] = buffer[index+1] = buffer[index+2] = ' ';
                                 [stream printf:"   "];
-                                i += 2;
+                                index += 2;
                                 continue;
                             }
                             /*  ALLOW TELEPHONE NUMBER WITH AREA CODE:  (403)274-3877  */
-                            if (gs_pm_is_telephone_number(buffer, i, length)) {
+                            if (gs_pm_is_telephone_number(buffer, index, length)) {
                                 int j;
                                 for (j = 0; j < 12; j++)
-                                    [stream putChar:buffer[i++]];
+                                    [stream putChar:buffer[index++]];
                                 status = WORD;
                                 continue;
                             }
                             /*  CONVERT TO COMMA IF PRECEDED BY WORD, FOLLOWED BY WORD  */
-                            if ((status == WORD) && gs_pm_word_follows(buffer, i, length)) {
-                                buffer[i] = ' ';
+                            if ((status == WORD) && gs_pm_word_follows(buffer, index, length)) {
+                                buffer[index] = ' ';
                                 [stream printf:", "];
                                 status = PUNCTUATION;
                             }
                             else {
-                                buffer[i] = ' ';
+                                buffer[index] = ' ';
                                 [stream putChar:' '];
                             }
                             break;
                         case ')':
                             /*  CONVERT TO COMMA IF PRECEDED BY WORD, FOLLOWED BY WORD  */
-                            if ((status == WORD) && gs_pm_word_follows(buffer, i, length)) {
-                                buffer[i] = ',';
+                            if ((status == WORD) && gs_pm_word_follows(buffer, index, length)) {
+                                buffer[index] = ',';
                                 [stream printf:", "];
                                 status = PUNCTUATION;
                             }
                             else {
-                                buffer[i] = ' ';
+                                buffer[index] = ' ';
                                 [stream putChar:' '];
                             }
                             break;
@@ -822,7 +822,7 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *
                             status = WORD;
                             break;
                         case '+':
-                            if (gs_pm_is_isolated(buffer, i, length))
+                            if (gs_pm_is_isolated(buffer, index, length))
                                 [stream printf:"%s", PLUS];
                             else
                                 [stream putChar:'+'];
@@ -841,7 +841,7 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *
                             status = WORD;
                             break;
                         case '-':
-                            if (gs_pm_is_isolated(buffer, i, length))
+                            if (gs_pm_is_isolated(buffer, index, length))
                                 [stream printf:"%s", MINUS];
                             else
                                 [stream putChar:'-'];
@@ -852,33 +852,32 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *
                             status = WORD;
                             break;
                         case '.':
-                            if (!gs_pm_expand_abbreviation(buffer, i, length, stream)) {
-                                [stream putChar:buffer[i]];
+                            if (!gs_pm_expand_abbreviation(buffer, index, length, stream)) {
+                                [stream putChar:buffer[index]];
                                 status = PUNCTUATION;
                             }
                             break;
                         default:
-                            [stream putChar:buffer[i]];
-                            if (gs_pm_is_punctuation(buffer[i]))
+                            [stream putChar:buffer[index]];
+                            if (gs_pm_is_punctuation(buffer[index]))
                                 status = PUNCTUATION;
-                            else if (isalnum(buffer[i]))
+                            else if (isalnum(buffer[index]))
                                 status = WORD;
                             break;
                     }
                 }
                 /*  EXPAND LETTER MODE CONTENTS TO PLAIN WORDS OR SINGLE LETTERS  */
                 else if (mode == LETTER_MODE) {
-                    gs_pm_expand_letter_mode(buffer, &i, length, stream, &status);
+                    gs_pm_expand_letter_mode(buffer, &index, length, stream, &status);
                     continue;
                 }
                 /*  ELSE PASS CHARACTERS STRAIGHT THROUGH  */
                 else
-                    [stream putChar:buffer[i]];
+                    [stream putChar:buffer[index]];
                 break;
         }
     }
 
-    /*  SET STREAM LENGTH  */
     *stream_length = [stream tell];
 }
 
@@ -897,7 +896,6 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
     long length, max_length;
 
 
-    /*  REWIND STREAM2 BACK TO BEGINNING  */
     [stream2 seekWithOffset:0 fromPosition:NX_FROMSTART];
 
     /*  GET MEMORY BUFFER ASSOCIATED WITH STREAM1  */
@@ -1111,13 +1109,9 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
             break;
     }
 
-    /*  BE SURE TO ADD NULL TO END OF STREAM  */
     [stream2 putChar:'\0'];
-
-    /*  SET STREAM2 LENGTH  */
     *stream2_length = [stream2 tell];
 
-    /*  RETURN SUCCESS  */
     return TTS_PARSER_SUCCESS;
 }
 
@@ -1298,7 +1292,6 @@ int gs_pm_get_state(const char *buffer, long *i, long length, long *mode, long *
     else
         *next_state = STATE_END;
 
-    /*  RETURN SUCCESS  */
     return TTS_PARSER_SUCCESS;
 }
 
@@ -1350,10 +1343,8 @@ double gs_pm_convert_silence(char *buffer, NXStream *stream)
     /*  FIND EQUIVALENT NUMBER OF SILENCE PHONES, PERFORMING ROUNDING  */
     long number_silence_phones = rintl(silence_length / kSilencePhoneLength);
 
-    /*  PUT IN UTTERANCE BOUNDARY MARKER  */
     [stream printf:"%s ", UTTERANCE_BOUNDARY];
 
-    /*  WRITE OUT SILENCE PHONES TO STREAMS  */
     for (long index = 0; index < number_silence_phones; index++)
         [stream printf:"%s ", SILENCE_PHONE];
 
@@ -1477,7 +1468,6 @@ void gs_pm_insert_tag(NXStream *stream, long insert_point, char *word)
     if (insert_point == UNDEFINED_POSITION)
         return;
 
-    /*  FIND POSITION OF END OF STREAM  */
     end_point = [stream tell];
 
     /*  CALCULATE HOW MANY CHARACTERS TO SHIFT  */
@@ -1489,7 +1479,7 @@ void gs_pm_insert_tag(NXStream *stream, long insert_point, char *word)
     else {
         /*  ELSE, SAVE STREAM AFTER INSERT POINT  */
         temp = (char *)malloc(length+1);
-//        assert(temp != NULL);
+        assert(temp != NULL);
         [stream seekWithOffset:insert_point fromPosition:NX_FROMSTART];
         for (j = 0; j < length; j++)
             temp[j] = [stream getChar];
@@ -1499,7 +1489,6 @@ void gs_pm_insert_tag(NXStream *stream, long insert_point, char *word)
         [stream seekWithOffset:insert_point fromPosition:NX_FROMSTART];
         [stream printf:"%s %s %s", TAG_BEGIN, word, temp];
 
-        /*  FREE TEMPORARY STORAGE  */
         free(temp);
     }
 }
@@ -1735,7 +1724,6 @@ int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *st
     [stream printf:" "];
     (*j)--;
 
-    /*  RETURN SUCCESS  */
     return TTS_PARSER_SUCCESS;
 }
 
@@ -1746,7 +1734,6 @@ int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *st
 
 int gs_pm_illegal_token(char *token)
 {
-    /*  RETURN IMMEDIATELY IF ZERO LENGTH STRING  */
     if (strlen(token) == 0)
         return 0;
 
@@ -1806,7 +1793,6 @@ int gs_pm_expand_tag_number(const char *buffer, long *j, long length, NXStream *
             return TTS_PARSER_FAILURE;
     }
 
-    /*  RETURN SUCCESS  */
     return TTS_PARSER_SUCCESS;
 }
 
@@ -2283,7 +2269,7 @@ const char *gs_pm_is_special_acronym(char *word)
     if ((pr = [_specialAcronymsDictionary objectForKey:w]) != nil)
         return [pr cStringUsingEncoding:NSASCIIStringEncoding];
 
-    /*  IF HERE, NO SPECIAL ACRONYM FOUND, RETURN NULL  */
+    /*  IF HERE, NO SPECIAL ACRONYM FOUND  */
     return NULL;
 }
 
@@ -2333,7 +2319,7 @@ int gs_pm_is_possessive(char *word)
             return TTS_YES;
         }
 
-    /*  IF HERE, NO 's FOUND, RETURN FAILURE  */
+    /*  IF HERE, NO 's FOUND  */
     return TTS_NO;
 }
 
@@ -2523,10 +2509,8 @@ void gs_pm_check_tonic(NXStream *stream, long start_pos, long end_pos)
 #if 0
 static void print_stream(NXStream *stream, long stream_length)
 {
-    /*  REWIND STREAM TO BEGINNING  */
     [stream seekWithOffset:0 fromPosition:NX_FROMSTART];
 
-    /*  PRINT LOOP  */
     printf("stream_length = %-ld\n<begin>", stream_length);
     for (NSUInteger i = 0; i < stream_length; i++) {
         char c = [stream getChar];
