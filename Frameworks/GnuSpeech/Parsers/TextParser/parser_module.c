@@ -2502,8 +2502,8 @@ void gs_pm_check_tonic(NXStream *stream, long start_pos, long end_pos)
 
 
 
-/// Print out the contents of a parser stream, inserting visible mode markers.
 #if 0
+/// Print out the contents of a parser stream, inserting visible mode markers.
 static void print_stream(NXStream *stream, long stream_length)
 {
     [stream seekWithOffset:0 fromPosition:NX_FROMSTART];
@@ -2512,39 +2512,17 @@ static void print_stream(NXStream *stream, long stream_length)
     for (NSUInteger i = 0; i < stream_length; i++) {
         char c = [stream getChar];
         switch (c) {
-            case RAW_MODE_BEGIN:
-                printf("<raw mode begin>");
-                break;
-            case RAW_MODE_END:
-                printf("<raw mode end>");
-                break;
-            case LETTER_MODE_BEGIN:
-                printf("<letter mode begin>");
-                break;
-            case LETTER_MODE_END:
-                printf("<letter mode end>");
-                break;
-            case EMPHASIS_MODE_BEGIN:
-                printf("<emphasis mode begin>");
-                break;
-            case EMPHASIS_MODE_END:
-                printf("<emphasis mode end>");
-                break;
-            case TAGGING_MODE_BEGIN:
-                printf("<tagging mode begin>");
-                break;
-            case TAGGING_MODE_END:
-                printf("<tagging mode end>");
-                break;
-            case SILENCE_MODE_BEGIN:
-                printf("<silence mode begin>");
-                break;
-            case SILENCE_MODE_END:
-                printf("<silence mode end>");
-                break;
-            default:
-                printf("%c", c);
-                break;
+            case RAW_MODE_BEGIN:      printf("<raw mode begin>");      break;
+            case RAW_MODE_END:        printf("<raw mode end>");        break;
+            case LETTER_MODE_BEGIN:   printf("<letter mode begin>");   break;
+            case LETTER_MODE_END:     printf("<letter mode end>");     break;
+            case EMPHASIS_MODE_BEGIN: printf("<emphasis mode begin>"); break;
+            case EMPHASIS_MODE_END:   printf("<emphasis mode end>");   break;
+            case TAGGING_MODE_BEGIN:  printf("<tagging mode begin>");  break;
+            case TAGGING_MODE_END:    printf("<tagging mode end>");    break;
+            case SILENCE_MODE_BEGIN:  printf("<silence mode begin>");  break;
+            case SILENCE_MODE_END:    printf("<silence mode end>");    break;
+            default:                  printf("%c", c);                 break;
         }
     }
     printf("<end>\n");
