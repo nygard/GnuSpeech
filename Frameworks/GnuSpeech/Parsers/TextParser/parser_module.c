@@ -1389,9 +1389,9 @@ int gs_pm_another_word_follows(const char *buffer, long i, long length, long mod
 
 int gs_pm_shift_silence(const char *buffer, long offset, long bufferLength, long currentMode, NXStream *outputStream)
 {
-    for (long j = offset + 1; j < bufferLength; j++) {
+    for (long index = offset + 1; index < bufferLength; index++) {
         /*  FILTER THROUGH EACH CHARACTER  */
-        switch (buffer[j]) {
+        switch (buffer[index]) {
             case RAW_MODE_BEGIN:      currentMode = RAW_MODE;      break;
             case LETTER_MODE_BEGIN:   currentMode = LETTER_MODE;   break;
             case EMPHASIS_MODE_BEGIN: currentMode = EMPHASIS_MODE; break;
@@ -1407,10 +1407,10 @@ int gs_pm_shift_silence(const char *buffer, long offset, long bufferLength, long
             default:
                 if ((currentMode == NORMAL_MODE) || (currentMode == EMPHASIS_MODE)) {
                     /*  SKIP WHITE SPACE  */
-                    if (buffer[j] == ' ')
+                    if (buffer[index] == ' ')
                         continue;
                     /*  WORD HERE, SO RETURN WITHOUT SHIFTING  */
-                    if (!gs_pm_is_punctuation(buffer[j]))
+                    if (!gs_pm_is_punctuation(buffer[index]))
                         return 0;
                 }
                 else if (currentMode == RAW_MODE) {
@@ -1422,8 +1422,8 @@ int gs_pm_shift_silence(const char *buffer, long offset, long bufferLength, long
                     
                     int wordIndex = 0;
                     do {
-                        word[wordIndex++] = buffer[j++];
-                    } while ((j < bufferLength) && !gs_pm_is_mode(buffer[j]) && (wordIndex < WORD_LENGTH_MAX));
+                        word[wordIndex++] = buffer[index++];
+                    } while ((index < bufferLength) && !gs_pm_is_mode(buffer[index]) && (wordIndex < WORD_LENGTH_MAX));
                     word[wordIndex] = '\0';
 
                     /*  CONVERT WORD TO SILENCE PHONES, APPENDING TO STREAM  */
@@ -1465,6 +1465,7 @@ void gs_pm_insert_tag(NXStream *stream, long insert_point, char *word)
     else {
         /*  ELSE, SAVE STREAM AFTER INSERT POINT  */
         temp = (char *)malloc(length+1);
+//        assert(temp != NULL);
         NXSeek(stream, insert_point, NX_FROMSTART);
         for (j = 0; j < length; j++)
             temp[j] = NXGetc(stream);
