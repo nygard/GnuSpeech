@@ -134,11 +134,11 @@
 
 
 /*  GLOBAL VARIABLES, LOCAL TO THIS FILE  ************************************/
-static char escape_character;
-static short dictionaryOrder[4];
-static GSPronunciationDictionary *userDictionary, *appDictionary, *mainDictionary;
-static NSDictionary *specialAcronymsDictionary;
-static NXStream *stream2;
+static char _escape_character;
+static short _dictionaryOrder[4];
+static GSPronunciationDictionary *_userDictionary, *_appDictionary, *_mainDictionary;
+static NSDictionary *_specialAcronymsDictionary;
+static NXStream *_stream2;
 
 
 
@@ -149,14 +149,14 @@ static NXStream *stream2;
 
 void init_parser_module(void)
 {
-    stream2 = NULL;
+    _stream2 = NULL;
 
-    userDictionary = nil;
-    appDictionary = nil;
-    mainDictionary = nil;
-    specialAcronymsDictionary = nil;
+    _userDictionary = nil;
+    _appDictionary = nil;
+    _mainDictionary = nil;
+    _specialAcronymsDictionary = nil;
 
-    escape_character = '%';  // default escape character
+    _escape_character = '%';  // default escape character
 }
 
 
@@ -165,7 +165,7 @@ void init_parser_module(void)
 
 int set_escape_code(char new_escape_code)
 {
-    escape_character = new_escape_code;
+    _escape_character = new_escape_code;
 
     return TTS_PARSER_SUCCESS;
 }
@@ -181,30 +181,30 @@ int set_dict_data(const int16_t order[4],
                   NSDictionary *specialAcronymsDict)
 {
     /*  INITIALIZE GLOBAL ORDER VARIABLE  */
-    dictionaryOrder[0] = TTS_EMPTY;
-    dictionaryOrder[1] = TTS_EMPTY;
-    dictionaryOrder[2] = TTS_EMPTY;
-    dictionaryOrder[3] = TTS_EMPTY;
+    _dictionaryOrder[0] = TTS_EMPTY;
+    _dictionaryOrder[1] = TTS_EMPTY;
+    _dictionaryOrder[2] = TTS_EMPTY;
+    _dictionaryOrder[3] = TTS_EMPTY;
 
     /*  COPY POINTER TO DICTIONARIES INTO GLOBAL VARIABLES  */
-    userDictionary = userDict;
-    appDictionary = appDict;
-    mainDictionary = mainDict;
-    specialAcronymsDictionary = specialAcronymsDict;
+    _userDictionary = userDict;
+    _appDictionary = appDict;
+    _mainDictionary = mainDict;
+    _specialAcronymsDictionary = specialAcronymsDict;
 
     /*  COPY ORDER TO GLOBAL VARIABLE, ACCOUNT FOR UNOPENABLE PREDITOR-NOT DICTIONARIES  */
     NSUInteger j = 0;
     for (NSUInteger index = 0; index < 4; index++) {
         if (order[index] == TTS_USER_DICTIONARY) {
-            if (userDictionary != nil)
-                dictionaryOrder[j++] = order[index];
+            if (_userDictionary != nil)
+                _dictionaryOrder[j++] = order[index];
         }
         else if (order[index] == TTS_APPLICATION_DICTIONARY) {
-            if (appDictionary != nil)
-                dictionaryOrder[j++] = order[index];
+            if (_appDictionary != nil)
+                _dictionaryOrder[j++] = order[index];
         }
         else {
-            dictionaryOrder[j++] = order[index];
+            _dictionaryOrder[j++] = order[index];
         }
     }
 
@@ -265,23 +265,23 @@ int parser(const char *input, const char **output)
 #endif
 
     /*  CLOSE STREAM 2 IF IT IS NOT NULL.  THIS STREAM PERSISTS BETWEEN CALLS  */
-    if (stream2 != NULL) {
-        NXCloseMemory(stream2, NX_FREEBUFFER);
-        stream2 = NULL;
+    if (_stream2 != NULL) {
+        NXCloseMemory(_stream2, NX_FREEBUFFER);
+        _stream2 = NULL;
     }
 
     /*  OPEN MEMORY STREAM 2  */
-    if ((stream2 = NXOpenMemory(NULL,0,NX_READWRITE)) == NULL) {
+    if ((_stream2 = NXOpenMemory(NULL,0,NX_READWRITE)) == NULL) {
         NXLogError("TTS Server:  Cannot open memory stream (parser).");
         return TTS_PARSER_FAILURE;
     }
 
     /*  DO FINAL CONVERSION  */
     long stream2_length;
-    if ((error = gs_pm_final_conversion(stream1, stream1_length, stream2, &stream2_length)) != TTS_PARSER_SUCCESS) {
+    if ((error = gs_pm_final_conversion(stream1, stream1_length, _stream2, &stream2_length)) != TTS_PARSER_SUCCESS) {
         NXCloseMemory(stream1, NX_FREEBUFFER);
-        NXCloseMemory(stream2, NX_FREEBUFFER);
-        stream2 = NULL;
+        NXCloseMemory(_stream2, NX_FREEBUFFER);
+        _stream2 = NULL;
         return error;
     }
 
@@ -289,7 +289,7 @@ int parser(const char *input, const char **output)
     NXCloseMemory(stream1, NX_FREEBUFFER);
 
     /*  DO SAFETY CHECK;  MAKE SURE NOT TOO MANY FEET OR PHONES PER CHUNK  */
-    gs_pm_safety_check(stream2, &stream2_length);
+    gs_pm_safety_check(_stream2, &stream2_length);
 
 #if 0
     /*  PRINT OUT STREAM 2  */
@@ -300,7 +300,7 @@ int parser(const char *input, const char **output)
     /*  SET OUTPUT POINTER TO MEMORY STREAM BUFFER
      THIS STREAM PERSISTS BETWEEN CALLS  */
     int len, maxlen;
-    NXGetMemoryBuffer(stream2, output, &len, &maxlen);
+    NXGetMemoryBuffer(_stream2, output, &len, &maxlen);
 
     /*  RETURN SUCCESS  */
     return TTS_PARSER_SUCCESS;
@@ -320,7 +320,7 @@ const char *lookup_word(const char *word, short *dict)
 
     /*  SEARCH DICTIONARIES IN USER ORDER TILL PRONUNCIATION FOUND  */
     for (NSUInteger index = 0; index < 4; index++) {
-        switch (dictionaryOrder[index]) {
+        switch (_dictionaryOrder[index]) {
             case TTS_EMPTY:
                 break;
             case TTS_NUMBER_PARSER:
@@ -331,7 +331,7 @@ const char *lookup_word(const char *word, short *dict)
                 break;
             case TTS_USER_DICTIONARY:
                 w = [NSString stringWithCString:word encoding:NSASCIIStringEncoding];
-                if ((pr = [userDictionary pronunciationForWord:w]) != nil) {
+                if ((pr = [_userDictionary pronunciationForWord:w]) != nil) {
                     pronunciation = [pr cStringUsingEncoding:NSASCIIStringEncoding];
                     *dict = TTS_USER_DICTIONARY;
                     return (const char *)pronunciation;
@@ -339,7 +339,7 @@ const char *lookup_word(const char *word, short *dict)
                 break;
             case TTS_APPLICATION_DICTIONARY:
                 w = [NSString stringWithCString:word encoding:NSASCIIStringEncoding];
-                if ((pr = [appDictionary pronunciationForWord:w]) != nil) {
+                if ((pr = [_appDictionary pronunciationForWord:w]) != nil) {
                     pronunciation = [pr cStringUsingEncoding:NSASCIIStringEncoding];
                     *dict = TTS_APPLICATION_DICTIONARY;
                     return (const char *)pronunciation;
@@ -347,7 +347,7 @@ const char *lookup_word(const char *word, short *dict)
                 break;
             case TTS_MAIN_DICTIONARY:
                 w = [NSString stringWithCString:word encoding:NSASCIIStringEncoding];
-                if ((pr = [mainDictionary pronunciationForWord:w]) != nil) {
+                if ((pr = [_mainDictionary pronunciationForWord:w]) != nil) {
                     pronunciation = [pr cStringUsingEncoding:NSASCIIStringEncoding];
                     *dict = TTS_MAIN_DICTIONARY;
                     return (const char *)pronunciation;
@@ -393,20 +393,20 @@ void gs_pm_condition_input(const char *input, char *output, long input_length, l
             int ii = i;
             /*  IGNORE ANY WHITE SPACE UP TO NEWLINE  */
             while (((ii+1) < input_length) && (input[ii+1] != '\n') &&
-                   (input[ii+1] != escape_character) && isspace(input[ii+1]))
+                   (input[ii+1] != _escape_character) && isspace(input[ii+1]))
                 ii++;
             /*  IF NEWLINE, THEN CONCATENATE WORD  */
             if (((ii+1) < input_length) && input[ii+1] == '\n') {
                 i = ++ii;
                 /*  IGNORE ANY WHITE SPACE  */
-                while (((i+1) < input_length) && (input[i+1] != escape_character) && isspace(input[i+1]))
+                while (((i+1) < input_length) && (input[i+1] != _escape_character) && isspace(input[i+1]))
                     i++;
             }
             /*  ELSE, OUTPUT HYPHEN  */
             else
                 output[j++] = input[i];
         }
-        else if ((!isascii(input[i])) || ((!isprint(input[i])) && (input[i] != escape_character)))
+        else if ((!isascii(input[i])) || ((!isprint(input[i])) && (input[i] != _escape_character)))
         /*  CONVERT NONPRINTABLE CHARACTERS TO SPACE  */
             output[j++] = ' ';
         else
@@ -455,7 +455,7 @@ void gs_pm_condition_input(const char *input, char *output, long input_length, l
 // Decrement stack pointer, checkfor for stack underflow.
 #define DECREMENT_STACK_POINTER()        { if ((--stack_ptr) < 0) return inputIndex; }
 
-#define OUTPUT_ESCAPE_IF_PRINTABLE()     { if (isprint(escape_character)) { output[outputIndex++] = escape_character; } }
+#define OUTPUT_ESCAPE_IF_PRINTABLE()     { if (isprint(_escape_character)) { output[outputIndex++] = _escape_character; } }
 
 #define PUSH_MODE(mode)                  { if ((++stack_ptr) >= MODE_NEST_MAX) { return inputIndex; } mode_stack[stack_ptr] = mode; }
 
@@ -485,7 +485,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
 
     /*  MARK THE MODES OF INPUT, CHECKING FOR ERRORS  */
     for (int inputIndex = 0; inputIndex < length; inputIndex++) {
-        if (input[inputIndex] == escape_character) {
+        if (input[inputIndex] == _escape_character) {
             if (mode_stack[stack_ptr] == RAW_MODE) {
                 /*  CHECK FOR RAW MODE END  */
                 if ( ((inputIndex + 2) < length)
@@ -505,7 +505,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
             /*  ELSE, IF IN ANY OTHER MODE  */
             else {
                 /*  CHECK FOR DOUBLE ESCAPE CHARACTER  */
-                if ( ((inputIndex + 1) < length) && (input[inputIndex + 1] == escape_character) ) {
+                if ( ((inputIndex + 1) < length) && (input[inputIndex + 1] == _escape_character) ) {
                     OUTPUT_ESCAPE_IF_PRINTABLE();
                     inputIndex++;
                 }
@@ -539,7 +539,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                             /*  COPY NUMBER, CHECKING VALIDITY  */
                             int has_minus_or_plus = 0;
                             int pos = 0;
-                            while (((inputIndex + 1) < length) && (input[inputIndex + 1] != ' ') && (input[inputIndex + 1] != escape_character))
+                            while (((inputIndex + 1) < length) && (input[inputIndex + 1] != ' ') && (input[inputIndex + 1] != _escape_character))
                             {
                                 inputIndex++;
                                 /*  ALLOW ONLY MINUS OR PLUS SIGN AND DIGITS  */
@@ -570,7 +570,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                                 inputIndex++;
                             }
                             /*  IF NOT EXPLICIT TAG END, THEN INSERT ONE, POP STACK  */
-                            if (!(((inputIndex + 3) < length) && (input[inputIndex + 1] == escape_character) &&
+                            if (!(((inputIndex + 3) < length) && (input[inputIndex + 1] == _escape_character) &&
                                   ((input[inputIndex + 2] == 't') || (input[inputIndex + 2] == 'T')) &&
                                   ((input[inputIndex + 3] == 'e') || (input[inputIndex + 3] == 'E'))) )
                             {
@@ -586,7 +586,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                             }
                             /*  COPY NUMBER, CHECKING VALIDITY  */
                             int period = 0;
-                            while (((inputIndex + 1) < length) && (input[inputIndex + 1] != ' ') && (input[inputIndex + 1] != escape_character))
+                            while (((inputIndex + 1) < length) && (input[inputIndex + 1] != ' ') && (input[inputIndex + 1] != _escape_character))
                             {
                                 inputIndex++;
                                 /*  ALLOW ONLY DIGITS AND PERIOD  */
@@ -608,7 +608,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
                                 inputIndex++;
                             }
                             /*  IF NOT EXPLICIT SILENCE END, THEN INSERT ONE, POP STACK  */
-                            if (!(((inputIndex + 3) < length) && (input[inputIndex + 1] == escape_character) &&
+                            if (!(((inputIndex + 3) < length) && (input[inputIndex + 1] == _escape_character) &&
                                   ((input[inputIndex + 2] == 's') || (input[inputIndex + 2] == 'S')) &&
                                   ((input[inputIndex + 3] == 'e') || (input[inputIndex + 3] == 'E'))) )
                             {
@@ -2286,7 +2286,7 @@ const char *gs_pm_is_special_acronym(char *word)
     NSString * pr;
 
     /*  CHECK IF MATCH FOUND, RETURN PRONUNCIATION  */
-    if ((pr = [specialAcronymsDictionary objectForKey:w]) != nil)
+    if ((pr = [_specialAcronymsDictionary objectForKey:w]) != nil)
         return [pr cStringUsingEncoding:NSASCIIStringEncoding];
 
     /*  IF HERE, NO SPECIAL ACRONYM FOUND, RETURN NULL  */
