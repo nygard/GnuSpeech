@@ -34,6 +34,7 @@
 #import "letter_to_sound.h"
 #import "abbreviations.h"
 #import "streams.h"
+#import "NXStream.h"
 #import "TTS_types.h"
 #import "diphone_module.h"
 

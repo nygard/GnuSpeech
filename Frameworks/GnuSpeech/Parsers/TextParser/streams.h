@@ -19,7 +19,7 @@
  *
  ******************************************************************************/
 
-#import "NXStream.h"
+@class NXStream;
 
 NXStream *NXOpenMemory(const char *address, int size, int mode);
 void NXGetMemoryBuffer(NXStream *stream, const char **streambuf, int *len, int *maxLen);

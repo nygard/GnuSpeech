@@ -21,28 +21,21 @@
 
 #import <Foundation/Foundation.h>
 
-#define NX_READWRITE            0
-#define NX_READONLY                     1
+#define NX_READWRITE      (0)
+#define NX_READONLY       (1)
 
-#define NX_FROMSTART            0
-#define NX_FROMCURRENT          1
-#define NX_FROMEND                      2
+#define NX_FROMSTART      (0)
+#define NX_FROMCURRENT    (1)
+#define NX_FROMEND        (2)
 
-#define NX_FREEBUFFER           0
-#define NX_TRUNCATEBUFFER       1
+#define NX_FREEBUFFER     (0)
+#define NX_TRUNCATEBUFFER (1)
 
 @interface NXStream : NSObject
-{
-    NSMutableString *streamBuffer;
-    long streamPosition;
-}
 
-- (id)init;
 - (id)initWithCapacity:(NSUInteger)size;
 
-- (NSMutableString *)buffer;
 - (NSUInteger)length;
-- (const char *)cString;
 - (const char *)cStringUsingEncoding:(NSStringEncoding)encoding;
 
 - (int)putChar:(char)c;
@@ -54,6 +47,5 @@
 - (BOOL)atEOS;
 
 - (void)vprintf:(const char *)format argumentList:(va_list)args;
-- (void)printf:(const char *)format, ...;
 
 @end

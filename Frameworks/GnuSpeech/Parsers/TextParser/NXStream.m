@@ -24,6 +24,10 @@
 #define NX_DEFAULT_SIZE	1024
 
 @implementation NXStream
+{
+    NSMutableString *streamBuffer;
+    long streamPosition;
+}
 
 - (id)init;
 {

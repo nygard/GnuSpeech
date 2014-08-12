@@ -16,7 +16,7 @@ void set_dict_data(const int16_t order[4], GSPronunciationDictionary *userDict, 
 int parser(const char *input, const char **output);
 const char *lookup_word(const char *word, short *dict);
 
-#import "NXStream.h"
+@class NXStream;
 
 // Internal functions, exposed just for testing.
 // gs_pm = GnuSpeech Parser Module

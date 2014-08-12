@@ -20,6 +20,7 @@
  ******************************************************************************/
 
 #include "streams.h"
+#import "NXStream.h"
 
 NXStream *NXOpenMemory(const char *address, int size, int mode)
 {
