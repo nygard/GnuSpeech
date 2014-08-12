@@ -893,15 +893,12 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
     long last_written_state = STATE_BEGIN, current_state, next_state;
     const char *input;
     char word[WORD_LENGTH_MAX + 1];
-    long length, max_length;
 
 
     [stream2 seekWithOffset:0 fromPosition:NX_FROMSTART];
 
     /*  GET MEMORY BUFFER ASSOCIATED WITH STREAM1  */
     input = [stream1 mutableBytes];
-    length = (int)[stream1 length];
-    max_length = INT_MAX;
 
     /*  MAIN LOOP  */
     for (i = 0; i < stream1_length; i++) {
