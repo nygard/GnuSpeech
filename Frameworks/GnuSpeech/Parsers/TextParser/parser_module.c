@@ -288,7 +288,7 @@ int parser(const char *input, const char **output)
 
     /*  SET OUTPUT POINTER TO MEMORY STREAM BUFFER
      THIS STREAM PERSISTS BETWEEN CALLS  */
-    NXGetMemoryBuffer(_persistentStream, output, NULL, NULL);
+    *output = [_persistentStream mutableBytes];
 
     /*  RETURN SUCCESS  */
     return TTS_PARSER_SUCCESS;
@@ -892,7 +892,9 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
     [stream2 seekWithOffset:0 fromPosition:NX_FROMSTART];
 
     /*  GET MEMORY BUFFER ASSOCIATED WITH STREAM1  */
-    NXGetMemoryBuffer(stream1, &input, (int *)&length, (int *)&max_length);
+    input = [stream1 mutableBytes];
+    length = (int)[stream1 length];
+    max_length = INT_MAX;
 
     /*  MAIN LOOP  */
     for (i = 0; i < stream1_length; i++) {

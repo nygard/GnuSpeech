@@ -22,13 +22,6 @@
 #include "streams.h"
 #import "NXStream.h"
 
-void NXGetMemoryBuffer(NXStream *stream, const char **streambuf, int *len, int *maxLen)
-{
-    *streambuf = [stream mutableBytes];
-    if (len != NULL)    *len = (int)[stream length];
-    if (maxLen != NULL) *maxLen = INT_MAX;
-}
-
 void NXVPrintf(NXStream *stream, const char *format, va_list args)
 {
     [stream vprintf:format argumentList:args];

@@ -21,8 +21,6 @@
 
 @class NXStream;
 
-void NXGetMemoryBuffer(NXStream *stream, const char **streambuf, int *len, int *maxLen);
-
 void NXPrintf(NXStream *stream, const char *format, ...);
 
 void NXLogError(const char *format, ...);
