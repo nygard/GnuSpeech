@@ -26,10 +26,6 @@ NXStream *NXOpenMemory(const char *address, int size, int mode)
     return [[NXStream alloc] init];  // this will grow if required
 }
 
-void NXCloseMemory(NXStream *stream, int option)
-{
-}
-
 void NXGetMemoryBuffer(NXStream *stream, const char **streambuf, int *len, int *maxLen)
 {
     *streambuf = [stream cStringUsingEncoding:NSASCIIStringEncoding];

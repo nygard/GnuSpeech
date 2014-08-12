@@ -22,7 +22,6 @@
 #import "NXStream.h"
 
 NXStream *NXOpenMemory(const char *address, int size, int mode);
-void NXCloseMemory(NXStream *stream, int option);
 void NXGetMemoryBuffer(NXStream *stream, const char **streambuf, int *len, int *maxLen);
 
 int NXPutc(NXStream *stream, char c);

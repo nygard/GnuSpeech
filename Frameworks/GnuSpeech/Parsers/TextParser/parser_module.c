@@ -239,7 +239,7 @@ int parser(const char *input, const char **output)
     free(buffer1);
 
     NXStream *stream1 = NXOpenMemory(NULL, 0, NX_READWRITE);
-    if (stream1 == NULL) {
+    if (stream1 == nil) {
         NXLogError("TTS Server:  Cannot open memory stream (parser).");
         free(buffer2);
         return TTS_PARSER_FAILURE;
@@ -252,14 +252,10 @@ int parser(const char *input, const char **output)
     free(buffer2);
 
     /*  THIS STREAM PERSISTS BETWEEN CALLS  */
-    if (_stream2 != NULL) {
-        NXCloseMemory(_stream2, NX_FREEBUFFER);
-        _stream2 = NULL;
-    }
+    _stream2 = nil;
 
-    /*  OPEN MEMORY STREAM 2  */
     _stream2 = NXOpenMemory(NULL, 0, NX_READWRITE);
-    if (_stream2 == NULL) {
+    if (_stream2 == nil) {
         NXLogError("TTS Server:  Cannot open memory stream (parser).");
         return TTS_PARSER_FAILURE;
     }
@@ -268,23 +264,12 @@ int parser(const char *input, const char **output)
     long stream2_length;
     error = gs_pm_final_conversion(stream1, stream1_length, _stream2, &stream2_length);
     if (error != TTS_PARSER_SUCCESS) {
-        NXCloseMemory(stream1, NX_FREEBUFFER);
-        NXCloseMemory(_stream2, NX_FREEBUFFER);
-        _stream2 = NULL;
+        _stream2 = nil;
         return error;
     }
 
-    /*  CLOSE STREAM 1  */
-    NXCloseMemory(stream1, NX_FREEBUFFER);
-
     /*  DO SAFETY CHECK;  MAKE SURE NOT TOO MANY FEET OR PHONES PER CHUNK  */
     gs_pm_safety_check(_stream2, &stream2_length);
-
-#if 0
-    /*  PRINT OUT STREAM 2  */
-    printf("STREAM 2\n");
-    print_stream(stream2, stream2_length);
-#endif
 
     /*  SET OUTPUT POINTER TO MEMORY STREAM BUFFER
      THIS STREAM PERSISTS BETWEEN CALLS  */
@@ -2464,9 +2449,6 @@ void gs_pm_insert_chunk_marker(NXStream *stream, long insert_point, char tg_type
 
     /*  POSITION THE STREAM AT THE NEW /c MARKER  */
     NXSeek(stream, new_position, NX_FROMSTART);
-
-    /*  FREE TEMPORARY STREAM  */
-    NXCloseMemory(temp_stream, NX_FREEBUFFER);
 }
 
 
