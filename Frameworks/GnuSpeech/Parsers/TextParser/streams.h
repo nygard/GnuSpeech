@@ -21,20 +21,17 @@
 
 #import "NXStream.h"
 
-extern NXStream * NXOpenMemory(const char * address, int size, int mode);
-extern void NXCloseMemory(NXStream * stream, int option);
-extern void NXGetMemoryBuffer(NXStream * stream, const char ** streambuf, int * len, int * maxLen);
+NXStream *NXOpenMemory(const char *address, int size, int mode);
+void NXCloseMemory(NXStream *stream, int option);
+void NXGetMemoryBuffer(NXStream *stream, const char **streambuf, int *len, int *maxLen);
 
-extern int NXPutc(NXStream * stream, char c);
-extern int NXGetc(NXStream * stream);
-extern void NXUngetc(NXStream * stream);
+int NXPutc(NXStream *stream, char c);
+int NXGetc(NXStream *stream);
+void NXUngetc(NXStream *stream);
 
-extern void NXVPrintf(NXStream * stream, const char * format, va_list args);
-extern void NXPrintf(NXStream * stream, const char * format, ...);
+void NXPrintf(NXStream *stream, const char *format, ...);
 
-extern void NXSeek(NXStream * stream, long offset, int whence);
-extern long NXTell(NXStream * stream);
-extern BOOL NXAtEOS(NXStream *stream);
+void NXSeek(NXStream *stream, long offset, int whence);
+long NXTell(NXStream *stream);
 
-extern void NXVLogError(const char * format, va_list args);
-extern void NXLogError(const char * format, ...);
+void NXLogError(const char *format, ...);

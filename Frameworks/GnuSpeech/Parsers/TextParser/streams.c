@@ -21,7 +21,7 @@
 
 #include "streams.h"
 
-NXStream * NXOpenMemory(const char *address, int size, int mode)
+NXStream *NXOpenMemory(const char *address, int size, int mode)
 {
     return [[NXStream alloc] init];  // this will grow if required
 }
