@@ -230,7 +230,7 @@ int parser(const char *input, const char **output)
     gs_pm_condition_input(input, buffer1, input_length, &buffer1_length);
 
     int error;
-    long buffer2_length;
+    long buffer2_length = input_length + 1;
     /*  RATIONALIZE MODE MARKINGS, CHECKING FOR ERRORS  */
     error = gs_pm_mark_modes(buffer1, buffer2, buffer1_length, &buffer2_length);
     if (error != TTS_PARSER_SUCCESS) {
