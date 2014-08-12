@@ -11,8 +11,8 @@
 
 
 void init_parser_module(void);
-int set_escape_code(char new_escape_code);
-int set_dict_data(const int16_t order[4], GSPronunciationDictionary *userDict, GSPronunciationDictionary *appDict, GSPronunciationDictionary *mainDict, NSDictionary *specialAcronymsDict);
+void set_escape_code(char new_escape_code);
+void set_dict_data(const int16_t order[4], GSPronunciationDictionary *userDict, GSPronunciationDictionary *appDict, GSPronunciationDictionary *mainDict, NSDictionary *specialAcronymsDict);
 int parser(const char *input, const char **output);
 const char *lookup_word(const char *word, short *dict);
 

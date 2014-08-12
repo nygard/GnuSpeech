@@ -163,22 +163,20 @@ void init_parser_module(void)
 
 /// Sets escape code for parsing.  Assumes Objective C client library checks validity of argument.
 
-int set_escape_code(char new_escape_code)
+void set_escape_code(char new_escape_code)
 {
     _escape_character = new_escape_code;
-
-    return TTS_PARSER_SUCCESS;
 }
 
 
 
 /// Sets the dictionary order, and sets the user and application dictionaries (all globals).  Assumes Objective C client library checks validity of arguments.
 
-int set_dict_data(const int16_t order[4],
-                  GSPronunciationDictionary *userDict,
-                  GSPronunciationDictionary *appDict,
-                  GSPronunciationDictionary *mainDict,
-                  NSDictionary *specialAcronymsDict)
+void set_dict_data(const int16_t order[4],
+                   GSPronunciationDictionary *userDict,
+                   GSPronunciationDictionary *appDict,
+                   GSPronunciationDictionary *mainDict,
+                   NSDictionary *specialAcronymsDict)
 {
     /*  INITIALIZE GLOBAL ORDER VARIABLE  */
     _dictionaryOrder[0] = TTS_EMPTY;
@@ -193,22 +191,20 @@ int set_dict_data(const int16_t order[4],
     _specialAcronymsDictionary = specialAcronymsDict;
 
     /*  COPY ORDER TO GLOBAL VARIABLE, ACCOUNT FOR UNOPENABLE PREDITOR-NOT DICTIONARIES  */
-    NSUInteger j = 0;
+    NSUInteger dictionaryOrderIndex = 0;
     for (NSUInteger index = 0; index < 4; index++) {
         if (order[index] == TTS_USER_DICTIONARY) {
             if (_userDictionary != nil)
-                _dictionaryOrder[j++] = order[index];
+                _dictionaryOrder[dictionaryOrderIndex++] = order[index];
         }
         else if (order[index] == TTS_APPLICATION_DICTIONARY) {
             if (_appDictionary != nil)
-                _dictionaryOrder[j++] = order[index];
+                _dictionaryOrder[dictionaryOrderIndex++] = order[index];
         }
         else {
-            _dictionaryOrder[j++] = order[index];
+            _dictionaryOrder[dictionaryOrderIndex++] = order[index];
         }
     }
-
-    return TTS_PARSER_SUCCESS;
 }
 
 
@@ -220,12 +216,10 @@ int set_dict_data(const int16_t order[4],
 
 int parser(const char *input, const char **output)
 {
-    /*  FIND LENGTH OF INPUT  */
     long input_length = strlen(input);
 
-    /*  ALLOCATE BUFFER1, BUFFER2  */
-    char *buffer1 = (char *)malloc(input_length+1);
-    char *buffer2 = (char *)malloc(input_length+1);
+    char *buffer1 = (char *)malloc(input_length + 1);
+    char *buffer2 = (char *)malloc(input_length + 1);
 
     /*  CONDITION INPUT:  CONVERT NON-PRINTABLE CHARS TO SPACES
      (EXCEPT ESC CHAR), CONNECT WORDS HYPHENATED OVER A NEWLINE  */
@@ -235,19 +229,19 @@ int parser(const char *input, const char **output)
     int error;
     long buffer2_length;
     /*  RATIONALIZE MODE MARKINGS, CHECKING FOR ERRORS  */
-    if ((error = gs_pm_mark_modes(buffer1, buffer2, buffer1_length, &buffer2_length)) != TTS_PARSER_SUCCESS) {
+    error = gs_pm_mark_modes(buffer1, buffer2, buffer1_length, &buffer2_length);
+    if (error != TTS_PARSER_SUCCESS) {
         free(buffer1);
         free(buffer2);
         return error;
     }
 
-    /*  FREE BUFFER 1  */
     free(buffer1);
 
-    /*  OPEN MEMORY STREAM 1  */
-    NXStream *stream1;
-    if ((stream1 = NXOpenMemory(NULL,0,NX_READWRITE)) == NULL) {
+    NXStream *stream1 = NXOpenMemory(NULL, 0, NX_READWRITE);
+    if (stream1 == NULL) {
         NXLogError("TTS Server:  Cannot open memory stream (parser).");
+        free(buffer2);
         return TTS_PARSER_FAILURE;
     }
 
@@ -255,30 +249,25 @@ int parser(const char *input, const char **output)
     long stream1_length;
     gs_pm_strip_punctuation(buffer2, buffer2_length, stream1, &stream1_length);
 
-    /*  FREE BUFFER 2  */
     free(buffer2);
 
-#if 0
-    /*  PRINT STREAM 1  */
-    printf("\nSTREAM 1\n");
-    print_stream(stream1, stream1_length);
-#endif
-
-    /*  CLOSE STREAM 2 IF IT IS NOT NULL.  THIS STREAM PERSISTS BETWEEN CALLS  */
+    /*  THIS STREAM PERSISTS BETWEEN CALLS  */
     if (_stream2 != NULL) {
         NXCloseMemory(_stream2, NX_FREEBUFFER);
         _stream2 = NULL;
     }
 
     /*  OPEN MEMORY STREAM 2  */
-    if ((_stream2 = NXOpenMemory(NULL,0,NX_READWRITE)) == NULL) {
+    _stream2 = NXOpenMemory(NULL, 0, NX_READWRITE);
+    if (_stream2 == NULL) {
         NXLogError("TTS Server:  Cannot open memory stream (parser).");
         return TTS_PARSER_FAILURE;
     }
 
     /*  DO FINAL CONVERSION  */
     long stream2_length;
-    if ((error = gs_pm_final_conversion(stream1, stream1_length, _stream2, &stream2_length)) != TTS_PARSER_SUCCESS) {
+    error = gs_pm_final_conversion(stream1, stream1_length, _stream2, &stream2_length);
+    if (error != TTS_PARSER_SUCCESS) {
         NXCloseMemory(stream1, NX_FREEBUFFER);
         NXCloseMemory(_stream2, NX_FREEBUFFER);
         _stream2 = NULL;
@@ -385,38 +374,38 @@ const char *lookup_word(const char *word, short *dict)
 
 void gs_pm_condition_input(const char *input, char *output, long input_length, long *output_length_ptr)
 {
-    int i, j = 0;
+    NSInteger outputIndex = 0;
 
-    for (i = 0; i < input_length; i++) {
-        if ((input[i] == '-') && ((i-1) >= 0) && isalpha(input[i-1])) {
+    for (NSInteger inputIndex = 0; inputIndex < input_length; inputIndex++) {
+        if ((input[inputIndex] == '-') && ((inputIndex - 1) >= 0) && isalpha(input[inputIndex - 1])) {
             /*  CONNECT HYPHENATED WORD OVER NEWLINE  */
-            int ii = i;
+            NSInteger ii = inputIndex;
             /*  IGNORE ANY WHITE SPACE UP TO NEWLINE  */
-            while (((ii+1) < input_length) && (input[ii+1] != '\n') &&
-                   (input[ii+1] != _escape_character) && isspace(input[ii+1]))
+            while (((ii + 1) < input_length) && (input[ii + 1] != '\n') &&
+                   (input[ii + 1] != _escape_character) && isspace(input[ii + 1]))
                 ii++;
             /*  IF NEWLINE, THEN CONCATENATE WORD  */
-            if (((ii+1) < input_length) && input[ii+1] == '\n') {
-                i = ++ii;
+            if (((ii + 1) < input_length) && input[ii + 1] == '\n') {
+                inputIndex = ++ii;
                 /*  IGNORE ANY WHITE SPACE  */
-                while (((i+1) < input_length) && (input[i+1] != _escape_character) && isspace(input[i+1]))
-                    i++;
+                while (((inputIndex + 1) < input_length) && (input[inputIndex + 1] != _escape_character) && isspace(input[inputIndex + 1]))
+                    inputIndex++;
             }
             /*  ELSE, OUTPUT HYPHEN  */
             else
-                output[j++] = input[i];
+                output[outputIndex++] = input[inputIndex];
         }
-        else if ((!isascii(input[i])) || ((!isprint(input[i])) && (input[i] != _escape_character)))
+        else if ((!isascii(input[inputIndex])) || ((!isprint(input[inputIndex])) && (input[inputIndex] != _escape_character)))
         /*  CONVERT NONPRINTABLE CHARACTERS TO SPACE  */
-            output[j++] = ' ';
+            output[outputIndex++] = ' ';
         else
         /*  PASS EVERYTHING ELSE THROUGH  */
-            output[j++] = input[i];
+            output[outputIndex++] = input[inputIndex];
     }
 
     /*  BE SURE TO APPEND NULL TO STRING  */
-    output[j] = '\0';
-    *output_length_ptr = j;
+    output[outputIndex] = '\0';
+    *output_length_ptr = outputIndex;
 }
 
 
@@ -1361,7 +1350,7 @@ float gs_pm_convert_silence(char *buffer, NXStream *stream)
     double silence_length;
 
     /*  CONVERT BUFFER TO DOUBLE  */
-    silence_length = strtod(buffer,NULL);
+    silence_length = strtod(buffer, NULL);
 
     /*  LIMIT SILENCE LENGTH TO MAXIMUM  */
     silence_length = (silence_length > SILENCE_MAX) ? SILENCE_MAX : silence_length;
