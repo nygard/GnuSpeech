@@ -85,10 +85,14 @@ enum {
 };
 
 
-#define UNDEFINED_POSITION    (-1)
+enum {
+    UNDEFINED_POSITION = -1,
+};
 
-#define TTS_NO                0
-#define TTS_YES               1
+enum {
+    TTS_NO  = 0,
+    TTS_YES = 1,
+};
 
 #define SYMBOL_LENGTH_MAX     12
 
