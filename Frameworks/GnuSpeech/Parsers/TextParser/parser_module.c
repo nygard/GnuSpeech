@@ -719,14 +719,24 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream)
                             }
                             break;
                         case '\'':
-                            // TODO: (2014-08-12) DeMorgan.
-                            if (!(((index - 1) >= 0)
+                            // Keep <alpha><single quote><alpha>.  Discard rest: single quote at beginning or end, or preceded or followed by non-alpha.
+#if 1
+                            if (!(   (index - 1 >= 0)
                                   && isalpha(buffer[index - 1])
-                                  && ((index + 1) < length)
+                                  && (index + 1 < length)
                                   && isalpha(buffer[index + 1])))
                             {
                                 buffer[index] = DELETED;
                             }
+#else
+                            if (   (index - 1 < 0)
+                                || !isalpha(buffer[index - 1])
+                                || (index + 1 >= length)
+                                || !isalpha(buffer[index + 1]) )
+                            {
+                                buffer[index] = DELETED;
+                            }
+#endif
                             break;
                         case '.':
                             gs_pm_delete_ellipsis(buffer, &index, length);
