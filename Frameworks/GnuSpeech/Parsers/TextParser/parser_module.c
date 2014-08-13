@@ -43,43 +43,51 @@
 
 
 /*  LOCAL DEFINES  ***********************************************************/
-#define UNDEFINED_MODE        (-2)
-#define NORMAL_MODE           (-1)
-#define RAW_MODE              0
-#define LETTER_MODE           1
-#define EMPHASIS_MODE         2
-#define TAGGING_MODE          3
-#define SILENCE_MODE          4
+enum {
+    UNDEFINED_MODE = -2,
+    NORMAL_MODE    = -1,
+    RAW_MODE       = 0,
+    LETTER_MODE    = 1,
+    EMPHASIS_MODE  = 2,
+    TAGGING_MODE   = 3,
+    SILENCE_MODE   = 4,
+};
 
-#define RAW_MODE_BEGIN        (-1)
-#define RAW_MODE_END          (-2)
-#define LETTER_MODE_BEGIN     (-3)
-#define LETTER_MODE_END       (-4)
-#define EMPHASIS_MODE_BEGIN   (-5)
-#define EMPHASIS_MODE_END     (-6)
-#define TAGGING_MODE_BEGIN    (-7)
-#define TAGGING_MODE_END      (-8)
-#define SILENCE_MODE_BEGIN    (-9)
-#define SILENCE_MODE_END      (-10)
-#define DELETED               (-11)
+enum {
+    RAW_MODE_BEGIN      =  -1,
+    RAW_MODE_END        =  -2,
+    LETTER_MODE_BEGIN   =  -3,
+    LETTER_MODE_END     =  -4,
+    EMPHASIS_MODE_BEGIN =  -5,
+    EMPHASIS_MODE_END   =  -6,
+    TAGGING_MODE_BEGIN  =  -7,
+    TAGGING_MODE_END    =  -8,
+    SILENCE_MODE_BEGIN  =  -9,
+    SILENCE_MODE_END    =  -10,
+    DELETED             =  -11,
+};
 
-#define BEGIN                 0
-#define END                   1
+enum {
+    BEGIN = 0,
+    END   = 1,
+};
 
-#define PRONUNCIATION         1
+// Used in lookup tables.
+enum {
+    ABBREVIATION = 0,
+    EXPANSION    = 1,
+};
 
-#define ABBREVIATION          0
-#define EXPANSION             1
-
-#define STATE_UNDEFINED       (-1)
-#define STATE_BEGIN           0
-#define STATE_WORD            1
-#define STATE_MEDIAL_PUNC     2
-#define STATE_FINAL_PUNC      3
-#define STATE_END             4
-#define STATE_SILENCE         5
-#define STATE_TAGGING         6
-
+enum {
+    STATE_UNDEFINED   = -1,
+    STATE_BEGIN       = 0,
+    STATE_WORD        = 1,
+    STATE_MEDIAL_PUNC = 2,
+    STATE_FINAL_PUNC  = 3,
+    STATE_END         = 4,
+    STATE_SILENCE     = 5,
+    STATE_TAGGING     = 6,
+};
 
 
 #define UNDEFINED_POSITION    (-1)
