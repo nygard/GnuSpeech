@@ -670,6 +670,11 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
 
 /// Delete unnecessary punctuation, and convert some punctuation to another form.
 
+// NORMAL and EMPHASIS modes:
+// CHANGE: [ -> (
+// CHANGE: ] -> )
+// DELETE: "`#*\^_|~{}
+
 void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream)
 {
     long mode = NORMAL_MODE;
@@ -687,8 +692,10 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream)
             case EMPHASIS_MODE_END:
             case TAGGING_MODE_END:
             case SILENCE_MODE_END:    mode = NORMAL_MODE;   break;
+
             default:
-                if ((mode == NORMAL_MODE) || (mode == EMPHASIS_MODE)) {
+                if ((mode == NORMAL_MODE) || (mode == EMPHASIS_MODE))
+                {
                     switch (buffer[index]) {
                         case '[':
                             buffer[index] = '(';
@@ -697,18 +704,29 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream)
                             buffer[index] = ')';
                             break;
                         case '-':
-                            if (!gs_pm_convert_dash(buffer, &index, length) &&
-                                !gs_pm_number_follows(buffer, index, length) &&
-                                !gs_pm_is_isolated(buffer, index, length))
+                            if (   !gs_pm_convert_dash  (buffer, &index, length)
+                                && !gs_pm_number_follows(buffer, index, length)
+                                && !gs_pm_is_isolated   (buffer, index, length))
+                            {
                                 buffer[index] = DELETED;
+                            }
                             break;
                         case '+':
-                            if (!gs_pm_part_of_number(buffer, index, length) && !gs_pm_is_isolated(buffer, index, length))
+                            if (   !gs_pm_part_of_number(buffer, index, length)
+                                && !gs_pm_is_isolated   (buffer, index, length))
+                            {
                                 buffer[index] = DELETED;
+                            }
                             break;
                         case '\'':
-                            if (!(((index-1) >= 0) && isalpha(buffer[index-1]) && ((index+1) < length) && isalpha(buffer[index+1])))
+                            // TODO: (2014-08-12) DeMorgan.
+                            if (!(((index - 1) >= 0)
+                                  && isalpha(buffer[index - 1])
+                                  && ((index + 1) < length)
+                                  && isalpha(buffer[index + 1])))
+                            {
                                 buffer[index] = DELETED;
+                            }
                             break;
                         case '.':
                             gs_pm_delete_ellipsis(buffer, &index, length);
@@ -716,16 +734,18 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream)
                         case '/':
                         case '$':
                         case '%':
-                            if (!gs_pm_part_of_number(buffer, index, length))
+                            if (!gs_pm_part_of_number(buffer, index, length)) {
                                 buffer[index] = DELETED;
+                            }
                             break;
                         case '<':
                         case '>':
                         case '&':
                         case '=':
                         case '@':
-                            if (!gs_pm_is_isolated(buffer, index, length))
+                            if (!gs_pm_is_isolated(buffer, index, length)) {
                                 buffer[index] = DELETED;
+                            }
                             break;
                         case '"':
                         case '`':
@@ -777,40 +797,46 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream)
                     switch (buffer[index]) {
                         case '(':
                             /*  CONVERT (?) AND (!) TO BLANKS  */
-                            if ( ((index+2) < length) && (buffer[index+2] == ')') &&
-                                ((buffer[index+1] == '!') || (buffer[index+1] == '?')) ) {
-                                buffer[index] = buffer[index+1] = buffer[index+2] = ' ';
+                            if (   (index + 2 < length)
+                                && (buffer[index + 2] == ')')
+                                && (buffer[index + 1] == '!' || buffer[index + 1] == '?') )
+                            {
+                                buffer[index] = buffer[index + 1] = buffer[index + 2] = ' ';
                                 [stream printf:"   "];
                                 index += 2;
                                 continue;
                             }
                             /*  ALLOW TELEPHONE NUMBER WITH AREA CODE:  (403)274-3877  */
-                            if (gs_pm_is_telephone_number(buffer, index, length)) {
-                                int j;
-                                for (j = 0; j < 12; j++)
+                            if (gs_pm_is_telephone_number(buffer, index, length))
+                            {
+                                for (int j = 0; j < 12; j++)
                                     [stream putChar:buffer[index++]];
                                 status = WORD;
                                 continue;
                             }
                             /*  CONVERT TO COMMA IF PRECEDED BY WORD, FOLLOWED BY WORD  */
-                            if ((status == WORD) && gs_pm_word_follows(buffer, index, length)) {
+                            if ((status == WORD) && gs_pm_word_follows(buffer, index, length))
+                            {
                                 buffer[index] = ' ';
                                 [stream printf:", "];
                                 status = PUNCTUATION;
                             }
-                            else {
+                            else
+                            {
                                 buffer[index] = ' ';
                                 [stream putChar:' '];
                             }
                             break;
                         case ')':
                             /*  CONVERT TO COMMA IF PRECEDED BY WORD, FOLLOWED BY WORD  */
-                            if ((status == WORD) && gs_pm_word_follows(buffer, index, length)) {
+                            if ((status == WORD) && gs_pm_word_follows(buffer, index, length))
+                            {
                                 buffer[index] = ',';
                                 [stream printf:", "];
                                 status = PUNCTUATION;
                             }
-                            else {
+                            else
+                            {
                                 buffer[index] = ' ';
                                 [stream putChar:' '];
                             }
