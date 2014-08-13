@@ -117,6 +117,11 @@
     return YES;
 }
 
+- (void)truncate;
+{
+    [_buffer setLength:_position];
+}
+
 - (BOOL)atEOS;
 {
     if (_position == [_buffer length])

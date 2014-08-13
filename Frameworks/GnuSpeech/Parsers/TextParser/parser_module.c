@@ -266,8 +266,7 @@ int parser(const char *input, const char **output)
     }
 
     /*  STRIP OUT OR CONVERT UNESSENTIAL PUNCTUATION  */
-    long stream1_length;
-    gs_pm_strip_punctuation(buffer2, buffer2_length, stream1, &stream1_length);
+    gs_pm_strip_punctuation(buffer2, buffer2_length, stream1);
 
     free(buffer2);
 
@@ -282,7 +281,7 @@ int parser(const char *input, const char **output)
 
     /*  DO FINAL CONVERSION  */
     long persistent_stream_length;
-    error = gs_pm_final_conversion(stream1, stream1_length, _persistentStream, &persistent_stream_length);
+    error = gs_pm_final_conversion(stream1, [stream1 length], _persistentStream, &persistent_stream_length);
     if (error != TTS_PARSER_SUCCESS) {
         _persistentStream = nil;
         return error;
@@ -672,7 +671,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
 
 /// Delete unnecessary punctuation, and convert some punctuation to another form.
 
-void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *stream_length)
+void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream)
 {
     long mode = NORMAL_MODE;
 
@@ -878,7 +877,8 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream, long *
         }
     }
 
-    *stream_length = [stream position];
+    [stream truncate];
+    assert([stream length] == [stream position]);
 }
 
 

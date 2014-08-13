@@ -40,6 +40,7 @@ typedef enum : NSUInteger {
 
 - (long)position;
 - (BOOL)seekWithOffset:(long)offset fromPosition:(NXStreamLocation)whence;
+- (void)truncate;
 
 - (void)printf:(const char *)format, ...;
 
