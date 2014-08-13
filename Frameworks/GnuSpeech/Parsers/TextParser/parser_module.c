@@ -67,11 +67,6 @@ enum {
     DELETED             =  -11,
 };
 
-enum {
-    BEGIN = 0,
-    END   = 1,
-};
-
 // Used in lookup tables.
 enum {
     ABBREVIATION = 0,
@@ -398,13 +393,13 @@ void gs_pm_condition_input(const char *input, char *output, long input_length, l
 #pragma mark - 1. Mark Modes
 
 // Mark beginning of stacked mode, if not normal mode.
-#define MARK_BEGINNING_OF_STACKED_MODE() { if (mode_stack[stack_ptr] != NORMAL_MODE) { output[outputIndex++] = mode_marker[mode_stack[stack_ptr]][BEGIN]; } }
+#define MARK_BEGINNING_OF_STACKED_MODE() { if (mode_stack[stack_ptr] != NORMAL_MODE) { output[outputIndex++] = mode_marker[mode_stack[stack_ptr]][0]; } }
 
 // Mark end of stacked mode, if not normal mode.
-#define MARK_END_OF_STACKED_MODE()       { if (mode_stack[stack_ptr] != NORMAL_MODE) { output[outputIndex++] = mode_marker[mode_stack[stack_ptr]][END]; } }
+#define MARK_END_OF_STACKED_MODE()       { if (mode_stack[stack_ptr] != NORMAL_MODE) { output[outputIndex++] = mode_marker[mode_stack[stack_ptr]][1]; } }
 
-#define MARK_BEGINNING_OF_MODE(mode)     { output[outputIndex++] = mode_marker[mode][BEGIN]; }
-#define MARK_END_OF_MODE(mode)           { output[outputIndex++] = mode_marker[mode][END]; }
+#define MARK_BEGINNING_OF_MODE(mode)     { output[outputIndex++] = mode_marker[mode][0]; }
+#define MARK_END_OF_MODE(mode)           { output[outputIndex++] = mode_marker[mode][1]; }
 
 
 // Decrement stack pointer, checkfor for stack underflow.
