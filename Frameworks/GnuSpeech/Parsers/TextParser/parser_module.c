@@ -104,8 +104,6 @@ static double kSilencePhoneLength = 0.1; // Silence phone is 100 ms.
 #define DEFAULT_END_PUNC      "."
 #define MODE_NEST_MAX         100
 
-#define NON_PHONEME           0
-#define PHONEME               1
 #define MAX_PHONES_PER_CHUNK  1500
 #define MAX_FEET_PER_CHUNK    100
 
@@ -2381,9 +2379,11 @@ int gs_pm_illegal_slash_code(char *code)
 
 void gs_pm_safety_check(NXStream *stream)
 {
-    int  ch, number_of_feet = 0, number_of_phones = 0, state = NON_PHONEME;
+    int  ch, number_of_feet = 0, number_of_phones = 0;
     long last_word_pos = UNDEFINED_POSITION, last_tg_pos = UNDEFINED_POSITION;
     char last_tg_type = '0';
+
+    BOOL isPhoneme = NO;
 
     [stream seekWithOffset:0 fromPosition:NXStreamLocation_Start];
 
@@ -2398,7 +2398,7 @@ void gs_pm_safety_check(NXStream *stream)
                         break;
                     }
                 }
-                state = NON_PHONEME;
+                isPhoneme = NO;
                 break;
             case '/':
                 /*  SLASH CODES  */
@@ -2444,28 +2444,28 @@ void gs_pm_safety_check(NXStream *stream)
                         /*  IGNORE ALL OTHER SLASH CODES  */
                         break;
                 }
-                state = NON_PHONEME;
+                isPhoneme = NO;
                 break;
             case '.':
             case '_':
             case ' ':
                 /*  END OF PHONE (AND WORD) DELIMITERS  */
-                if (state == PHONEME) {
+                if (isPhoneme) {
                     if (++number_of_phones > MAX_PHONES_PER_CHUNK) {
                         /*  SPLIT STREAM INTO TWO CHUNKS  */
                         gs_pm_insert_chunk_marker(stream, last_word_pos, last_tg_type);
                         gs_pm_set_tone_group(stream, last_tg_pos, ",");
                         gs_pm_check_tonic(stream, last_tg_pos, last_word_pos);
-                        state = NON_PHONEME;
+                        isPhoneme = NO;
                         break;
                     }
                     if (ch == ' ')
                         last_word_pos = [stream position];
                 }
-                state = NON_PHONEME;
+                isPhoneme = NO;
                 break;
             default:
-                state = PHONEME;
+                isPhoneme = YES;
                 break;
         }
     }
