@@ -2374,19 +2374,21 @@ int gs_pm_illegal_slash_code(char *code)
 
 #pragma mark - 4. Safety Check
 
-/// Check to make sure that there are not too many feet phones per chunk.  If there are, the input is split
-/// into two or more chunks.
+/// Check that there are not too many feet phones per chunk.  Split into two or more chunks if necessary.
 
 void gs_pm_safety_check(NXStream *stream)
 {
-    int  ch, number_of_feet = 0, number_of_phones = 0;
-    long last_word_pos = UNDEFINED_POSITION, last_tg_pos = UNDEFINED_POSITION;
-    char last_tg_type = '0';
+    int  footCount = 0;
+    int  phoneCount = 0;
+    long lastWordPosition      = UNDEFINED_POSITION;
+    long lastToneGroupPosition = UNDEFINED_POSITION;
+    char lastToneGroupType     = '0';
 
     BOOL isPhoneme = NO;
 
     [stream seekWithOffset:0 fromPosition:NXStreamLocation_Start];
 
+    int ch;
     /*  LOOP THROUGH STREAM, INSERTING NEW CHUNK MARKERS IF NECESSARY  */
     while ((ch = [stream getChar]) != '\0' && ch != EOF) {
         switch (ch) {
@@ -2405,16 +2407,16 @@ void gs_pm_safety_check(NXStream *stream)
                 switch (ch = [stream getChar]) {
                     case 'c':
                         /*  CHUNK MARKER (/c)  */
-                        number_of_feet = number_of_phones = 0;
+                        footCount = phoneCount = 0;
                         break;
                     case '_':
                     case '*':
                         /*  FOOT AND TONIC FOOT MARKERS  */
-                        if (++number_of_feet > MAX_FEET_PER_CHUNK) {
+                        if (++footCount > MAX_FEET_PER_CHUNK) {
                             /*  SPLIT STREAM INTO TWO CHUNKS  */
-                            gs_pm_insert_chunk_marker(stream, last_word_pos, last_tg_type);
-                            gs_pm_set_tone_group(stream, last_tg_pos, ",");
-                            gs_pm_check_tonic(stream, last_tg_pos, last_word_pos);
+                            gs_pm_insert_chunk_marker(stream, lastWordPosition, lastToneGroupType);
+                            gs_pm_set_tone_group     (stream, lastToneGroupPosition, ",");
+                            gs_pm_check_tonic        (stream, lastToneGroupPosition, lastWordPosition);
                         }
                         break;
                     case 't':
@@ -2437,8 +2439,8 @@ void gs_pm_safety_check(NXStream *stream)
                     case '3':
                     case '4':
                         /*  REMEMBER TONE GROUP TYPE AND POSITION  */
-                        last_tg_type = ch;
-                        last_tg_pos = [stream position] - 2;
+                        lastToneGroupType     = ch;
+                        lastToneGroupPosition = [stream position] - 2;
                         break;
                     default:
                         /*  IGNORE ALL OTHER SLASH CODES  */
@@ -2451,16 +2453,16 @@ void gs_pm_safety_check(NXStream *stream)
             case ' ':
                 /*  END OF PHONE (AND WORD) DELIMITERS  */
                 if (isPhoneme) {
-                    if (++number_of_phones > MAX_PHONES_PER_CHUNK) {
+                    if (++phoneCount > MAX_PHONES_PER_CHUNK) {
                         /*  SPLIT STREAM INTO TWO CHUNKS  */
-                        gs_pm_insert_chunk_marker(stream, last_word_pos, last_tg_type);
-                        gs_pm_set_tone_group(stream, last_tg_pos, ",");
-                        gs_pm_check_tonic(stream, last_tg_pos, last_word_pos);
+                        gs_pm_insert_chunk_marker(stream, lastWordPosition, lastToneGroupType);
+                        gs_pm_set_tone_group     (stream, lastToneGroupPosition, ",");
+                        gs_pm_check_tonic        (stream, lastToneGroupPosition, lastWordPosition);
                         isPhoneme = NO;
                         break;
                     }
                     if (ch == ' ')
-                        last_word_pos = [stream position];
+                        lastWordPosition = [stream position];
                 }
                 isPhoneme = NO;
                 break;
@@ -2481,7 +2483,6 @@ void gs_pm_safety_check(NXStream *stream)
 void gs_pm_insert_chunk_marker(NXStream *stream, long insert_point, char tg_type)
 {
     char ch;
-
 
     NXStream *temp_stream = [[NXStream alloc] init];
 
