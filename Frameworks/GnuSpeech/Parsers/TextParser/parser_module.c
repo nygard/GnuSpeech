@@ -2332,7 +2332,6 @@ int gs_pm_illegal_token(char *token)
     if (strlen(token) == 0)
         return 0;
 
-    /*  IF PHONE A VALID DEGAS PHONE, RETURN 0;  1 OTHERWISE  */
     if (validPhone(token))
         return 0;
 
@@ -2363,13 +2362,11 @@ int gs_pm_is_legal_slash_code(char *code)
         NULL,
     };
 
-    /*  COMPARE CODE WITH LEGAL CODES, RETURN 0 IMMEDIATELY IF A MATCH  */
     int index = 0;
     while (legal_code[index] != NULL)
         if (!strcmp(legal_code[index++], code))
             return 1;
 
-    /*  IF HERE, THEN NO MATCH;  ILLEGAL CODE  */
     return 0;
 }
 
