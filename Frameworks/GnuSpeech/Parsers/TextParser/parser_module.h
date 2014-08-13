@@ -68,7 +68,7 @@ int    gs_pm_is_possessive(char *word);
 int    gs_pm_converted_stress(char *pronunciation);
 int    gs_pm_contains_primary_stress(const char *pronunciation);
 int    gs_pm_illegal_token(char *token);
-int    gs_pm_illegal_slash_code(char *code);
+int    gs_pm_is_legal_slash_code(char *code);
 
 #pragma mark - Slash codes that can appear in the output.
 

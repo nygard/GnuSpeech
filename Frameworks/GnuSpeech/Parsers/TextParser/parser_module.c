@@ -2068,7 +2068,7 @@ int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *st
                         token[1] = buffer[*j];
                         token[2] = '\0';
                         /*  CHECK LEGALITY OF SLASH CODE  */
-                        if (gs_pm_illegal_slash_code(token))
+                        if (!gs_pm_is_legal_slash_code(token))
                             return TTS_PARSER_FAILURE;
                         /*  CHECK ANY TAG AND TAG NUMBER  */
                         if (!strcmp(token,SLASH_TAG_BEGIN)) {
@@ -2341,9 +2341,10 @@ int gs_pm_illegal_token(char *token)
 
 
 
-/// @return Return 1 if code is illegal, 0 otherwise.
+/// Check the string to make sure it is a legal slash code.
+/// @return Return 1 if code is legal, 0 otherwise.
 
-int gs_pm_illegal_slash_code(char *code)
+int gs_pm_is_legal_slash_code(char *code)
 {
     static char *legal_code[] = {
         SLASH_CHUNK_BOUNDARY,
@@ -2359,17 +2360,17 @@ int gs_pm_illegal_slash_code(char *code)
         SLASH_TG_QUESTION,
         SLASH_TG_CONTINUATION,
         SLASH_TG_HALF_PERIOD,
-        NULL
+        NULL,
     };
 
     /*  COMPARE CODE WITH LEGAL CODES, RETURN 0 IMMEDIATELY IF A MATCH  */
     int index = 0;
     while (legal_code[index] != NULL)
         if (!strcmp(legal_code[index++], code))
-            return 0;
+            return 1;
 
-    /*  IF HERE, THEN NO MATCH;  RETURN 1, INDICATING ILLEGAL CODE  */
-    return 1;
+    /*  IF HERE, THEN NO MATCH;  ILLEGAL CODE  */
+    return 0;
 }
 
 #pragma mark - 4. Safety Check
