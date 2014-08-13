@@ -22,7 +22,7 @@ const char *lookup_word(const char *word, short *dict);
 // gs_pm = GnuSpeech Parser Module
 void   gs_pm_condition_input(const char *input, char *output, long input_length, long *output_length_ptr);
 int    gs_pm_mark_modes(char *input, char *output, long length, long *output_length);
-void   gs_pm_strip_punctuation_pass1(char *buffer, long length, NXStream *stream);
+void   gs_pm_strip_punctuation_pass1(char *buffer, long length);
 void   gs_pm_strip_punctuation_pass2(char *buffer, long length, NXStream *stream);
 int    gs_pm_final_conversion(NXStream *stream1, NXStream *stream2);
 int    gs_pm_get_state(const char *buffer, long *i, long length, long *mode, long *next_mode,

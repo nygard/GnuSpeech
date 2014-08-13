@@ -266,7 +266,7 @@ int parser(const char *input, const char **output)
     }
 
     /*  STRIP OUT OR CONVERT UNESSENTIAL PUNCTUATION  */
-    gs_pm_strip_punctuation_pass1(buffer2, buffer2_length, stream1);
+    gs_pm_strip_punctuation_pass1(buffer2, buffer2_length);
     gs_pm_strip_punctuation_pass2(buffer2, buffer2_length, stream1);
 
     free(buffer2);
@@ -676,7 +676,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
 // CHANGE: ] -> )
 // DELETE: "`#*\^_|~{}
 
-void gs_pm_strip_punctuation_pass1(char *buffer, long length, NXStream *stream)
+void gs_pm_strip_punctuation_pass1(char *buffer, long length)
 {
     long mode = NORMAL_MODE;
 
