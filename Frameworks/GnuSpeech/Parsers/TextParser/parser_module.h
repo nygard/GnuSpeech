@@ -70,3 +70,22 @@ int    gs_pm_contains_primary_stress(const char *pronunciation);
 int    gs_pm_illegal_token(char *token);
 int    gs_pm_illegal_slash_code(char *code);
 
+#pragma mark - Slash codes that can appear in the output.
+
+// Tone Groups
+#define SLASH_TG_UNDEFINED        "/x"
+#define SLASH_TG_STATEMENT        "/0"
+#define SLASH_TG_EXCLAMATION      "/1"
+#define SLASH_TG_QUESTION         "/2"
+#define SLASH_TG_CONTINUATION     "/3"
+#define SLASH_TG_HALF_PERIOD      "/4"
+// Other
+#define SLASH_CHUNK_BOUNDARY      "/c"
+#define SLASH_TONE_GROUP_BOUNDARY "//"
+#define SLASH_FOOT_BEGIN          "/_"
+#define SLASH_TONIC_BEGIN         "/*"
+#define SLASH_SECONDARY_STRESS    "/\""
+#define SLASH_LAST_WORD           "/l"
+#define SLASH_TAG_BEGIN           "/t"
+#define SLASH_WORD_BEGIN          "/w"
+
