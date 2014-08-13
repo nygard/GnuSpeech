@@ -131,7 +131,8 @@ static double kSilencePhoneLength = 0.1; // Silence phone is 100 ms.
 
 
 
-/*  GLOBAL VARIABLES, LOCAL TO THIS FILE  ************************************/
+#pragma mark - Globals variables
+
 static char _escape_character;
 static short _dictionaryOrder[4];
 static GSPronunciationDictionary *_userDictionary;
@@ -140,6 +141,8 @@ static GSPronunciationDictionary *_mainDictionary;
 static NSDictionary *_specialAcronymsDictionary;
 static NXStream *_persistentStream;
 
+
+#pragma mark - Stub
 
 /// Check whether a phone is valid (exists in the currently initialized database).
 ///
@@ -156,7 +159,7 @@ static int validPhone(char *phone)
 
 
 
-
+#pragma mark - Public API
 
 /// Set up parser module for subsequent use.  This must be called before parser() is ever used.
 
@@ -368,7 +371,7 @@ const char *lookup_word(const char *word, short *dict)
     return (const char *)degenerate_string(word);
 }
 
-
+#pragma mark -
 
 /// Convert all non-printable characters (except escape character to blanks.  Also connect words hyphenated over a newline.
 
@@ -411,6 +414,7 @@ void gs_pm_condition_input(const char *input, char *output, long input_length, l
     *output_length_ptr = outputIndex;
 }
 
+#pragma mark - 1. Mark Modes
 
 // Mark beginning of stacked mode, if not normal mode.
 #define MARK_BEGINNING_OF_STACKED_MODE() { if (mode_stack[stack_ptr] != NORMAL_MODE) { output[outputIndex++] = mode_marker[mode_stack[stack_ptr]][BEGIN]; } }
@@ -663,7 +667,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
     return TTS_PARSER_SUCCESS;
 }
 
-#pragma mark - Strip Punctuation
+#pragma mark - 2. Strip Punctuation
 
 
 
@@ -928,6 +932,402 @@ void gs_pm_strip_punctuation_pass2(char *buffer, long length, NXStream *stream)
     assert([stream length] == [stream position]);
 }
 
+
+
+/// Expand contents of letter mode string to word or words.  Add a comma after each expansion, except
+/// the last letter when it is followed by punctuation.
+
+void gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, GSTextParserPunctuationState *status)
+{
+    for ( ; ((*i) < length) && (buffer[*i] != LETTER_MODE_END); (*i)++) {
+        /*  CONVERT LETTER TO WORD OR WORDS  */
+        switch (buffer[*i]) {
+            case ' ': [stream printf:"blank"];                break;
+            case '!': [stream printf:"exclamation point"];    break;
+            case '"': [stream printf:"double quote"];         break;
+            case '#': [stream printf:"number sign"];          break;
+            case '$': [stream printf:"dollar"];               break;
+            case '%': [stream printf:"percent"];              break;
+            case '&': [stream printf:"ampersand"];            break;
+            case '\'':[stream printf:"single quote"];         break;
+            case '(': [stream printf:"open parenthesis"];     break;
+            case ')': [stream printf:"close parenthesis"];    break;
+            case '*': [stream printf:"asterisk"];             break;
+            case '+': [stream printf:"plus sign"];            break;
+            case ',': [stream printf:"comma"];                break;
+            case '-': [stream printf:"hyphen"];               break;
+            case '.': [stream printf:"period"];               break;
+            case '/': [stream printf:"slash"];                break;
+            case '0': [stream printf:"zero"];                 break;
+            case '1': [stream printf:"one"];                  break;
+            case '2': [stream printf:"two"];                  break;
+            case '3': [stream printf:"three"];                break;
+            case '4': [stream printf:"four"];                 break;
+            case '5': [stream printf:"five"];                 break;
+            case '6': [stream printf:"six"];                  break;
+            case '7': [stream printf:"seven"];                break;
+            case '8': [stream printf:"eight"];                break;
+            case '9': [stream printf:"nine"];                 break;
+            case ':': [stream printf:"colon"];                break;
+            case ';': [stream printf:"semicolon"];            break;
+            case '<': [stream printf:"open angle bracket"];   break;
+            case '=': [stream printf:"equal sign"];           break;
+            case '>': [stream printf:"close angle bracket"];  break;
+            case '?': [stream printf:"question mark"];        break;
+            case '@': [stream printf:"at sign"];              break;
+            case 'A':
+            case 'a': [stream printf:"A"];                    break;
+            case 'B':
+            case 'b': [stream printf:"B"];                    break;
+            case 'C':
+            case 'c': [stream printf:"C"];                    break;
+            case 'D':
+            case 'd': [stream printf:"D"];                    break;
+            case 'E':
+            case 'e': [stream printf:"E"];                    break;
+            case 'F':
+            case 'f': [stream printf:"F"];                    break;
+            case 'G':
+            case 'g': [stream printf:"G"];                    break;
+            case 'H':
+            case 'h': [stream printf:"H"];                    break;
+            case 'I':
+            case 'i': [stream printf:"I"];                    break;
+            case 'J':
+            case 'j': [stream printf:"J"];                    break;
+            case 'K':
+            case 'k': [stream printf:"K"];                    break;
+            case 'L':
+            case 'l': [stream printf:"L"];                    break;
+            case 'M':
+            case 'm': [stream printf:"M"];                    break;
+            case 'N':
+            case 'n': [stream printf:"N"];                    break;
+            case 'O':
+            case 'o': [stream printf:"O"];                    break;
+            case 'P':
+            case 'p': [stream printf:"P"];                    break;
+            case 'Q':
+            case 'q': [stream printf:"Q"];                    break;
+            case 'R':
+            case 'r': [stream printf:"R"];                    break;
+            case 'S':
+            case 's': [stream printf:"S"];                    break;
+            case 'T':
+            case 't': [stream printf:"T"];                    break;
+            case 'U':
+            case 'u': [stream printf:"U"];                    break;
+            case 'V':
+            case 'v': [stream printf:"V"];                    break;
+            case 'W':
+            case 'w': [stream printf:"W"];                    break;
+            case 'X':
+            case 'x': [stream printf:"X"];                    break;
+            case 'Y':
+            case 'y': [stream printf:"Y"];                    break;
+            case 'Z':
+            case 'z': [stream printf:"Z"];                    break;
+            case '[': [stream printf:"open square bracket"];  break;
+            case '\\':[stream printf:"back slash"];           break;
+            case ']': [stream printf:"close square bracket"]; break;
+            case '^': [stream printf:"caret"];                break;
+            case '_': [stream printf:"under score"];          break;
+            case '`': [stream printf:"grave accent"];         break;
+            case '{': [stream printf:"open brace"];           break;
+            case '|': [stream printf:"vertical bar"];         break;
+            case '}': [stream printf:"close brace"];          break;
+            case '~': [stream printf:"tilde"];                break;
+            default:  [stream printf:"unknown"];              break;
+        }
+        /*  APPEND COMMA, UNLESS PUNCTUATION FOLLOWS LAST LETTER  */
+        if ( (((*i)+1) < length) &&
+            (buffer[(*i)+1] == LETTER_MODE_END) &&
+            !gs_pm_word_follows(buffer, (*i), length)) {
+            [stream printf:" "];
+            *status = GSTextParserPunctuationState_Word;
+        }
+        else {
+            [stream printf:", "];
+            *status = GSTextParserPunctuationState_Punctuation;
+        }
+    }
+    /*  BE SURE TO SET INDEX BACK ONE, SO CALLING ROUTINE NOT FOULED UP  */
+    (*i)--;
+}
+
+
+
+/// @return Return a 1 if a word or speakable symbol (letter mode) follows the position i in buffer.  Raw, tagging, and
+///         silence mode contents are ignored.
+/// @return Return a 0 if any punctuation (except . as part of number) follows.
+
+int gs_pm_word_follows(char *buffer, long i, long length)
+{
+    long mode = NORMAL_MODE;
+
+    for (long j = (i+1); j < length; j++) {
+        switch (buffer[j]) {
+            case RAW_MODE_BEGIN:      mode = RAW_MODE;      break;
+            case LETTER_MODE_BEGIN:   mode = LETTER_MODE;   break;
+            case EMPHASIS_MODE_BEGIN: mode = EMPHASIS_MODE; break;
+            case TAGGING_MODE_BEGIN:  mode = TAGGING_MODE;  break;
+            case SILENCE_MODE_BEGIN:  mode = SILENCE_MODE;  break;
+            case RAW_MODE_END:
+            case LETTER_MODE_END:
+            case EMPHASIS_MODE_END:
+            case TAGGING_MODE_END:
+            case SILENCE_MODE_END:    mode = NORMAL_MODE;   break;
+            default:
+                switch (mode) {
+                    case NORMAL_MODE:
+                    case EMPHASIS_MODE:
+                        /*  IGNORE WHITE SPACE  */
+                        if ((buffer[j] == ' ') || (buffer[j] == DELETED))
+                            continue;
+                        /*  PUNCTUATION MEANS NO WORD FOLLOWS (UNLESS PERIOD PART OF NUMBER)  */
+                        else if (gs_pm_is_punctuation(buffer[j])) {
+                            if ((buffer[j] == '.') && ((j+1) < length) && isdigit(buffer[j+1]))
+                                return 1;
+                            else
+                                return 0;
+                        }
+                        /*  ELSE, SOME WORD FOLLOWS  */
+                        else
+                            return 1;
+                    case LETTER_MODE:
+                        /*  IF LETTER MODE CONTAINS ANY SYMBOLS, THEN RETURN 1  */
+                        return 1;
+                    case RAW_MODE:
+                    case SILENCE_MODE:
+                    case TAGGING_MODE:
+                        /*  IGNORE CONTENTS OF RAW, SILENCE, AND TAGGING MODE  */
+                        continue;
+                }
+        }
+    }
+
+    /*  IF HERE, THEN A FOLLOWING WORD NOT FOUND  */
+    return 0;
+}
+
+
+
+/// Convert "--" to ", ", and "---" to ",  "
+/// @return Return 1 if this is done, 0 otherwise.
+
+int gs_pm_convert_dash(char *buffer, long *i, long length)
+{
+    /*  SET POSITION OF INITIAL DASH  */
+    long pos1 = *i;
+
+    /*  CHECK FOR 2ND DASH  */
+    if (((*i+1) < length) && (buffer[*i+1] == '-')) {
+        buffer[pos1] = ',';
+        buffer[++(*i)] = DELETED;
+        /*  CHECK FOR 3RD DASH  */
+        if (((*i+1) < length) && (buffer[*i+1] == '-'))
+            buffer[++(*i)] = DELETED;
+        return 1;
+    }
+
+    /*  RETURN ZERO IF NOT CONVERTED  */
+    return 0;
+}
+
+
+
+/// @return Return 1 if character at position i is isolated, i.e. is surrounded by space or mode marker.
+/// @return Return 0 otherwise.
+
+int gs_pm_is_isolated(char *buffer, long i, long len)
+{
+    if (   ((i == 0)       || (((i-1) >= 0)  && (gs_pm_is_mode(buffer[i-1]) || (buffer[i-1] == ' '))))
+        && ((i == (len-1)) || (((i+1) < len) && (gs_pm_is_mode(buffer[i+1]) || (buffer[i+1] == ' ')))))
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+
+
+/// @return Return 1 if character at position i is part of a number (including mixtures with non-numeric characters).
+/// @return Return 0 otherwise.
+
+int gs_pm_part_of_number(char *buffer, long i, long len)
+{
+    while (   (--i >= 0)
+           && (buffer[i] != ' ')
+           && (buffer[i] != DELETED)
+           && (!gs_pm_is_mode(buffer[i])) )
+    {
+        if (isdigit(buffer[i]))
+            return 1;
+    }
+
+    while (   (++i < len)
+           && (buffer[i] != ' ')
+           && (buffer[i] != DELETED)
+           && (!gs_pm_is_mode(buffer[i])) )
+    {
+        if (isdigit(buffer[i]))
+            return 1;
+    }
+
+    return 0;
+}
+
+
+
+/// Delete three dots in a row (disregarding white space).  If four dots, then the last three are deleted.
+
+void gs_pm_delete_ellipsis(char *buffer, long *i, long length)
+{
+    /*  SET POSITION OF FIRST DOT  */
+    long pos1 = *i, pos2, pos3;
+
+    /*  IGNORE ANY WHITE SPACE  */
+    while (((*i+1) < length) && (buffer[*i+1] == ' '))
+        (*i)++;
+    /*  CHECK FOR 2ND DOT  */
+    if (((*i+1) < length) && (buffer[*i+1] == '.')) {
+        pos2 = ++(*i);
+        /*  IGNORE ANY WHITE SPACE  */
+        while (((*i+1) < length) && (buffer[*i+1] == ' '))
+            (*i)++;
+        /*  CHECK FOR 3RD DOT  */
+        if (((*i+1) < length) && (buffer[*i+1] == '.')) {
+            pos3 = ++(*i);
+            /*  IGNORE ANY WHITE SPACE  */
+            while (((*i+1) < length) && (buffer[*i+1] == ' '))
+                (*i)++;
+            /*  CHECK FOR 4TH DOT  */
+            if (((*i+1) < length) && (buffer[*i+1] == '.'))
+                buffer[pos2] = buffer[pos3] = buffer[++(*i)] = DELETED;
+            else
+                buffer[pos1] = buffer[pos2] = buffer[pos3] = DELETED;
+        }
+    }
+}
+
+
+
+/// Expand listed abbreviations.  Two lists are used (see abbreviations.h):  one list expands unconditionally,
+/// the other only if the abbreviation is followed by a number.  The abbreviation p. is expanded to page.
+/// Single alphabetic characters have periods deleted, but no expansion is made.  They are also capitalized.
+///
+/// @return Returns 1 if expansion made (i.e. period is deleted), 0 otherwise.
+
+int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *stream)
+{
+    long j, k, word_length = 0;
+    char word[5];
+
+    /*  DELETE PERIOD AFTER SINGLE CHARACTER (EXCEPT p.)  */
+    if ( ((i-1) == 0) ||  ( ((i-2) >= 0) &&
+                           ( (buffer[i-2] == ' ') || (buffer[i-2] == '.') || (gs_pm_is_mode(buffer[i-2])) )
+                           ) ) {
+        if (isalpha(buffer[i-1])) {
+            if ((buffer[i-1] == 'p') && (((i-1) == 0) || (((i-2) >= 0) && (buffer[i-2] != '.')) ) ) {
+                /*  EXPAND p. TO page  */
+                [stream seekWithOffset:-1 fromPosition:NXStreamLocation_Current];
+                [stream printf:"page "];
+            }
+            else {
+                /*  ELSE, CAPITALIZE CHARACTER IF NECESSARY, BLANK OUT PERIOD  */
+                [stream seekWithOffset:-1 fromPosition:NXStreamLocation_Current];
+                if (islower(buffer[i-1]))
+                    buffer[i-1] = toupper(buffer[i-1]);
+                [stream printf:"%c ", buffer[i-1]];
+            }
+            /*  INDICATE ABBREVIATION EXPANDED  */
+            return 1;
+        }
+    }
+
+    /*  GET LENGTH OF PRECEDING ISOLATED STRING, UP TO 4 CHARACTERS  */
+    for (j = 2; j <= 4; j++) {
+        if (((i-j) == 0) ||
+            (((i-(j+1)) >= 0) && ((buffer[i-(j+1)] == ' ') || (gs_pm_is_mode(buffer[i-(j+1)]))) ) ) {
+            if (isalpha(buffer[i-j]) && isalpha(buffer[i-j+1])) {
+                word_length = j;
+                break;
+            }
+        }
+    }
+
+    /*  IS ABBREVIATION ONLY IF WORD LENGTH IS 2, 3, OR 4 CHARACTERS  */
+    if ((word_length >= 2) && (word_length <= 4)) {
+        /*  GET ABBREVIATION  */
+        for (k = 0, j = i - word_length; k < word_length; k++)
+            word[k] = buffer[j++];
+        word[k] = '\0';
+
+        /*  EXPAND THESE ABBREVIATIONS ONLY IF FOLLOWED BY NUMBER  */
+        for (j = 0; abbr_with_number[j][ABBREVIATION] != NULL; j++) {
+            if (!strcmp(abbr_with_number[j][ABBREVIATION],word)) {
+                /*  IGNORE WHITE SPACE  */
+                while (((i+1) < length) && ((buffer[i+1] == ' ') || (buffer[i+1] == DELETED)))
+                    i++;
+                /*  EXPAND ONLY IF NUMBER FOLLOWS  */
+                if (gs_pm_number_follows(buffer, i, length)) {
+                    [stream seekWithOffset:-word_length fromPosition:NXStreamLocation_Current];
+                    [stream printf:"%s ", abbr_with_number[j][EXPANSION]];
+                    return 1;
+                }
+            }
+        }
+
+        /*  EXPAND THESE ABBREVIATIONS UNCONDITIONALLY  */
+        for (j = 0; abbreviation[j][ABBREVIATION] != NULL; j++) {
+            if (!strcmp(abbreviation[j][ABBREVIATION],word)) {
+                [stream seekWithOffset:-word_length fromPosition:NXStreamLocation_Current];
+                [stream printf:"%s ", abbreviation[j][EXPANSION]];
+                return 1;
+            }
+        }
+    }
+
+    /*  IF HERE, THEN NO EXPANSION MADE  */
+    return 0;
+}
+
+
+
+/// @return Return 1 if string at position i in buffer is of the form:  (ddd)ddd-dddd
+///         where each d is a digit.
+
+int gs_pm_is_telephone_number(char *buffer, long i, long length)
+{
+    /*  CHECK FORMAT: (ddd)ddd-dddd  */
+    if ( ((i+12) < length)
+        && isdigit(buffer[i+1]) && isdigit(buffer[i+2]) && isdigit(buffer[i+3])
+        && (buffer[i+4] == ')')
+        && isdigit(buffer[i+5]) && isdigit(buffer[i+6]) && isdigit(buffer[i+7])
+        && (buffer[i+8] == '-')
+        && isdigit(buffer[i+9]) && isdigit(buffer[i+10]) && isdigit(buffer[i+11]) && isdigit(buffer[i+12]) )
+    {
+        /*  MAKE SURE STRING ENDS WITH WHITE SPACE, MODE, OR PUNCTUATION  */
+        if ( ((i+13) == length)
+            || ( ((i+13) < length)
+                && ( gs_pm_is_punctuation(buffer[i+13])
+                    || gs_pm_is_mode(buffer[i+13])
+                    || (buffer[i+13] == ' ')
+                    || (buffer[i+13] == DELETED)
+                    )
+                )
+            )
+        {
+            return 1;
+        }
+    }
+
+    /*  STRING IS NOT IN SPECIFIED FORMAT  */
+    return 0;
+}
+
+#pragma mark - 3. Final Conversion
 
 
 /// Convert contents of stream1 to stream2.  Add chunk, tone group, and associated markers;  expand words to pronunciations, and also expand other modes.
@@ -1764,56 +2164,6 @@ int gs_pm_expand_raw_mode(const char *buffer, long *j, long length, NXStream *st
 
 
 
-/// @return Return 1 if token is not a valid Monet phone.
-/// @return Return 0 otherwise.
-
-int gs_pm_illegal_token(char *token)
-{
-    if (strlen(token) == 0)
-        return 0;
-
-    /*  IF PHONE A VALID DEGAS PHONE, RETURN 0;  1 OTHERWISE  */
-    if (validPhone(token))
-        return 0;
-
-    return 1;
-}
-
-
-
-/// @return Return 1 if code is illegal, 0 otherwise.
-
-int gs_pm_illegal_slash_code(char *code)
-{
-    static char *legal_code[] = {
-        CHUNK_BOUNDARY,
-        TONE_GROUP_BOUNDARY,
-        FOOT_BEGIN,
-        TONIC_BEGIN,
-        SECONDARY_STRESS,
-        LAST_WORD,
-        TAG_BEGIN,
-        WORD_BEGIN,
-        TG_STATEMENT,
-        TG_EXCLAMATION,
-        TG_QUESTION,
-        TG_CONTINUATION,
-        TG_HALF_PERIOD,
-        NULL
-    };
-
-    /*  COMPARE CODE WITH LEGAL CODES, RETURN 0 IMMEDIATELY IF A MATCH  */
-    int index = 0;
-    while (legal_code[index] != NULL)
-        if (!strcmp(legal_code[index++], code))
-            return 0;
-
-    /*  IF HERE, THEN NO MATCH;  RETURN 1, INDICATING ILLEGAL CODE  */
-    return 1;
-}
-
-
-
 /// Expand tag number in buffer at position j and write to stream.  Perform error checking.
 /// @return Error code if format of tag number is illegal.
 
@@ -1845,62 +2195,6 @@ int gs_pm_expand_tag_number(const char *buffer, long *j, long length, NXStream *
 
 
 
-/// @return Return 1 if character is a mode marker, 0 otherwise.
-
-int gs_pm_is_mode(char ch)
-{
-    if ((ch >= SILENCE_MODE_END) && (ch <= RAW_MODE_BEGIN))
-        return 1;
-
-    return 0;
-}
-
-
-
-/// @return Return 1 if character at position i is isolated, i.e. is surrounded by space or mode marker.
-/// @return Return 0 otherwise.
-
-int gs_pm_is_isolated(char *buffer, long i, long len)
-{
-    if (   ((i == 0)       || (((i-1) >= 0)  && (gs_pm_is_mode(buffer[i-1]) || (buffer[i-1] == ' '))))
-        && ((i == (len-1)) || (((i+1) < len) && (gs_pm_is_mode(buffer[i+1]) || (buffer[i+1] == ' ')))))
-    {
-        return 1;
-    }
-
-    return 0;
-}
-
-
-
-/// @return Return 1 if character at position i is part of a number (including mixtures with non-numeric characters).
-/// @return Return 0 otherwise.
-
-int gs_pm_part_of_number(char *buffer, long i, long len)
-{
-    while (   (--i >= 0)
-           && (buffer[i] != ' ')
-           && (buffer[i] != DELETED)
-           && (!gs_pm_is_mode(buffer[i])) )
-    {
-        if (isdigit(buffer[i]))
-            return 1;
-    }
-
-    while (   (++i < len)
-           && (buffer[i] != ' ')
-           && (buffer[i] != DELETED)
-           && (!gs_pm_is_mode(buffer[i])) )
-    {
-        if (isdigit(buffer[i]))
-            return 1;
-    }
-
-    return 0;
-}
-
-
-
 /// @return Return a 1 if at least one digit follows the character at position i, up to white space or mode marker.
 /// @return Return 0 otherwise.
 
@@ -1918,94 +2212,15 @@ int gs_pm_number_follows(char *buffer, long i, long len)
     return 0;
 }
 
+#pragma mark - Character tests
 
+/// @return Return 1 if character is a mode marker, 0 otherwise.
 
-/// Delete three dots in a row (disregarding white space).  If four dots, then the last three are deleted.
-
-void gs_pm_delete_ellipsis(char *buffer, long *i, long length)
+int gs_pm_is_mode(char ch)
 {
-    /*  SET POSITION OF FIRST DOT  */
-    long pos1 = *i, pos2, pos3;
-
-    /*  IGNORE ANY WHITE SPACE  */
-    while (((*i+1) < length) && (buffer[*i+1] == ' '))
-        (*i)++;
-    /*  CHECK FOR 2ND DOT  */
-    if (((*i+1) < length) && (buffer[*i+1] == '.')) {
-        pos2 = ++(*i);
-        /*  IGNORE ANY WHITE SPACE  */
-        while (((*i+1) < length) && (buffer[*i+1] == ' '))
-            (*i)++;
-        /*  CHECK FOR 3RD DOT  */
-        if (((*i+1) < length) && (buffer[*i+1] == '.')) {
-            pos3 = ++(*i);
-            /*  IGNORE ANY WHITE SPACE  */
-            while (((*i+1) < length) && (buffer[*i+1] == ' '))
-                (*i)++;
-            /*  CHECK FOR 4TH DOT  */
-            if (((*i+1) < length) && (buffer[*i+1] == '.'))
-                buffer[pos2] = buffer[pos3] = buffer[++(*i)] = DELETED;
-            else
-                buffer[pos1] = buffer[pos2] = buffer[pos3] = DELETED;
-        }
-    }
-}
-
-
-
-/// Convert "--" to ", ", and "---" to ",  "
-/// @return Return 1 if this is done, 0 otherwise.
-
-int gs_pm_convert_dash(char *buffer, long *i, long length)
-{
-    /*  SET POSITION OF INITIAL DASH  */
-    long pos1 = *i;
-
-    /*  CHECK FOR 2ND DASH  */
-    if (((*i+1) < length) && (buffer[*i+1] == '-')) {
-        buffer[pos1] = ',';
-        buffer[++(*i)] = DELETED;
-        /*  CHECK FOR 3RD DASH  */
-        if (((*i+1) < length) && (buffer[*i+1] == '-'))
-            buffer[++(*i)] = DELETED;
+    if ((ch >= SILENCE_MODE_END) && (ch <= RAW_MODE_BEGIN))
         return 1;
-    }
 
-    /*  RETURN ZERO IF NOT CONVERTED  */
-    return 0;
-}
-
-
-
-/// @return Return 1 if string at position i in buffer is of the form:  (ddd)ddd-dddd
-///         where each d is a digit.
-
-int gs_pm_is_telephone_number(char *buffer, long i, long length)
-{
-    /*  CHECK FORMAT: (ddd)ddd-dddd  */
-    if ( ((i+12) < length)
-        && isdigit(buffer[i+1]) && isdigit(buffer[i+2]) && isdigit(buffer[i+3])
-        && (buffer[i+4] == ')')
-        && isdigit(buffer[i+5]) && isdigit(buffer[i+6]) && isdigit(buffer[i+7])
-        && (buffer[i+8] == '-')
-        && isdigit(buffer[i+9]) && isdigit(buffer[i+10]) && isdigit(buffer[i+11]) && isdigit(buffer[i+12]) )
-    {
-        /*  MAKE SURE STRING ENDS WITH WHITE SPACE, MODE, OR PUNCTUATION  */
-        if ( ((i+13) == length)
-            || ( ((i+13) < length)
-                && ( gs_pm_is_punctuation(buffer[i+13])
-                    || gs_pm_is_mode(buffer[i+13])
-                    || (buffer[i+13] == ' ')
-                    || (buffer[i+13] == DELETED)
-                    )
-                )
-            )
-        {
-            return 1;
-        }
-    }
-
-    /*  STRING IS NOT IN SPECIFIED FORMAT  */
     return 0;
 }
 
@@ -2029,265 +2244,7 @@ int gs_pm_is_punctuation(char ch)
     }
 }
 
-
-
-/// @return Return a 1 if a word or speakable symbol (letter mode) follows the position i in buffer.  Raw, tagging, and
-///         silence mode contents are ignored.
-/// @return Return a 0 if any punctuation (except . as part of number) follows.
-
-int gs_pm_word_follows(char *buffer, long i, long length)
-{
-    long mode = NORMAL_MODE;
-
-    for (long j = (i+1); j < length; j++) {
-        switch (buffer[j]) {
-            case RAW_MODE_BEGIN:      mode = RAW_MODE;      break;
-            case LETTER_MODE_BEGIN:   mode = LETTER_MODE;   break;
-            case EMPHASIS_MODE_BEGIN: mode = EMPHASIS_MODE; break;
-            case TAGGING_MODE_BEGIN:  mode = TAGGING_MODE;  break;
-            case SILENCE_MODE_BEGIN:  mode = SILENCE_MODE;  break;
-            case RAW_MODE_END:
-            case LETTER_MODE_END:
-            case EMPHASIS_MODE_END:
-            case TAGGING_MODE_END:
-            case SILENCE_MODE_END:    mode = NORMAL_MODE;   break;
-            default:
-                switch (mode) {
-                    case NORMAL_MODE:
-                    case EMPHASIS_MODE:
-                        /*  IGNORE WHITE SPACE  */
-                        if ((buffer[j] == ' ') || (buffer[j] == DELETED))
-                            continue;
-                        /*  PUNCTUATION MEANS NO WORD FOLLOWS (UNLESS PERIOD PART OF NUMBER)  */
-                        else if (gs_pm_is_punctuation(buffer[j])) {
-                            if ((buffer[j] == '.') && ((j+1) < length) && isdigit(buffer[j+1]))
-                                return 1;
-                            else
-                                return 0;
-                        }
-                        /*  ELSE, SOME WORD FOLLOWS  */
-                        else
-                            return 1;
-                    case LETTER_MODE:
-                        /*  IF LETTER MODE CONTAINS ANY SYMBOLS, THEN RETURN 1  */
-                        return 1;
-                    case RAW_MODE:
-                    case SILENCE_MODE:
-                    case TAGGING_MODE:
-                        /*  IGNORE CONTENTS OF RAW, SILENCE, AND TAGGING MODE  */
-                        continue;
-                }
-        }
-    }
-
-    /*  IF HERE, THEN A FOLLOWING WORD NOT FOUND  */
-    return 0;
-}
-
-
-
-/// Expand listed abbreviations.  Two lists are used (see abbreviations.h):  one list expands unconditionally,
-/// the other only if the abbreviation is followed by a number.  The abbreviation p. is expanded to page.
-/// Single alphabetic characters have periods deleted, but no expansion is made.  They are also capitalized.
-///
-/// @return Returns 1 if expansion made (i.e. period is deleted), 0 otherwise.
-
-int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *stream)
-{
-    long j, k, word_length = 0;
-    char word[5];
-
-    /*  DELETE PERIOD AFTER SINGLE CHARACTER (EXCEPT p.)  */
-    if ( ((i-1) == 0) ||  ( ((i-2) >= 0) &&
-                           ( (buffer[i-2] == ' ') || (buffer[i-2] == '.') || (gs_pm_is_mode(buffer[i-2])) )
-                           ) ) {
-        if (isalpha(buffer[i-1])) {
-            if ((buffer[i-1] == 'p') && (((i-1) == 0) || (((i-2) >= 0) && (buffer[i-2] != '.')) ) ) {
-                /*  EXPAND p. TO page  */
-                [stream seekWithOffset:-1 fromPosition:NXStreamLocation_Current];
-                [stream printf:"page "];
-            }
-            else {
-                /*  ELSE, CAPITALIZE CHARACTER IF NECESSARY, BLANK OUT PERIOD  */
-                [stream seekWithOffset:-1 fromPosition:NXStreamLocation_Current];
-                if (islower(buffer[i-1]))
-                    buffer[i-1] = toupper(buffer[i-1]);
-                [stream printf:"%c ", buffer[i-1]];
-            }
-            /*  INDICATE ABBREVIATION EXPANDED  */
-            return 1;
-        }
-    }
-
-    /*  GET LENGTH OF PRECEDING ISOLATED STRING, UP TO 4 CHARACTERS  */
-    for (j = 2; j <= 4; j++) {
-        if (((i-j) == 0) ||
-            (((i-(j+1)) >= 0) && ((buffer[i-(j+1)] == ' ') || (gs_pm_is_mode(buffer[i-(j+1)]))) ) ) {
-            if (isalpha(buffer[i-j]) && isalpha(buffer[i-j+1])) {
-                word_length = j;
-                break;
-            }
-        }
-    }
-
-    /*  IS ABBREVIATION ONLY IF WORD LENGTH IS 2, 3, OR 4 CHARACTERS  */
-    if ((word_length >= 2) && (word_length <= 4)) {
-        /*  GET ABBREVIATION  */
-        for (k = 0, j = i - word_length; k < word_length; k++)
-            word[k] = buffer[j++];
-        word[k] = '\0';
-
-        /*  EXPAND THESE ABBREVIATIONS ONLY IF FOLLOWED BY NUMBER  */
-        for (j = 0; abbr_with_number[j][ABBREVIATION] != NULL; j++) {
-            if (!strcmp(abbr_with_number[j][ABBREVIATION],word)) {
-                /*  IGNORE WHITE SPACE  */
-                while (((i+1) < length) && ((buffer[i+1] == ' ') || (buffer[i+1] == DELETED)))
-                    i++;
-                /*  EXPAND ONLY IF NUMBER FOLLOWS  */
-                if (gs_pm_number_follows(buffer, i, length)) {
-                    [stream seekWithOffset:-word_length fromPosition:NXStreamLocation_Current];
-                    [stream printf:"%s ", abbr_with_number[j][EXPANSION]];
-                    return 1;
-                }
-            }
-        }
-
-        /*  EXPAND THESE ABBREVIATIONS UNCONDITIONALLY  */
-        for (j = 0; abbreviation[j][ABBREVIATION] != NULL; j++) {
-            if (!strcmp(abbreviation[j][ABBREVIATION],word)) {
-                [stream seekWithOffset:-word_length fromPosition:NXStreamLocation_Current];
-                [stream printf:"%s ", abbreviation[j][EXPANSION]];
-                return 1;
-            }
-        }
-    }
-
-    /*  IF HERE, THEN NO EXPANSION MADE  */
-    return 0;
-}
-
-
-
-/// Expand contents of letter mode string to word or words.  Add a comma after each expansion, except
-/// the last letter when it is followed by punctuation.
-
-void gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, GSTextParserPunctuationState *status)
-{
-    for ( ; ((*i) < length) && (buffer[*i] != LETTER_MODE_END); (*i)++) {
-        /*  CONVERT LETTER TO WORD OR WORDS  */
-        switch (buffer[*i]) {
-            case ' ': [stream printf:"blank"];                break;
-            case '!': [stream printf:"exclamation point"];    break;
-            case '"': [stream printf:"double quote"];         break;
-            case '#': [stream printf:"number sign"];          break;
-            case '$': [stream printf:"dollar"];               break;
-            case '%': [stream printf:"percent"];              break;
-            case '&': [stream printf:"ampersand"];            break;
-            case '\'':[stream printf:"single quote"];         break;
-            case '(': [stream printf:"open parenthesis"];     break;
-            case ')': [stream printf:"close parenthesis"];    break;
-            case '*': [stream printf:"asterisk"];             break;
-            case '+': [stream printf:"plus sign"];            break;
-            case ',': [stream printf:"comma"];                break;
-            case '-': [stream printf:"hyphen"];               break;
-            case '.': [stream printf:"period"];               break;
-            case '/': [stream printf:"slash"];                break;
-            case '0': [stream printf:"zero"];                 break;
-            case '1': [stream printf:"one"];                  break;
-            case '2': [stream printf:"two"];                  break;
-            case '3': [stream printf:"three"];                break;
-            case '4': [stream printf:"four"];                 break;
-            case '5': [stream printf:"five"];                 break;
-            case '6': [stream printf:"six"];                  break;
-            case '7': [stream printf:"seven"];                break;
-            case '8': [stream printf:"eight"];                break;
-            case '9': [stream printf:"nine"];                 break;
-            case ':': [stream printf:"colon"];                break;
-            case ';': [stream printf:"semicolon"];            break;
-            case '<': [stream printf:"open angle bracket"];   break;
-            case '=': [stream printf:"equal sign"];           break;
-            case '>': [stream printf:"close angle bracket"];  break;
-            case '?': [stream printf:"question mark"];        break;
-            case '@': [stream printf:"at sign"];              break;
-            case 'A':
-            case 'a': [stream printf:"A"];                    break;
-            case 'B':
-            case 'b': [stream printf:"B"];                    break;
-            case 'C':
-            case 'c': [stream printf:"C"];                    break;
-            case 'D':
-            case 'd': [stream printf:"D"];                    break;
-            case 'E':
-            case 'e': [stream printf:"E"];                    break;
-            case 'F':
-            case 'f': [stream printf:"F"];                    break;
-            case 'G':
-            case 'g': [stream printf:"G"];                    break;
-            case 'H':
-            case 'h': [stream printf:"H"];                    break;
-            case 'I':
-            case 'i': [stream printf:"I"];                    break;
-            case 'J':
-            case 'j': [stream printf:"J"];                    break;
-            case 'K':
-            case 'k': [stream printf:"K"];                    break;
-            case 'L':
-            case 'l': [stream printf:"L"];                    break;
-            case 'M':
-            case 'm': [stream printf:"M"];                    break;
-            case 'N':
-            case 'n': [stream printf:"N"];                    break;
-            case 'O':
-            case 'o': [stream printf:"O"];                    break;
-            case 'P':
-            case 'p': [stream printf:"P"];                    break;
-            case 'Q':
-            case 'q': [stream printf:"Q"];                    break;
-            case 'R':
-            case 'r': [stream printf:"R"];                    break;
-            case 'S':
-            case 's': [stream printf:"S"];                    break;
-            case 'T':
-            case 't': [stream printf:"T"];                    break;
-            case 'U':
-            case 'u': [stream printf:"U"];                    break;
-            case 'V':
-            case 'v': [stream printf:"V"];                    break;
-            case 'W':
-            case 'w': [stream printf:"W"];                    break;
-            case 'X':
-            case 'x': [stream printf:"X"];                    break;
-            case 'Y':
-            case 'y': [stream printf:"Y"];                    break;
-            case 'Z':
-            case 'z': [stream printf:"Z"];                    break;
-            case '[': [stream printf:"open square bracket"];  break;
-            case '\\':[stream printf:"back slash"];           break;
-            case ']': [stream printf:"close square bracket"]; break;
-            case '^': [stream printf:"caret"];                break;
-            case '_': [stream printf:"under score"];          break;
-            case '`': [stream printf:"grave accent"];         break;
-            case '{': [stream printf:"open brace"];           break;
-            case '|': [stream printf:"vertical bar"];         break;
-            case '}': [stream printf:"close brace"];          break;
-            case '~': [stream printf:"tilde"];                break;
-            default:  [stream printf:"unknown"];              break;
-        }
-        /*  APPEND COMMA, UNLESS PUNCTUATION FOLLOWS LAST LETTER  */
-        if ( (((*i)+1) < length) &&
-            (buffer[(*i)+1] == LETTER_MODE_END) &&
-            !gs_pm_word_follows(buffer, (*i), length)) {
-            [stream printf:" "];
-            *status = GSTextParserPunctuationState_Word;
-        }
-        else {
-            [stream printf:", "];
-            *status = GSTextParserPunctuationState_Punctuation;
-        }
-    }
-    /*  BE SURE TO SET INDEX BACK ONE, SO CALLING ROUTINE NOT FOULED UP  */
-    (*i)--;
-}
+#pragma mark - Words functions
 
 
 
@@ -2339,15 +2296,19 @@ const char *gs_pm_is_special_acronym(char *word)
 
 
 
-/// @return Return 1 if the pronunciation contains ' (and ` for backwards compatibility).
-/// @return Otherwise, return 0;
+/// @return Return 1 if 's is found at end of word, and removes the 's ending from the word.
+/// @return Otherwise, return 0.
 
-int gs_pm_contains_primary_stress(const char *pronunciation)
+int gs_pm_is_possessive(char *word)
 {
-    for ( ; *pronunciation && (*pronunciation != '%'); pronunciation++)
-        if ((*pronunciation == '\'') || (*pronunciation == '`'))
+    /*  LOOP UNTIL 's FOUND, REPLACE ' WITH NULL  */
+    for ( ; *word; word++)
+        if ((*word == '\'') && *(word+1) && (*(word+1) == 's') && (*(word+2) == '\0')) {
+            *word = '\0';
             return TTS_YES;
+        }
 
+    /*  IF HERE, NO 's FOUND  */
     return TTS_NO;
 }
 
@@ -2371,26 +2332,72 @@ int gs_pm_converted_stress(char *pronunciation)
 
 
 
-/// @return Return 1 if 's is found at end of word, and removes the 's ending from the word.
-/// @return Otherwise, return 0.
+/// @return Return 1 if the pronunciation contains ' (and ` for backwards compatibility).
+/// @return Otherwise, return 0;
 
-int gs_pm_is_possessive(char *word)
+int gs_pm_contains_primary_stress(const char *pronunciation)
 {
-    /*  LOOP UNTIL 's FOUND, REPLACE ' WITH NULL  */
-    for ( ; *word; word++)
-        if ((*word == '\'') && *(word+1) && (*(word+1) == 's') && (*(word+2) == '\0')) {
-            *word = '\0';
+    for ( ; *pronunciation && (*pronunciation != '%'); pronunciation++)
+        if ((*pronunciation == '\'') || (*pronunciation == '`'))
             return TTS_YES;
-        }
 
-    /*  IF HERE, NO 's FOUND  */
     return TTS_NO;
 }
 
 
 
+/// @return Return 1 if token is not a valid Monet phone.
+/// @return Return 0 otherwise.
+
+int gs_pm_illegal_token(char *token)
+{
+    if (strlen(token) == 0)
+        return 0;
+
+    /*  IF PHONE A VALID DEGAS PHONE, RETURN 0;  1 OTHERWISE  */
+    if (validPhone(token))
+        return 0;
+
+    return 1;
+}
+
+
+
+/// @return Return 1 if code is illegal, 0 otherwise.
+
+int gs_pm_illegal_slash_code(char *code)
+{
+    static char *legal_code[] = {
+        CHUNK_BOUNDARY,
+        TONE_GROUP_BOUNDARY,
+        FOOT_BEGIN,
+        TONIC_BEGIN,
+        SECONDARY_STRESS,
+        LAST_WORD,
+        TAG_BEGIN,
+        WORD_BEGIN,
+        TG_STATEMENT,
+        TG_EXCLAMATION,
+        TG_QUESTION,
+        TG_CONTINUATION,
+        TG_HALF_PERIOD,
+        NULL
+    };
+
+    /*  COMPARE CODE WITH LEGAL CODES, RETURN 0 IMMEDIATELY IF A MATCH  */
+    int index = 0;
+    while (legal_code[index] != NULL)
+        if (!strcmp(legal_code[index++], code))
+            return 0;
+
+    /*  IF HERE, THEN NO MATCH;  RETURN 1, INDICATING ILLEGAL CODE  */
+    return 1;
+}
+
+#pragma mark - 4. Safety Check
+
 /// Check to make sure that there are not too many feet phones per chunk.  If there are, the input is split
-/// into two or mor chunks.
+/// into two or more chunks.
 
 void gs_pm_safety_check(NXStream *stream)
 {
@@ -2555,7 +2562,7 @@ void gs_pm_check_tonic(NXStream *stream, long startPosition, long endPosition)
     [stream seekWithOffset:originalPosition fromPosition:NXStreamLocation_Start];
 }
 
-
+#pragma mark - Debugging
 
 #if 0
 /// Print out the contents of a parser stream, inserting visible mode markers.
