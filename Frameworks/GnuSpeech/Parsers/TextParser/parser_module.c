@@ -266,7 +266,8 @@ int parser(const char *input, const char **output)
     }
 
     /*  STRIP OUT OR CONVERT UNESSENTIAL PUNCTUATION  */
-    gs_pm_strip_punctuation(buffer2, buffer2_length, stream1);
+    gs_pm_strip_punctuation_pass1(buffer2, buffer2_length, stream1);
+    gs_pm_strip_punctuation_pass2(buffer2, buffer2_length, stream1);
 
     free(buffer2);
 
@@ -675,7 +676,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
 // CHANGE: ] -> )
 // DELETE: "`#*\^_|~{}
 
-void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream)
+void gs_pm_strip_punctuation_pass1(char *buffer, long length, NXStream *stream)
 {
     long mode = NORMAL_MODE;
 
@@ -777,10 +778,15 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream)
                 break;
         }
     }
+}
 
-    /*  SECOND PASS  */
+/// Delete unnecessary punctuation, and convert some punctuation to another form.
+
+void gs_pm_strip_punctuation_pass2(char *buffer, long length, NXStream *stream)
+{
     [stream seekWithOffset:0 fromPosition:NXStreamLocation_Start];
-    mode = NORMAL_MODE;
+
+    long mode = NORMAL_MODE;
     long status = PUNCTUATION;
     for (long index = 0; index < length; index++) {
         switch (buffer[index]) {
