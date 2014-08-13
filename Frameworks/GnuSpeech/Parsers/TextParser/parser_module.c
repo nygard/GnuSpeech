@@ -66,8 +66,6 @@
 #define BEGIN                 0
 #define END                   1
 
-#define WORD                  0
-#define PUNCTUATION           1
 #define PRONUNCIATION         1
 
 #define AND                   "and"
@@ -414,8 +412,6 @@ void gs_pm_condition_input(const char *input, char *output, long input_length, l
 }
 
 
-
-
 // Mark beginning of stacked mode, if not normal mode.
 #define MARK_BEGINNING_OF_STACKED_MODE() { if (mode_stack[stack_ptr] != NORMAL_MODE) { output[outputIndex++] = mode_marker[mode_stack[stack_ptr]][BEGIN]; } }
 
@@ -667,6 +663,8 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
     return TTS_PARSER_SUCCESS;
 }
 
+#pragma mark - Strip Punctuation
+
 
 
 /// Delete unnecessary punctuation, and convert some punctuation to another form.
@@ -781,13 +779,21 @@ void gs_pm_strip_punctuation_pass1(char *buffer, long length)
 }
 
 /// Delete unnecessary punctuation, and convert some punctuation to another form.
+///
+/// Normal/Emphasis modes:
+///   CHANGE: (?) -> blank
+///   CHANGE: (!) -> blank
+///   PASS:   (111)111-1111    (telephone numbers)
+///
+/// Letter mode: expand contents to words.
+/// other modes: unchanged.
 
 void gs_pm_strip_punctuation_pass2(char *buffer, long length, NXStream *stream)
 {
     [stream seekWithOffset:0 fromPosition:NXStreamLocation_Start];
 
     long mode = NORMAL_MODE;
-    long status = PUNCTUATION;
+    GSTextParserPunctuationState status = GSTextParserPunctuationState_Punctuation;
     for (long index = 0; index < length; index++) {
         switch (buffer[index]) {
             case RAW_MODE_BEGIN:      mode = RAW_MODE;      [stream putChar:buffer[index]]; break;
@@ -827,15 +833,15 @@ void gs_pm_strip_punctuation_pass2(char *buffer, long length, NXStream *stream)
                             {
                                 for (int j = 0; j < 12; j++)
                                     [stream putChar:buffer[index++]];
-                                status = WORD;
+                                status = GSTextParserPunctuationState_Word;
                                 continue;
                             }
                             /*  CONVERT TO COMMA IF PRECEDED BY WORD, FOLLOWED BY WORD  */
-                            if ((status == WORD) && gs_pm_word_follows(buffer, index, length))
+                            if ((status == GSTextParserPunctuationState_Word) && gs_pm_word_follows(buffer, index, length))
                             {
                                 buffer[index] = ' ';
                                 [stream printf:", "];
-                                status = PUNCTUATION;
+                                status = GSTextParserPunctuationState_Punctuation;
                             }
                             else
                             {
@@ -845,11 +851,11 @@ void gs_pm_strip_punctuation_pass2(char *buffer, long length, NXStream *stream)
                             break;
                         case ')':
                             /*  CONVERT TO COMMA IF PRECEDED BY WORD, FOLLOWED BY WORD  */
-                            if ((status == WORD) && gs_pm_word_follows(buffer, index, length))
+                            if ((status == GSTextParserPunctuationState_Word) && gs_pm_word_follows(buffer, index, length))
                             {
                                 buffer[index] = ',';
                                 [stream printf:", "];
-                                status = PUNCTUATION;
+                                status = GSTextParserPunctuationState_Punctuation;
                             }
                             else
                             {
@@ -859,50 +865,50 @@ void gs_pm_strip_punctuation_pass2(char *buffer, long length, NXStream *stream)
                             break;
                         case '&':
                             [stream printf:"%s", AND];
-                            status = WORD;
+                            status = GSTextParserPunctuationState_Word;
                             break;
                         case '+':
                             if (gs_pm_is_isolated(buffer, index, length))
                                 [stream printf:"%s", PLUS];
                             else
                                 [stream putChar:'+'];
-                            status = WORD;
+                            status = GSTextParserPunctuationState_Word;
                             break;
                         case '<':
                             [stream printf:"%s", IS_LESS_THAN];
-                            status = WORD;
+                            status = GSTextParserPunctuationState_Word;
                             break;
                         case '>':
                             [stream printf:"%s", IS_GREATER_THAN];
-                            status = WORD;
+                            status = GSTextParserPunctuationState_Word;
                             break;
                         case '=':
                             [stream printf:"%s", EQUALS];
-                            status = WORD;
+                            status = GSTextParserPunctuationState_Word;
                             break;
                         case '-':
                             if (gs_pm_is_isolated(buffer, index, length))
                                 [stream printf:"%s", MINUS];
                             else
                                 [stream putChar:'-'];
-                            status = WORD;
+                            status = GSTextParserPunctuationState_Word;
                             break;
                         case '@':
                             [stream printf:"%s", AT];
-                            status = WORD;
+                            status = GSTextParserPunctuationState_Word;
                             break;
                         case '.':
                             if (!gs_pm_expand_abbreviation(buffer, index, length, stream)) {
                                 [stream putChar:buffer[index]];
-                                status = PUNCTUATION;
+                                status = GSTextParserPunctuationState_Punctuation;
                             }
                             break;
                         default:
                             [stream putChar:buffer[index]];
                             if (gs_pm_is_punctuation(buffer[index]))
-                                status = PUNCTUATION;
+                                status = GSTextParserPunctuationState_Punctuation;
                             else if (isalnum(buffer[index]))
-                                status = WORD;
+                                status = GSTextParserPunctuationState_Word;
                             break;
                     }
                 }
@@ -2165,7 +2171,7 @@ int gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *strea
 /// Expand contents of letter mode string to word or words.  Add a comma after each expansion, except
 /// the last letter when it is followed by punctuation.
 
-void gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, long *status)
+void gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, GSTextParserPunctuationState *status)
 {
     for ( ; ((*i) < length) && (buffer[*i] != LETTER_MODE_END); (*i)++) {
         /*  CONVERT LETTER TO WORD OR WORDS  */
@@ -2272,11 +2278,11 @@ void gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stre
             (buffer[(*i)+1] == LETTER_MODE_END) &&
             !gs_pm_word_follows(buffer, (*i), length)) {
             [stream printf:" "];
-            *status = WORD;
+            *status = GSTextParserPunctuationState_Word;
         }
         else {
             [stream printf:", "];
-            *status = PUNCTUATION;
+            *status = GSTextParserPunctuationState_Punctuation;
         }
     }
     /*  BE SURE TO SET INDEX BACK ONE, SO CALLING ROUTINE NOT FOULED UP  */

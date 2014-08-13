@@ -19,6 +19,12 @@ const char *lookup_word(const char *word, short *dict);
 @class NXStream;
 
 // Internal functions, exposed just for testing.
+
+typedef enum : NSUInteger {
+    GSTextParserPunctuationState_Word        = 0,
+    GSTextParserPunctuationState_Punctuation = 1,
+} GSTextParserPunctuationState;
+
 // gs_pm = GnuSpeech Parser Module
 void   gs_pm_condition_input(const char *input, char *output, long input_length, long *output_length_ptr);
 int    gs_pm_mark_modes(char *input, char *output, long length, long *output_length);
@@ -48,7 +54,7 @@ int    gs_pm_is_telephone_number(char *buffer, long i, long length);
 int    gs_pm_is_punctuation(char ch);
 int    gs_pm_word_follows(char *buffer, long i, long length);
 int    gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *stream);
-void   gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, long *status);
+void   gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, GSTextParserPunctuationState *status);
 int    gs_pm_is_all_upper_case(char *word);
 char * gs_pm_to_lower_case(char *word);
 
