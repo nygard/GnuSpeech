@@ -89,3 +89,20 @@ int    gs_pm_illegal_slash_code(char *code);
 #define SLASH_TAG_BEGIN           "/t"
 #define SLASH_WORD_BEGIN          "/w"
 
+#pragma mark - Phones
+
+#define PHONE_UTTERANCE_BOUNDARY "#"
+#define PHONE_MEDIAL_PAUSE       "^"
+#define PHONE_LONG_MEDIAL_PAUSE  "^ ^ ^"
+#define PHONE_SILENCE            "^"
+
+#pragma mark - Converted output words
+
+#define WORD_AND                   "and"
+#define WORD_PLUS                  "plus"
+#define WORD_IS_LESS_THAN          "is less than"
+#define WORD_IS_GREATER_THAN       "is greater than"
+#define WORD_EQUALS                "equals"
+#define WORD_MINUS                 "minus"
+#define WORT_AT                    "at"
+

@@ -68,14 +68,6 @@
 
 #define PRONUNCIATION         1
 
-#define AND                   "and"
-#define PLUS                  "plus"
-#define IS_LESS_THAN          "is less than"
-#define IS_GREATER_THAN       "is greater than"
-#define EQUALS                "equals"
-#define MINUS                 "minus"
-#define AT                    "at"
-
 #define ABBREVIATION          0
 #define EXPANSION             1
 
@@ -89,10 +81,6 @@
 #define STATE_TAGGING         6
 
 
-#define UTTERANCE_BOUNDARY    "#"
-#define MEDIAL_PAUSE          "^"
-#define LONG_MEDIAL_PAUSE     "^ ^ ^"
-#define SILENCE_PHONE         "^"
 
 #define UNDEFINED_POSITION    (-1)
 
@@ -853,37 +841,37 @@ void gs_pm_strip_punctuation_pass2(char *buffer, long length, NXStream *stream)
                             }
                             break;
                         case '&':
-                            [stream printf:"%s", AND];
+                            [stream printf:"%s", WORD_AND];
                             status = GSTextParserPunctuationState_Word;
                             break;
                         case '+':
                             if (gs_pm_is_isolated(buffer, index, length))
-                                [stream printf:"%s", PLUS];
+                                [stream printf:"%s", WORD_PLUS];
                             else
                                 [stream putChar:'+'];
                             status = GSTextParserPunctuationState_Word;
                             break;
                         case '<':
-                            [stream printf:"%s", IS_LESS_THAN];
+                            [stream printf:"%s", WORD_IS_LESS_THAN];
                             status = GSTextParserPunctuationState_Word;
                             break;
                         case '>':
-                            [stream printf:"%s", IS_GREATER_THAN];
+                            [stream printf:"%s", WORD_IS_GREATER_THAN];
                             status = GSTextParserPunctuationState_Word;
                             break;
                         case '=':
-                            [stream printf:"%s", EQUALS];
+                            [stream printf:"%s", WORD_EQUALS];
                             status = GSTextParserPunctuationState_Word;
                             break;
                         case '-':
                             if (gs_pm_is_isolated(buffer, index, length))
-                                [stream printf:"%s", MINUS];
+                                [stream printf:"%s", WORD_MINUS];
                             else
                                 [stream putChar:'-'];
                             status = GSTextParserPunctuationState_Word;
                             break;
                         case '@':
-                            [stream printf:"%s", AT];
+                            [stream printf:"%s", WORT_AT];
                             status = GSTextParserPunctuationState_Word;
                             break;
                         case '.':
@@ -1375,7 +1363,7 @@ int gs_pm_final_conversion(NXStream *stream1, NXStream *stream2)
                                 [stream2 printf:"%s ", SLASH_TG_UNDEFINED];
                                 tg_marker_pos = [stream2 position] - 3;
                             case STATE_SILENCE:
-                                [stream2 printf:"%s ", UTTERANCE_BOUNDARY];
+                                [stream2 printf:"%s ", PHONE_UTTERANCE_BOUNDARY];
                         }
 
                         if (mode == NORMAL_MODE) {
@@ -1433,12 +1421,12 @@ int gs_pm_final_conversion(NXStream *stream1, NXStream *stream2)
                                 else if ((next_state != STATE_END) &&
                                          gs_pm_another_word_follows(input, i, stream1Length, mode)) {
                                     if (!strcmp(word,","))
-                                        [stream2 printf:"%s %s ", UTTERANCE_BOUNDARY, MEDIAL_PAUSE];
+                                        [stream2 printf:"%s %s ", PHONE_UTTERANCE_BOUNDARY, PHONE_MEDIAL_PAUSE];
                                     else
-                                        [stream2 printf:"%s %s ", UTTERANCE_BOUNDARY, LONG_MEDIAL_PAUSE];
+                                        [stream2 printf:"%s %s ", PHONE_UTTERANCE_BOUNDARY, PHONE_LONG_MEDIAL_PAUSE];
                                 }
                                 else if (next_state == STATE_END)
-                                    [stream2 printf:"%s ", UTTERANCE_BOUNDARY];
+                                    [stream2 printf:"%s ", PHONE_UTTERANCE_BOUNDARY];
                             case STATE_SILENCE:
                                 [stream2 printf:"%s ", SLASH_TONE_GROUP_BOUNDARY];
                                 prior_tonic = TTS_NO;
@@ -1463,7 +1451,7 @@ int gs_pm_final_conversion(NXStream *stream1, NXStream *stream2)
                                 last_written_state = STATE_MEDIAL_PUNC;
                             }
                             else {
-                                [stream2 printf:"%s %s %s ", UTTERANCE_BOUNDARY,
+                                [stream2 printf:"%s %s %s ", PHONE_UTTERANCE_BOUNDARY,
                                          SLASH_TONE_GROUP_BOUNDARY,SLASH_CHUNK_BOUNDARY];
                                 prior_tonic = TTS_NO;
                                 if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
@@ -1523,7 +1511,7 @@ int gs_pm_final_conversion(NXStream *stream1, NXStream *stream2)
             break;
 
         case STATE_WORD:  /*  FALL THROUGH DESIRED  */
-            [stream2 printf:"%s ", UTTERANCE_BOUNDARY];
+            [stream2 printf:"%s ", PHONE_UTTERANCE_BOUNDARY];
         case STATE_SILENCE:
             [stream2 printf:"%s %s", SLASH_TONE_GROUP_BOUNDARY, SLASH_CHUNK_BOUNDARY];
             //prior_tonic = TTS_NO;
@@ -1768,9 +1756,9 @@ double gs_pm_convert_silence(char *buffer, NXStream *stream)
     silence_length = MIN(silence_length, kSilenceMax);                        // Limit silence length to maximum.
     long number_silence_phones = rintl(silence_length / kSilencePhoneLength); // Find equivalent number of silence phones, performing rounding.
 
-    [stream printf:"%s ", UTTERANCE_BOUNDARY];
+    [stream printf:"%s ", PHONE_UTTERANCE_BOUNDARY];
     for (NSUInteger index = 0; index < number_silence_phones; index++)
-        [stream printf:"%s ", SILENCE_PHONE];
+        [stream printf:"%s ", PHONE_SILENCE];
 
     return number_silence_phones * kSilencePhoneLength;                       // Return actual length of silence.
 }
