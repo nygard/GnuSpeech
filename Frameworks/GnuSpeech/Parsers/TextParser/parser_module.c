@@ -280,15 +280,14 @@ int parser(const char *input, const char **output)
     }
 
     /*  DO FINAL CONVERSION  */
-    long persistent_stream_length;
-    error = gs_pm_final_conversion(stream1, [stream1 length], _persistentStream, &persistent_stream_length);
+    error = gs_pm_final_conversion(stream1, _persistentStream);
     if (error != TTS_PARSER_SUCCESS) {
         _persistentStream = nil;
         return error;
     }
 
     /*  DO SAFETY CHECK;  MAKE SURE NOT TOO MANY FEET OR PHONES PER CHUNK  */
-    gs_pm_safety_check(_persistentStream, &persistent_stream_length);
+    gs_pm_safety_check(_persistentStream);
 
     /*  SET OUTPUT POINTER TO MEMORY STREAM BUFFER
      THIS STREAM PERSISTS BETWEEN CALLS  */
@@ -885,8 +884,7 @@ void gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream)
 
 /// Convert contents of stream1 to stream2.  Add chunk, tone group, and associated markers;  expand words to pronunciations, and also expand other modes.
 
-int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
-                           NXStream *stream2, long *stream2_length)
+int gs_pm_final_conversion(NXStream *stream1, NXStream *stream2)
 {
     long i, last_word_end = UNDEFINED_POSITION, tg_marker_pos = UNDEFINED_POSITION;
     long mode = NORMAL_MODE, next_mode, prior_tonic = TTS_NO, raw_mode_flag = TTS_NO;
@@ -899,9 +897,10 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
 
     /*  GET MEMORY BUFFER ASSOCIATED WITH STREAM1  */
     input = [stream1 mutableBytes];
+    long stream1Length = [stream1 length];
 
     /*  MAIN LOOP  */
-    for (i = 0; i < stream1_length; i++) {
+    for (i = 0; i < stream1Length; i++) {
         switch (input[i]) {
             case RAW_MODE_BEGIN:      mode = RAW_MODE;      break;
             case LETTER_MODE_BEGIN:   mode = LETTER_MODE;   break;
@@ -917,7 +916,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
 
             default:
                 /*  GET STATE INFORMATION  */
-                if (gs_pm_get_state(input, &i, stream1_length, &mode, &next_mode, &current_state,
+                if (gs_pm_get_state(input, &i, stream1Length, &mode, &next_mode, &current_state,
                                     &next_state, &raw_mode_flag, word, stream2) != TTS_PARSER_SUCCESS)
                     return TTS_PARSER_FAILURE;
 
@@ -996,10 +995,10 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
                         /*  APPEND LAST WORD MARK, PAUSE, TONE GROUP MARK (FALL-THRU DESIRED)  */
                         switch (last_written_state) {
                             case STATE_WORD:
-                                if (gs_pm_shift_silence(input, i, stream1_length, mode, stream2))
+                                if (gs_pm_shift_silence(input, i, stream1Length, mode, stream2))
                                     last_word_end = [stream2 position];
                                 else if ((next_state != STATE_END) &&
-                                         gs_pm_another_word_follows(input, i, stream1_length, mode)) {
+                                         gs_pm_another_word_follows(input, i, stream1Length, mode)) {
                                     if (!strcmp(word,","))
                                         [stream2 printf:"%s %s ", UTTERANCE_BOUNDARY, MEDIAL_PAUSE];
                                     else
@@ -1020,7 +1019,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
 
                     case STATE_FINAL_PUNC:
                         if (last_written_state == STATE_WORD) {
-                            if (gs_pm_shift_silence(input, i, stream1_length, mode, stream2)) {
+                            if (gs_pm_shift_silence(input, i, stream1Length, mode, stream2)) {
                                 last_word_end = [stream2 position];
                                 [stream2 printf:"%s ", TONE_GROUP_BOUNDARY];
                                 prior_tonic = TTS_NO;
@@ -1107,7 +1106,7 @@ int gs_pm_final_conversion(NXStream *stream1, long stream1_length,
     }
 
     [stream2 putChar:'\0'];
-    *stream2_length = [stream2 position];
+    [stream2 truncate];
 
     return TTS_PARSER_SUCCESS;
 }
@@ -2345,7 +2344,7 @@ int gs_pm_is_possessive(char *word)
 /// Check to make sure that there are not too many feet phones per chunk.  If there are, the input is split
 /// into two or mor chunks.
 
-void gs_pm_safety_check(NXStream *stream, long *stream_length)
+void gs_pm_safety_check(NXStream *stream)
 {
     int  ch, number_of_feet = 0, number_of_phones = 0, state = NON_PHONEME;
     long last_word_pos = UNDEFINED_POSITION, last_tg_pos = UNDEFINED_POSITION;
@@ -2436,8 +2435,7 @@ void gs_pm_safety_check(NXStream *stream, long *stream_length)
         }
     }
 
-    /*  BE SURE TO RESET LENGTH OF STREAM  */
-    *stream_length = [stream position];
+    [stream truncate];
 }
 
 

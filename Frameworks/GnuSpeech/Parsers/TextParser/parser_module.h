@@ -23,8 +23,7 @@ const char *lookup_word(const char *word, short *dict);
 void   gs_pm_condition_input(const char *input, char *output, long input_length, long *output_length_ptr);
 int    gs_pm_mark_modes(char *input, char *output, long length, long *output_length);
 void   gs_pm_strip_punctuation(char *buffer, long length, NXStream *stream);
-int    gs_pm_final_conversion(NXStream *stream1, long stream1_length,
-                              NXStream *stream2, long *stream2_length);
+int    gs_pm_final_conversion(NXStream *stream1, NXStream *stream2);
 int    gs_pm_get_state(const char *buffer, long *i, long length, long *mode, long *next_mode,
                        long *current_state, long *next_state, long *raw_mode_flag,
                        char *word, NXStream *stream);
@@ -57,6 +56,6 @@ const char *gs_pm_is_special_acronym(char *word);
 int   gs_pm_contains_primary_stress(const char *pronunciation);
 int   gs_pm_converted_stress(char *pronunciation);
 int   gs_pm_is_possessive(char *word);
-void  gs_pm_safety_check(NXStream *stream, long *stream_length);
+void  gs_pm_safety_check(NXStream *stream);
 void  gs_pm_insert_chunk_marker(NXStream *stream, long insert_point, char tg_type);
 void  gs_pm_check_tonic(NXStream *stream, long startPosition, long endPosition);
