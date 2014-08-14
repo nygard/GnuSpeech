@@ -333,7 +333,44 @@ NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_SilenceVa
     return resultString;
 }
 
-- (NSString *)punc1_singleQuote:(NSString *)str;
+- (NSString *)_stripPunctuationFromString:(NSString *)str;
+{
+    str = [self punc1_replaceSingleCharacters:str];
+
+    // Replace these characters with words, so we don't have to check again later if they are isolated.  We'll know all remaining ones are NOT isolated.
+    str = [self replaceIsolatedCharacters:str];
+
+    str = [self punc1_deleteSingleQuotes:str];
+    str = [self punc1_deleteSingleCharacters:str];
+
+    return str;
+}
+
+- (NSString *)punc1_replaceSingleCharacters:(NSString *)str;
+{
+    str = [str stringByReplacingOccurrencesOfString:@"[" withString:@"("];
+    str = [str stringByReplacingOccurrencesOfString:@"]" withString:@")"];
+
+    return str;
+}
+
+// punc1 used to check for isolated characters and not delete them, and then check for them again in punc2 to replace them.
+// I'm going to just replace them first, to save future checks.
+
+/// Replace isolated + and - characters with words.  Isolated means surrounded by space, or beginning/end of string.
+- (NSString *)replaceIsolatedCharacters:(NSString *)str;
+{
+    str = [str stringByReplacingOccurrencesOfString:@" + " withString:@" plus "];
+    str = [str stringByReplacingOccurrencesOfString:@" - " withString:@" minus "];
+    if ([str hasPrefix:@"+ "]) str = [str stringByReplacingCharactersInRange:NSMakeRange(0, 2) withString:@"plus "];
+    if ([str hasPrefix:@"- "]) str = [str stringByReplacingCharactersInRange:NSMakeRange(0, 2) withString:@"minus "];
+    if ([str hasSuffix:@" +"]) str = [str stringByReplacingCharactersInRange:NSMakeRange([str length] - 2, 2) withString:@" plus"];
+    if ([str hasSuffix:@" -"]) str = [str stringByReplacingCharactersInRange:NSMakeRange([str length] - 2, 2) withString:@" minus"];
+    return str;
+}
+
+/// Delete single quotes, except those that have an alpha character before and after.
+- (NSString *)punc1_deleteSingleQuotes:(NSString *)str;
 {
     NSError *error;
 
@@ -351,6 +388,15 @@ NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_SilenceVa
     str = [re_singleQuoteBeforeNonAlpha stringByReplacingMatchesInString:str options:0 withTemplate:@"$1$2"];
     str = [re_singleQuoteAfterNonAlpha  stringByReplacingMatchesInString:str options:0 withTemplate:@"$1$2"];
     str = [re_isolatedSingleQuote       stringByReplacingMatchesInString:str options:0 withTemplate:@"$1$2"];
+
+    return str;
+}
+
+- (NSString *)punc1_deleteSingleCharacters:(NSString *)str;
+{
+    NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"\"`#*\\^_|~{}"];
+
+    str = [str stringByReplacingCharactersInSet:set withString:@""];
 
     return str;
 }

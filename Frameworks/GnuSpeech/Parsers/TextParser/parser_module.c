@@ -689,16 +689,16 @@ void gs_pm_strip_punctuation_pass1(char *buffer, long length)
                             buffer[index] = ')';
                             break;
                         case '-':
-                            if (   !gs_pm_convert_dash  (buffer, &index, length)
-                                && !gs_pm_number_follows(buffer, index, length)
-                                && !gs_pm_is_isolated   (buffer, index, length))
+                            if (   !gs_pm_p1_convert_dash(buffer, &index, length)
+                                && !gs_pm_number_follows (buffer, index, length)
+                                && !gs_pm_p12_is_isolated(buffer, index, length))
                             {
                                 buffer[index] = DELETED;
                             }
                             break;
                         case '+':
-                            if (   !gs_pm_part_of_number(buffer, index, length)
-                                && !gs_pm_is_isolated   (buffer, index, length))
+                            if (   !gs_pm_part_of_number (buffer, index, length)
+                                && !gs_pm_p12_is_isolated(buffer, index, length))
                             {
                                 buffer[index] = DELETED;
                             }
@@ -724,7 +724,7 @@ void gs_pm_strip_punctuation_pass1(char *buffer, long length)
 #endif
                             break;
                         case '.':
-                            gs_pm_delete_ellipsis(buffer, &index, length);
+                            gs_pm_p1_delete_ellipsis(buffer, &index, length);
                             break;
                         case '/':
                         case '$':
@@ -738,7 +738,7 @@ void gs_pm_strip_punctuation_pass1(char *buffer, long length)
                         case '&':
                         case '=':
                         case '@':
-                            if (!gs_pm_is_isolated(buffer, index, length)) {
+                            if (!gs_pm_p12_is_isolated(buffer, index, length)) {
                                 buffer[index] = DELETED;
                             }
                             break;
@@ -772,6 +772,7 @@ void gs_pm_strip_punctuation_pass1(char *buffer, long length)
 ///   PASS:   (111)111-1111    (telephone numbers)
 ///
 /// Letter mode: expand contents to words.
+///   - isolated plus and minus get changed to words.
 /// other modes: unchanged.
 
 void gs_pm_strip_punctuation_pass2(char *buffer, long length, NXStream *stream)
@@ -854,7 +855,7 @@ void gs_pm_strip_punctuation_pass2(char *buffer, long length, NXStream *stream)
                             status = GSTextParserPunctuationState_Word;
                             break;
                         case '+':
-                            if (gs_pm_is_isolated(buffer, index, length))
+                            if (gs_pm_p12_is_isolated(buffer, index, length))
                                 [stream printf:"%s", WORD_PLUS];
                             else
                                 [stream putChar:'+'];
@@ -873,7 +874,7 @@ void gs_pm_strip_punctuation_pass2(char *buffer, long length, NXStream *stream)
                             status = GSTextParserPunctuationState_Word;
                             break;
                         case '-':
-                            if (gs_pm_is_isolated(buffer, index, length))
+                            if (gs_pm_p12_is_isolated(buffer, index, length))
                                 [stream printf:"%s", WORD_MINUS];
                             else
                                 [stream putChar:'-'];
@@ -1024,7 +1025,8 @@ void gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stre
         /*  APPEND COMMA, UNLESS PUNCTUATION FOLLOWS LAST LETTER  */
         if ( (((*i)+1) < length) &&
             (buffer[(*i)+1] == LETTER_MODE_END) &&
-            !gs_pm_word_follows(buffer, (*i), length)) {
+            !gs_pm_word_follows(buffer, (*i), length))
+        {
             [stream printf:" "];
             *status = GSTextParserPunctuationState_Word;
         }
@@ -1097,7 +1099,7 @@ int gs_pm_word_follows(char *buffer, long i, long length)
 /// Convert "--" to ", ", and "---" to ",  "
 /// @return Return 1 if this is done, 0 otherwise.
 
-int gs_pm_convert_dash(char *buffer, long *i, long length)
+int gs_pm_p1_convert_dash(char *buffer, long *i, long length)
 {
     /*  SET POSITION OF INITIAL DASH  */
     long pos1 = *i;
@@ -1121,7 +1123,7 @@ int gs_pm_convert_dash(char *buffer, long *i, long length)
 /// @return Return 1 if character at position i is isolated, i.e. is surrounded by space or mode marker.
 /// @return Return 0 otherwise.
 
-int gs_pm_is_isolated(char *buffer, long i, long len)
+int gs_pm_p12_is_isolated(char *buffer, long i, long len)
 {
     if (   ((i == 0)       || ((i - 1 >= 0)  && (gs_pm_is_mode(buffer[i - 1]) || (buffer[i - 1] == ' '))))
         && ((i == (len-1)) || ((i + 1 < len) && (gs_pm_is_mode(buffer[i + 1]) || (buffer[i + 1] == ' ')))))
@@ -1136,6 +1138,9 @@ int gs_pm_is_isolated(char *buffer, long i, long len)
 
 /// @return Return 1 if character at position i is part of a number (including mixtures with non-numeric characters).
 /// @return Return 0 otherwise.
+
+// So... 5blah_, the _ would be part of a number.
+// It breaks on... space, mode, deleted.  So is deleted really deleted, or more of a replace w/ space?
 
 int gs_pm_part_of_number(char *buffer, long i, long len)
 {
@@ -1164,7 +1169,7 @@ int gs_pm_part_of_number(char *buffer, long i, long len)
 
 /// Delete three dots in a row (disregarding white space).  If four dots, then the last three are deleted.
 
-void gs_pm_delete_ellipsis(char *buffer, long *i, long length)
+void gs_pm_p1_delete_ellipsis(char *buffer, long *i, long length)
 {
     /*  SET POSITION OF FIRST DOT  */
     long pos1 = *i, pos2, pos3;
@@ -1295,8 +1300,7 @@ int gs_pm_is_telephone_number(char *buffer, long i, long length)
             || ( ((i+13) < length)
                 && ( gs_pm_is_punctuation(buffer[i+13])
                     || gs_pm_is_mode(buffer[i+13])
-                    || (buffer[i+13] == ' ')
-                    || (buffer[i+13] == DELETED)
+                    || ((buffer[i+13] == ' ') || (buffer[i+13] == DELETED))
                     )
                 )
             )

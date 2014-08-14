@@ -2,6 +2,7 @@
 
 #import <GnuSpeech/GnuSpeech.h>
 #import "GSTextParser-Private.h"
+#import "NXStream.h"
 
 int main(int argc, const char *argv[])
 {
@@ -18,14 +19,21 @@ int main(int argc, const char *argv[])
         }
 #endif
         {
-            char buffer[1000] = "' one's twos' 1' '2 '3' 'a a' '4' testing [123 ' ] one two three i'll i' it's steves' o'tt'";
+            char buffer[1000] = "foo) plus 5, or foo) + 5";
+
+            NXStream *stream1 = [[NXStream alloc] init];
             gs_pm_strip_punctuation_pass1(buffer, 1000);
-            NSLog(@"output: '%s'", buffer);
+            gs_pm_strip_punctuation_pass2(buffer, 1000, stream1);
+            NSLog(@"output: %s", [stream1 mutableBytes]);
+//            const char *ptr;
+//            parser(buffer, &ptr);
+//            NSLog(@"output: '%s'", ptr);
         }
         {
+            NSLog(@"-------");
             GSTextParser *p1 = [[GSTextParser alloc] init];
-            NSString *str = @"'one two' foo's ' three '";
-            NSString *result = [p1 punc1_singleQuote:str];
+            NSString *str = @"foo + bar";
+            NSString *result = [p1 punc1_deleteSingleCharacters:str];
             NSLog(@"result: '%@'", result);
         }
     }

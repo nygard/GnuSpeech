@@ -33,10 +33,10 @@ void   gs_pm_strip_punctuation_pass1(char *buffer, long length);
 void   gs_pm_strip_punctuation_pass2(char *buffer, long length, NXStream *stream);
 void   gs_pm_expand_letter_mode(char *buffer, long *i, long length, NXStream *stream, GSTextParserPunctuationState *status);
 int    gs_pm_word_follows(char *buffer, long i, long length);
-int    gs_pm_convert_dash(char *buffer, long *i, long length);
-int    gs_pm_is_isolated(char *buffer, long i, long len);
+int    gs_pm_p1_convert_dash(char *buffer, long *i, long length);
+int    gs_pm_p12_is_isolated(char *buffer, long i, long len);
 int    gs_pm_part_of_number(char *buffer, long i, long len);
-void   gs_pm_delete_ellipsis(char *buffer, long *i, long length);
+void   gs_pm_p1_delete_ellipsis(char *buffer, long *i, long length);
 int    gs_pm_expand_abbreviation(char *buffer, long i, long length, NXStream *stream);
 int    gs_pm_is_telephone_number(char *buffer, long i, long length);
 
