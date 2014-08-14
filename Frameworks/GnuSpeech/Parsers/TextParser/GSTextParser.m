@@ -335,6 +335,7 @@ NSString *GSTextParserAttribute_SilenceValue = @"GSTextParserAttribute_SilenceVa
 
 - (NSString *)_stripPunctuationFromString:(NSString *)str;
 {
+    // TODO: (2014-08-14) These are all wrong.  We can't do that across the whole string.  This can only be done for certain modes.
     str = [self punc1_replaceSingleCharacters:str];
 
     // Replace these characters with words, so we don't have to check again later if they are isolated.  We'll know all remaining ones are NOT isolated.
