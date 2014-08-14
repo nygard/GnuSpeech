@@ -89,6 +89,7 @@
 		0157785815410A48008C2ECF /* GnuSpeechServerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AE22D7154109B200AC1015 /* GnuSpeechServerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		015E9CD2154932E200E6974F /* STLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 015E9CD0154932E100E6974F /* STLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		015E9CD3154932E200E6974F /* STLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 015E9CD1154932E200E6974F /* STLogger.m */; };
+		0161297E199C835F00CD2844 /* Punctuation1SingleQuote.m in Sources */ = {isa = PBXBuildFile; fileRef = 0161297D199C835F00CD2844 /* Punctuation1SingleQuote.m */; };
 		0165043D1543B42700D64E98 /* MMDriftGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 0165043B1543B42700D64E98 /* MMDriftGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0165043E1543B42700D64E98 /* MMDriftGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0165043C1543B42700D64E98 /* MMDriftGenerator.m */; };
 		0186C5D719985DB3002AB929 /* GSTextParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 0186C5D519985DB3002AB929 /* GSTextParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -267,6 +268,7 @@
 		0155E4E10B7BF107008D8879 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = /System/Library/Frameworks/AudioUnit.framework; sourceTree = "<absolute>"; };
 		015E9CD0154932E100E6974F /* STLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STLogger.h; sourceTree = "<group>"; };
 		015E9CD1154932E200E6974F /* STLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLogger.m; sourceTree = "<group>"; };
+		0161297D199C835F00CD2844 /* Punctuation1SingleQuote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Punctuation1SingleQuote.m; sourceTree = "<group>"; };
 		0165043B1543B42700D64E98 /* MMDriftGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMDriftGenerator.h; path = MonetModel/MMDriftGenerator.h; sourceTree = "<group>"; };
 		0165043C1543B42700D64E98 /* MMDriftGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMDriftGenerator.m; path = MonetModel/MMDriftGenerator.m; sourceTree = "<group>"; };
 		0186C5D519985DB3002AB929 /* GSTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSTextParser.h; sourceTree = "<group>"; };
@@ -555,6 +557,7 @@
 				01102E26199A8EDA002B4522 /* ScannerTests.m */,
 				0186C61619994213002AB929 /* ConditionInputTests.m */,
 				01102E24199A0012002B4522 /* MarkModesTests.m */,
+				0161297D199C835F00CD2844 /* Punctuation1SingleQuote.m */,
 				0186C5E31999409D002AB929 /* Supporting Files */,
 			);
 			path = GnuSpeechTests;
@@ -977,6 +980,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01102E27199A8EDA002B4522 /* ScannerTests.m in Sources */,
+				0161297E199C835F00CD2844 /* Punctuation1SingleQuote.m in Sources */,
 				0186C61719994213002AB929 /* ConditionInputTests.m in Sources */,
 				01102E25199A0012002B4522 /* MarkModesTests.m in Sources */,
 				0186C5E61999409D002AB929 /* GnuSpeechTests.m in Sources */,

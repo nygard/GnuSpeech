@@ -1,6 +1,7 @@
 @interface GSTextParser ()
 - (NSString *)_conditionInputString:(NSString *)str;
 - (NSAttributedString *)_markModesInString:(NSString *)str error:(NSError **)error;
+- (NSString *)punc1_singleQuote:(NSString *)str;
 @end
 
 extern NSString *GSTextParserErrorDomain;

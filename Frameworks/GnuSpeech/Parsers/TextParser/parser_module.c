@@ -655,6 +655,10 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
 // CHANGE: [ -> (
 // CHANGE: ] -> )
 // DELETE: "`#*\^_|~{}
+// CHANGE: --- -> ",  " (convert_dash)
+// CHANGE: --  -> ", "  (convert_dash)
+// KEEP: <alpha><single quote><alpha>
+//       - discards all the rest.  ^', '$, [:alpha:]'[:^alpha:], [:^alpha:]'[
 
 void gs_pm_strip_punctuation_pass1(char *buffer, long length)
 {
@@ -1119,8 +1123,8 @@ int gs_pm_convert_dash(char *buffer, long *i, long length)
 
 int gs_pm_is_isolated(char *buffer, long i, long len)
 {
-    if (   ((i == 0)       || (((i-1) >= 0)  && (gs_pm_is_mode(buffer[i-1]) || (buffer[i-1] == ' '))))
-        && ((i == (len-1)) || (((i+1) < len) && (gs_pm_is_mode(buffer[i+1]) || (buffer[i+1] == ' ')))))
+    if (   ((i == 0)       || ((i - 1 >= 0)  && (gs_pm_is_mode(buffer[i - 1]) || (buffer[i - 1] == ' '))))
+        && ((i == (len-1)) || ((i + 1 < len) && (gs_pm_is_mode(buffer[i + 1]) || (buffer[i + 1] == ' ')))))
     {
         return 1;
     }
