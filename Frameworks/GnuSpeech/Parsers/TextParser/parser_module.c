@@ -659,6 +659,7 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
 // CHANGE: --  -> ", "  (convert_dash)
 // KEEP: <alpha><single quote><alpha>
 //       - discards all the rest.  ^', '$, [:alpha:]'[:^alpha:], [:^alpha:]'[
+// /, $, % are only allowed as parts of numbers.  $1.99, 39%, 5/8
 
 void gs_pm_strip_punctuation_pass1(char *buffer, long length)
 {
