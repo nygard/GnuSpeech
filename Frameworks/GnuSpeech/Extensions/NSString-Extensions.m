@@ -133,7 +133,12 @@
     return [NSString stringWithString:str];
 }
 
-- (NSString *)stringByReplacingCharactersInSet:(NSCharacterSet *)set withString:(NSString *)str;
+- (NSString *)stringByDeletingCharactersInSet:(NSCharacterSet *)set;
+{
+    return [[self componentsSeparatedByCharactersInSet:set] componentsJoinedByString:@""];
+}
+
+- (NSString *)stringByReplacingCharactersInSet:(NSCharacterSet *)set withString:(NSString *)replacementString;
 {
     NSScanner *scanner = [[NSScanner alloc] initWithString:self];
     [scanner setCharactersToBeSkipped:[NSCharacterSet characterSetWithCharactersInString:@""]];
@@ -143,7 +148,10 @@
         if ([scanner scanUpToCharactersFromSet:set intoString:&str]) [result appendString:str];
 
         if ([scanner scanCharactersFromSet:set intoString:&str]) {
-            [result appendString:[NSString spacesOfLength:[str length]]];
+            if ([replacementString length] > 0) {
+                for (NSUInteger index = 0; index < [str length]; index++)
+                    [result appendString:replacementString];
+            }
         }
     }
     return [result copy];
