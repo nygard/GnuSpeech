@@ -660,6 +660,8 @@ int gs_pm_mark_modes(char *input, char *output, long length, long *output_length
 // KEEP: <alpha><single quote><alpha>
 //       - discards all the rest.  ^', '$, [:alpha:]'[:^alpha:], [:^alpha:]'[
 // /, $, % are only allowed as parts of numbers.  $1.99, 39%, 5/8
+// - but I think it is a little too lenient.  $$1.99, 1.99$, 3%9, 5/, /8, 5aaa/, /aaa8 are probably all passed.
+// KEEP: isolated < > & = @
 
 void gs_pm_strip_punctuation_pass1(char *buffer, long length)
 {
@@ -788,13 +790,13 @@ void gs_pm_strip_punctuation_pass2(char *buffer, long length, NXStream *stream)
             case EMPHASIS_MODE_BEGIN: mode = EMPHASIS_MODE; [stream putChar:buffer[index]]; break;
             case TAGGING_MODE_BEGIN:  mode = TAGGING_MODE;  [stream putChar:buffer[index]]; break;
             case SILENCE_MODE_BEGIN:  mode = SILENCE_MODE;  [stream putChar:buffer[index]]; break;
-            case LETTER_MODE_BEGIN:   mode = LETTER_MODE;   /*  expand below  */      ; break;
+            case LETTER_MODE_BEGIN:   mode = LETTER_MODE;   /*  expand below  */          ; break;
 
             case RAW_MODE_END:
             case EMPHASIS_MODE_END:
             case TAGGING_MODE_END:
             case SILENCE_MODE_END:    mode = NORMAL_MODE;   [stream putChar:buffer[index]]; break;
-            case LETTER_MODE_END:     mode = NORMAL_MODE;   /*  expand below  */      ; break;
+            case LETTER_MODE_END:     mode = NORMAL_MODE;   /*  expand below  */          ; break;
 
             case DELETED:
                 /*  CONVERT ALL DELETED CHARACTERS TO BLANKS  */
@@ -1142,6 +1144,15 @@ int gs_pm_p12_is_isolated(char *buffer, long i, long len)
 
 // So... 5blah_, the _ would be part of a number.
 // It breaks on... space, mode, deleted.  So is deleted really deleted, or more of a replace w/ space?
+
+// [0-9][^ ]* before or [^ ]*[0-9] after.  So those regexes would need to be anchored.
+// Some characters, like _, get deleted unconditionally in punc1.  But others are conditional on functions like this
+// one.  Sicne they all happen within the same loop, unconditionally deleted characters on the left are treated
+// differently than uncondtionally deleted characters on the right.
+//
+// For example, when checking for the +
+//   - in " 9_+ ", the _ is deleted first, which breaks the connection to the 9.  The result is " 9   ".
+//   - in " +_9 ", the + is checked before the _ is deleted, and therefore remains connected.  The result is " + 9 ".
 
 int gs_pm_part_of_number(char *buffer, long i, long len)
 {

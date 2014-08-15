@@ -3,6 +3,8 @@
 #import <GnuSpeech/GnuSpeech.h>
 #import "GSTextParser-Private.h"
 #import "NXStream.h"
+#import "GSTextGroup.h"
+#import "GSTextRun.h"
 
 int main(int argc, const char *argv[])
 {
@@ -19,22 +21,28 @@ int main(int argc, const char *argv[])
         }
 #endif
         {
-            char buffer[1000] = "foo) plus 5, or foo) + 5";
+//            char buffer[1000] = "foo) plus 5, or foo) + 5";
+//            char buffer[1000] = "blah 1 2+ +3 4+5 6 + 7 or ++ and +++ so a+ +b c5+ +6d 7e+ +f8 +_9 9_+";
+            char buffer[1000] = " $a $a0 $1 $$2 $$3 ";
 
             NXStream *stream1 = [[NXStream alloc] init];
             gs_pm_strip_punctuation_pass1(buffer, 1000);
             gs_pm_strip_punctuation_pass2(buffer, 1000, stream1);
-            NSLog(@"output: %s", [stream1 mutableBytes]);
+            NSLog(@"output: '%s'", [stream1 mutableBytes]);
 //            const char *ptr;
 //            parser(buffer, &ptr);
 //            NSLog(@"output: '%s'", ptr);
         }
         {
             NSLog(@"-------");
-            GSTextParser *p1 = [[GSTextParser alloc] init];
-            NSString *str = @"foo + bar";
-            NSString *result = [p1 punc1_deleteSingleCharacters:str];
-            NSLog(@"result: '%@'", result);
+            GSTextRun *run1 = [[GSTextRun alloc] initWithMode:GSTextParserMode_Normal];
+//            NSString *str = @"blah 1 2+ +3 4+5 6 + 7 or ++ and +++ so a+ +b c5+ +6d 7e+ +f8 +_9 9_+";
+//            NSString *str = @"blah 1 2+ +3 4+5 6 + 7 or ++ and +++ so a+ +b c5+ +6d 7e+ +f8 +_9 9_+";
+            NSString *str = @"+ a+ +a   a+   +a   +";
+            [run1.string appendString:str];
+            [run1 stripPunctuation];
+//            [run1 _punc1_deleteSingleCharacters];
+            NSLog(@"result: '%@'", run1.string);
         }
     }
 

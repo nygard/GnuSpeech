@@ -30,6 +30,7 @@
 		012D53BA0B7FFB34001B50FC /* 2.0eMainDictionary.dict in Resources */ = {isa = PBXBuildFile; fileRef = 012D53B70B7FFB34001B50FC /* 2.0eMainDictionary.dict */; };
 		012D53BB0B7FFB34001B50FC /* SpecialAcronyms.plist in Resources */ = {isa = PBXBuildFile; fileRef = 012D53B80B7FFB34001B50FC /* SpecialAcronyms.plist */; };
 		012D53BC0B7FFB34001B50FC /* TTSSuffixList.txt in Resources */ = {isa = PBXBuildFile; fileRef = 012D53B90B7FFB34001B50FC /* TTSSuffixList.txt */; };
+		01410990199DC785003AD5BD /* PunctuationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0141098F199DC785003AD5BD /* PunctuationTests.m */; };
 		0155E38E0B7BE80D008D8879 /* NSArray-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3800B7BE80D008D8879 /* NSArray-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E38F0B7BE80D008D8879 /* NSArray-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3810B7BE80D008D8879 /* NSArray-Extensions.m */; };
 		0155E3900B7BE80D008D8879 /* NSCharacterSet-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3820B7BE80D008D8879 /* NSCharacterSet-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -213,6 +214,7 @@
 		012D53B70B7FFB34001B50FC /* 2.0eMainDictionary.dict */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = 2.0eMainDictionary.dict; path = TextProcessing/2.0eMainDictionary.dict; sourceTree = "<group>"; };
 		012D53B80B7FFB34001B50FC /* SpecialAcronyms.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = SpecialAcronyms.plist; path = TextProcessing/SpecialAcronyms.plist; sourceTree = "<group>"; };
 		012D53B90B7FFB34001B50FC /* TTSSuffixList.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = TTSSuffixList.txt; path = TextProcessing/TTSSuffixList.txt; sourceTree = "<group>"; };
+		0141098F199DC785003AD5BD /* PunctuationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PunctuationTests.m; sourceTree = "<group>"; };
 		0155E3800B7BE80D008D8879 /* NSArray-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSArray-Extensions.h"; path = "Extensions/NSArray-Extensions.h"; sourceTree = "<group>"; };
 		0155E3810B7BE80D008D8879 /* NSArray-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSArray-Extensions.m"; path = "Extensions/NSArray-Extensions.m"; sourceTree = "<group>"; };
 		0155E3820B7BE80D008D8879 /* NSCharacterSet-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSCharacterSet-Extensions.h"; path = "Extensions/NSCharacterSet-Extensions.h"; sourceTree = "<group>"; };
@@ -575,6 +577,7 @@
 				0186C61619994213002AB929 /* ConditionInputTests.m */,
 				01102E24199A0012002B4522 /* MarkModesTests.m */,
 				0161297D199C835F00CD2844 /* Punctuation1SingleQuote.m */,
+				0141098F199DC785003AD5BD /* PunctuationTests.m */,
 				0186C5E31999409D002AB929 /* Supporting Files */,
 			);
 			path = GnuSpeechTests;
@@ -1003,6 +1006,7 @@
 				0186C61719994213002AB929 /* ConditionInputTests.m in Sources */,
 				01102E25199A0012002B4522 /* MarkModesTests.m in Sources */,
 				0186C5E61999409D002AB929 /* GnuSpeechTests.m in Sources */,
+				01410990199DC785003AD5BD /* PunctuationTests.m in Sources */,
 				0186C64219994BED002AB929 /* RegularExpressionTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
