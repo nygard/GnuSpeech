@@ -168,7 +168,7 @@
 
 - (NSUInteger)replaceOccurrencesOfString:(NSString *)target withString:(NSString *)replacement options:(NSStringCompareOptions)options;
 {
-    return [self replaceOccurrencesOfString:target withString:replacement options:options range:NSMakeRange(0, [target length])];
+    return [self replaceOccurrencesOfString:target withString:replacement options:options range:NSMakeRange(0, [self length])];
 }
 
 - (void)deleteCharactersInSet:(NSCharacterSet *)set;
