@@ -57,19 +57,40 @@
 // Call _AFTER_ replacing isolated plus/minus.
 - (void)_punc1_deleteNonNumberPlusAndMinus;
 {
-    NSError *error;
+    [self _ifNotAdjacentToDigitDeleteString:@"+"];
+    [self _ifNotAdjacentToDigitDeleteString:@"-"];
+}
 
-    NSRegularExpression *re_1   = [[NSRegularExpression alloc] initWithPattern:@"^\\+([^0-9])"         options:0 error:&error];
-    NSRegularExpression *re_2   = [[NSRegularExpression alloc] initWithPattern:@"([^0-9])\\+$"         options:0 error:&error];
-    NSRegularExpression *re_3   = [[NSRegularExpression alloc] initWithPattern:@"([^0-9])\\+([^0-9])" options:0 error:&error];
-    if (re_1 == nil) { NSLog(@"re1: error: %@", error); }
-    if (re_2 == nil) { NSLog(@"re2: error: %@", error); }
-    if (re_3 == nil) { NSLog(@"re3: error: %@", error); }
+- (void)_ifNotAdjacentToDigitDeleteString:(NSString *)str;
+{
+    NSCharacterSet *digitCharacterSet = [NSCharacterSet decimalDigitCharacterSet];
 
-    // Remove the single quote in all matching cases.
-    [re_1 replaceMatchesInString:_string options:0 withTemplate:@"$1"];
-    [re_2 replaceMatchesInString:_string options:0 withTemplate:@"$1"];
-    [re_3 replaceMatchesInString:_string options:0 withTemplate:@"$1$2"]; // Interesting, " a+ +a ", 2nd doesn't get replaced because it matched before, so search continues after.
+    NSRange remainingRange = NSMakeRange(0, [_string length]);
+    NSRange foundRange;
+
+    foundRange = [_string rangeOfString:str options:0 range:remainingRange];
+    while (foundRange.location != NSNotFound) {
+        NSInteger lastCharacterIndex = NSMaxRange(remainingRange) - 1;
+        BOOL previousCharacterIsDigit = NO;
+        BOOL nextCharacterIsDigit = NO;
+
+        if (foundRange.location > 0) {
+            previousCharacterIsDigit = [digitCharacterSet characterIsMember:[_string characterAtIndex:foundRange.location - 1]];
+        }
+        if (NSMaxRange(foundRange) < lastCharacterIndex) {
+            nextCharacterIsDigit = [digitCharacterSet characterIsMember:[_string characterAtIndex:NSMaxRange(foundRange) + 1]];
+        }
+
+        if (!previousCharacterIsDigit && !nextCharacterIsDigit) {
+            [_string replaceCharactersInRange:foundRange withString:@""];
+            remainingRange.location = foundRange.location;
+            remainingRange.length = [_string length] - remainingRange.location;
+        } else {
+            remainingRange.location = NSMaxRange(foundRange);
+            remainingRange.length = [_string length] - remainingRange.location;
+        }
+        foundRange = [_string rangeOfString:str options:0 range:remainingRange];
+    }
 }
 
 - (void)_punc1_replaceSingleCharacters;
