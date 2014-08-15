@@ -59,6 +59,15 @@
 {
     [self _ifNotAdjacentToDigitDeleteString:@"+"];
     [self _ifNotAdjacentToDigitDeleteString:@"-"];
+
+    // The original code was more permissive.
+    // TODO: (2014-08-14) I think this just needs to accept:
+    // - 1/2 (for /)
+    // - $1
+    // - 100%
+    [self _ifNotAdjacentToDigitDeleteString:@"/"];
+    [self _ifNotAdjacentToDigitDeleteString:@"$"];
+    [self _ifNotAdjacentToDigitDeleteString:@"%"];
 }
 
 - (void)_ifNotAdjacentToDigitDeleteString:(NSString *)str;
