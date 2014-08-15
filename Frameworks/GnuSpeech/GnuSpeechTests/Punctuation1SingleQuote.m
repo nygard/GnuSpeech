@@ -32,7 +32,7 @@
 - (void)testAtStart;
 {
     NSString *str = @"'one";
-    _textRun.string = [str mutableCopy];
+    [_textRun.string appendString:str];
     [_textRun _punc1_deleteSingleQuotes];
     NSString *result = _textRun.string;
     XCTAssertEqualObjects(result, @"one");
@@ -41,7 +41,7 @@
 - (void)testAtEnd;
 {
     NSString *str = @"two'";
-    _textRun.string = [str mutableCopy];
+    [_textRun.string appendString:str];
     [_textRun _punc1_deleteSingleQuotes];
     NSString *result = _textRun.string;
     XCTAssertEqualObjects(result, @"two");
@@ -50,7 +50,7 @@
 - (void)testIsolated;
 {
     NSString *str = @"three ' four";
-    _textRun.string = [str mutableCopy];
+    [_textRun.string appendString:str];
     [_textRun _punc1_deleteSingleQuotes];
     NSString *result = _textRun.string;
     XCTAssertEqualObjects(result, @"three  four");
@@ -59,7 +59,7 @@
 - (void)testBeforeNonAlpha;
 {
     NSString *str = @"five' ";
-    _textRun.string = [str mutableCopy];
+    [_textRun.string appendString:str];
     [_textRun _punc1_deleteSingleQuotes];
     NSString *result = _textRun.string;
     XCTAssertEqualObjects(result, @"five ");
@@ -68,7 +68,7 @@
 - (void)testAfterNonAlpha;
 {
     NSString *str = @" 'six";
-    _textRun.string = [str mutableCopy];
+    [_textRun.string appendString:str];
     [_textRun _punc1_deleteSingleQuotes];
     NSString *result = _textRun.string;
     XCTAssertEqualObjects(result, @" six");
@@ -77,7 +77,7 @@
 - (void)testBetweenAlpha;
 {
     NSString *str = @"her's";
-    _textRun.string = [str mutableCopy];
+    [_textRun.string appendString:str];
     [_textRun _punc1_deleteSingleQuotes];
     NSString *result = _textRun.string;
     XCTAssertEqualObjects(result, @"her's");
@@ -88,7 +88,7 @@
 - (void)testDeleteSingleCharacter;
 {
     NSString *str = @"1 \" 2 ` 3 # 4 * 5 \\ 6 ^ 7 _ 8 | 9 ~ 10 { 11 } 12";
-    _textRun.string = [str mutableCopy];
+    [_textRun.string appendString:str];
     [_textRun _punc1_deleteSingleCharacters];
     NSString *result = _textRun.string;
     NSString *expected = @"1  2  3  4  5  6  7  8  9  10  11  12";
