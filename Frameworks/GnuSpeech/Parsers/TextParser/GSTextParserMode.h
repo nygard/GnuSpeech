@@ -1,4 +1,3 @@
-#import <Foundation/Foundation.h>
 
 typedef enum : NSUInteger {
     GSTextParserMode_Normal    = 0,
@@ -10,11 +9,4 @@ typedef enum : NSUInteger {
     GSTextParserMode_Undefined = 6,
 } GSTextParserMode;
 
-@interface GSTextParserModeStack : NSObject
-
-@property (readonly) GSTextParserMode currentMode;
-
-- (void)pushMode:(GSTextParserMode)mode;
-- (BOOL)popMode:(GSTextParserMode)mode;
-
-@end
+NSString *GSTextParserModeDescription(GSTextParserMode mode);

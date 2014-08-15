@@ -3,7 +3,9 @@
 
 #import "GSTextParser.h"
 #import "GSTextParser-Private.h"
-#import "GSTextParserModeStack.h"
+#import "GSTextGroupBuilder.h"
+#import "GSTextGroup.h"
+#import "GSTextRun.h"
 
 @interface MarkModesTests : XCTestCase
 @end
@@ -32,47 +34,41 @@
 - (void)testNormal;
 {
     NSString *inputString = @"This text is all normal";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 1);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length = [outputString length]);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode], @(GSTextParserMode_Normal));
+    GSTextRun *textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Normal);
+    XCTAssert([textRun.string isEqualToString:inputString]);
 }
 
 - (void)testBeginModeEndsPrevious;
 {
     NSString *inputString = @"one %eb two %tb 123 blah";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 4);
 
-    NSRange range = NSMakeRange(0, 0);
-    NSDictionary *attrs;
+    GSTextRun *textRun;
 
-    attrs = [outputString attributesAtIndex:NSMaxRange(range) longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 4);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Normal));
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Normal);
+    XCTAssert([textRun.string isEqualToString:@"one "]);
 
-    attrs = [outputString attributesAtIndex:NSMaxRange(range) longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 4);
-    XCTAssert(range.length == 5);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Emphasis));
+    textRun = textGroup.textRuns[1];
+    XCTAssert(textRun.mode == GSTextParserMode_Emphasis);
+    XCTAssert([textRun.string isEqualToString:@" two "]);
 
-    attrs = [outputString attributesAtIndex:NSMaxRange(range) longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 9);
-    XCTAssert(range.length == 1);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Tagging));
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_TagValue], @(123));
+    textRun = textGroup.textRuns[2];
+    XCTAssert(textRun.mode == GSTextParserMode_Tagging);
+    XCTAssert([textRun.string isEqualToString:@"123"]);
 
-    attrs = [outputString attributesAtIndex:NSMaxRange(range) longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 10);
-    XCTAssert(range.length == 4);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Emphasis));
+    textRun = textGroup.textRuns[3];
+    XCTAssert(textRun.mode == GSTextParserMode_Emphasis);
+    XCTAssert([textRun.string isEqualToString:@"blah"]);
 }
 
 #pragma mark - Tagging
@@ -80,125 +76,145 @@
 - (void)testTagging;
 {
     NSString *inputString = @"%tb 1234 %te one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 2);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length = 1);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Tagging));
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_TagValue], @(1234));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Tagging);
+    XCTAssert([textRun.string isEqualToString:@"1234"]);
+
+    textRun = textGroup.textRuns[1];
+    XCTAssert(textRun.mode == GSTextParserMode_Normal);
+    XCTAssert([textRun.string isEqualToString:@" one"]);
 }
 
 - (void)testTaggingImplicitEnd;
 {
     NSString *inputString = @"%tb 1234 two";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 2);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length = 1);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Tagging));
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_TagValue], @(1234));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Tagging);
+    XCTAssert([textRun.string isEqualToString:@"1234"]);
+
+    textRun = textGroup.textRuns[1];
+    XCTAssert(textRun.mode == GSTextParserMode_Normal);
+    XCTAssert([textRun.string isEqualToString:@"two"]);
 }
 
 - (void)testDoubleTag;
 {
     NSString *inputString = @"%tb 1234 %tb 5678";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 2);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 1);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Tagging));
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_TagValue], @(1234));
+    GSTextRun *textRun;
 
-    attrs = [outputString attributesAtIndex:1 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 1);
-    XCTAssert(range.length == 1);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Tagging));
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_TagValue], @(5678));
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Tagging);
+    XCTAssert([textRun.string isEqualToString:@"1234"]);
+
+    textRun = textGroup.textRuns[1];
+    XCTAssert(textRun.mode == GSTextParserMode_Tagging);
+    XCTAssert([textRun.string isEqualToString:@"5678"]);
 }
 
 - (void)testDoubleIdenticalTag;
 {
     NSString *inputString = @"%tb 1234 %tb 1234";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 2);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 2);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Tagging));
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_TagValue], @(1234));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Tagging);
+    XCTAssert([textRun.string isEqualToString:@"1234"]);
+
+    textRun = textGroup.textRuns[1];
+    XCTAssert(textRun.mode == GSTextParserMode_Tagging);
+    XCTAssert([textRun.string isEqualToString:@"1234"]);
 }
 
 - (void)testNegativeTag;
 {
     NSString *inputString = @"%tb -23 one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 2);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 1);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Tagging));
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_TagValue], @(-23));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Tagging);
+    XCTAssert([textRun.string isEqualToString:@"-23"]);
+
+    textRun = textGroup.textRuns[1];
+    XCTAssert(textRun.mode == GSTextParserMode_Normal);
+    XCTAssert([textRun.string isEqualToString:@"one"]);
 }
 
 - (void)testPositiveTag;
 {
     NSString *inputString = @"%tb +45 one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 2);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 1);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Tagging));
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_TagValue], @(45));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Tagging);
+    XCTAssert([textRun.string isEqualToString:@"45"]);
+
+    textRun = textGroup.textRuns[1];
+    XCTAssert(textRun.mode == GSTextParserMode_Normal);
+    XCTAssert([textRun.string isEqualToString:@"one"]);
 }
 
 - (void)testEmptyTag;
 {
     NSString *inputString = @"%tb %te one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 1);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 4);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Normal));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Normal);
+    XCTAssert([textRun.string isEqualToString:@" one"]);
 }
 
 - (void)testEmptyTagImplicitEnd;
 {
     NSString *inputString = @"%tb one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 1);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 3);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Normal));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Normal);
+    XCTAssert([textRun.string isEqualToString:@"one"]);
 }
 
 #pragma mark - Silence
@@ -206,140 +222,164 @@
 - (void)testSilence;
 {
     NSString *inputString = @"%sb 1234 %se one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 2);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length = 1);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],         @(GSTextParserMode_Silence));
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_SilenceValue], @(1234));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Silence);
+    XCTAssert([textRun.string isEqualToString:@"1234"]);
+
+    textRun = textGroup.textRuns[1];
+    XCTAssert(textRun.mode == GSTextParserMode_Normal);
+    XCTAssert([textRun.string isEqualToString:@" one"]);
 }
 
 - (void)testSilenceImplicitEnd;
 {
     NSString *inputString = @"%sb 1234 two";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 2);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length = 1);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],         @(GSTextParserMode_Silence));
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_SilenceValue], @(1234));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Silence);
+    XCTAssert([textRun.string isEqualToString:@"1234"]);
+
+    textRun = textGroup.textRuns[1];
+    XCTAssert(textRun.mode == GSTextParserMode_Normal);
+    XCTAssert([textRun.string isEqualToString:@"two"]);
 }
 
 - (void)testDoubleSilence;
 {
     NSString *inputString = @"%sb 1234 %sb 5678";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 2);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 1);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],         @(GSTextParserMode_Silence));
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_SilenceValue], @(1234));
+    GSTextRun *textRun;
 
-    attrs = [outputString attributesAtIndex:1 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 1);
-    XCTAssert(range.length == 1);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],         @(GSTextParserMode_Silence));
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_SilenceValue], @(5678));
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Silence);
+    XCTAssert([textRun.string isEqualToString:@"1234"]);
+
+    textRun = textGroup.textRuns[1];
+    XCTAssert(textRun.mode == GSTextParserMode_Silence);
+    XCTAssert([textRun.string isEqualToString:@"5678"]);
 }
 
 - (void)testDoubleIdenticalSilence;
 {
     NSString *inputString = @"%sb 1234 %sb 1234";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 2);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 2);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],         @(GSTextParserMode_Silence));
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_SilenceValue], @(1234));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Silence);
+    XCTAssert([textRun.string isEqualToString:@"1234"]);
+
+    textRun = textGroup.textRuns[1];
+    XCTAssert(textRun.mode == GSTextParserMode_Silence);
+    XCTAssert([textRun.string isEqualToString:@"1234"]);
 }
 
 - (void)testNegativeSilence;
 {
     NSString *inputString = @"%sb -23 one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 2);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 1);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],         @(GSTextParserMode_Silence));
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_SilenceValue], @(-23));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Silence);
+    XCTAssert([textRun.string isEqualToString:@"-23"]);
+
+    textRun = textGroup.textRuns[1];
+    XCTAssert(textRun.mode == GSTextParserMode_Normal);
+    XCTAssert([textRun.string isEqualToString:@"one"]);
 }
 
 - (void)testPositiveSilence;
 {
     NSString *inputString = @"%sb +45 one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 2);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 1);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],         @(GSTextParserMode_Silence));
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_SilenceValue], @(45));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Silence);
+    XCTAssert([textRun.string isEqualToString:@"45"]);
+
+    textRun = textGroup.textRuns[1];
+    XCTAssert(textRun.mode == GSTextParserMode_Normal);
+    XCTAssert([textRun.string isEqualToString:@"one"]);
 }
 
 - (void)testFractionalSilence;
 {
     NSString *inputString = @"%sb 0.5 one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 2);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 1);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],         @(GSTextParserMode_Silence));
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_SilenceValue], @(0.5));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Silence);
+    XCTAssert([textRun.string isEqualToString:@"0.5"]);
+
+    textRun = textGroup.textRuns[1];
+    XCTAssert(textRun.mode == GSTextParserMode_Normal);
+    XCTAssert([textRun.string isEqualToString:@"one"]);
 }
 
 - (void)testEmptySilence;
 {
     NSString *inputString = @"%sb %se one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 1);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 4);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Normal));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Normal);
+    XCTAssert([textRun.string isEqualToString:@" one"]);
 }
 
 - (void)testEmptySilenceImplicitEnd;
 {
     NSString *inputString = @"%sb one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 1);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 3);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Normal));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Normal);
+    XCTAssert([textRun.string isEqualToString:@"one"]);
 }
 
 #pragma mark - Raw
@@ -347,43 +387,50 @@
 - (void)testRaw;
 {
     NSString *inputString = @"%rb one %re two";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 2);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 5);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Raw));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Raw);
+    XCTAssert([textRun.string isEqualToString:@" one "]);
+
+    textRun = textGroup.textRuns[1];
+    XCTAssert(textRun.mode == GSTextParserMode_Normal);
+    XCTAssert([textRun.string isEqualToString:@" two"]);
 }
 
 - (void)testRawIgnoresOtherBegins;
 {
     NSString *inputString = @"%rb one %eb two";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 1);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 12);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Raw));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Raw);
+    XCTAssert([textRun.string isEqualToString:@" one %eb two"]);
 }
 
 - (void)testRawIgnoresOtherEnds;
 {
     NSString *inputString = @"%rb one %ee two";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString != nil);
+    XCTAssert(textGroup != nil);
+    XCTAssert([textGroup.textRuns count] == 1);
 
-    NSRange range;
-    NSDictionary *attrs = [outputString attributesAtIndex:0 longestEffectiveRange:&range inRange:NSMakeRange(0, [outputString length])];
-    XCTAssert(range.location == 0);
-    XCTAssert(range.length == 12);
-    XCTAssertEqualObjects(attrs[GSTextParserAttribute_Mode],     @(GSTextParserMode_Raw));
+    GSTextRun *textRun;
+
+    textRun = textGroup.textRuns[0];
+    XCTAssert(textRun.mode == GSTextParserMode_Raw);
+    XCTAssert([textRun.string isEqualToString:@" one %ee two"]);
 }
 
 #pragma mark - Failures
@@ -392,9 +439,9 @@
 {
     NSString *inputString = @"%tb %se one";
     NSError *error;
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:&error];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:&error];
 
-    XCTAssert(outputString == nil);
+    XCTAssert(textGroup == nil);
     XCTAssert(error != nil);
     XCTAssertEqualObjects(error.domain, GSTextParserErrorDomain);
     XCTAssert(error.code == GSTextParserError_UnbalancedPop);
@@ -403,9 +450,9 @@
 - (void)testIgnoreError;
 {
     NSString *inputString = @"%tb %se one";
-    NSAttributedString *outputString = [_parser _markModesInString:inputString error:NULL];
+    GSTextGroup *textGroup = [_parser _markModesInString:inputString error:NULL];
 
-    XCTAssert(outputString == nil);
+    XCTAssert(textGroup == nil);
 }
 
 @end

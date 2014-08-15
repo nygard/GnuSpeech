@@ -12,8 +12,8 @@
 		010DE75A15463851005E337E /* MMFRuleSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE75915463851005E337E /* MMFRuleSymbols.m */; };
 		01102E25199A0012002B4522 /* MarkModesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 01102E24199A0012002B4522 /* MarkModesTests.m */; };
 		01102E27199A8EDA002B4522 /* ScannerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 01102E26199A8EDA002B4522 /* ScannerTests.m */; };
-		01102E2A199A9E95002B4522 /* GSTextParserModeStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 01102E28199A9E95002B4522 /* GSTextParserModeStack.h */; };
-		01102E2B199A9E95002B4522 /* GSTextParserModeStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 01102E29199A9E95002B4522 /* GSTextParserModeStack.m */; };
+		01102E2A199A9E95002B4522 /* GSTextGroupBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 01102E28199A9E95002B4522 /* GSTextGroupBuilder.h */; };
+		01102E2B199A9E95002B4522 /* GSTextGroupBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 01102E29199A9E95002B4522 /* GSTextGroupBuilder.m */; };
 		0127C35419998C7600BF1830 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0127C35319998C7600BF1830 /* main.m */; };
 		0127C35819998C8D00BF1830 /* GnuSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* GnuSpeech.framework */; };
 		012D53AC0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -90,6 +90,11 @@
 		015E9CD2154932E200E6974F /* STLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 015E9CD0154932E100E6974F /* STLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		015E9CD3154932E200E6974F /* STLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 015E9CD1154932E200E6974F /* STLogger.m */; };
 		0161297E199C835F00CD2844 /* Punctuation1SingleQuote.m in Sources */ = {isa = PBXBuildFile; fileRef = 0161297D199C835F00CD2844 /* Punctuation1SingleQuote.m */; };
+		01612981199D735900CD2844 /* GSTextRun.h in Headers */ = {isa = PBXBuildFile; fileRef = 0161297F199D735900CD2844 /* GSTextRun.h */; };
+		01612982199D735900CD2844 /* GSTextRun.m in Sources */ = {isa = PBXBuildFile; fileRef = 01612980199D735900CD2844 /* GSTextRun.m */; };
+		01612985199D754700CD2844 /* GSTextParserMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 01612984199D754700CD2844 /* GSTextParserMode.m */; };
+		01612988199D75C000CD2844 /* GSTextGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 01612986199D75C000CD2844 /* GSTextGroup.h */; };
+		01612989199D75C000CD2844 /* GSTextGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 01612987199D75C000CD2844 /* GSTextGroup.m */; };
 		0165043D1543B42700D64E98 /* MMDriftGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 0165043B1543B42700D64E98 /* MMDriftGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0165043E1543B42700D64E98 /* MMDriftGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0165043C1543B42700D64E98 /* MMDriftGenerator.m */; };
 		0186C5D719985DB3002AB929 /* GSTextParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 0186C5D519985DB3002AB929 /* GSTextParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -190,8 +195,8 @@
 		010DE75915463851005E337E /* MMFRuleSymbols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFRuleSymbols.m; sourceTree = "<group>"; };
 		01102E24199A0012002B4522 /* MarkModesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkModesTests.m; sourceTree = "<group>"; };
 		01102E26199A8EDA002B4522 /* ScannerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScannerTests.m; sourceTree = "<group>"; };
-		01102E28199A9E95002B4522 /* GSTextParserModeStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSTextParserModeStack.h; sourceTree = "<group>"; };
-		01102E29199A9E95002B4522 /* GSTextParserModeStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSTextParserModeStack.m; sourceTree = "<group>"; };
+		01102E28199A9E95002B4522 /* GSTextGroupBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSTextGroupBuilder.h; sourceTree = "<group>"; };
+		01102E29199A9E95002B4522 /* GSTextGroupBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSTextGroupBuilder.m; sourceTree = "<group>"; };
 		0127C35119998C7600BF1830 /* FunctionTester */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FunctionTester; sourceTree = BUILT_PRODUCTS_DIR; };
 		0127C35319998C7600BF1830 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSDBMPronunciationDictionary.h; path = TextProcessing/GSDBMPronunciationDictionary.h; sourceTree = "<group>"; };
@@ -269,6 +274,12 @@
 		015E9CD0154932E100E6974F /* STLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STLogger.h; sourceTree = "<group>"; };
 		015E9CD1154932E200E6974F /* STLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLogger.m; sourceTree = "<group>"; };
 		0161297D199C835F00CD2844 /* Punctuation1SingleQuote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Punctuation1SingleQuote.m; sourceTree = "<group>"; };
+		0161297F199D735900CD2844 /* GSTextRun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSTextRun.h; sourceTree = "<group>"; };
+		01612980199D735900CD2844 /* GSTextRun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSTextRun.m; sourceTree = "<group>"; };
+		01612983199D73A600CD2844 /* GSTextParserMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GSTextParserMode.h; sourceTree = "<group>"; };
+		01612984199D754700CD2844 /* GSTextParserMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSTextParserMode.m; sourceTree = "<group>"; };
+		01612986199D75C000CD2844 /* GSTextGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSTextGroup.h; sourceTree = "<group>"; };
+		01612987199D75C000CD2844 /* GSTextGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSTextGroup.m; sourceTree = "<group>"; };
 		0165043B1543B42700D64E98 /* MMDriftGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMDriftGenerator.h; path = MonetModel/MMDriftGenerator.h; sourceTree = "<group>"; };
 		0165043C1543B42700D64E98 /* MMDriftGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMDriftGenerator.m; path = MonetModel/MMDriftGenerator.m; sourceTree = "<group>"; };
 		0186C5D519985DB3002AB929 /* GSTextParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSTextParser.h; sourceTree = "<group>"; };
@@ -539,11 +550,17 @@
 		0186C5D419985D93002AB929 /* Text Parser 2.0 */ = {
 			isa = PBXGroup;
 			children = (
-				01102E28199A9E95002B4522 /* GSTextParserModeStack.h */,
-				01102E29199A9E95002B4522 /* GSTextParserModeStack.m */,
+				01102E28199A9E95002B4522 /* GSTextGroupBuilder.h */,
+				01102E29199A9E95002B4522 /* GSTextGroupBuilder.m */,
 				0186C5D519985DB3002AB929 /* GSTextParser.h */,
 				0186C5D619985DB3002AB929 /* GSTextParser.m */,
 				0186C5DC19994026002AB929 /* GSTextParser-Private.h */,
+				01612983199D73A600CD2844 /* GSTextParserMode.h */,
+				01612984199D754700CD2844 /* GSTextParserMode.m */,
+				0161297F199D735900CD2844 /* GSTextRun.h */,
+				01612980199D735900CD2844 /* GSTextRun.m */,
+				01612986199D75C000CD2844 /* GSTextGroup.h */,
+				01612987199D75C000CD2844 /* GSTextGroup.m */,
 			);
 			name = "Text Parser 2.0";
 			path = TextParser;
@@ -799,9 +816,10 @@
 				0155E4600B7BE8FA008D8879 /* MMSlopeRatio.h in Headers */,
 				0155E45E0B7BE8FA008D8879 /* MMSlope.h in Headers */,
 				0155E45C0B7BE8FA008D8879 /* MMRule.h in Headers */,
-				01102E2A199A9E95002B4522 /* GSTextParserModeStack.h in Headers */,
+				01102E2A199A9E95002B4522 /* GSTextGroupBuilder.h in Headers */,
 				0155E45A0B7BE8FA008D8879 /* MMPostureRewriter.h in Headers */,
 				0155E4580B7BE8FA008D8879 /* MMPosture.h in Headers */,
+				01612981199D735900CD2844 /* GSTextRun.h in Headers */,
 				0155E4560B7BE8FA008D8879 /* MMPoint.h in Headers */,
 				0155E4540B7BE8FA008D8879 /* MMParameter.h in Headers */,
 				0155E4520B7BE8FA008D8879 /* MModel.h in Headers */,
@@ -833,6 +851,7 @@
 				695148790FB0DB5500B6DDD6 /* MMFormulaTerminal.h in Headers */,
 				6951487B0FB0DB5500B6DDD6 /* MMFRuleSymbols.h in Headers */,
 				695148B20FB0DDAA00B6DDD6 /* number_parser.h in Headers */,
+				01612988199D75C000CD2844 /* GSTextGroup.h in Headers */,
 				695148B30FB0DDAA00B6DDD6 /* number_pronunciations.h in Headers */,
 				695148B40FB0DDAA00B6DDD6 /* number_pronunciations_english.h in Headers */,
 				695148C50FB0DEB000B6DDD6 /* abbreviations.h in Headers */,
@@ -993,6 +1012,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0155E38F0B7BE80D008D8879 /* NSArray-Extensions.m in Sources */,
+				01612985199D754700CD2844 /* GSTextParserMode.m in Sources */,
 				0155E3910B7BE80D008D8879 /* NSCharacterSet-Extensions.m in Sources */,
 				0155E3950B7BE80D008D8879 /* NSObject-Extensions.m in Sources */,
 				0155E3970B7BE80D008D8879 /* NSScanner-Extensions.m in Sources */,
@@ -1014,6 +1034,7 @@
 				0155E45B0B7BE8FA008D8879 /* MMPostureRewriter.m in Sources */,
 				0155E45D0B7BE8FA008D8879 /* MMRule.m in Sources */,
 				0155E45F0B7BE8FA008D8879 /* MMSlope.m in Sources */,
+				01612982199D735900CD2844 /* GSTextRun.m in Sources */,
 				0155E4610B7BE8FA008D8879 /* MMSlopeRatio.m in Sources */,
 				0155E4630B7BE8FA008D8879 /* MMSymbol.m in Sources */,
 				0155E4650B7BE8FA008D8879 /* MMSynthesisParameters.m in Sources */,
@@ -1027,7 +1048,7 @@
 				012D53B30B7FF9DC001B50FC /* GSSuffix.m in Sources */,
 				012D53B60B7FF9DC001B50FC /* TTSParserOld.m in Sources */,
 				69B1086E0EDD307400DEF197 /* TRMData.m in Sources */,
-				01102E2B199A9E95002B4522 /* GSTextParserModeStack.m in Sources */,
+				01102E2B199A9E95002B4522 /* GSTextGroupBuilder.m in Sources */,
 				69300A3F0FAB841E0041EBFB /* TTSParser.m in Sources */,
 				694157980FAB8D66009D4192 /* GSParser.m in Sources */,
 				6951479F0FB0D73000B6DDD6 /* MMBooleanExpression.m in Sources */,
@@ -1054,6 +1075,7 @@
 				69E228540FB13394001B3C04 /* letter_to_sound.c in Sources */,
 				69E228560FB13394001B3C04 /* long_medial_vowels.c in Sources */,
 				69E228580FB13394001B3C04 /* mark_final_e.c in Sources */,
+				01612989199D75C000CD2844 /* GSTextGroup.m in Sources */,
 				69E2285A0FB13394001B3C04 /* medial_s.c in Sources */,
 				69E2285C0FB13394001B3C04 /* medial_silent_e.c in Sources */,
 				69E2285E0FB13394001B3C04 /* member.c in Sources */,
