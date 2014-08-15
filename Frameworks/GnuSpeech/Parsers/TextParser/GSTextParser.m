@@ -122,6 +122,12 @@ NSString *GSTextParserErrorDomain = @"GSTextParserErrorDomain";
 - (NSString *)parseString:(NSString *)string error:(NSError **)error;
 {
     NSString *str = [self _conditionInputString:string];
+    GSTextGroup *textGroup = [self _markModesInString:string error:error];
+    if (textGroup != nil) {
+    } else {
+        return nil;
+    }
+
     return str;
 }
 
@@ -300,75 +306,6 @@ NSString *GSTextParserErrorDomain = @"GSTextParserErrorDomain";
     NSLog(@"%s, textGroup: %@", __PRETTY_FUNCTION__, textGroupBuilder.textGroup);
 
     return textGroupBuilder.textGroup;
-}
-
-- (NSString *)_stripPunctuationFromString:(NSString *)str;
-{
-    // TODO: (2014-08-14) These are all wrong.  We can't do that across the whole string.  This can only be done for certain modes.
-    str = [self punc1_replaceSingleCharacters:str];
-
-    // Replace these characters with words, so we don't have to check again later if they are isolated.  We'll know all remaining ones are NOT isolated.
-    str = [self replaceIsolatedCharacters:str];
-
-    str = [self punc1_deleteSingleQuotes:str];
-    str = [self punc1_deleteSingleCharacters:str];
-
-    return str;
-}
-
-- (NSString *)punc1_replaceSingleCharacters:(NSString *)str;
-{
-    str = [str stringByReplacingOccurrencesOfString:@"[" withString:@"("];
-    str = [str stringByReplacingOccurrencesOfString:@"]" withString:@")"];
-
-    return str;
-}
-
-// punc1 used to check for isolated characters and not delete them, and then check for them again in punc2 to replace them.
-// I'm going to just replace them first, to save future checks.
-
-/// Replace isolated + and - characters with words.  Isolated means surrounded by space, or beginning/end of string.
-- (NSString *)replaceIsolatedCharacters:(NSString *)str;
-{
-    str = [str stringByReplacingOccurrencesOfString:@" + " withString:@" plus "];
-    str = [str stringByReplacingOccurrencesOfString:@" - " withString:@" minus "];
-    if ([str hasPrefix:@"+ "]) str = [str stringByReplacingCharactersInRange:NSMakeRange(0, 2) withString:@"plus "];
-    if ([str hasPrefix:@"- "]) str = [str stringByReplacingCharactersInRange:NSMakeRange(0, 2) withString:@"minus "];
-    if ([str hasSuffix:@" +"]) str = [str stringByReplacingCharactersInRange:NSMakeRange([str length] - 2, 2) withString:@" plus"];
-    if ([str hasSuffix:@" -"]) str = [str stringByReplacingCharactersInRange:NSMakeRange([str length] - 2, 2) withString:@" minus"];
-    return str;
-}
-
-/// Delete single quotes, except those that have an alpha character before and after.
-- (NSString *)punc1_deleteSingleQuotes:(NSString *)str;
-{
-    NSError *error;
-
-    NSRegularExpression *re_singleQuoteAtStartOrEnd   = [[NSRegularExpression alloc] initWithPattern:@"^'|'$"                     options:0 error:&error];
-    NSRegularExpression *re_singleQuoteBeforeNonAlpha = [[NSRegularExpression alloc] initWithPattern:@"([:alpha:])'([:^alpha:])"  options:0 error:&error];
-    NSRegularExpression *re_singleQuoteAfterNonAlpha  = [[NSRegularExpression alloc] initWithPattern:@"([:^alpha:])'([:alpha:])"  options:0 error:&error];
-    NSRegularExpression *re_isolatedSingleQuote       = [[NSRegularExpression alloc] initWithPattern:@"([:^alpha:])'([:^alpha:])" options:0 error:&error];
-    if (re_singleQuoteAtStartOrEnd == nil)   { NSLog(@"re1: error: %@", error); }
-    if (re_singleQuoteBeforeNonAlpha == nil) { NSLog(@"re2: error: %@", error); }
-    if (re_singleQuoteAfterNonAlpha == nil)  { NSLog(@"re3: error: %@", error); }
-    if (re_isolatedSingleQuote == nil)       { NSLog(@"re4: error: %@", error); }
-
-    // Remove the single quote in all matching cases.
-    str = [re_singleQuoteAtStartOrEnd   stringByReplacingMatchesInString:str options:0 withTemplate:@""];
-    str = [re_singleQuoteBeforeNonAlpha stringByReplacingMatchesInString:str options:0 withTemplate:@"$1$2"];
-    str = [re_singleQuoteAfterNonAlpha  stringByReplacingMatchesInString:str options:0 withTemplate:@"$1$2"];
-    str = [re_isolatedSingleQuote       stringByReplacingMatchesInString:str options:0 withTemplate:@"$1$2"];
-
-    return str;
-}
-
-- (NSString *)punc1_deleteSingleCharacters:(NSString *)str;
-{
-    NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"\"`#*\\^_|~{}"];
-
-    str = [str stringByReplacingCharactersInSet:set withString:@""];
-
-    return str;
 }
 
 @end
