@@ -6,5 +6,6 @@
 @interface NSRegularExpression (GSExtensions)
 
 - (NSString *)stringByReplacingMatchesInString:(NSString *)string options:(NSMatchingOptions)options withTemplate:(NSString *)templ;
+- (NSUInteger)replaceMatchesInString:(NSMutableString *)string options:(NSMatchingOptions)options withTemplate:(NSString *)templ;
 
 @end

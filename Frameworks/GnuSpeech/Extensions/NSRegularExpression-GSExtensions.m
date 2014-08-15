@@ -10,4 +10,9 @@
     return [self stringByReplacingMatchesInString:string options:0 range:NSMakeRange(0, [string length]) withTemplate:templ];
 }
 
+- (NSUInteger)replaceMatchesInString:(NSMutableString *)string options:(NSMatchingOptions)options withTemplate:(NSString *)templ;
+{
+    return [self replaceMatchesInString:string options:options range:NSMakeRange(0, [string length]) withTemplate:templ];
+}
+
 @end

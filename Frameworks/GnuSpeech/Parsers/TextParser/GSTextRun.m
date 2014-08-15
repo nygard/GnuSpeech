@@ -33,48 +33,40 @@
 - (void)stripPunctuation;
 {
     if (self.mode == GSTextParserMode_Normal || self.mode == GSTextParserMode_Emphasis) {
-        _string = [[self _stripPunctuationFromString:_string] mutableCopy];
+        [self _punc1_replaceSingleCharacters];
+
+        // Replace these characters with words, so we don't have to check again later if they are isolated.  We'll know all remaining ones are NOT isolated.
+        [self _replaceIsolatedCharacters];
+
+        [self _punc1_deleteSingleQuotes];
+        [self _punc1_deleteSingleCharacters];
     }
 }
 
-- (NSString *)_stripPunctuationFromString:(NSString *)str;
+- (void)_punc1_replaceSingleCharacters;
 {
-    str = [self _punc1_replaceSingleCharacters:str];
-
-    // Replace these characters with words, so we don't have to check again later if they are isolated.  We'll know all remaining ones are NOT isolated.
-    str = [self _replaceIsolatedCharacters:str];
-
-    str = [self _punc1_deleteSingleQuotes:str];
-    str = [self _punc1_deleteSingleCharacters:str];
-
-    return str;
-}
-
-- (NSString *)_punc1_replaceSingleCharacters:(NSString *)str;
-{
-    str = [str stringByReplacingOccurrencesOfString:@"[" withString:@"("];
-    str = [str stringByReplacingOccurrencesOfString:@"]" withString:@")"];
-
-    return str;
+    [_string replaceOccurrencesOfString:@"[" withString:@"(" options:0];
+    [_string replaceOccurrencesOfString:@"]" withString:@")" options:0];
 }
 
 // punc1 used to check for isolated characters and not delete them, and then check for them again in punc2 to replace them.
 // I'm going to just replace them first, to save future checks.
 
 /// Replace isolated + and - characters with words.  Isolated means surrounded by space, or beginning/end of string.
-- (NSString *)_replaceIsolatedCharacters:(NSString *)str;
+- (void)_replaceIsolatedCharacters;
 {
-    str = [str stringByReplacingOccurrencesOfString:@" + " withString:@" plus "];
-    str = [str stringByReplacingOccurrencesOfString:@" - " withString:@" minus "];
-    if ([str hasPrefix:@"+ "]) str = [str stringByReplacingCharactersInRange:NSMakeRange(0, 2) withString:@"plus "];
-    if ([str hasPrefix:@"- "]) str = [str stringByReplacingCharactersInRange:NSMakeRange(0, 2) withString:@"minus "];
-    if ([str hasSuffix:@" +"]) str = [str stringByReplacingCharactersInRange:NSMakeRange([str length] - 2, 2) withString:@" plus"];
-    if ([str hasSuffix:@" -"]) str = [str stringByReplacingCharactersInRange:NSMakeRange([str length] - 2, 2) withString:@" minus"];
-    return str;
+    [_string replaceOccurrencesOfString:@" + " withString:@" plus "  options:0];
+    [_string replaceOccurrencesOfString:@" - " withString:@" minus " options:0];
+
+    if ([_string hasPrefix:@"+ "]) [_string replaceCharactersInRange:NSMakeRange(0, 2) withString:@"plus "];
+    if ([_string hasPrefix:@"- "]) [_string replaceCharactersInRange:NSMakeRange(0, 2) withString:@"minus "];
+
+    if ([_string hasSuffix:@" +"]) [_string replaceCharactersInRange:NSMakeRange([_string length] - 2, 2) withString:@" plus"];
+    if ([_string hasSuffix:@" -"]) [_string replaceCharactersInRange:NSMakeRange([_string length] - 2, 2) withString:@" minus"];
 }
 
 /// Delete single quotes, except those that have an alpha character before and after.
-- (NSString *)_punc1_deleteSingleQuotes:(NSString *)str;
+- (void)_punc1_deleteSingleQuotes;
 {
     NSError *error;
 
@@ -88,21 +80,16 @@
     if (re_isolatedSingleQuote == nil)       { NSLog(@"re4: error: %@", error); }
 
     // Remove the single quote in all matching cases.
-    str = [re_singleQuoteAtStartOrEnd   stringByReplacingMatchesInString:str options:0 withTemplate:@""];
-    str = [re_singleQuoteBeforeNonAlpha stringByReplacingMatchesInString:str options:0 withTemplate:@"$1$2"];
-    str = [re_singleQuoteAfterNonAlpha  stringByReplacingMatchesInString:str options:0 withTemplate:@"$1$2"];
-    str = [re_isolatedSingleQuote       stringByReplacingMatchesInString:str options:0 withTemplate:@"$1$2"];
+    [re_singleQuoteAtStartOrEnd   replaceMatchesInString:_string options:0 withTemplate:@""];
+    [re_singleQuoteBeforeNonAlpha replaceMatchesInString:_string options:0 withTemplate:@"$1$2"];
+    [re_singleQuoteAfterNonAlpha  replaceMatchesInString:_string options:0 withTemplate:@"$1$2"];
+    [re_isolatedSingleQuote       replaceMatchesInString:_string options:0 withTemplate:@"$1$2"];}
 
-    return str;
-}
-
-- (NSString *)_punc1_deleteSingleCharacters:(NSString *)str;
+- (void)_punc1_deleteSingleCharacters;
 {
     NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"\"`#*\\^_|~{}"];
 
-    str = [str stringByReplacingCharactersInSet:set withString:@""];
-    
-    return str;
+    [_string deleteCharactersInSet:set];
 }
 
 @end

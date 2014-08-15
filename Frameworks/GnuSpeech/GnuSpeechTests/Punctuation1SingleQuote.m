@@ -17,7 +17,7 @@
 {
     [super setUp];
 
-    _textRun = [[GSTextRun alloc] init];
+    _textRun = [[GSTextRun alloc] initWithMode:GSTextParserMode_Normal];
 }
 
 - (void)tearDown;
@@ -32,42 +32,54 @@
 - (void)testAtStart;
 {
     NSString *str = @"'one";
-    NSString *result = [_textRun _punc1_deleteSingleQuotes:str];
+    _textRun.string = [str mutableCopy];
+    [_textRun _punc1_deleteSingleQuotes];
+    NSString *result = _textRun.string;
     XCTAssertEqualObjects(result, @"one");
 }
 
 - (void)testAtEnd;
 {
     NSString *str = @"two'";
-    NSString *result = [_textRun _punc1_deleteSingleQuotes:str];
+    _textRun.string = [str mutableCopy];
+    [_textRun _punc1_deleteSingleQuotes];
+    NSString *result = _textRun.string;
     XCTAssertEqualObjects(result, @"two");
 }
 
 - (void)testIsolated;
 {
     NSString *str = @"three ' four";
-    NSString *result = [_textRun _punc1_deleteSingleQuotes:str];
+    _textRun.string = [str mutableCopy];
+    [_textRun _punc1_deleteSingleQuotes];
+    NSString *result = _textRun.string;
     XCTAssertEqualObjects(result, @"three  four");
 }
 
 - (void)testBeforeNonAlpha;
 {
     NSString *str = @"five' ";
-    NSString *result = [_textRun _punc1_deleteSingleQuotes:str];
+    _textRun.string = [str mutableCopy];
+    [_textRun _punc1_deleteSingleQuotes];
+    NSString *result = _textRun.string;
     XCTAssertEqualObjects(result, @"five ");
 }
 
 - (void)testAfterNonAlpha;
 {
     NSString *str = @" 'six";
-    NSString *result = [_textRun _punc1_deleteSingleQuotes:str];
+    _textRun.string = [str mutableCopy];
+    [_textRun _punc1_deleteSingleQuotes];
+    NSString *result = _textRun.string;
     XCTAssertEqualObjects(result, @" six");
 }
 
 - (void)testBetweenAlpha;
 {
     NSString *str = @"her's";
-    NSString *result = [_textRun _punc1_deleteSingleQuotes:str];
+    _textRun.string = [str mutableCopy];
+    [_textRun _punc1_deleteSingleQuotes];
+    NSString *result = _textRun.string;
     XCTAssertEqualObjects(result, @"her's");
 }
 
@@ -76,7 +88,9 @@
 - (void)testDeleteSingleCharacter;
 {
     NSString *str = @"1 \" 2 ` 3 # 4 * 5 \\ 6 ^ 7 _ 8 | 9 ~ 10 { 11 } 12";
-    NSString *result = [_textRun _punc1_deleteSingleCharacters:str];
+    _textRun.string = [str mutableCopy];
+    [_textRun _punc1_deleteSingleCharacters];
+    NSString *result = _textRun.string;
     NSString *expected = @"1  2  3  4  5  6  7  8  9  10  11  12";
     NSLog(@"  result: '%@'", result);
     NSLog(@"expected: '%@'", expected);

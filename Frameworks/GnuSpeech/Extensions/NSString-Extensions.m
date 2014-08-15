@@ -166,4 +166,23 @@
     [self appendString:[NSString spacesIndentedToLevel:level spacesPerLevel:2]];
 }
 
+- (NSUInteger)replaceOccurrencesOfString:(NSString *)target withString:(NSString *)replacement options:(NSStringCompareOptions)options;
+{
+    return [self replaceOccurrencesOfString:target withString:replacement options:options range:NSMakeRange(0, [target length])];
+}
+
+- (void)deleteCharactersInSet:(NSCharacterSet *)set;
+{
+    NSRange remainingRange = NSMakeRange(0, [self length]);
+    NSRange foundRange;
+
+    foundRange = [self rangeOfCharacterFromSet:set options:0 range:remainingRange];
+    while (foundRange.location != NSNotFound) {
+        [self deleteCharactersInRange:foundRange];
+        remainingRange.location = foundRange.location;
+        remainingRange.length = [self length] - remainingRange.location;
+        foundRange = [self rangeOfCharacterFromSet:set options:0 range:remainingRange];
+    }
+}
+
 @end

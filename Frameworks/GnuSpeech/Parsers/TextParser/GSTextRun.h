@@ -7,13 +7,13 @@
 - (id)initWithMode:(GSTextParserMode)mode;
 
 @property (readonly) GSTextParserMode mode;
-@property (strong) NSMutableString *string;
+@property (strong, readonly) NSMutableString *string;
 
 - (void)stripPunctuation;
 
-- (NSString *)_punc1_replaceSingleCharacters:(NSString *)str;
-- (NSString *)_replaceIsolatedCharacters:(NSString *)str;
-- (NSString *)_punc1_deleteSingleQuotes:(NSString *)str;
-- (NSString *)_punc1_deleteSingleCharacters:(NSString *)str;
+- (void)_punc1_replaceSingleCharacters;
+- (void)_replaceIsolatedCharacters;
+- (void)_punc1_deleteSingleQuotes;
+- (void)_punc1_deleteSingleCharacters;
 
 @end

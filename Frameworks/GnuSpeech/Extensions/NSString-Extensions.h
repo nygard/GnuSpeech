@@ -32,5 +32,8 @@
 @interface NSMutableString (Extensions)
 
 - (void)indentToLevel:(NSUInteger)level;
+- (NSUInteger)replaceOccurrencesOfString:(NSString *)target withString:(NSString *)replacement options:(NSStringCompareOptions)options;
+
+- (void)deleteCharactersInSet:(NSCharacterSet *)set;
 
 @end
