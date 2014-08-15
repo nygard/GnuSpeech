@@ -42,6 +42,10 @@
         [_string replaceOccurrencesOfString:@"---" withString:@", " options:0];
         [_string replaceOccurrencesOfString:@"--"  withString:@", " options:0];
 
+        // Not sure why the original code wants to delete these.
+        [_string replaceOccurrencesOfString:@"...." withString:@"." options:0];
+        [_string replaceOccurrencesOfString:@"..."  withString:@"" options:0];
+
         // Replace these characters with words, so we don't have to check again later if they are isolated.  We'll know all remaining ones are NOT isolated.
         [self _replaceIsolatedCharacters];
 

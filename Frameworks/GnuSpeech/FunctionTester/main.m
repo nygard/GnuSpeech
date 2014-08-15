@@ -23,7 +23,8 @@ int main(int argc, const char *argv[])
         {
 //            char buffer[1000] = "foo) plus 5, or foo) + 5";
 //            char buffer[1000] = "blah 1 2+ +3 4+5 6 + 7 or ++ and +++ so a+ +b c5+ +6d 7e+ +f8 +_9 9_+";
-            char buffer[1000] = " $a $a0 $1 $$2 $$3 ";
+//            char buffer[1000] = " $a $a0 $1 $$2 $$3 ";
+            char buffer[1000] = "one. two.. three... four.... five..... six...... seven";
 
             NXStream *stream1 = [[NXStream alloc] init];
             gs_pm_strip_punctuation_pass1(buffer, 1000);
