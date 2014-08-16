@@ -55,7 +55,7 @@
 #import <GnuSpeech/GSDBMPronunciationDictionary.h>
 #import <GnuSpeech/GSPronunciationDictionary.h>
 #import <GnuSpeech/GSSimplePronunciationDictionary.h>
-#import <GnuSpeech/GSSuffix.h>
+#import <GnuSpeech/GSSuffixReplacement.h>
 #import <GnuSpeech/TTSNumberPronunciations.h>
 #import <GnuSpeech/TTSParser.h>
 

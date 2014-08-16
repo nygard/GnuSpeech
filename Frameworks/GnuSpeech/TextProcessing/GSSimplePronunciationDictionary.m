@@ -3,7 +3,7 @@
 
 #import "GSSimplePronunciationDictionary.h"
 
-#import "GSSuffix.h"
+#import "GSSuffixReplacement.h"
 
 @implementation GSSimplePronunciationDictionary
 {

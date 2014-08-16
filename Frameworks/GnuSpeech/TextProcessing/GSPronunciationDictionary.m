@@ -3,15 +3,15 @@
 
 #import "GSPronunciationDictionary.h"
 
-#import "GSSuffix.h"
+#import "GSSuffixReplacement.h"
 
 @implementation GSPronunciationDictionary
 {
     NSString *_filename;
     NSString *_version;
 
-    NSMutableArray *_suffixOrder;   // Strings.
-    NSMutableDictionary *_suffixes; // Keyed by string, value is GSSuffix.
+    NSMutableArray *_suffixReplacementOrder;  // Strings.
+    NSMutableDictionary *_suffixReplacements; // Keyed by string, value is GSSuffix.
 
     BOOL _hasBeenLoaded;
 }
@@ -22,8 +22,8 @@
         _filename = filename;
         _version = nil;
         
-        _suffixOrder = [[NSMutableArray alloc] init];
-        _suffixes = [[NSMutableDictionary alloc] init];
+        _suffixReplacementOrder = [[NSMutableArray alloc] init];
+        _suffixReplacements = [[NSMutableDictionary alloc] init];
         
         NSBundle *bundle = [NSBundle bundleForClass:[self class]];
         NSString *path = [bundle pathForResource:@"TTSSuffixList" ofType:@"txt"];
@@ -42,7 +42,7 @@
     if (_hasBeenLoaded) {
         return [NSString stringWithFormat:@"<%@: %p> filename: %@, suffix count: %lu, version: %@",
                 NSStringFromClass([self class]), self,
-                self.filename, [_suffixOrder count], self.version];
+                self.filename, [_suffixReplacementOrder count], self.version];
     }
 
     return [NSString stringWithFormat:@"<%@: %p> filename: %@, not loaded",
@@ -93,12 +93,12 @@
 
         NSArray *parts = [line componentsSeparatedByString:@"\t"];
         if ([parts count] >= 3) {
-            GSSuffix *newSuffix = [[GSSuffix alloc] initWithSuffix:parts[0]
+            GSSuffixReplacement *newSuffix = [[GSSuffixReplacement alloc] initWithSuffix:parts[0]
                                                  replacementString:parts[1]
                                              appendedPronunciation:parts[2]];
             //NSLog(@"newSuffix: %@", newSuffix);
-            [_suffixOrder addObject:newSuffix.suffix];
-            _suffixes[newSuffix.suffix] = newSuffix;
+            [_suffixReplacementOrder addObject:newSuffix.suffix];
+            _suffixReplacements[newSuffix.suffix] = newSuffix;
         }
     }
 
@@ -113,12 +113,13 @@
     return nil;
 }
 
+/// Look up the pronunciation in the dictionary.  If nothing is found, check against the suffix replacements and return the modified word + extra pronunciation.
 - (NSString *)pronunciationForWord:(NSString *)word;
 {
     NSString *pronunciation = [self lookupPronunciationForWord:word];
     if (pronunciation == nil) {
-        for (NSString *suffixOrderKey in _suffixOrder) {
-            GSSuffix *suffix = _suffixes[suffixOrderKey];
+        for (NSString *suffixOrderKey in _suffixReplacementOrder) {
+            GSSuffixReplacement *suffix = _suffixReplacements[suffixOrderKey];
             NSRange range = [word rangeOfString:suffix.suffix options:NSAnchoredSearch|NSBackwardsSearch];
             if (range.location != NSNotFound) {
                 NSString *newWord = [[word substringToIndex:range.location] stringByAppendingString:suffix.replacementString];

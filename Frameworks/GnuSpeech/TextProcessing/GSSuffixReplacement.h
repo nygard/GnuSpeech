@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GSSuffix : NSObject
+@interface GSSuffixReplacement : NSObject
 
 - (id)initWithSuffix:(NSString *)suffix replacementString:(NSString *)replacementString appendedPronunciation:(NSString *)appendedPronunciation;
 
