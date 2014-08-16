@@ -7,6 +7,7 @@
 #import "GSPronunciationDictionary.h"
 #import "GSDBMPronunciationDictionary.h"
 #import "GSSimplePronunciationDictionary.h"
+#import "GSLetterToSound.h"
 #import "GSTextGroupBuilder.h"
 #import "GSTextRun.h"
 #import "GSTextGroup.h"
@@ -21,6 +22,7 @@ NSString *GSTextParserErrorDomain = @"GSTextParserErrorDomain";
     GSPronunciationDictionary *_applicationDictionary;
     GSPronunciationDictionary *_mainDictionary;
     GSPronunciationDictionary *_specialAcronymDictionary;
+    GSPronunciationSource *_letterToSound;
 
     NSArray *_pronunciationSourceOrder;
     NSString *_escapeCharacter;
@@ -34,6 +36,7 @@ NSString *GSTextParserErrorDomain = @"GSTextParserErrorDomain";
     if ((self = [super init])) {
         _mainDictionary           = [GSDBMPronunciationDictionary mainDictionary];
         _specialAcronymDictionary = [GSSimplePronunciationDictionary specialAcronymDictionary];
+        _letterToSound            = [[GSLetterToSound alloc] init];
         
         _pronunciationSourceOrder = @[ @(GSPronunciationSourceType_NumberParser),
                                        @(GSPronunciationSourceType_UserDictionary),

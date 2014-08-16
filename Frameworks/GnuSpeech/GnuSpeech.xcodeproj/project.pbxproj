@@ -115,6 +115,8 @@
 		01B4561215452BE400D00A1A /* MMIntonationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B4561015452BE400D00A1A /* MMIntonationParameters.m */; };
 		01DA73CB199F2CEB00A7633F /* GSPronunciationSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 01DA73C9199F2CEB00A7633F /* GSPronunciationSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01DA73CC199F2CEB00A7633F /* GSPronunciationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 01DA73CA199F2CEB00A7633F /* GSPronunciationSource.m */; };
+		01DA73CF199F2E7D00A7633F /* GSLetterToSound.h in Headers */ = {isa = PBXBuildFile; fileRef = 01DA73CD199F2E7D00A7633F /* GSLetterToSound.h */; };
+		01DA73D0199F2E7D00A7633F /* GSLetterToSound.m in Sources */ = {isa = PBXBuildFile; fileRef = 01DA73CE199F2E7D00A7633F /* GSLetterToSound.m */; };
 		01E6107C1996A566009CDE09 /* MMPhone.h in Headers */ = {isa = PBXBuildFile; fileRef = 01E6107A1996A566009CDE09 /* MMPhone.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01E6107D1996A566009CDE09 /* MMPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 01E6107B1996A566009CDE09 /* MMPhone.m */; };
 		01F470A915408B7800A604B8 /* Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F470A815408B7800A604B8 /* Tube.framework */; };
@@ -308,6 +310,8 @@
 		01DA73C8199F293200A7633F /* GSPronunciationDictionary-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GSPronunciationDictionary-Private.h"; sourceTree = "<group>"; };
 		01DA73C9199F2CEB00A7633F /* GSPronunciationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GSPronunciationSource.h; path = TextProcessing/GSPronunciationSource.h; sourceTree = "<group>"; };
 		01DA73CA199F2CEB00A7633F /* GSPronunciationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GSPronunciationSource.m; path = TextProcessing/GSPronunciationSource.m; sourceTree = "<group>"; };
+		01DA73CD199F2E7D00A7633F /* GSLetterToSound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GSLetterToSound.h; path = TextProcessing/GSLetterToSound.h; sourceTree = "<group>"; };
+		01DA73CE199F2E7D00A7633F /* GSLetterToSound.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GSLetterToSound.m; path = TextProcessing/GSLetterToSound.m; sourceTree = "<group>"; };
 		01E6107A1996A566009CDE09 /* MMPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMPhone.h; path = MonetModel/MMPhone.h; sourceTree = "<group>"; };
 		01E6107B1996A566009CDE09 /* MMPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMPhone.m; path = MonetModel/MMPhone.m; sourceTree = "<group>"; };
 		01F470A815408B7800A604B8 /* Tube.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Tube.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug/Tube.framework"; sourceTree = "<group>"; };
@@ -423,6 +427,8 @@
 			children = (
 				01DA73C9199F2CEB00A7633F /* GSPronunciationSource.h */,
 				01DA73CA199F2CEB00A7633F /* GSPronunciationSource.m */,
+				01DA73CD199F2E7D00A7633F /* GSLetterToSound.h */,
+				01DA73CE199F2E7D00A7633F /* GSLetterToSound.m */,
 				012D53A30B7FF9DC001B50FC /* GSPronunciationDictionary.h */,
 				01DA73C8199F293200A7633F /* GSPronunciationDictionary-Private.h */,
 				012D53A40B7FF9DC001B50FC /* GSPronunciationDictionary.m */,
@@ -826,6 +832,7 @@
 				0155E4620B7BE8FA008D8879 /* MMSymbol.h in Headers */,
 				0155E4600B7BE8FA008D8879 /* MMSlopeRatio.h in Headers */,
 				0155E45E0B7BE8FA008D8879 /* MMSlope.h in Headers */,
+				01DA73CF199F2E7D00A7633F /* GSLetterToSound.h in Headers */,
 				0155E45C0B7BE8FA008D8879 /* MMRule.h in Headers */,
 				01102E2A199A9E95002B4522 /* GSTextGroupBuilder.h in Headers */,
 				0155E45A0B7BE8FA008D8879 /* MMPostureRewriter.h in Headers */,
@@ -1026,6 +1033,7 @@
 			files = (
 				0155E38F0B7BE80D008D8879 /* NSArray-Extensions.m in Sources */,
 				01612985199D754700CD2844 /* GSTextParserMode.m in Sources */,
+				01DA73D0199F2E7D00A7633F /* GSLetterToSound.m in Sources */,
 				0155E3910B7BE80D008D8879 /* NSCharacterSet-Extensions.m in Sources */,
 				0155E3950B7BE80D008D8879 /* NSObject-Extensions.m in Sources */,
 				0155E3970B7BE80D008D8879 /* NSScanner-Extensions.m in Sources */,
