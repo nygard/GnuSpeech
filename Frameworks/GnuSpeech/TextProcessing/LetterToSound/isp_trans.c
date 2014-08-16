@@ -874,23 +874,23 @@ void isp_trans(char *string, char *result)
         strcpy(mstr, rc);
         rc = mstr;
         k = m_string[term - 1];
-        
+
         while (*k && (*k != 'X'))
             *result++ = *k++;
-        
+
         string = tstr;
-        
+
         if (*k)
             k++;
         else
             *result++ = '_';
-        
+
         while (*k)
             *string++ = *k++;
-        
+
         while (*rc)
             *string++ = *rc++;
-        
+
         *string = 0;
         string = tstr;
         term = i = 0;

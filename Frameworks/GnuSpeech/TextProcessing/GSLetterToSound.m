@@ -7,6 +7,19 @@
 
 @implementation GSLetterToSound
 
++ (NSDictionary *)foo;
+{
+    static NSDictionary *foo;
+
+    if (foo == nil) {
+        foo = @{
+                @"one" : @(2),
+                };
+    }
+
+    return foo;
+}
+
 - (NSString *)pronunciationForWord:(NSString *)word;
 {
     const char *result = letter_to_sound((char *)[word cStringUsingEncoding:NSASCIIStringEncoding]);

@@ -300,7 +300,7 @@ static suffix_list_t suffix_list[] = {
 
     {"ie","y",""},                 //   "merrie" = "merry" + "<olde spellinge>"
     {"e","",""},                   //   "olde" = "old" + "<olde spellinge>"
-    
-    
+
+
     {(char *)0,(char *)0,(char *)0}     //  END MARKER
 };
