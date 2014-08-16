@@ -104,7 +104,7 @@
     return _pronunciations;
 }
 
-- (NSString *)lookupPronunciationForWord:(NSString *)word;
+- (NSString *)_pronunciationForWord:(NSString *)word;
 {
     [self loadDictionaryIfNecessary];
     return [_pronunciations objectForKey:word];

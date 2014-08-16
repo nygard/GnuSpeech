@@ -107,23 +107,22 @@
     //NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
-- (NSString *)lookupPronunciationForWord:(NSString *)word;
+- (NSString *)_pronunciationForWord:(NSString *)word;
 {
     // Implement in subclasses
     return nil;
 }
 
-/// Look up the pronunciation in the dictionary.  If nothing is found, check against the suffix replacements and return the modified word + extra pronunciation.
 - (NSString *)pronunciationForWord:(NSString *)word;
 {
-    NSString *pronunciation = [self lookupPronunciationForWord:word];
+    NSString *pronunciation = [self _pronunciationForWord:word];
     if (pronunciation == nil) {
         for (NSString *suffixOrderKey in _suffixReplacementOrder) {
             GSSuffixReplacement *suffix = _suffixReplacements[suffixOrderKey];
             NSRange range = [word rangeOfString:suffix.suffix options:NSAnchoredSearch|NSBackwardsSearch];
             if (range.location != NSNotFound) {
                 NSString *newWord = [[word substringToIndex:range.location] stringByAppendingString:suffix.replacementString];
-                NSString *newPronunciation = [self lookupPronunciationForWord:newWord];
+                NSString *newPronunciation = [self _pronunciationForWord:newWord];
                 //NSLog(@"newWord: %@, newPronunciation: %@", newWord, newPronunciation);
                 if (newPronunciation != nil)
                     return [newPronunciation stringByAppendingString:suffix.appendedPronunciation];

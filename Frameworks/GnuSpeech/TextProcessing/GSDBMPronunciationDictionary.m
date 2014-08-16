@@ -104,7 +104,7 @@
     return YES;
 }
 
-- (NSString *)lookupPronunciationForWord:(NSString *)word;
+- (NSString *)_pronunciationForWord:(NSString *)word;
 {
     datum keyDatum, valueDatum;
 
