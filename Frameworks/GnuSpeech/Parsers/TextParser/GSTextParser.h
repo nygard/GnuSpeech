@@ -1,12 +1,12 @@
 #import <Foundation/Foundation.h>
 
 typedef enum : NSUInteger {
-    GSPronunciationSource_NumberParser          = 1,
-    GSPronunciationSource_UserDictionary        = 2,
-    GSPronunciationSource_ApplicationDictionary = 3,
-    GSPronunciationSource_MainDictionary        = 4,
-    GSPronunciationSource_LetterToSound         = 5,
-} GSPronunciationSource;
+    GSPronunciationSourceType_NumberParser          = 1,
+    GSPronunciationSourceType_UserDictionary        = 2,
+    GSPronunciationSourceType_ApplicationDictionary = 3,
+    GSPronunciationSourceType_MainDictionary        = 4,
+    GSPronunciationSourceType_LetterToSound         = 5,
+} GSPronunciationSourceType;
 
 @class GSPronunciationDictionary;
 
@@ -27,7 +27,7 @@ typedef enum : NSUInteger {
 /// Return the pronunciation for a word, looking through the dictionaries in the assigned dictionaryOrder.
 /// If source is not NULL, returns where the word was found.
 /// Returns nil if no pronunciation found.
-- (NSString *)pronunciationForWord:(NSString *)word andReturnPronunciationSource:(GSPronunciationSource *)source;
+- (NSString *)pronunciationForWord:(NSString *)word andReturnPronunciationSource:(GSPronunciationSourceType *)source;
 
 
 /// Takes plain English input, and produces phonetic output suitable for further processing in the TTS system.

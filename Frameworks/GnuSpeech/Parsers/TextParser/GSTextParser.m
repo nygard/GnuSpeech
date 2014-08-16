@@ -35,10 +35,10 @@ NSString *GSTextParserErrorDomain = @"GSTextParserErrorDomain";
         _mainDictionary           = [GSDBMPronunciationDictionary mainDictionary];
         _specialAcronymDictionary = [GSSimplePronunciationDictionary specialAcronymDictionary];
         
-        _pronunciationSourceOrder = @[ @(GSPronunciationSource_NumberParser),
-                                       @(GSPronunciationSource_UserDictionary),
-                                       @(GSPronunciationSource_ApplicationDictionary),
-                                       @(GSPronunciationSource_MainDictionary),
+        _pronunciationSourceOrder = @[ @(GSPronunciationSourceType_NumberParser),
+                                       @(GSPronunciationSourceType_UserDictionary),
+                                       @(GSPronunciationSourceType_ApplicationDictionary),
+                                       @(GSPronunciationSourceType_MainDictionary),
                                        ];
         _escapeCharacter = @"%";
 
@@ -81,14 +81,14 @@ NSString *GSTextParserErrorDomain = @"GSTextParserErrorDomain";
 
 #pragma mark -
 
-- (NSString *)_pronunciationForWord:(NSString *)word fromSource:(GSPronunciationSource)source;
+- (NSString *)_pronunciationForWord:(NSString *)word fromSource:(GSPronunciationSourceType)source;
 {
     switch (source) {
-        case GSPronunciationSource_NumberParser:          return nil; // number_parser()
-        case GSPronunciationSource_UserDictionary:        return [self.userDictionary pronunciationForWord:word];
-        case GSPronunciationSource_ApplicationDictionary: return [self.applicationDictionary pronunciationForWord:word];
-        case GSPronunciationSource_MainDictionary:        return [self.mainDictionary pronunciationForWord:word];
-        case GSPronunciationSource_LetterToSound:         return nil; // letter_to_sound()
+        case GSPronunciationSourceType_NumberParser:          return nil; // number_parser()
+        case GSPronunciationSourceType_UserDictionary:        return [self.userDictionary pronunciationForWord:word];
+        case GSPronunciationSourceType_ApplicationDictionary: return [self.applicationDictionary pronunciationForWord:word];
+        case GSPronunciationSourceType_MainDictionary:        return [self.mainDictionary pronunciationForWord:word];
+        case GSPronunciationSourceType_LetterToSound:         return nil; // letter_to_sound()
         default:
             break;
     }
@@ -96,7 +96,7 @@ NSString *GSTextParserErrorDomain = @"GSTextParserErrorDomain";
     return nil;
 }
 
-- (NSString *)pronunciationForWord:(NSString *)word andReturnPronunciationSource:(GSPronunciationSource *)source;
+- (NSString *)pronunciationForWord:(NSString *)word andReturnPronunciationSource:(GSPronunciationSourceType *)source;
 {
     for (NSNumber *dictionarySource in self.pronunciationSourceOrder) {
         NSString *pronunciation = [self _pronunciationForWord:word fromSource:[dictionarySource unsignedIntegerValue]];
@@ -108,9 +108,9 @@ NSString *GSTextParserErrorDomain = @"GSTextParserErrorDomain";
     }
 
     // Fall back to letter-to-sound as a last resort, to guarantee pronunciation of some sort.
-    NSString *pronunciation = [self _pronunciationForWord:word fromSource:GSPronunciationSource_LetterToSound];
+    NSString *pronunciation = [self _pronunciationForWord:word fromSource:GSPronunciationSourceType_LetterToSound];
     if (pronunciation != nil) {
-        if (source != NULL) *source = GSPronunciationSource_LetterToSound;
+        if (source != NULL) *source = GSPronunciationSourceType_LetterToSound;
         return pronunciation;
     }
 
