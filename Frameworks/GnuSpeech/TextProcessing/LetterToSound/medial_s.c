@@ -5,10 +5,8 @@
 
 /// Change each 's' that is preceded by a vowel, and followed by either a vowel or 'm', into 'S'.
 
-void medial_s(char *in, char **eow)
+void medial_s(char *in, char *end)
 {
-    char *end = *eow;
-
     while (in < end - 1)
     {
         if (   member(*in,   "AEIOUYaeiouy")

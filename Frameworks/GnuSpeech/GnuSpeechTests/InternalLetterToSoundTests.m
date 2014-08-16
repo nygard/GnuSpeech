@@ -30,7 +30,7 @@
 #define CHECK_MEDIAL_S(str, expected) {\
 strlcpy(buf, str, BUFLEN);\
 char *end = buf + strlen(buf);\
-medial_s(buf, &end);\
+medial_s(buf, end);\
 XCTAssert(strcmp(buf, expected) == 0);\
 }
 

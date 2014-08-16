@@ -78,7 +78,7 @@ int word_to_patphone(char *word)
     mark_final_e(word, &end_of_word);
     long_medial_vowels(word, &end_of_word);
     medial_silent_e(word, &end_of_word);
-    medial_s(word, &end_of_word);
+    medial_s(word, end_of_word);
 
     if (replace_s) {
         *end_of_word++ = replace_s;

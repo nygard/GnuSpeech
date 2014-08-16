@@ -51,7 +51,7 @@ int main(int argc, const char *argv[])
         {
             char buf[1000] = "ase ism ise ease";
             char *end = buf + strlen(buf);
-            medial_s(buf, &end);
+            medial_s(buf, end);
             NSLog(@"medial_s: '%s'", buf);
         }
     }
