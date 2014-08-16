@@ -1959,41 +1959,41 @@ void gs_pm_insert_tag(NXStream *stream, long insert_point, char *word)
 void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
 {
     short dictionary;
-    const char *pronunciation, *ptr;
-    long last_foot_begin, temporary_position;
-    char last_phoneme[SYMBOL_LENGTH_MAX+1], *last_phoneme_ptr;
+    const char *pronunciation;
 
 
     /*  STRIP OF POSSESSIVE ENDING IF WORD ENDS WITH 's, SET FLAG  */
     int possessive = gs_pm_is_possessive(word);
 
-    /*  USE degenerate_string IF WORD IS A SINGLE CHARACTER
-     (EXCEPT SMALL, NON-POSSESSIVE A)  */
-    if ((strlen(word) == 1) && isalpha(word[0])) {
-        if (!strcmp(word,"a") && !possessive)
+    /*  USE degenerate_string IF WORD IS A SINGLE CHARACTER (EXCEPT SMALL, NON-POSSESSIVE A)  */
+    if ((strlen(word) == 1) && isalpha(word[0]))
+    {
+        if (!strcmp(word, "a") && !possessive)
             pronunciation = "uh";
         else
             pronunciation = degenerate_string((const char *)word);
         dictionary = TTS_LETTER_TO_SOUND;
     }
-    /*  ALL UPPER CASE WORDS PRONOUNCED ONE LETTER AT A TIME,
-     EXCEPT SPECIAL ACRONYMS  */
-    else if (gs_pm_is_all_upper_case(word)) {
+    else if (gs_pm_is_all_upper_case(word))
+    {
+        /*  ALL UPPER CASE WORDS PRONOUNCED ONE LETTER AT A TIME, EXCEPT SPECIAL ACRONYMS  */
         if (!(pronunciation = gs_pm_is_special_acronym(word)))
             pronunciation = degenerate_string((const char *)word);
 
         dictionary = TTS_LETTER_TO_SOUND;
     }
-    /*  ALL OTHER WORDS ARE LOOKED UP IN DICTIONARIES, AFTER CONVERTING TO LOWER CASE  */
-    else
+    else {
+        /*  ALL OTHER WORDS ARE LOOKED UP IN DICTIONARIES, AFTER CONVERTING TO LOWER CASE  */
         pronunciation = lookup_word((const char *)gs_pm_to_lower_case(word), &dictionary);
+    }
 
 
-    /*  ADD FOOT BEGIN MARKER TO FRONT OF WORD IF IT HAS NO PRIMARY STRESS AND IT IS
-     TO RECEIVE A TONIC;  IF ONLY A SECONDARY STRESS MARKER, CONVERT TO PRIMARY  */
-    last_foot_begin = UNDEFINED_POSITION;
-    if (is_tonic && !gs_pm_contains_primary_stress(pronunciation)) {
-        if (!gs_pm_converted_stress((char *)pronunciation)) {
+    /*  ADD FOOT BEGIN MARKER TO FRONT OF WORD IF IT HAS NO PRIMARY STRESS AND IT IS TO RECEIVE A TONIC;  IF ONLY A SECONDARY STRESS MARKER, CONVERT TO PRIMARY  */
+    long last_foot_begin = UNDEFINED_POSITION;
+    if (is_tonic && !gs_pm_contains_primary_stress(pronunciation))
+    {
+        if (!gs_pm_converted_stress((char *)pronunciation))
+        {
             [stream printf:SLASH_FOOT_BEGIN];
             last_foot_begin = [stream position] - 2;
         }
@@ -2001,11 +2001,14 @@ void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
 
     /*  PRINT PRONUNCIATION TO STREAM, UP TO WORD TYPE MARKER (%)  */
     /*  KEEP TRACK OF LAST PHONEME  */
-    ptr = pronunciation;
+    char last_phoneme[SYMBOL_LENGTH_MAX + 1];
+    const char *ptr = pronunciation;
     last_phoneme[0] = '\0';
-    last_phoneme_ptr = last_phoneme;
-    while (*ptr && (*ptr != '%')) {
-        switch (*ptr) {
+    char *last_phoneme_ptr = last_phoneme;
+    while (*ptr && (*ptr != '%'))
+    {
+        switch (*ptr)
+        {
             case '\'':
             case '`':
                 [stream printf:SLASH_FOOT_BEGIN];
@@ -2026,7 +2029,8 @@ void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
                 break;
             case ' ':
                 /*  SUPPRESS UNNECESSARY BLANKS  */
-                if (*(ptr+1) && (*(ptr+1) != ' ')) {
+                if (*(ptr+1) && (*(ptr+1) != ' '))
+                {
                     [stream printf:"%c", *ptr];
                     last_phoneme[0] = '\0';
                     last_phoneme_ptr = last_phoneme;
@@ -2042,25 +2046,38 @@ void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
     }
 
     /*  ADD APPROPRIATE ENDING TO PRONUNCIATION IF POSSESSIVE  */
-    if (possessive) {
-        if (!strcmp(last_phoneme,"p") || !strcmp(last_phoneme,"t") ||
-            !strcmp(last_phoneme,"k") || !strcmp(last_phoneme,"f") ||
-            !strcmp(last_phoneme,"th"))
+    if (possessive)
+    {
+        if (   !strcmp(last_phoneme, "p")
+            || !strcmp(last_phoneme, "t")
+            || !strcmp(last_phoneme, "k")
+            || !strcmp(last_phoneme, "f")
+            || !strcmp(last_phoneme, "th"))
+        {
             [stream printf:"_s"];
-        else if (!strcmp(last_phoneme,"s") || !strcmp(last_phoneme,"sh") ||
-                 !strcmp(last_phoneme,"z") || !strcmp(last_phoneme,"zh") ||
-                 !strcmp(last_phoneme,"j") || !strcmp(last_phoneme,"ch"))
+        }
+        else if (   !strcmp(last_phoneme, "s")
+                 || !strcmp(last_phoneme, "sh")
+                 || !strcmp(last_phoneme, "z")
+                 || !strcmp(last_phoneme, "zh")
+                 || !strcmp(last_phoneme, "j")
+                 || !strcmp(last_phoneme, "ch"))
+        {
             [stream printf:".uh_z"];
+        }
         else
+        {
             [stream printf:"_z"];
+        }
     }
 
     /*  ADD SPACE AFTER WORD  */
     [stream printf:" "];
 
     /*  IF TONIC, CONVERT LAST FOOT MARKER TO TONIC MARKER  */
-    if (is_tonic && (last_foot_begin != UNDEFINED_POSITION)) {
-        temporary_position = [stream position];
+    if (is_tonic && (last_foot_begin != UNDEFINED_POSITION))
+    {
+        long temporary_position = [stream position];
         [stream seekWithOffset:last_foot_begin fromPosition:NXStreamLocation_Start];
         [stream printf:SLASH_TONIC_BEGIN];
         [stream seekWithOffset:temporary_position fromPosition:NXStreamLocation_Start];
