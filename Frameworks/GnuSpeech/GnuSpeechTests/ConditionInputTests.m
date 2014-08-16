@@ -87,14 +87,12 @@
     XCTAssertEqualObjects(output, @"creativ\tity");
 }
 
-#if 0
 // Not sure how to get an unprintable character in here.
-- (void)testOrderOfConditioning;
+- (void)DISABLED_testOrderOfConditioning;
 {
     NSString *input = @"creativ- !\n ity"; // Suppose "!" is the non-printable character.
     NSString *output = [_parser _conditionInputString:input];
     XCTAssertEqualObjects(output, @"creativ-    ity"); // Then the ! would stop the de-hyphenation, but would be replaced later with a space.
 }
-#endif
 
 @end

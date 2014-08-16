@@ -54,9 +54,8 @@
     XCTAssertEqualObjects(output, @"%");
 }
 
-#if 0
 // This doesn't work as I'd like.
-- (void)testWhitespaceSubtraction;
+- (void)DISABLED_testWhitespaceSubtraction;
 {
     NSError *error;
     NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"[:space:--\n]" options:0 error:&error];
@@ -67,6 +66,5 @@
 
     XCTAssertEqualObjects(output, @"one\ntwo");
 }
-#endif
 
 @end
