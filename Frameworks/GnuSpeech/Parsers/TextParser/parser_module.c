@@ -773,6 +773,11 @@ void gs_pm_strip_punctuation_pass1(char *buffer, long length)
 ///   CHANGE: (?) -> blank
 ///   CHANGE: (!) -> blank
 ///   PASS:   (111)111-1111    (telephone numbers)
+///   CHANGE: ( to , if word before and after.
+///           ( to space otherwise
+///   CHANGE: ) to , if word before and after.
+///           ) to space otherwise
+///   EXPAND: certain characters into words.  (Handled before this in my new code.)
 ///
 /// Letter mode: expand contents to words.
 ///   - isolated plus and minus get changed to words.
