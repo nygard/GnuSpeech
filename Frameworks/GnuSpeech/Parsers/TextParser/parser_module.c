@@ -1337,141 +1337,173 @@ int gs_pm_is_telephone_number(char *buffer, long i, long length)
 
 int gs_pm_final_conversion(NXStream *stream1, NXStream *stream2)
 {
-    long i, last_word_end = UNDEFINED_POSITION, tg_marker_pos = UNDEFINED_POSITION;
-    long mode = NORMAL_MODE, next_mode, prior_tonic = TTS_NO, raw_mode_flag = TTS_NO;
-    long last_written_state = STATE_BEGIN, current_state, next_state;
-    const char *input;
-    char word[WORD_LENGTH_MAX + 1];
+    long last_written_state = STATE_BEGIN;
+    long raw_mode_flag = TTS_NO;
+    long tg_marker_pos = UNDEFINED_POSITION;
 
 
     [stream2 seekWithOffset:0 fromPosition:NXStreamLocation_Start];
 
-    /*  GET MEMORY BUFFER ASSOCIATED WITH STREAM1  */
-    input = [stream1 mutableBytes];
-    long stream1Length = [stream1 length];
+    {
+        long last_word_end = UNDEFINED_POSITION;
+        long mode = NORMAL_MODE;
+        long next_mode;
+        long prior_tonic = TTS_NO;
+        long current_state;
+        long next_state;
+        char word[WORD_LENGTH_MAX + 1];
+        
+        const char *input = [stream1 mutableBytes];
+        long stream1Length = [stream1 length];
 
-    /*  MAIN LOOP  */
-    for (i = 0; i < stream1Length; i++) {
-        switch (input[i]) {
-            case RAW_MODE_BEGIN:      mode = RAW_MODE;      break;
-            case LETTER_MODE_BEGIN:   mode = LETTER_MODE;   break;
-            case EMPHASIS_MODE_BEGIN: mode = EMPHASIS_MODE; break;
-            case TAGGING_MODE_BEGIN:  mode = TAGGING_MODE;  break;
-            case SILENCE_MODE_BEGIN:  mode = SILENCE_MODE;  break;
+        /*  MAIN LOOP  */
+        for (long index = 0; index < stream1Length; index++) {
+            switch (input[index]) {
+                case RAW_MODE_BEGIN:      mode = RAW_MODE;      break;
+                case LETTER_MODE_BEGIN:   mode = LETTER_MODE;   break;
+                case EMPHASIS_MODE_BEGIN: mode = EMPHASIS_MODE; break;
+                case TAGGING_MODE_BEGIN:  mode = TAGGING_MODE;  break;
+                case SILENCE_MODE_BEGIN:  mode = SILENCE_MODE;  break;
 
-            case RAW_MODE_END:
-            case LETTER_MODE_END:
-            case EMPHASIS_MODE_END:
-            case TAGGING_MODE_END:
-            case SILENCE_MODE_END:    mode = NORMAL_MODE;   break;
+                case RAW_MODE_END:
+                case LETTER_MODE_END:
+                case EMPHASIS_MODE_END:
+                case TAGGING_MODE_END:
+                case SILENCE_MODE_END:    mode = NORMAL_MODE;   break;
 
-            default:
-                /*  GET STATE INFORMATION  */
-                if (gs_pm_get_state(input, &i, stream1Length, &mode, &next_mode, &current_state,
-                                    &next_state, &raw_mode_flag, word, stream2) != TTS_PARSER_SUCCESS)
-                    return TTS_PARSER_FAILURE;
+                default:
+                    /*  GET STATE INFORMATION  */
+                    if (gs_pm_get_state(input, &index, stream1Length, &mode, &next_mode, &current_state, &next_state, &raw_mode_flag, word, stream2) != TTS_PARSER_SUCCESS)
+                        return TTS_PARSER_FAILURE;
 
 #if 0
-                printf("last_written_state = %-d current_state = %-d next_state = %-d ",
-                       last_written_state,current_state,next_state);
-                printf("mode = %-d next_mode = %-d word = %s\n",
-                       mode,next_mode,word);
+                    printf("last_written_state = %-d current_state = %-d next_state = %-d ",
+                           last_written_state, current_state, next_state);
+                    printf("mode = %-d next_mode = %-d word = %s\n",
+                           mode, next_mode, word);
 #endif
 
-                /*  ACTION ACCORDING TO CURRENT STATE  */
-                switch (current_state) {
+                    /*  ACTION ACCORDING TO CURRENT STATE  */
+                    switch (current_state) {
 
-                    case STATE_WORD:
-                        /*  ADD BEGINNING MARKERS IF NECESSARY (SWITCH FALL-THRU DESIRED)  */
-                        switch (last_written_state) {
-                            case STATE_BEGIN:
-                                [stream2 printf:"%s ", SLASH_CHUNK_BOUNDARY];
-                            case STATE_FINAL_PUNC:
-                                [stream2 printf:"%s ", SLASH_TONE_GROUP_BOUNDARY];
-                                prior_tonic = TTS_NO;
-                            case STATE_MEDIAL_PUNC:
-                                [stream2 printf:"%s ", SLASH_TG_UNDEFINED];
-                                tg_marker_pos = [stream2 position] - 3;
-                            case STATE_SILENCE:
-                                [stream2 printf:"%s ", PHONE_UTTERANCE_BOUNDARY];
-                        }
-
-                        if (mode == NORMAL_MODE) {
-                            /*  PUT IN WORD MARKER  */
-                            [stream2 printf:"%s ", SLASH_WORD_BEGIN];
-                            /*  ADD LAST WORD MARKER AND TONICIZATION IF NECESSARY  */
-                            switch (next_state) {
-                                case STATE_MEDIAL_PUNC:
-                                case STATE_FINAL_PUNC:
-                                case STATE_END:
-                                    /*  PUT IN LAST WORD MARKER  */
-                                    [stream2 printf:"%s ", SLASH_LAST_WORD];
-                                    /*  WRITE WORD TO STREAM WITH TONIC IF NO PRIOR TONICIZATION  */
-                                    gs_pm_expand_word(word, (!prior_tonic), stream2);
-                                    break;
-                                default:
-                                    /*  WRITE WORD TO STREAM WITHOUT TONIC  */
-                                    gs_pm_expand_word(word, TTS_NO, stream2);
-                                    break;
+                        case STATE_WORD:
+                            /*  ADD BEGINNING MARKERS IF NECESSARY (SWITCH FALL-THRU DESIRED)  */
+                            switch (last_written_state) {
+                                case STATE_BEGIN:       [stream2 printf:"%s ", SLASH_CHUNK_BOUNDARY];
+                                case STATE_FINAL_PUNC:  [stream2 printf:"%s ", SLASH_TONE_GROUP_BOUNDARY]; prior_tonic = TTS_NO;
+                                case STATE_MEDIAL_PUNC: [stream2 printf:"%s ", SLASH_TG_UNDEFINED];        tg_marker_pos = [stream2 position] - 3;
+                                case STATE_SILENCE:     [stream2 printf:"%s ", PHONE_UTTERANCE_BOUNDARY];
                             }
-                        }
-                        else if (mode == EMPHASIS_MODE) {
-                            /*  START NEW TONE GROUP IF PRIOR TONIC ALREADY SET  */
-                            if (prior_tonic) {
-                                if (gs_pm_set_tone_group(stream2, tg_marker_pos, ",") == TTS_PARSER_FAILURE)
-                                    return TTS_PARSER_FAILURE;
-                                [stream2 printf:"%s %s ", SLASH_TONE_GROUP_BOUNDARY, SLASH_TG_UNDEFINED];
-                                tg_marker_pos = [stream2 position] - 3;
-                            }
-                            /*  PUT IN WORD MARKER  */
-                            [stream2 printf:"%s ", SLASH_WORD_BEGIN];
-                            /*  MARK LAST WORD OF TONE GROUP, IF NECESSARY  */
-                            if ((next_state == STATE_MEDIAL_PUNC) ||
-                                (next_state == STATE_FINAL_PUNC) ||
-                                (next_state == STATE_END) ||
-                                ((next_state == STATE_WORD) && (next_mode == EMPHASIS_MODE)) )
-                                [stream2 printf:"%s ", SLASH_LAST_WORD];
-                            /*  TONICIZE WORD  */
-                            gs_pm_expand_word(word, TTS_YES, stream2);
-                            prior_tonic = TTS_YES;
-                        }
 
-                        /*  SET LAST WRITTEN STATE, AND END POSITION AFTER THE WORD  */
-                        last_written_state = STATE_WORD;
-                        last_word_end = [stream2 position];
-                        break;
-
-
-                    case STATE_MEDIAL_PUNC:
-                        /*  APPEND LAST WORD MARK, PAUSE, TONE GROUP MARK (FALL-THRU DESIRED)  */
-                        switch (last_written_state) {
-                            case STATE_WORD:
-                                if (gs_pm_shift_silence(input, i, stream1Length, mode, stream2))
-                                    last_word_end = [stream2 position];
-                                else if ((next_state != STATE_END) &&
-                                         gs_pm_another_word_follows(input, i, stream1Length, mode)) {
-                                    if (!strcmp(word,","))
-                                        [stream2 printf:"%s %s ", PHONE_UTTERANCE_BOUNDARY, PHONE_MEDIAL_PAUSE];
-                                    else
-                                        [stream2 printf:"%s %s ", PHONE_UTTERANCE_BOUNDARY, PHONE_LONG_MEDIAL_PAUSE];
+                            if (mode == NORMAL_MODE)
+                            {
+                                /*  PUT IN WORD MARKER  */
+                                [stream2 printf:"%s ", SLASH_WORD_BEGIN];
+                                /*  ADD LAST WORD MARKER AND TONICIZATION IF NECESSARY  */
+                                switch (next_state) {
+                                    case STATE_MEDIAL_PUNC:
+                                    case STATE_FINAL_PUNC:
+                                    case STATE_END:
+                                        /*  PUT IN LAST WORD MARKER  */
+                                        [stream2 printf:"%s ", SLASH_LAST_WORD];
+                                        /*  WRITE WORD TO STREAM WITH TONIC IF NO PRIOR TONICIZATION  */
+                                        gs_pm_expand_word(word, (!prior_tonic), stream2);
+                                        break;
+                                    default:
+                                        /*  WRITE WORD TO STREAM WITHOUT TONIC  */
+                                        gs_pm_expand_word(word, TTS_NO, stream2);
+                                        break;
                                 }
-                                else if (next_state == STATE_END)
-                                    [stream2 printf:"%s ", PHONE_UTTERANCE_BOUNDARY];
-                            case STATE_SILENCE:
-                                [stream2 printf:"%s ", SLASH_TONE_GROUP_BOUNDARY];
-                                prior_tonic = TTS_NO;
-                                if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
-                                    return TTS_PARSER_FAILURE;
-                                tg_marker_pos = UNDEFINED_POSITION;
-                                last_written_state = STATE_MEDIAL_PUNC;
-                        }
-                        break;
+                            }
+                            else if (mode == EMPHASIS_MODE)
+                            {
+                                /*  START NEW TONE GROUP IF PRIOR TONIC ALREADY SET  */
+                                if (prior_tonic)
+                                {
+                                    if (gs_pm_set_tone_group(stream2, tg_marker_pos, ",") == TTS_PARSER_FAILURE)
+                                        return TTS_PARSER_FAILURE;
+                                    [stream2 printf:"%s %s ", SLASH_TONE_GROUP_BOUNDARY, SLASH_TG_UNDEFINED];
+                                    tg_marker_pos = [stream2 position] - 3;
+                                }
+                                /*  PUT IN WORD MARKER  */
+                                [stream2 printf:"%s ", SLASH_WORD_BEGIN];
+                                /*  MARK LAST WORD OF TONE GROUP, IF NECESSARY  */
+                                if (   next_state == STATE_MEDIAL_PUNC
+                                    || next_state == STATE_FINAL_PUNC
+                                    || next_state == STATE_END
+                                    || (next_state == STATE_WORD && next_mode == EMPHASIS_MODE) )
+                                {
+                                    [stream2 printf:"%s ", SLASH_LAST_WORD];
+                                }
+                                /*  TONICIZE WORD  */
+                                gs_pm_expand_word(word, TTS_YES, stream2);
+                                prior_tonic = TTS_YES;
+                            }
+
+                            /*  SET LAST WRITTEN STATE, AND END POSITION AFTER THE WORD  */
+                            last_written_state = STATE_WORD;
+                            last_word_end = [stream2 position];
+                            break;
 
 
-                    case STATE_FINAL_PUNC:
-                        if (last_written_state == STATE_WORD) {
-                            if (gs_pm_shift_silence(input, i, stream1Length, mode, stream2)) {
-                                last_word_end = [stream2 position];
+                        case STATE_MEDIAL_PUNC:
+                            /*  APPEND LAST WORD MARK, PAUSE, TONE GROUP MARK (FALL-THRU DESIRED)  */
+                            switch (last_written_state) {
+                                case STATE_WORD:
+                                    if (gs_pm_shift_silence(input, index, stream1Length, mode, stream2))
+                                    {
+                                        last_word_end = [stream2 position];
+                                    }
+                                    else if ((next_state != STATE_END) && gs_pm_another_word_follows(input, index, stream1Length, mode))
+                                    {
+                                        if (!strcmp(word,","))
+                                            [stream2 printf:"%s %s ", PHONE_UTTERANCE_BOUNDARY, PHONE_MEDIAL_PAUSE];
+                                        else
+                                            [stream2 printf:"%s %s ", PHONE_UTTERANCE_BOUNDARY, PHONE_LONG_MEDIAL_PAUSE];
+                                    }
+                                    else if (next_state == STATE_END)
+                                    {
+                                        [stream2 printf:"%s ", PHONE_UTTERANCE_BOUNDARY];
+                                    }
+
+                                case STATE_SILENCE:
+                                    [stream2 printf:"%s ", SLASH_TONE_GROUP_BOUNDARY];
+                                    prior_tonic = TTS_NO;
+                                    if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
+                                        return TTS_PARSER_FAILURE;
+                                    tg_marker_pos = UNDEFINED_POSITION;
+                                    last_written_state = STATE_MEDIAL_PUNC;
+                            }
+                            break;
+
+
+                        case STATE_FINAL_PUNC:
+                            if (last_written_state == STATE_WORD)
+                            {
+                                if (gs_pm_shift_silence(input, index, stream1Length, mode, stream2))
+                                {
+                                    last_word_end = [stream2 position];
+                                    [stream2 printf:"%s ", SLASH_TONE_GROUP_BOUNDARY];
+                                    prior_tonic = TTS_NO;
+                                    if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
+                                        return TTS_PARSER_FAILURE;
+                                    tg_marker_pos = UNDEFINED_POSITION;
+                                    /*  IF SILENCE INSERTED, THEN CONVERT FINAL PUNCTUATION TO MEDIAL  */
+                                    last_written_state = STATE_MEDIAL_PUNC;
+                                }
+                                else
+                                {
+                                    [stream2 printf:"%s %s %s ", PHONE_UTTERANCE_BOUNDARY,
+                                     SLASH_TONE_GROUP_BOUNDARY,SLASH_CHUNK_BOUNDARY];
+                                    prior_tonic = TTS_NO;
+                                    if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
+                                        return TTS_PARSER_FAILURE;
+                                    tg_marker_pos = UNDEFINED_POSITION;
+                                    last_written_state = STATE_FINAL_PUNC;
+                                }
+                            }
+                            else if (last_written_state == STATE_SILENCE)
+                            {
                                 [stream2 printf:"%s ", SLASH_TONE_GROUP_BOUNDARY];
                                 prior_tonic = TTS_NO;
                                 if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
@@ -1480,56 +1512,40 @@ int gs_pm_final_conversion(NXStream *stream1, NXStream *stream2)
                                 /*  IF SILENCE INSERTED, THEN CONVERT FINAL PUNCTUATION TO MEDIAL  */
                                 last_written_state = STATE_MEDIAL_PUNC;
                             }
-                            else {
-                                [stream2 printf:"%s %s %s ", PHONE_UTTERANCE_BOUNDARY,
-                                         SLASH_TONE_GROUP_BOUNDARY,SLASH_CHUNK_BOUNDARY];
+                            break;
+
+
+                        case STATE_SILENCE:
+                            if (last_written_state == STATE_BEGIN)
+                            {
+                                [stream2 printf:"%s %s %s ", SLASH_CHUNK_BOUNDARY, SLASH_TONE_GROUP_BOUNDARY, SLASH_TG_UNDEFINED];
                                 prior_tonic = TTS_NO;
-                                if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
+                                tg_marker_pos = [stream2 position] - 3;
+                                if ((gs_pm_convert_silence(word, stream2) <= 0.0) && (next_state == STATE_END))
                                     return TTS_PARSER_FAILURE;
-                                tg_marker_pos = UNDEFINED_POSITION;
-                                last_written_state = STATE_FINAL_PUNC;
+                                last_written_state = STATE_SILENCE;
+                                last_word_end = [stream2 position];
                             }
-                        }
-                        else if (last_written_state == STATE_SILENCE) {
-                            [stream2 printf:"%s ", SLASH_TONE_GROUP_BOUNDARY];
-                            prior_tonic = TTS_NO;
-                            if (gs_pm_set_tone_group(stream2, tg_marker_pos, word) == TTS_PARSER_FAILURE)
-                                return TTS_PARSER_FAILURE;
-                            tg_marker_pos = UNDEFINED_POSITION;
-                            /*  IF SILENCE INSERTED, THEN CONVERT FINAL PUNCTUATION TO MEDIAL  */
-                            last_written_state = STATE_MEDIAL_PUNC;
-                        }
-                        break;
-
-
-                    case STATE_SILENCE:
-                        if (last_written_state == STATE_BEGIN) {
-                            [stream2 printf:"%s %s %s ", SLASH_CHUNK_BOUNDARY, SLASH_TONE_GROUP_BOUNDARY, SLASH_TG_UNDEFINED];
-                            prior_tonic = TTS_NO;
-                            tg_marker_pos = [stream2 position] - 3;
-                            if ((gs_pm_convert_silence(word, stream2) <= 0.0) && (next_state == STATE_END))
-                                return TTS_PARSER_FAILURE;
-                            last_written_state = STATE_SILENCE;
-                            last_word_end = [stream2 position];
-                        }
-                        else if (last_written_state == STATE_WORD) {
-                            gs_pm_convert_silence(word, stream2);
-                            last_written_state = STATE_SILENCE;
-                            last_word_end = [stream2 position];
-                        }
-                        break;
-
-
-                    case STATE_TAGGING:
-                        gs_pm_insert_tag(stream2, last_word_end, word);
-                        last_word_end = UNDEFINED_POSITION;
-                        break;
-
-
-                    case STATE_END:
-                        break;
-                }
-                break;
+                            else if (last_written_state == STATE_WORD)
+                            {
+                                gs_pm_convert_silence(word, stream2);
+                                last_written_state = STATE_SILENCE;
+                                last_word_end = [stream2 position];
+                            }
+                            break;
+                            
+                            
+                        case STATE_TAGGING:
+                            gs_pm_insert_tag(stream2, last_word_end, word);
+                            last_word_end = UNDEFINED_POSITION;
+                            break;
+                            
+                            
+                        case STATE_END:
+                            break;
+                    }
+                    break;
+            }
         }
     }
 
@@ -1540,8 +1556,10 @@ int gs_pm_final_conversion(NXStream *stream1, NXStream *stream2)
             [stream2 printf:"%s", SLASH_CHUNK_BOUNDARY];
             break;
 
-        case STATE_WORD:  /*  FALL THROUGH DESIRED  */
+        case STATE_WORD:
             [stream2 printf:"%s ", PHONE_UTTERANCE_BOUNDARY];
+            // Fall through desired.
+
         case STATE_SILENCE:
             [stream2 printf:"%s %s", SLASH_TONE_GROUP_BOUNDARY, SLASH_CHUNK_BOUNDARY];
             //prior_tonic = TTS_NO;
