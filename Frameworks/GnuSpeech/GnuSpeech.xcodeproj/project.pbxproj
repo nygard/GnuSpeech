@@ -443,6 +443,10 @@
 				012D53AB0B7FF9DC001B50FC /* TTSParserOld.m */,
 				69300A3C0FAB841E0041EBFB /* TTSParser.h */,
 				69300A3D0FAB841E0041EBFB /* TTSParser.m */,
+				695148AC0FB0DDAA00B6DDD6 /* Number Parser */,
+				69E2281E0FB13393001B3C04 /* Letter To Sound */,
+				695148BA0FB0DEB000B6DDD6 /* Text Parser */,
+				0186C5D419985D93002AB929 /* Text Parser 2.0 */,
 			);
 			name = "Text Processing";
 			sourceTree = "<group>";
@@ -579,7 +583,7 @@
 				01612987199D75C000CD2844 /* GSTextGroup.m */,
 			);
 			name = "Text Parser 2.0";
-			path = TextParser;
+			path = TextProcessing/TextParser;
 			sourceTree = "<group>";
 		};
 		0186C5E21999409D002AB929 /* GnuSpeechTests */ = {
@@ -707,10 +711,6 @@
 				694157750FAB8D66009D4192 /* GSParser.m */,
 				695147940FB0D73000B6DDD6 /* Boolean Expression Parser */,
 				695148670FB0DB5500B6DDD6 /* Mathematical Expression Parser */,
-				695148AC0FB0DDAA00B6DDD6 /* Number Parser */,
-				695148BA0FB0DEB000B6DDD6 /* Text Parser */,
-				0186C5D419985D93002AB929 /* Text Parser 2.0 */,
-				69E2281E0FB13393001B3C04 /* Letter To Sound */,
 			);
 			path = Parsers;
 			sourceTree = "<group>";
@@ -758,7 +758,7 @@
 				695148B00FB0DDAA00B6DDD6 /* number_pronunciations_english.h */,
 			);
 			name = "Number Parser";
-			path = NumberParser;
+			path = TextProcessing/NumberParser;
 			sourceTree = "<group>";
 		};
 		695148BA0FB0DEB000B6DDD6 /* Text Parser */ = {
@@ -772,7 +772,7 @@
 				695148C40FB0DEB000B6DDD6 /* TTS_types.h */,
 			);
 			name = "Text Parser";
-			path = TextParser;
+			path = TextProcessing/TextParser;
 			sourceTree = "<group>";
 		};
 		69E2281E0FB13393001B3C04 /* Letter To Sound */ = {
@@ -780,6 +780,7 @@
 			children = (
 				69E2282F0FB13393001B3C04 /* letter_to_sound.h */,
 				0186C5DB1998B3D1002AB929 /* letter_to_sound_private.h */,
+				69E2282E0FB13393001B3C04 /* letter_to_sound.c */,
 				69E2281F0FB13393001B3C04 /* apply_stress.c */,
 				69E228210FB13393001B3C04 /* check_word_list.c */,
 				69E228230FB13393001B3C04 /* clusters.h */,
@@ -788,7 +789,6 @@
 				69E228280FB13393001B3C04 /* ie_to_y.c */,
 				69E2282A0FB13393001B3C04 /* insert_mark.c */,
 				69E2282C0FB13393001B3C04 /* isp_trans.c */,
-				69E2282E0FB13393001B3C04 /* letter_to_sound.c */,
 				69E228300FB13393001B3C04 /* long_medial_vowels.c */,
 				69E228320FB13393001B3C04 /* mark_final_e.c */,
 				69E228340FB13393001B3C04 /* medial_s.c */,
@@ -803,7 +803,7 @@
 				69E228430FB13393001B3C04 /* word_to_patphone.c */,
 			);
 			name = "Letter To Sound";
-			path = LetterToSound;
+			path = TextProcessing/LetterToSound;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
