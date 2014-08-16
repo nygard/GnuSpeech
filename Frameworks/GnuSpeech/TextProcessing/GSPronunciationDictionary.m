@@ -103,6 +103,8 @@
 
 - (NSString *)pronunciationForWord:(NSString *)word;
 {
+    NSParameterAssert(_hasBeenLoaded == YES);
+
     NSString *pronunciation = [self _pronunciationForWord:word];
     if (pronunciation == nil) {
         for (NSString *suffixOrderKey in _suffixReplacementOrder) {
