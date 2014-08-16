@@ -4,4 +4,6 @@
 
 @interface GSDBMPronunciationDictionary : GSPronunciationDictionary
 
++ (id)mainDictionary;
+
 @end

@@ -15,11 +15,6 @@
     BOOL _hasBeenLoaded;
 }
 
-+ (id)mainDictionary;
-{
-    return nil;
-}
-
 - (id)initWithFilename:(NSString *)filename;
 {
     if ((self = [super init])) {

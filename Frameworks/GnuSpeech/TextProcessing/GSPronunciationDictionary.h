@@ -4,8 +4,6 @@
 
 @interface GSPronunciationDictionary : NSObject
 
-+ (id)mainDictionary;
-
 - (id)initWithFilename:(NSString *)filename;
 
 @property (readonly) NSString *filename;
