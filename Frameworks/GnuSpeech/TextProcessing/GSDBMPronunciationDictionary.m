@@ -2,6 +2,7 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "GSDBMPronunciationDictionary.h"
+#import "GSPronunciationDictionary-Private.h"
 
 #include <ndbm.h>
 #import "GSSimplePronunciationDictionary.h"

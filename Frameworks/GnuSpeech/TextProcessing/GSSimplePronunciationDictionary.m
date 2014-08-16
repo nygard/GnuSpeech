@@ -2,6 +2,7 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 #import "GSSimplePronunciationDictionary.h"
+#import "GSPronunciationDictionary-Private.h"
 
 #import "GSSuffixReplacement.h"
 

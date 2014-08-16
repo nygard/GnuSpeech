@@ -303,6 +303,7 @@
 		01AE22D7154109B200AC1015 /* GnuSpeechServerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeechServerProtocol.h; sourceTree = "<group>"; };
 		01B4560F15452BE400D00A1A /* MMIntonationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMIntonationParameters.h; path = MonetModel/MMIntonationParameters.h; sourceTree = "<group>"; };
 		01B4561015452BE400D00A1A /* MMIntonationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMIntonationParameters.m; path = MonetModel/MMIntonationParameters.m; sourceTree = "<group>"; };
+		01DA73C8199F293200A7633F /* GSPronunciationDictionary-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GSPronunciationDictionary-Private.h"; sourceTree = "<group>"; };
 		01E6107A1996A566009CDE09 /* MMPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMPhone.h; path = MonetModel/MMPhone.h; sourceTree = "<group>"; };
 		01E6107B1996A566009CDE09 /* MMPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMPhone.m; path = MonetModel/MMPhone.m; sourceTree = "<group>"; };
 		01F470A815408B7800A604B8 /* Tube.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Tube.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug/Tube.framework"; sourceTree = "<group>"; };
@@ -417,6 +418,7 @@
 			isa = PBXGroup;
 			children = (
 				012D53A30B7FF9DC001B50FC /* GSPronunciationDictionary.h */,
+				01DA73C8199F293200A7633F /* GSPronunciationDictionary-Private.h */,
 				012D53A40B7FF9DC001B50FC /* GSPronunciationDictionary.m */,
 				012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */,
 				012D53A20B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m */,

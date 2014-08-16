@@ -12,15 +12,9 @@
 @property (nonatomic, readonly) NSDate *modificationDate;
 
 - (void)loadDictionaryIfNecessary;
-- (BOOL)loadDictionary;
-
-// Just lookup the pronunciation in the dictionary.  Implemented by subclasses.
-- (NSString *)_pronunciationForWord:(NSString *)word;
 
 /// Look up the pronunciation in the dictionary.  If nothing is found, check against the suffix replacements and return the modified word + extra pronunciation.
 - (NSString *)pronunciationForWord:(NSString *)word;
-
-- (NSString *)pronunciationForWord:(NSString *)word checkSuffixReplacements:(BOOL)should;
 
 - (void)testString:(NSString *)str;
 

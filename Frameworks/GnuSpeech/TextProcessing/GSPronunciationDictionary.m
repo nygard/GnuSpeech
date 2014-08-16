@@ -71,12 +71,6 @@
     }
 }
 
-- (BOOL)loadDictionary;
-{
-    // Implement in subclases.
-    return NO;
-}
-
 - (void)_readSuffixesFromFile:(NSString *)filename;
 {
     //NSLog(@" > %s", __PRETTY_FUNCTION__);
@@ -105,12 +99,6 @@
     //NSLog(@"Read %lu suffixes.", [suffixOrder count]);
 
     //NSLog(@"<  %s", __PRETTY_FUNCTION__);
-}
-
-- (NSString *)_pronunciationForWord:(NSString *)word;
-{
-    // Implement in subclasses
-    return nil;
 }
 
 - (NSString *)pronunciationForWord:(NSString *)word;
@@ -144,6 +132,20 @@
     }
 
     //NSLog(@"<  %s", _cmd);
+}
+
+#pragma mark - Subclass responsibilities
+
+- (BOOL)loadDictionary;
+{
+    // Implement in subclases.
+    return NO;
+}
+
+- (NSString *)_pronunciationForWord:(NSString *)word;
+{
+    // Implement in subclasses.
+    return nil;
 }
 
 @end
