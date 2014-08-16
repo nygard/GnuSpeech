@@ -279,60 +279,65 @@ int parser(const char *input, const char **output)
 
 
 /// Return the pronunciation of word, and set dict to the dictionary in which it was found.  Relies on the global dictionaryOrder.
+/// @param dict Returns which dictionary was used.  Can pass NULL if not interested in result.
 
 const char *lookup_word(const char *word, short *dict)
 {
-    NSString *pr;
-    NSString *w;
+    NSString *w = [NSString stringWithCString:word encoding:NSASCIIStringEncoding];
 
     const char *pronunciation;
 
 
     /*  SEARCH DICTIONARIES IN USER ORDER TILL PRONUNCIATION FOUND  */
     for (NSUInteger index = 0; index < 4; index++) {
+        NSString *pr;
+
         switch (_dictionaryOrder[index]) {
             case TTS_EMPTY:
                 break;
+
             case TTS_NUMBER_PARSER:
                 if ((pronunciation = number_parser(word, NP_MODE_NORMAL)) != NULL) {
-                    *dict = TTS_NUMBER_PARSER;
+                    if (dict != NULL) *dict = TTS_NUMBER_PARSER;
                     return (const char *)pronunciation;
                 }
                 break;
+
             case TTS_USER_DICTIONARY:
-                w = [NSString stringWithCString:word encoding:NSASCIIStringEncoding];
                 if ((pr = [_userDictionary pronunciationForWord:w]) != nil) {
+                    if (dict != NULL) *dict = TTS_USER_DICTIONARY;
                     pronunciation = [pr cStringUsingEncoding:NSASCIIStringEncoding];
-                    *dict = TTS_USER_DICTIONARY;
                     return (const char *)pronunciation;
                 }
                 break;
+
             case TTS_APPLICATION_DICTIONARY:
-                w = [NSString stringWithCString:word encoding:NSASCIIStringEncoding];
                 if ((pr = [_appDictionary pronunciationForWord:w]) != nil) {
+                    if (dict != NULL) *dict = TTS_APPLICATION_DICTIONARY;
                     pronunciation = [pr cStringUsingEncoding:NSASCIIStringEncoding];
-                    *dict = TTS_APPLICATION_DICTIONARY;
                     return (const char *)pronunciation;
                 }
                 break;
+
             case TTS_MAIN_DICTIONARY:
-                w = [NSString stringWithCString:word encoding:NSASCIIStringEncoding];
                 if ((pr = [_mainDictionary pronunciationForWord:w]) != nil) {
+                    if (dict != NULL) *dict = TTS_MAIN_DICTIONARY;
                     pronunciation = [pr cStringUsingEncoding:NSASCIIStringEncoding];
-                    *dict = TTS_MAIN_DICTIONARY;
                     return (const char *)pronunciation;
                 }
                 break;
+
             case TTS_LETTER_TO_SOUND:
                 if ((pronunciation = letter_to_sound((char *)word)) != NULL) {
-                    *dict = TTS_LETTER_TO_SOUND;
+                    if (dict != NULL) *dict = TTS_LETTER_TO_SOUND;
                     return (const char *)pronunciation;
                 }
                 else {
-                    *dict = TTS_LETTER_TO_SOUND;
+                    if (dict != NULL) *dict = TTS_LETTER_TO_SOUND;
                     return (const char *)degenerate_string(word);
                 }
                 break;
+
             default:
                 break;
         }
@@ -341,11 +346,11 @@ const char *lookup_word(const char *word, short *dict)
     /*  IF HERE, THEN FIND WORD IN LETTER-TO-SOUND RULEBASE  */
     /*  THIS IS GUARANTEED TO FIND A PRONUNCIATION OF SOME SORT  */
     if ((pronunciation = letter_to_sound((char *)word)) != NULL) {
-        *dict = TTS_LETTER_TO_SOUND;
+        if (dict != NULL) *dict = TTS_LETTER_TO_SOUND;
         return (const char *)pronunciation;
     }
 
-    *dict = TTS_LETTER_TO_SOUND;
+    if (dict != NULL) *dict = TTS_LETTER_TO_SOUND;
     return (const char *)degenerate_string(word);
 }
 
@@ -1958,7 +1963,6 @@ void gs_pm_insert_tag(NXStream *stream, long insert_point, char *word)
 
 void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
 {
-    short dictionary;
     const char *pronunciation;
 
 
@@ -1972,19 +1976,16 @@ void gs_pm_expand_word(char *word, long is_tonic, NXStream *stream)
             pronunciation = "uh";
         else
             pronunciation = degenerate_string((const char *)word);
-        dictionary = TTS_LETTER_TO_SOUND;
     }
     else if (gs_pm_is_all_upper_case(word))
     {
         /*  ALL UPPER CASE WORDS PRONOUNCED ONE LETTER AT A TIME, EXCEPT SPECIAL ACRONYMS  */
         if (!(pronunciation = gs_pm_is_special_acronym(word)))
             pronunciation = degenerate_string((const char *)word);
-
-        dictionary = TTS_LETTER_TO_SOUND;
     }
     else {
         /*  ALL OTHER WORDS ARE LOOKED UP IN DICTIONARIES, AFTER CONVERTING TO LOWER CASE  */
-        pronunciation = lookup_word((const char *)gs_pm_to_lower_case(word), &dictionary);
+        pronunciation = lookup_word((const char *)gs_pm_to_lower_case(word), NULL);
     }
 
 
