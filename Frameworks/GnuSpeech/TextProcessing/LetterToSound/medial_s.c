@@ -3,17 +3,19 @@
 
 #import "letter_to_sound_private.h"
 
+/// Change each 's' that is preceded by a vowel, and followed by either a vowel or 'm', into 'S'.
+
 void medial_s(char *in, char **eow)
 {
     char *end = *eow;
 
     while (in < end - 1)
     {
-        if (   member(*in | 040, "aeiouy")
+        if (   member(*in,   "AEIOUYaeiouy")
             && in[1] == 's'
             && member(in[2], "AEIOUYaeiouym"))
         {
-            in[1] &= 0xdf;
+            in[1] = 'S';
         }
         in++;
     }

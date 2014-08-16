@@ -5,6 +5,7 @@
 #import "NXStream.h"
 #import "GSTextGroup.h"
 #import "GSTextRun.h"
+#import "letter_to_sound_private.h"
 
 int main(int argc, const char *argv[])
 {
@@ -20,6 +21,7 @@ int main(int argc, const char *argv[])
             gs_pm_mark_modes(input, output, strlen(input), &outputLength);
         }
 #endif
+#if 0
         {
 //            char buffer[1000] = "foo) plus 5, or foo) + 5";
 //            char buffer[1000] = "blah 1 2+ +3 4+5 6 + 7 or ++ and +++ so a+ +b c5+ +6d 7e+ +f8 +_9 9_+";
@@ -44,6 +46,13 @@ int main(int argc, const char *argv[])
             [run1 stripPunctuation];
 //            [run1 _punc1_deleteSingleCharacters];
             NSLog(@"result: '%@'", run1.string);
+        }
+#endif
+        {
+            char buf[1000] = "ase ism ise ease";
+            char *end = buf + strlen(buf);
+            medial_s(buf, &end);
+            NSLog(@"medial_s: '%s'", buf);
         }
     }
 
