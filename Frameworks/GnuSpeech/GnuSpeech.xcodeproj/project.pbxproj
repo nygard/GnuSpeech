@@ -113,6 +113,8 @@
 		01ACA5E11544A80A00278339 /* MMGroupedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 01ACA5DF1544A80800278339 /* MMGroupedObject.m */; };
 		01B4561115452BE400D00A1A /* MMIntonationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B4560F15452BE400D00A1A /* MMIntonationParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01B4561215452BE400D00A1A /* MMIntonationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B4561015452BE400D00A1A /* MMIntonationParameters.m */; };
+		01DA73CB199F2CEB00A7633F /* GSPronunciationSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 01DA73C9199F2CEB00A7633F /* GSPronunciationSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01DA73CC199F2CEB00A7633F /* GSPronunciationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 01DA73CA199F2CEB00A7633F /* GSPronunciationSource.m */; };
 		01E6107C1996A566009CDE09 /* MMPhone.h in Headers */ = {isa = PBXBuildFile; fileRef = 01E6107A1996A566009CDE09 /* MMPhone.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01E6107D1996A566009CDE09 /* MMPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 01E6107B1996A566009CDE09 /* MMPhone.m */; };
 		01F470A915408B7800A604B8 /* Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F470A815408B7800A604B8 /* Tube.framework */; };
@@ -304,6 +306,8 @@
 		01B4560F15452BE400D00A1A /* MMIntonationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMIntonationParameters.h; path = MonetModel/MMIntonationParameters.h; sourceTree = "<group>"; };
 		01B4561015452BE400D00A1A /* MMIntonationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMIntonationParameters.m; path = MonetModel/MMIntonationParameters.m; sourceTree = "<group>"; };
 		01DA73C8199F293200A7633F /* GSPronunciationDictionary-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GSPronunciationDictionary-Private.h"; sourceTree = "<group>"; };
+		01DA73C9199F2CEB00A7633F /* GSPronunciationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GSPronunciationSource.h; path = TextProcessing/GSPronunciationSource.h; sourceTree = "<group>"; };
+		01DA73CA199F2CEB00A7633F /* GSPronunciationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GSPronunciationSource.m; path = TextProcessing/GSPronunciationSource.m; sourceTree = "<group>"; };
 		01E6107A1996A566009CDE09 /* MMPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMPhone.h; path = MonetModel/MMPhone.h; sourceTree = "<group>"; };
 		01E6107B1996A566009CDE09 /* MMPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMPhone.m; path = MonetModel/MMPhone.m; sourceTree = "<group>"; };
 		01F470A815408B7800A604B8 /* Tube.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Tube.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug/Tube.framework"; sourceTree = "<group>"; };
@@ -417,6 +421,8 @@
 		012D53A00B7FF9BD001B50FC /* Text Processing */ = {
 			isa = PBXGroup;
 			children = (
+				01DA73C9199F2CEB00A7633F /* GSPronunciationSource.h */,
+				01DA73CA199F2CEB00A7633F /* GSPronunciationSource.m */,
 				012D53A30B7FF9DC001B50FC /* GSPronunciationDictionary.h */,
 				01DA73C8199F293200A7633F /* GSPronunciationDictionary-Private.h */,
 				012D53A40B7FF9DC001B50FC /* GSPronunciationDictionary.m */,
@@ -868,6 +874,7 @@
 				69E228550FB13394001B3C04 /* letter_to_sound.h in Headers */,
 				69E228600FB13394001B3C04 /* stresstables.h in Headers */,
 				69E228630FB13394001B3C04 /* suffix_list.h in Headers */,
+				01DA73CB199F2CEB00A7633F /* GSPronunciationSource.h in Headers */,
 				69E228660FB13394001B3C04 /* tail.h in Headers */,
 				0157785815410A48008C2ECF /* GnuSpeechServerProtocol.h in Headers */,
 				01E6107C1996A566009CDE09 /* MMPhone.h in Headers */,
@@ -1029,6 +1036,7 @@
 				01E6107D1996A566009CDE09 /* MMPhone.m in Sources */,
 				0155E4470B7BE8FA008D8879 /* MDocument.m in Sources */,
 				0155E4490B7BE8FA008D8879 /* MMCategory.m in Sources */,
+				01DA73CC199F2CEB00A7633F /* GSPronunciationSource.m in Sources */,
 				0155E44B0B7BE8FA008D8879 /* MMEquation.m in Sources */,
 				0155E44D0B7BE8FA008D8879 /* MMIntonationPoint.m in Sources */,
 				0155E44F0B7BE8FA008D8879 /* MMNamedObject.m in Sources */,

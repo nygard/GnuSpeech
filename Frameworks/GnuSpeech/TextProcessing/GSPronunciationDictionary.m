@@ -101,6 +101,7 @@
     //NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
+// Look up the pronunciation in the dictionary.  If nothing is found, check against the suffix replacements and return the modified word + extra pronunciation.
 - (NSString *)pronunciationForWord:(NSString *)word;
 {
     NSParameterAssert(_hasBeenLoaded == YES);
@@ -121,19 +122,6 @@
     }
 
     return pronunciation;
-}
-
-- (void)testString:(NSString *)str;
-{
-    //NSLog(@" > %s", _cmd);
-
-    NSArray *words = [[str lowercaseString] componentsSeparatedByString:@" "];
-    for (NSString *word in words) {
-        NSString *pronunciation = [self pronunciationForWord:word];
-        NSLog(@"word: %@, pronunciation: %@", word, pronunciation);
-    }
-
-    //NSLog(@"<  %s", _cmd);
 }
 
 #pragma mark - Subclass responsibilities

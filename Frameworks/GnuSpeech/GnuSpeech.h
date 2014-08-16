@@ -52,6 +52,7 @@
 #import <GnuSpeech/MMFRuleSymbols.h>
 
 // Text Processing
+#import <GnuSpeech/GSPronunciationSource.h>
 #import <GnuSpeech/GSDBMPronunciationDictionary.h>
 #import <GnuSpeech/GSPronunciationDictionary.h>
 #import <GnuSpeech/GSSimplePronunciationDictionary.h>
