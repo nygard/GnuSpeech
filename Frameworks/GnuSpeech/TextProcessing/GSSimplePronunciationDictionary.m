@@ -18,6 +18,7 @@
     if (_mainDictionary == nil) {
         NSString *path = [[NSBundle bundleForClass:self] pathForResource:@"2.0eMainDictionary" ofType:@"dict"];
         _mainDictionary = [[GSSimplePronunciationDictionary alloc] initWithFilename:path];
+        [_mainDictionary loadDictionaryIfNecessary];
     }
 
     return _mainDictionary;
@@ -30,6 +31,7 @@
     if (_dictionary == nil) {
         NSString *path = [[NSBundle bundleForClass:self] pathForResource:@"SpecialAcronyms" ofType:@"dict"];
         _dictionary = [[GSSimplePronunciationDictionary alloc] initWithFilename:path];
+        [_dictionary loadDictionaryIfNecessary];
     }
 
     return _dictionary;

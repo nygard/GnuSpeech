@@ -25,6 +25,7 @@
             [GSDBMPronunciationDictionary _createDatabase:path fromSimpleDictionary:[GSSimplePronunciationDictionary mainDictionary]];
         }
         _mainDictionary = [[GSDBMPronunciationDictionary alloc] initWithFilename:path];
+        [_mainDictionary loadDictionaryIfNecessary];
     }
 
     return _mainDictionary;
