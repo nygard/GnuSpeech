@@ -34,8 +34,6 @@ static NSDictionary *specialAcronyms;  // static class variable
         _userDictionary = dictionary;
         _appDictionary = dictionary;
         _mainDictionary = dictionary;	
-	
-        //[mainDictionary loadDictionary];
     }
 
     return self;

@@ -7,6 +7,6 @@
 
 - (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)dictionary;
 
-- (NSString *)parseString:(NSString *)string;  // entry point
+- (NSString *)parseString:(NSString *)string;
 
 @end
