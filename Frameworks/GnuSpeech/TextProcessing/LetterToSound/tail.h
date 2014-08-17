@@ -3,8 +3,8 @@
 
 /*  DATA TYPES  **************************************************************/
 typedef struct {
-    char               *tail;
-    char               *type;
+    char *tail;
+    char *type;
 } tail_entry;
 
 

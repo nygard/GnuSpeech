@@ -8,7 +8,7 @@ int member(char element, char *set)
 {
     while (*set)
         if (element == *set++)
-            return(1);
+            return 1;
 
-    return(0);
+    return 0;
 }

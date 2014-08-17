@@ -10,8 +10,8 @@ char *vowel_before(char *start, char *position)
     position--;
     while (position >= start) {
         if (member(*position, "aeiouyAEIOUY"))
-            return(position);
+            return position;
         position--;
     }
-    return(0);
+    return 0;
 }

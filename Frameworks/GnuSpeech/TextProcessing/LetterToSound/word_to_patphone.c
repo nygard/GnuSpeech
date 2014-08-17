@@ -33,8 +33,8 @@ static char *letters[] = {
 
 int word_to_patphone(char *word)
 {
-    char                *end_of_word;
-    register char       replace_s = 0;
+    char *end_of_word;
+    char replace_s = 0;
 
 
     /*  FIND END OF WORD  */
@@ -44,15 +44,15 @@ int word_to_patphone(char *word)
 
     /*  IF NO LITTLE LETTERS SPELL THE WORD  */
     if (all_caps(word))
-        return(spell_it(word));
+        return spell_it(word);
 
     /*  IF SINGLE LETTER, SPELL IT  */
     if (end_of_word == (word + 2))
-        return(spell_it(word));
+        return spell_it(word);
 
     /*  IF NO VOWELS SPELL THE WORD  */
     if (!vowel_before(word, end_of_word))
-        return(spell_it(word));
+        return spell_it(word);
 
     /*  SEE IF IT IS IN THE EXCEPTION LIST  */
     if (check_word_list(word, &end_of_word)) {
@@ -72,7 +72,7 @@ int word_to_patphone(char *word)
                 *++end_of_word = '/';
             }
             *++end_of_word = 0;
-            return(1);
+            return 1;
         }
 
     mark_final_e(word, &end_of_word);
@@ -85,15 +85,16 @@ int word_to_patphone(char *word)
         *end_of_word = '#';
     }
     *++end_of_word = 0;
-    return(0);
+
+    return 0;
 }
 
 
 static int spell_it(char *word)
 {
-    register char      *s = spell_string;
-    register char      *t;
-    char               *hold = word;
+    char *s = spell_string;
+    char *t;
+    char *hold = word;
 
     /*  EAT THE '#'  */
     word++;
@@ -114,26 +115,25 @@ static int spell_it(char *word)
     *s = 0;
 
     strcpy(hold, spell_string);
-    return(2);
+
+    return 2;
 }
 
 static int all_caps(char *in)
 {
-    int                 all_up = 1;
-    int                 force_up = 0;
+    int all_up   = 1;
+    int force_up = 0;
 
     in++;
     if (*in == '#')
         force_up = 1;
 
     while (*in != '#') {
-        if ((*in <= 'z') && (*in >= 'a'))
-            all_up = 0;
-        else if ((*in <= 'Z') && (*in >= 'A'))
-            *in |= 0x20;
-        else if (*in != '\'')
-            force_up = 1;
+        if      ((*in <= 'z') && (*in >= 'a')) all_up = 0;
+        else if ((*in <= 'Z') && (*in >= 'A')) *in |= 0x20;
+        else if (*in != '\'')                  force_up = 1;
         in++;
     }
-    return (all_up || force_up);
+
+    return all_up || force_up;
 }

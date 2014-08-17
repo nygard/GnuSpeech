@@ -36,15 +36,16 @@ static int check_cluster(char *p, char **match_array);
 
 long syllabify(char *word)
 {
-    long                 i, n, temp, number_of_syllables = 0;
-    phone_type          cv_signature[MAX_LEN], *current_type;
-    char                *cluster, *ptr;
+    long temp, number_of_syllables = 0;
+    char *cluster;
 
 
     /*  INITIALIZE THIS ARRAY TO 'c' (CONSONANT), 'v' (VOWEL), 0 (END)  */
-    ptr = word;
+    char *ptr = word;
+
+    phone_type cv_signature[MAX_LEN];
     create_cv_signature(ptr, cv_signature);
-    current_type = cv_signature;
+    phone_type *current_type = cv_signature;
 
     /*  WHILE THERE IS ANOTHER CONSONANT CLUSTER (NOT THE LAST)  */
     while ((temp = next_consonant_cluster(current_type))) {
@@ -54,22 +55,21 @@ long syllabify(char *word)
         current_type += temp;
 
         /*  MOVE PTR TO POINT TO THAT CLUSTER  */
-        for (i = 0; i < temp; i++)
+        for (long index = 0; index < temp; index++)
             ptr = add_1_phone(ptr);
 
         /*  EXTRACT THE CLUSTER INTO A SEPARATE STRING  */
         cluster = extract_consonant_cluster(ptr, current_type);
 
         /*  DETERMINE WHERE THE PERIOD GOES (OFFSET FROM PTR, WHICH COULD BE -1)  */
-        n = syllable_break(cluster);
+        long n = syllable_break(cluster);
 
         /*  MARK THE SYLLABLE IF POSSIBLE  */
         if (n != -2)
             *(ptr + n) = '.';
     }
 
-    /*  RETURN NUMBER OF SYLLABLES  */
-    return(number_of_syllables ? number_of_syllables : 1);
+    return number_of_syllables ? number_of_syllables : 1;
 }
 
 
@@ -78,40 +78,34 @@ long syllabify(char *word)
 
 long syllable_break(char *cluster)
 {
-    char                *left_cluster, *right_cluster, temp[MAX_LEN];
-    long                 offset, length;
-
-
-    /*  GET LENGTH OF CLUSTER  */
-    length = strlen(cluster);
+    long length = strlen(cluster);
 
     /*  INITIALLY WE SHALL RETURN THE FIRST 'POSSIBLE' MATCH  */
-    for (offset = -1; (offset <= length); offset++) {
+    for (long offset = -1; (offset <= length); offset++) {
         if (offset == -1 || offset == length || cluster[offset] == '_' || cluster[offset] == '.') {
+            char temp[MAX_LEN];
             strcpy(temp, cluster);
             if (offset >= 0)
                 temp[offset] = 0;
-            left_cluster = (offset < 0 ? temp : offset == length ? temp + length : temp + (offset + 1));
+            char *left_cluster = (offset < 0 ? temp : offset == length ? temp + length : temp + (offset + 1));
             /*  POINTS TO BEGINNING OR NULL  */
-            right_cluster = (offset >= 0 ? temp : temp + length);
+            char *right_cluster = (offset >= 0 ? temp : temp + length);
             /*  NOW THEY POINT TO EITHER A LEFT/RIGHT HANDED CLUSTER OR A NULL STRING  */
             if (check_cluster(left_cluster, LEFT) && check_cluster(right_cluster, RIGHT)) {
                 /*  IF THIS IS A POSSIBLE BREAK */
                 /*  TEMPORARY:  WILL STORE LIST OF POSSIBLES AND PICK A 'BEST' ONE  */
-                return(offset);
+                return offset;
             }
         }
     }
 
     /*  IF HERE, RETURN ERROR  */
-    return(-2);
+    return -2;
 }
 
 void create_cv_signature(char *ptr, phone_type *arr)
 {
-    phone_type         *arr_next;
-
-    arr_next = arr;
+    phone_type *arr_next = arr;
     while (*ptr) {
         *arr_next++ = isvowel(*ptr) ? 'v' : 'c';
         ptr = add_1_phone(ptr);
@@ -127,18 +121,14 @@ char *add_1_phone(char *t)
     while (*t == '_' || *t == '.')
         t++;
 
-    return(t);
+    return t;
 }
 
 
 
 char *extract_consonant_cluster(char *ptr, phone_type *type)
 {
-    char                *newptr;
-    static char         ret[2048];  // to fix memory leak
-    long                 offset;
-
-    newptr = ptr;
+    char *newptr = ptr;
 
     while (*type == 'c') {
         type++;
@@ -148,15 +138,16 @@ char *extract_consonant_cluster(char *ptr, phone_type *type)
     //    printf("extract:  strlen(ptr) = %-d\n",strlen(ptr));
 
     //    ret = (char *)malloc(strlen(ptr) + 1);  // to fix memory leak
+    static char ret[2048];  // to fix memory leak
     strcpy(ret, ptr);
-    offset = newptr - ptr - 1;
+    long offset = newptr - ptr - 1;
 
     if (offset >= 0)
         ret[offset] = 0;
     else
         fprintf(stderr, "offset error\n");  // what's this??
 
-    return(ret);
+    return ret;
 }
 
 
@@ -167,18 +158,15 @@ char *extract_consonant_cluster(char *ptr, phone_type *type)
 
 long next_consonant_cluster(phone_type *pt)
 {
-    phone_type         *pt_var, *pt_temp;
-
-    pt_var = pt;
+    phone_type *pt_var = pt;
     while (*pt_var == 'c')
         pt_var++;
 
     while (*pt_var == 'v')
         pt_var++;
 
-    /*  CHECK TO SEE IF WE ARE NOW ON THE FINAL CLUSTER OF THE WORD WHICH IS AT
-     THE END OF THE WORD  */
-    pt_temp = pt_var;
+    /*  CHECK TO SEE IF WE ARE NOW ON THE FINAL CLUSTER OF THE WORD WHICH IS AT THE END OF THE WORD  */
+    phone_type *pt_temp = pt_var;
 
     while (*pt_temp == 'c')
         pt_temp++;
@@ -192,17 +180,16 @@ long next_consonant_cluster(phone_type *pt)
 
 int check_cluster(char *p, char **match_array)
 {
-    char                **i;
-
     /*  EMPTY COUNTS AS A MATCH  */
     if (!*p)
-        return(1);
+        return 1;
 
-    i = match_array;
+    char **i = match_array;
     while (*i) {
         if (!strcmp(*i, p))
-            return(1);
+            return 1;
         i++;
     }
-    return(0);
+
+    return 0;
 }

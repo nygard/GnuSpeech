@@ -8,10 +8,9 @@
 
 char *suffix(char *in, char *end, char *suflist)
 {
-    register char      *temp;
-
-    temp = (char *)ends_with(in, end, suflist);
+    char *temp = (char *)ends_with(in, end, suflist);
     if (temp && vowel_before(in, temp + 1))
-        return(temp);
-    return(0);
+        return temp;
+
+    return 0;
 }
