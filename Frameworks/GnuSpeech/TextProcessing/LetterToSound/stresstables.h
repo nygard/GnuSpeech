@@ -114,12 +114,13 @@ static struct suff_data suffix_list[] =
 
 
 /*  STRESS REPELLENT PREFICES  */
-static char        *prefices[] = {
+static char *prefices[] =
+{
     "ex",
     "ac",
     "af",
     "de",
     "in",
     "non",
-    0
+    0,
 };
