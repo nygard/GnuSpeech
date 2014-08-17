@@ -6,11 +6,11 @@
 #define isvowel(c)     (((c)=='a') || ((c)=='e') || ((c)=='i') || ((c)=='o') || ((c)=='u') )
 
 /*  SUFFIX TYPES  */
-#define AUTOSTRESSED   (0)
-#define PRESTRESS1     (1)
-#define PRESTRESS2     (2)
-#define PRESTRESS3     (3)        /* actually prestressed 1/2, but can't use '/' in identifier */
-#define NEUTRAL        (4)
+#define LTS_AUTOSTRESSED   (0)
+#define LTS_PRESTRESS1     (1)
+#define LTS_PRESTRESS2     (2)
+#define LTS_PRESTRESS_HALF (3) /* actually prestressed 1/2, but can't use '/' in identifier */
+#define LTS_NEUTRAL        (4)
 
 
 /*  DATA TYPES  **************************************************************/
@@ -25,92 +25,92 @@ struct suff_data {
 static struct suff_data suffix_list[] =
 {
     //  AUTOSTRESSED: (2nd entry 0)
-    { "ade",     0, 1 },
-    { "aire",    0, 1 },
-    { "aise",    0, 1 },
-    { "arian",   0, 1 },
-    { "arium",   0, 1 },
-    { "cidal",   0, 2 },
-    { "cratic",  0, 2 },
-    { "ee",      0, 1 },
-    { "een",     0, 1 },
-    { "eer",     0, 1 },
-    { "elle",    0, 1 },
-    { "enne",    0, 1 },
-    { "ential",  0, 2 },
-    { "esce",    0, 1 },
-    { "escence", 0, 2 },
-    { "escent",  0, 2 },
-    { "ese",     0, 1 },
-    { "esque",   0, 1 },
-    { "esse",    0, 1 },
-    { "et",      0, 1 },
-    { "ette",    0, 1 },
-    { "eur",     0, 1 },
-    { "faction", 0, 2 },
-    { "ician",   0, 2 },
-    { "icious",  0, 2 },
-    { "icity",   0, 3 },
-    { "ation",   0, 2 },
-    { "self",    0, 1 },
+    { "ade",     LTS_AUTOSTRESSED,   1 },
+    { "aire",    LTS_AUTOSTRESSED,   1 },
+    { "aise",    LTS_AUTOSTRESSED,   1 },
+    { "arian",   LTS_AUTOSTRESSED,   1 },
+    { "arium",   LTS_AUTOSTRESSED,   1 },
+    { "cidal",   LTS_AUTOSTRESSED,   2 },
+    { "cratic",  LTS_AUTOSTRESSED,   2 },
+    { "ee",      LTS_AUTOSTRESSED,   1 },
+    { "een",     LTS_AUTOSTRESSED,   1 },
+    { "eer",     LTS_AUTOSTRESSED,   1 },
+    { "elle",    LTS_AUTOSTRESSED,   1 },
+    { "enne",    LTS_AUTOSTRESSED,   1 },
+    { "ential",  LTS_AUTOSTRESSED,   2 },
+    { "esce",    LTS_AUTOSTRESSED,   1 },
+    { "escence", LTS_AUTOSTRESSED,   2 },
+    { "escent",  LTS_AUTOSTRESSED,   2 },
+    { "ese",     LTS_AUTOSTRESSED,   1 },
+    { "esque",   LTS_AUTOSTRESSED,   1 },
+    { "esse",    LTS_AUTOSTRESSED,   1 },
+    { "et",      LTS_AUTOSTRESSED,   1 },
+    { "ette",    LTS_AUTOSTRESSED,   1 },
+    { "eur",     LTS_AUTOSTRESSED,   1 },
+    { "faction", LTS_AUTOSTRESSED,   2 },
+    { "ician",   LTS_AUTOSTRESSED,   2 },
+    { "icious",  LTS_AUTOSTRESSED,   2 },
+    { "icity",   LTS_AUTOSTRESSED,   3 },
+    { "ation",   LTS_AUTOSTRESSED,   2 },
+    { "self",    LTS_AUTOSTRESSED,   1 },
 
     // PRESTRESS1: (2nd entry 1)
-    { "cracy",   1, 2 },
-    { "erie",    1, 2 },
-    { "ety",     1, 2 },
-    { "ic",      1, 1 },
-    { "ical",    1, 2 },
-    { "ssion",   1, 1 },
-    { "ia",      1, 1 },
-    { "metry",   1, 2 },
+    { "cracy",   LTS_PRESTRESS1,     2 },
+    { "erie",    LTS_PRESTRESS1,     2 },
+    { "ety",     LTS_PRESTRESS1,     2 },
+    { "ic",      LTS_PRESTRESS1,     1 },
+    { "ical",    LTS_PRESTRESS1,     2 },
+    { "ssion",   LTS_PRESTRESS1,     1 },
+    { "ia",      LTS_PRESTRESS1,     1 },
+    { "metry",   LTS_PRESTRESS1,     2 },
 
     // PRESTRESS2: (2nd entry 2)
-    { "able",    2, 1 },   //  NOTE: McIl GIVES WRONG SYLL. CT.
-    { "ast",     2, 1 },
-    { "ate",     2, 1 },
-    { "atory",   2, 3 },
-    { "cide",    2, 1 },
-    { "ene",     2, 1 },
-    { "fy",      2, 1 },
-    { "gon",     2, 1 },
-    { "tude",    2, 1 },
-    { "gram",    2, 1 },
+    { "able",    LTS_PRESTRESS2,     1 },   //  NOTE: McIl GIVES WRONG SYLL. CT.
+    { "ast",     LTS_PRESTRESS2,     1 },
+    { "ate",     LTS_PRESTRESS2,     1 },
+    { "atory",   LTS_PRESTRESS2,     3 },
+    { "cide",    LTS_PRESTRESS2,     1 },
+    { "ene",     LTS_PRESTRESS2,     1 },
+    { "fy",      LTS_PRESTRESS2,     1 },
+    { "gon",     LTS_PRESTRESS2,     1 },
+    { "tude",    LTS_PRESTRESS2,     1 },
+    { "gram",    LTS_PRESTRESS2,     1 },
 
     // PRESTRESS 1/2: (2nd entry 3)
-    { "ad",      3, 1 },
-    { "al",      3, 1 },
-    { "an",      3, 1 },   //  OMIT?
-    { "ancy",    3, 2 },
-    { "ant",     3, 1 },
-    { "ar",      3, 1 },
-    { "ary",     3, 2 },
-    { "ative",   3, 2 },
-    { "ator",    3, 2 },
-    { "ature",   3, 2 },
-    { "ence",    3, 1 },
-    { "ency",    3, 2 },
-    { "ent",     3, 1 },
-    { "ery",     3, 2 },
-    { "ible",    3, 1 },   //  BUG
-    { "is",      3, 1 },
+    { "ad",      LTS_PRESTRESS_HALF, 1 },
+    { "al",      LTS_PRESTRESS_HALF, 1 },
+    { "an",      LTS_PRESTRESS_HALF, 1 },   //  OMIT?
+    { "ancy",    LTS_PRESTRESS_HALF, 2 },
+    { "ant",     LTS_PRESTRESS_HALF, 1 },
+    { "ar",      LTS_PRESTRESS_HALF, 1 },
+    { "ary",     LTS_PRESTRESS_HALF, 2 },
+    { "ative",   LTS_PRESTRESS_HALF, 2 },
+    { "ator",    LTS_PRESTRESS_HALF, 2 },
+    { "ature",   LTS_PRESTRESS_HALF, 2 },
+    { "ence",    LTS_PRESTRESS_HALF, 1 },
+    { "ency",    LTS_PRESTRESS_HALF, 2 },
+    { "ent",     LTS_PRESTRESS_HALF, 1 },
+    { "ery",     LTS_PRESTRESS_HALF, 2 },
+    { "ible",    LTS_PRESTRESS_HALF, 1 },   //  BUG
+    { "is",      LTS_PRESTRESS_HALF, 1 },
 
     // STRESS NEUTRAL: (2nd entry 4)
-    { "acy",     4, 2 },
-    { "age",     4, 1 },
-    { "ance",    4, 1 },
-    { "edly",    4, 2 },
-    { "edness",  4, 2 },
-    { "en",      4, 1 },
-    { "er",      4, 1 },
-    { "ess",     4, 1 },
-    { "ful",     4, 1 },
-    { "hood",    4, 1 },
-    { "less",    4, 1 },
-    { "ness",    4, 1 },
-    { "ish",     4, 1 },
-    { "dom",     4, 1 },
+    { "acy",     LTS_NEUTRAL,        2 },
+    { "age",     LTS_NEUTRAL,        1 },
+    { "ance",    LTS_NEUTRAL,        1 },
+    { "edly",    LTS_NEUTRAL,        2 },
+    { "edness",  LTS_NEUTRAL,        2 },
+    { "en",      LTS_NEUTRAL,        1 },
+    { "er",      LTS_NEUTRAL,        1 },
+    { "ess",     LTS_NEUTRAL,        1 },
+    { "ful",     LTS_NEUTRAL,        1 },
+    { "hood",    LTS_NEUTRAL,        1 },
+    { "less",    LTS_NEUTRAL,        1 },
+    { "ness",    LTS_NEUTRAL,        1 },
+    { "ish",     LTS_NEUTRAL,        1 },
+    { "dom",     LTS_NEUTRAL,        1 },
 
-    { 0,         0, 0 },        /*  END MARKER  */
+    { NULL,      0,                  0 }, //  END MARKER
 };
 
 

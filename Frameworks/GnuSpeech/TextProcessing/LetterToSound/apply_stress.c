@@ -43,17 +43,17 @@ int apply_stress(char *buffer, char *orthography)
      SUFFIX, 0 IF NONE; AND TYPE  */
     t = stress_suffix(orthography, &type);
     if (t) {
-        if (type == AUTOSTRESSED)
+        if (type == LTS_AUTOSTRESSED)
             syll = index - t;
-        else if (type == PRESTRESS1)
+        else if (type == LTS_PRESTRESS1)
             syll = index - t - 1;
-        else if (type == PRESTRESS2)
+        else if (type == LTS_PRESTRESS2)
             syll = index - t - 2;
-        else if (type == PRESTRESS3) {
+        else if (type == LTS_PRESTRESS_HALF) {
             syll = index - t - 1;
             if (syll >= 0 && light(syll_array[syll]))
                 syll--;
-        } else if (type == NEUTRAL)
+        } else if (type == LTS_NEUTRAL)
             index -= t;
     }
 
