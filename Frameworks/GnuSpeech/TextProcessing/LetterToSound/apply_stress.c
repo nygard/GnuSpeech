@@ -90,12 +90,12 @@ static int stress_suffix(char *orthography, int *type)
     char               *b;
 
     c = strlen(orthography);
-    while (suffix_list[t].suff) {
-        b = suffix_list[t].suff;
+    while (suffix_list[t].suffix) {
+        b = suffix_list[t].suffix;
         a = strlen(b);
         if ((a <= c) && !strcmp(b, orthography + c - a)) {
             *type = suffix_list[t].type;
-            return(suffix_list[t].sylls);
+            return(suffix_list[t].syllableCount);
         }
         t++;
     }

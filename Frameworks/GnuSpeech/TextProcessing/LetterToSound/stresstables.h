@@ -15,9 +15,9 @@
 
 /*  DATA TYPES  **************************************************************/
 struct suff_data {
-    char *suff;
+    char *suffix;
     int type;
-    int sylls;
+    int syllableCount;
 };
 
 
