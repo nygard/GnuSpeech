@@ -3,7 +3,6 @@
 
 /*  LOCAL DEFINES  ***********************************************************/
 #define MAX_SYLLS      (100)
-#define isvowel(c)     (((c)=='a') || ((c)=='e') || ((c)=='i') || ((c)=='o') || ((c)=='u') )
 
 /*  SUFFIX TYPES  */
 #define LTS_AUTOSTRESSED   (0)

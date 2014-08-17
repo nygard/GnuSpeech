@@ -17,3 +17,5 @@ char *suffix(char *in, char *end, char *suflist);
 long syllabify(char *word);
 char *vowel_before(char *start, char *position);
 int word_to_patphone(char *word);
+
+#define isvowel(c)     (((c)=='a') || ((c)=='e') || ((c)=='i') || ((c)=='o') || ((c)=='u') )

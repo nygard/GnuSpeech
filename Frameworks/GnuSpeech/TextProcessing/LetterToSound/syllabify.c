@@ -10,7 +10,6 @@
 
 /*  LOCAL DEFINES  ***********************************************************/
 #define MAX_LEN    1024
-#define isvowel(c) ((c)=='a' || (c)=='e' || (c)=='i' || (c)=='o' || (c)=='u' )
 #define LEFT       begin_syllable
 #define RIGHT      end_syllable
 
