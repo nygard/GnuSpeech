@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <suffix name="ly"   word-type="d"  />
+  <suffix name="er"   word-type="ca" />
+  <suffix name="ish"  word-type="c"  />
+  <suffix name="ing"  word-type="cb" />
+  <suffix name="se"   word-type="b"  />
+  <suffix name="ic"   word-type="c"  />
+  <suffix name="ify"  word-type="b"  />
+  <suffix name="ment" word-type="a"  />
+  <suffix name="al"   word-type="c"  />
+  <suffix name="ed"   word-type="bc" />
+  <suffix name="es"   word-type="ab" />
+  <suffix name="ant"  word-type="ca" />
+  <suffix name="ent"  word-type="ca" />
+  <suffix name="ist"  word-type="a"  />
+  <suffix name="ism"  word-type="a"  />
+  <suffix name="gy"   word-type="a"  />
+  <suffix name="ness" word-type="a"  />
+  <suffix name="ous"  word-type="c"  />
+  <suffix name="less" word-type="c"  />
+  <suffix name="ful"  word-type="c"  />
+  <suffix name="ion"  word-type="a"  />
+  <suffix name="able" word-type="c"  />
+  <suffix name="en"   word-type="c"  />
+  <suffix name="ry"   word-type="ac" />
+  <suffix name="ey"   word-type="c"  />
+  <suffix name="or"   word-type="a"  />
+  <suffix name="y"    word-type="c"  />
+  <suffix name="us"   word-type="a"  />
+  <suffix name="s"    word-type="ab" />
+</root>

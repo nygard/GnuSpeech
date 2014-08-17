@@ -4,21 +4,43 @@
 #import "GSLetterToSound.h"
 
 #import "letter_to_sound.h"
+#import "GSSuffixWordType.h"
+
+static NSString *GSLTSWordType_Unknown = @"j";
+
 
 @implementation GSLetterToSound
 
-+ (NSDictionary *)foo;
++ (NSArray *)suffixToWordTypes;
 {
-    static NSDictionary *foo;
+    static NSArray *suffixToWordTypes;
 
-    if (foo == nil) {
-        foo = @{
-                @"one" : @(2),
-                };
+    if (suffixToWordTypes == nil) {
+        NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"SuffixToWordType" withExtension:@"xml"];
+
+        NSError *error;
+        NSXMLDocument *document = [[NSXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error];
+        if (document == nil) {
+            NSLog(@"%s, error loading SuffixToWordType.xml: %@", __PRETTY_FUNCTION__, error);
+        } else {
+            NSMutableArray *a1 = [[NSMutableArray alloc] init];
+
+            for (NSXMLElement *element in [[document rootElement] elementsForName:@"suffix"]) {
+                NSString *suffix   = [[element attributeForName:@"name"] stringValue];
+                NSString *wordType = [[element attributeForName:@"word-type"] stringValue];
+                GSSuffixWordType *suffixWordType = [[GSSuffixWordType alloc] initWithSuffix:suffix wordType:wordType];
+                [a1 addObject:suffixWordType];
+            }
+
+            suffixToWordTypes = [a1 copy];
+            //NSLog(@"suffixToWordTypes: %@", suffixToWordTypes);
+        }
     }
-
-    return foo;
+    
+    return suffixToWordTypes;
 }
+
+#pragma mark -
 
 - (NSString *)pronunciationForWord:(NSString *)word;
 {
@@ -28,6 +50,54 @@
     }
 
     return nil;
+}
+
+#pragma mark -
+
+- (NSString *)new_pronunciationForWord:(NSString *)word;
+{
+    NSMutableString *str = [NSMutableString stringWithFormat:@"#%@#", word];
+    NSMutableString *pronunciation = [[NSMutableString alloc] init];
+
+    [GSLetterToSound suffixToWordTypes];
+
+    NSUInteger syllableCount = 0;
+
+#if 0
+    /*  CONVERT WORD TO PRONUNCIATION  */
+    if (!word_to_patphone(buffer))
+    {
+        isp_trans(buffer, pronunciation);
+        /*  ATTEMPT TO MARK SYLL/STRESS  */
+        syllableCount = syllabify(pronunciation);
+        if (apply_stress(pronunciation, word))
+            return NULL;
+    }
+    else
+    {
+        strcpy(pronunciation, buffer);
+    }
+#endif
+
+    [pronunciation appendString:@"%"]; // Word type delimiter.
+
+    // Guess the type of word.
+    [pronunciation appendString:(syllableCount == 1) ? GSLTSWordType_Unknown : [self typeOfWord:word]];
+
+    return [pronunciation copy];
+}
+
+#pragma mark -
+
+/// Return a word type based on the suffix of a word.
+- (NSString *)typeOfWord:(NSString *)word;
+{
+    for (GSSuffixWordType *suffixWordType in [GSLetterToSound suffixToWordTypes]) {
+        if ([word hasSuffix:suffixWordType.suffix])
+            return suffixWordType.wordType;
+    }
+
+    return GSLTSWordType_Unknown;
 }
 
 @end

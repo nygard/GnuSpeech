@@ -5,4 +5,7 @@
 
 @interface GSLetterToSound : GSPronunciationSource
 
+// Just for testing right now.
+- (NSString *)new_pronunciationForWord:(NSString *)word;
+
 @end

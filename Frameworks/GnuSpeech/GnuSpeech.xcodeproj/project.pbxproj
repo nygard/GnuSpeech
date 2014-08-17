@@ -32,6 +32,9 @@
 		012D53BC0B7FFB34001B50FC /* TTSSuffixList.txt in Resources */ = {isa = PBXBuildFile; fileRef = 012D53B90B7FFB34001B50FC /* TTSSuffixList.txt */; };
 		01410990199DC785003AD5BD /* PunctuationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0141098F199DC785003AD5BD /* PunctuationTests.m */; };
 		0147E43419A0065000D285A3 /* InternalLetterToSoundTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0147E43319A0065000D285A3 /* InternalLetterToSoundTests.m */; };
+		0147E43A19A06C8500D285A3 /* SuffixToWordType.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0147E43919A06C8500D285A3 /* SuffixToWordType.xml */; };
+		0147E43D19A06E3F00D285A3 /* GSSuffixWordType.h in Headers */ = {isa = PBXBuildFile; fileRef = 0147E43B19A06E3F00D285A3 /* GSSuffixWordType.h */; };
+		0147E43E19A06E3F00D285A3 /* GSSuffixWordType.m in Sources */ = {isa = PBXBuildFile; fileRef = 0147E43C19A06E3F00D285A3 /* GSSuffixWordType.m */; };
 		0155E38E0B7BE80D008D8879 /* NSArray-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3800B7BE80D008D8879 /* NSArray-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E38F0B7BE80D008D8879 /* NSArray-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E3810B7BE80D008D8879 /* NSArray-Extensions.m */; };
 		0155E3900B7BE80D008D8879 /* NSCharacterSet-Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E3820B7BE80D008D8879 /* NSCharacterSet-Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -221,6 +224,9 @@
 		012D53B90B7FFB34001B50FC /* TTSSuffixList.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = TTSSuffixList.txt; path = TextProcessing/TTSSuffixList.txt; sourceTree = "<group>"; };
 		0141098F199DC785003AD5BD /* PunctuationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PunctuationTests.m; sourceTree = "<group>"; };
 		0147E43319A0065000D285A3 /* InternalLetterToSoundTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InternalLetterToSoundTests.m; sourceTree = "<group>"; };
+		0147E43919A06C8500D285A3 /* SuffixToWordType.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = SuffixToWordType.xml; path = TextProcessing/SuffixToWordType.xml; sourceTree = "<group>"; };
+		0147E43B19A06E3F00D285A3 /* GSSuffixWordType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GSSuffixWordType.h; path = TextProcessing/GSSuffixWordType.h; sourceTree = "<group>"; };
+		0147E43C19A06E3F00D285A3 /* GSSuffixWordType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GSSuffixWordType.m; path = TextProcessing/GSSuffixWordType.m; sourceTree = "<group>"; };
 		0155E3800B7BE80D008D8879 /* NSArray-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSArray-Extensions.h"; path = "Extensions/NSArray-Extensions.h"; sourceTree = "<group>"; };
 		0155E3810B7BE80D008D8879 /* NSArray-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSArray-Extensions.m"; path = "Extensions/NSArray-Extensions.m"; sourceTree = "<group>"; };
 		0155E3820B7BE80D008D8879 /* NSCharacterSet-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSCharacterSet-Extensions.h"; path = "Extensions/NSCharacterSet-Extensions.h"; sourceTree = "<group>"; };
@@ -431,6 +437,9 @@
 				01DA73CA199F2CEB00A7633F /* GSPronunciationSource.m */,
 				01DA73CD199F2E7D00A7633F /* GSLetterToSound.h */,
 				01DA73CE199F2E7D00A7633F /* GSLetterToSound.m */,
+				0147E43B19A06E3F00D285A3 /* GSSuffixWordType.h */,
+				0147E43C19A06E3F00D285A3 /* GSSuffixWordType.m */,
+				0147E43919A06C8500D285A3 /* SuffixToWordType.xml */,
 				012D53A30B7FF9DC001B50FC /* GSPronunciationDictionary.h */,
 				01DA73C8199F293200A7633F /* GSPronunciationDictionary-Private.h */,
 				012D53A40B7FF9DC001B50FC /* GSPronunciationDictionary.m */,
@@ -838,6 +847,7 @@
 				01DA73CF199F2E7D00A7633F /* GSLetterToSound.h in Headers */,
 				0155E45C0B7BE8FA008D8879 /* MMRule.h in Headers */,
 				01102E2A199A9E95002B4522 /* GSTextGroupBuilder.h in Headers */,
+				0147E43D19A06E3F00D285A3 /* GSSuffixWordType.h in Headers */,
 				0155E45A0B7BE8FA008D8879 /* MMPostureRewriter.h in Headers */,
 				0155E4580B7BE8FA008D8879 /* MMPosture.h in Headers */,
 				01612981199D735900CD2844 /* GSTextRun.h in Headers */,
@@ -996,6 +1006,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0147E43A19A06C8500D285A3 /* SuffixToWordType.xml in Resources */,
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 				012D53BA0B7FFB34001B50FC /* 2.0eMainDictionary.dict in Resources */,
 				012D53BB0B7FFB34001B50FC /* SpecialAcronyms.plist in Resources */,
@@ -1049,6 +1060,7 @@
 				0155E4470B7BE8FA008D8879 /* MDocument.m in Sources */,
 				0155E4490B7BE8FA008D8879 /* MMCategory.m in Sources */,
 				01DA73CC199F2CEB00A7633F /* GSPronunciationSource.m in Sources */,
+				0147E43E19A06E3F00D285A3 /* GSSuffixWordType.m in Sources */,
 				0155E44B0B7BE8FA008D8879 /* MMEquation.m in Sources */,
 				0155E44D0B7BE8FA008D8879 /* MMIntonationPoint.m in Sources */,
 				0155E44F0B7BE8FA008D8879 /* MMNamedObject.m in Sources */,

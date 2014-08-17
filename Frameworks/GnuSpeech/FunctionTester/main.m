@@ -7,6 +7,7 @@
 #import "GSTextRun.h"
 #import "letter_to_sound.h"
 #import "letter_to_sound_private.h"
+#import "GSLetterToSound.h"
 
 int main(int argc, const char *argv[])
 {
@@ -54,6 +55,11 @@ int main(int argc, const char *argv[])
             char *ptr = letter_to_sound(buf);
             NSLog(@"ptr: %p", ptr);
             NSLog(@"buf '%s' = '%s'", buf, ptr);
+        }
+        {
+            GSLetterToSound *lts = [[GSLetterToSound alloc] init];
+            NSString *p2 = [lts new_pronunciationForWord:@"testing"];
+            NSLog(@"p2: '%@'", p2);
         }
     }
 
