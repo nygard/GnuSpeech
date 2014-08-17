@@ -76,8 +76,8 @@ static NSDictionary *specialAcronyms;  // static class variable
 	} else {  // strip the non-ascii-convertible characters
 
 		NSLog(@"parseString: String cannot be converted without information loss.");
-		NSData * lossyInput = [string dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-		NSString * stringInput = [[NSString alloc] initWithData:lossyInput encoding:NSASCIIStringEncoding];  // this needs to stick around at least as long as 'input'
+		NSData *lossyInput = [string dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+		NSString *stringInput = [[NSString alloc] initWithData:lossyInput encoding:NSASCIIStringEncoding];  // this needs to stick around at least as long as 'input'
 		input = [stringInput cStringUsingEncoding:NSASCIIStringEncoding];
 	}
 	
