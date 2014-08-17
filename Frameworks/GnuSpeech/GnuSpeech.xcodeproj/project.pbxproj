@@ -433,11 +433,7 @@
 			children = (
 				01DA73C9199F2CEB00A7633F /* GSPronunciationSource.h */,
 				01DA73CA199F2CEB00A7633F /* GSPronunciationSource.m */,
-				01DA73CD199F2E7D00A7633F /* GSLetterToSound.h */,
-				01DA73CE199F2E7D00A7633F /* GSLetterToSound.m */,
-				0147E43B19A06E3F00D285A3 /* GSSuffixWordType.h */,
-				0147E43C19A06E3F00D285A3 /* GSSuffixWordType.m */,
-				0147E43919A06C8500D285A3 /* SuffixToWordType.xml */,
+				0147E43F19A0761600D285A3 /* Letter to Sound 2.0 */,
 				012D53A30B7FF9DC001B50FC /* GSPronunciationDictionary.h */,
 				01DA73C8199F293200A7633F /* GSPronunciationDictionary-Private.h */,
 				012D53A40B7FF9DC001B50FC /* GSPronunciationDictionary.m */,
@@ -478,6 +474,18 @@
 				016503E315436FBA00D64E98 /* Concrete subclasses */,
 			);
 			name = "Input data from XML file";
+			sourceTree = "<group>";
+		};
+		0147E43F19A0761600D285A3 /* Letter to Sound 2.0 */ = {
+			isa = PBXGroup;
+			children = (
+				01DA73CD199F2E7D00A7633F /* GSLetterToSound.h */,
+				01DA73CE199F2E7D00A7633F /* GSLetterToSound.m */,
+				0147E43B19A06E3F00D285A3 /* GSSuffixWordType.h */,
+				0147E43C19A06E3F00D285A3 /* GSSuffixWordType.m */,
+				0147E43919A06C8500D285A3 /* SuffixToWordType.xml */,
+			);
+			name = "Letter to Sound 2.0";
 			sourceTree = "<group>";
 		};
 		0155E37F0B7BE7FD008D8879 /* Extensions */ = {
