@@ -7,6 +7,7 @@
 #import "NSString-Extensions.h"
 
 #import "GSPronunciationDictionary.h"
+#import "GSSimplePronunciationDictionary.h"
 #import "TTSNumberPronunciations.h"
 
 #define TTS_CHUNK_BOUNDARY        @"/c"
@@ -51,21 +52,10 @@ TTSInputMode TTSInputModeFromString(NSString *str)
     return TTSInputModeUnknown;
 }
 
-static NSDictionary *_specialAcronyms = nil;
-
 @implementation TTSParserOld
 {
     GSPronunciationDictionary *_mainDictionary;
     unichar _escapeCharacter;
-}
-
-+ (void)initialize;
-{
-    NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:@"SpecialAcronyms" ofType:@"plist"];
-    NSLog(@"path: %@", path);
-
-    _specialAcronyms = [[NSDictionary alloc] initWithContentsOfFile:path];
-    NSLog(@"_specialAcronyms: %@", [_specialAcronyms description]);
 }
 
 - (id)initWithPronunciationDictionary:(GSPronunciationDictionary *)aDictionary;
@@ -394,7 +384,7 @@ static NSDictionary *_specialAcronyms = nil;
         }
         // dictionary = TTS_LETTER_TO_SOUND;
     } else if ([word isAllUpperCase]) {
-        pronunciation = [_specialAcronyms objectForKey:word];
+        pronunciation = [[GSSimplePronunciationDictionary specialAcronymDictionary] pronunciationForWord:word checkSuffixes:NO];
         if (pronunciation == nil)
             pronunciation = [self degenerateString:word];
         // dictionary = TTS_LETTER_TO_SOUND;

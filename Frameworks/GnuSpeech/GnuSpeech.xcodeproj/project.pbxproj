@@ -28,7 +28,6 @@
 		012D53B50B7FF9DC001B50FC /* TTSParserOld.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53AA0B7FF9DC001B50FC /* TTSParserOld.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		012D53B60B7FF9DC001B50FC /* TTSParserOld.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53AB0B7FF9DC001B50FC /* TTSParserOld.m */; };
 		012D53BA0B7FFB34001B50FC /* 2.0eMainDictionary.dict in Resources */ = {isa = PBXBuildFile; fileRef = 012D53B70B7FFB34001B50FC /* 2.0eMainDictionary.dict */; };
-		012D53BB0B7FFB34001B50FC /* SpecialAcronyms.plist in Resources */ = {isa = PBXBuildFile; fileRef = 012D53B80B7FFB34001B50FC /* SpecialAcronyms.plist */; };
 		012D53BC0B7FFB34001B50FC /* TTSSuffixList.txt in Resources */ = {isa = PBXBuildFile; fileRef = 012D53B90B7FFB34001B50FC /* TTSSuffixList.txt */; };
 		01410990199DC785003AD5BD /* PunctuationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0141098F199DC785003AD5BD /* PunctuationTests.m */; };
 		0147E43419A0065000D285A3 /* InternalLetterToSoundTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0147E43319A0065000D285A3 /* InternalLetterToSoundTests.m */; };
@@ -220,7 +219,6 @@
 		012D53AA0B7FF9DC001B50FC /* TTSParserOld.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TTSParserOld.h; path = TextProcessing/TTSParserOld.h; sourceTree = "<group>"; };
 		012D53AB0B7FF9DC001B50FC /* TTSParserOld.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TTSParserOld.m; path = TextProcessing/TTSParserOld.m; sourceTree = "<group>"; };
 		012D53B70B7FFB34001B50FC /* 2.0eMainDictionary.dict */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = 2.0eMainDictionary.dict; path = TextProcessing/2.0eMainDictionary.dict; sourceTree = "<group>"; };
-		012D53B80B7FFB34001B50FC /* SpecialAcronyms.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = SpecialAcronyms.plist; path = TextProcessing/SpecialAcronyms.plist; sourceTree = "<group>"; };
 		012D53B90B7FFB34001B50FC /* TTSSuffixList.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = TTSSuffixList.txt; path = TextProcessing/TTSSuffixList.txt; sourceTree = "<group>"; };
 		0141098F199DC785003AD5BD /* PunctuationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PunctuationTests.m; sourceTree = "<group>"; };
 		0147E43319A0065000D285A3 /* InternalLetterToSoundTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InternalLetterToSoundTests.m; sourceTree = "<group>"; };
@@ -661,7 +659,6 @@
 				8DC2EF5A0486A6940098B216 /* Info.plist */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
 				012D53B70B7FFB34001B50FC /* 2.0eMainDictionary.dict */,
-				012D53B80B7FFB34001B50FC /* SpecialAcronyms.plist */,
 				0186C5D9199871B7002AB929 /* SpecialAcronyms.dict */,
 				012D53B90B7FFB34001B50FC /* TTSSuffixList.txt */,
 			);
@@ -1009,7 +1006,6 @@
 				0147E43A19A06C8500D285A3 /* SuffixToWordType.xml in Resources */,
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 				012D53BA0B7FFB34001B50FC /* 2.0eMainDictionary.dict in Resources */,
-				012D53BB0B7FFB34001B50FC /* SpecialAcronyms.plist in Resources */,
 				0186C5DA199871B7002AB929 /* SpecialAcronyms.dict in Resources */,
 				012D53BC0B7FFB34001B50FC /* TTSSuffixList.txt in Resources */,
 				697930D30F91906B00E6B2EC /* ChangeLog.txt in Resources */,

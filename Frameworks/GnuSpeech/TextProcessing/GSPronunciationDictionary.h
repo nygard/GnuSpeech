@@ -13,4 +13,6 @@
 
 - (void)loadDictionaryIfNecessary;
 
+- (NSString *)pronunciationForWord:(NSString *)word checkSuffixes:(BOOL)shouldCheckSuffixes;
+
 @end

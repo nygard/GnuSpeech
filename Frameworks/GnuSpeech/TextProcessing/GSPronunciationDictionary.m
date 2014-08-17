@@ -104,10 +104,15 @@
 // Look up the pronunciation in the dictionary.  If nothing is found, check against the suffix replacements and return the modified word + extra pronunciation.
 - (NSString *)pronunciationForWord:(NSString *)word;
 {
+    return [self pronunciationForWord:word checkSuffixes:YES];
+}
+
+- (NSString *)pronunciationForWord:(NSString *)word checkSuffixes:(BOOL)shouldCheckSuffixes;
+{
     NSParameterAssert(_hasBeenLoaded == YES);
 
     NSString *pronunciation = [self _pronunciationForWord:word];
-    if (pronunciation == nil) {
+    if (pronunciation == nil && shouldCheckSuffixes) {
         for (NSString *suffixOrderKey in _suffixReplacementOrder) {
             GSSuffixReplacement *suffix = _suffixReplacements[suffixOrderKey];
             NSRange range = [word rangeOfString:suffix.suffix options:NSAnchoredSearch|NSBackwardsSearch];
