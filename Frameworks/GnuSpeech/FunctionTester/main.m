@@ -5,6 +5,7 @@
 #import "NXStream.h"
 #import "GSTextGroup.h"
 #import "GSTextRun.h"
+#import "letter_to_sound.h"
 #import "letter_to_sound_private.h"
 
 int main(int argc, const char *argv[])
@@ -49,10 +50,10 @@ int main(int argc, const char *argv[])
         }
 #endif
         {
-            char buf[1000] = "ase ism ise ease";
-            char *end = buf + strlen(buf);
-            medial_s(buf, end);
-            NSLog(@"medial_s: '%s'", buf);
+            char buf[1000] = "pronunciation";
+            char *ptr = letter_to_sound(buf);
+            NSLog(@"ptr: %p", ptr);
+            NSLog(@"buf '%s' = '%s'", buf, ptr);
         }
     }
 

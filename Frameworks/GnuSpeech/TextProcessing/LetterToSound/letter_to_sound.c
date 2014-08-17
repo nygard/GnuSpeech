@@ -9,8 +9,6 @@
 
 
 /*  LOCAL DEFINES  ***********************************************************/
-#define WORD_TYPE_UNKNOWN          "j"
-#define WORD_TYPE_DELIMITER        '%'
 #define MAX_WORD_LENGTH            1024
 #define MAX_PRONUNCIATION_LENGTH   8192
 #define WORDEND(word,string)       (!strcmp(MAX(word+strlen(word)-strlen(string),word),string))
@@ -22,12 +20,13 @@ static char *word_type(char *word);
 
 
 
-/// Returns pronunciation of word based on letter-to-sound rules.  Returns NULL if any error (rare).
 char *letter_to_sound(char *word)
 {
     char buffer[MAX_WORD_LENGTH+3];
-    static char pronunciation[MAX_PRONUNCIATION_LENGTH+1];
+    static char pronunciation[MAX_PRONUNCIATION_LENGTH + 1];
     long number_of_syllables = 0;
+
+    memset(pronunciation, 0, MAX_PRONUNCIATION_LENGTH + 1); // Helps debugging.
 
 
     /*  FORMAT WORD  */
@@ -56,7 +55,6 @@ char *letter_to_sound(char *word)
     else
         strcat(pronunciation, WORD_TYPE_UNKNOWN);
 
-    /*  RETURN RESULTING PRONUNCIATION  */
     return pronunciation;
 }
 
