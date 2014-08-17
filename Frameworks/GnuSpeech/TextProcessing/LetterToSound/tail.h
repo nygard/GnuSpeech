@@ -9,7 +9,8 @@ typedef struct {
 
 
 /*  GLOBAL VARIABLES (LOCAL TO THIS FILE)  ***********************************/
-static tail_entry tail_list[] = {
+static tail_entry tail_list[] =
+{
     { "ly",   "d"  },
     { "er",   "ca" },
     { "ish",  "c"  },

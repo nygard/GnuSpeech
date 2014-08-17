@@ -3,18 +3,18 @@
 
 #import "letter_to_sound_private.h"
 
-/// Return 0 if word doesn't end with set element, else pointer to char before ending.
+/// Return NULL if word doesn't end with set element, else pointer to char before ending.
 char *ends_with(char *in, char *end, char *set)
 {
-    register char      *temp;
-
     while (*set) {
-        temp = end + 1;
+        char *temp = end + 1;
         while (*--temp == *set)
             set++;
         if (*set == '/')
-            return(temp);
-        while (*set++ != '/');
+            return temp;
+        while (*set++ != '/')
+            /* pass */;
     }
-    return(0);
+
+    return NULL;
 }

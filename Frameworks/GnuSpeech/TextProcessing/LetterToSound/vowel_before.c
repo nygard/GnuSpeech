@@ -3,15 +3,17 @@
 
 #import "letter_to_sound_private.h"
 
-/// Return the position of a vowel prior to 'position'.  If no vowel prior return 0.
+/// Return the position of a vowel prior to 'position'.  If no vowel prior return NULL.
 
 char *vowel_before(char *start, char *position)
 {
     position--;
-    while (position >= start) {
+    while (position >= start)
+    {
         if (member(*position, "aeiouyAEIOUY"))
             return position;
         position--;
     }
-    return 0;
+
+    return NULL;
 }

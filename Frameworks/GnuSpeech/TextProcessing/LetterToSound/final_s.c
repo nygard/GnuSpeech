@@ -6,8 +6,8 @@
 /// Check for a final s, strip it if found and return s or z, or else return false.  Don't strip if it's the only character.
 char final_s(char *in, char **eow)
 {
-    register char      *end = *eow;
-    char                retval = 0;
+    char *end = *eow;
+    char retval = 0;
 
     /*  STRIP TRAILING S's  */
     if ((*(end - 1) == '\'') && (*(end - 2) == 's')) {
@@ -31,5 +31,6 @@ char final_s(char *in, char **eow)
             *eow = end;
         }
     }
-    return(retval);
+
+    return retval;
 }

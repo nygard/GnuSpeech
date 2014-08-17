@@ -195,16 +195,15 @@ static pktrie trie[TRIE_NODES] = {
 
 int check_word_list(char *string, char **eow)
 {
-    int                 i = 0;
-    int                 term;
-    char                *t = string;
+    int i = 0;
+    char *t = string;
 
     string++;
     *(*eow) = 0;
 
     while (*string) {
         if (trie[index(*string) + i].val == *string) {
-            term = trie[index(*string) + i].term_state;
+            int term = trie[index(*string) + i].term_state;
             if (!*(string + 1)) {
                 if (!term)
                     break;

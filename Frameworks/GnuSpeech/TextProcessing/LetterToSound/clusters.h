@@ -2,7 +2,8 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 /*  LIST OF PHONEME PATTERNS THAT CAN BEGIN A SYLLABLE  */
-static char *begin_syllable[] = {
+static char *begin_syllable[] =
+{
     "s_p_l",
     "s_p_r",
     "s_p_y",
@@ -64,7 +65,8 @@ static char *begin_syllable[] = {
 
 
 /*  LIST OF PHONEME PATTERNS THAT CAN END A SYLLABLE  */
-static char *end_syllable[] = {
+static char *end_syllable[] =
+{
     "b",
     "d",
     "er",

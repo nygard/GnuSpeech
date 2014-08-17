@@ -36,7 +36,6 @@ static int check_cluster(char *p, char **match_array);
 long syllabify(char *word)
 {
     long temp, number_of_syllables = 0;
-    char *cluster;
 
 
     /*  INITIALIZE THIS ARRAY TO 'c' (CONSONANT), 'v' (VOWEL), 0 (END)  */
@@ -47,7 +46,8 @@ long syllabify(char *word)
     phone_type *current_type = cv_signature;
 
     /*  WHILE THERE IS ANOTHER CONSONANT CLUSTER (NOT THE LAST)  */
-    while ((temp = next_consonant_cluster(current_type))) {
+    while ((temp = next_consonant_cluster(current_type)))
+    {
         number_of_syllables++;
 
         /*  UPDATE CURRENT TYPE POINTER  */
@@ -58,7 +58,7 @@ long syllabify(char *word)
             ptr = add_1_phone(ptr);
 
         /*  EXTRACT THE CLUSTER INTO A SEPARATE STRING  */
-        cluster = extract_consonant_cluster(ptr, current_type);
+        char *cluster = extract_consonant_cluster(ptr, current_type);
 
         /*  DETERMINE WHERE THE PERIOD GOES (OFFSET FROM PTR, WHICH COULD BE -1)  */
         long n = syllable_break(cluster);
@@ -80,8 +80,10 @@ long syllable_break(char *cluster)
     long length = strlen(cluster);
 
     /*  INITIALLY WE SHALL RETURN THE FIRST 'POSSIBLE' MATCH  */
-    for (long offset = -1; (offset <= length); offset++) {
-        if (offset == -1 || offset == length || cluster[offset] == '_' || cluster[offset] == '.') {
+    for (long offset = -1; (offset <= length); offset++)
+    {
+        if (offset == -1 || offset == length || cluster[offset] == '_' || cluster[offset] == '.')
+        {
             char temp[MAX_LEN];
             strcpy(temp, cluster);
             if (offset >= 0)
@@ -90,7 +92,8 @@ long syllable_break(char *cluster)
             /*  POINTS TO BEGINNING OR NULL  */
             char *right_cluster = (offset >= 0 ? temp : temp + length);
             /*  NOW THEY POINT TO EITHER A LEFT/RIGHT HANDED CLUSTER OR A NULL STRING  */
-            if (check_cluster(left_cluster, LEFT) && check_cluster(right_cluster, RIGHT)) {
+            if (check_cluster(left_cluster, LEFT) && check_cluster(right_cluster, RIGHT))
+            {
                 /*  IF THIS IS A POSSIBLE BREAK */
                 /*  TEMPORARY:  WILL STORE LIST OF POSSIBLES AND PICK A 'BEST' ONE  */
                 return offset;
@@ -105,7 +108,8 @@ long syllable_break(char *cluster)
 void create_cv_signature(char *ptr, phone_type *arr)
 {
     phone_type *arr_next = arr;
-    while (*ptr) {
+    while (*ptr)
+    {
         *arr_next++ = isvowel(*ptr) ? 'v' : 'c';
         ptr = add_1_phone(ptr);
     }
@@ -129,7 +133,8 @@ char *extract_consonant_cluster(char *ptr, phone_type *type)
 {
     char *newptr = ptr;
 
-    while (*type == 'c') {
+    while (*type == 'c')
+    {
         type++;
         newptr = add_1_phone(newptr);
     }
@@ -184,7 +189,8 @@ int check_cluster(char *p, char **match_array)
         return 1;
 
     char **i = match_array;
-    while (*i) {
+    while (*i)
+    {
         if (!strcmp(*i, p))
             return 1;
         i++;
