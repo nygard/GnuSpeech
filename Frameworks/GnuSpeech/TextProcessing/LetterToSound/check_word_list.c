@@ -35,7 +35,7 @@ static char *m_string[] = {
     /* [being] = */     "b_ee_i_ng_",
     /* [below] = */     "b_i_l_uh_uu_",
     /* [body] = */      "b_o_d_ee_",
-    /* [bath] = */      "b_aa_th_",
+    /* [bath] = */      "b_aa_th_",                 // Not in 1977 revision.
     /* [busy] = */      "b_i_z_ee_",
     /* [copy] = */      "k_o_p_ee_",
     /* [do] = */        "d_uu_",
@@ -126,13 +126,12 @@ static char *m_string[] = {
     /* [woman] = */     "w_u_m_uh_n_",
     /* [women] = */     "w_i_m_uh_n_",
     /* [yes] = */       "y_e_s_",
-    /* [you] = */       "y_uu_",
-    /* [your] = */      "y_aw_r_",
+    /* [you] = */       "y_uu_",                      // Not in 1977 revision.
+    /* [your] = */      "y_aw_r_",                    // Not in 1977 revision.
 };
 
 
-/*  STRUCTURE MAY BE MODIFIED IF MAX_ORGIN OR MAX_TERM_VAL
- CAN BE CONTAINED IN LESS THAN AN INT  */
+/*  STRUCTURE MAY BE MODIFIED IF MAX_ORGIN OR MAX_TERM_VAL CAN BE CONTAINED IN LESS THAN AN INT  */
 static pktrie trie[TRIE_NODES] = {
     {0,0,0},      {0,0,0},       {0,0,0},      {0,0,0},      {0,0,0},      {0,0,0},      {0,0,0},      {'\'',0,49},
     {0,0,0},      {0,0,0},       {0,0,0},      {0,0,0},      {0,0,0},      {0,0,0},      {0,0,0},      {0,0,0},
