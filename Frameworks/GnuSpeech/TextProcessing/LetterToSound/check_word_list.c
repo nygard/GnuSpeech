@@ -222,3 +222,24 @@ int check_word_list(char *string, char **eow)
     *(*eow) = '#';
     return(0);
 }
+
+// escaped: \" \\ \'
+void reprint_cwl_trie(void)
+{
+    for (int index = 0; index < TRIE_NODES; index++) {
+        char ch = trie[index].val;
+        if (ch == '"' || ch == '\\' || ch == '\'') {
+            printf("{ '\\%c', ", ch);
+        } else if (ch == 0) {
+            printf("{ 0,    ");
+        } else {
+            printf("{ '%c',  ", ch);
+        }
+        assert(trie[index].term_state < 1000);
+        printf("%-3d, %-4d }, ", trie[index].term_state, trie[index].next_org);
+        if (((index + 1) % 8) == 0) {
+            printf("\n");
+        }
+    }
+    printf("\n");
+}
