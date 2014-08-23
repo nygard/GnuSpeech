@@ -19,3 +19,7 @@ char *vowel_before(char *start, char *position);
 int word_to_patphone(char *word);
 
 #define isvowel(c)     (((c)=='a') || ((c)=='e') || ((c)=='i') || ((c)=='o') || ((c)=='u') )
+
+
+void reprint_isp_trie(void);
+void reprint_cwl_trie(void);
