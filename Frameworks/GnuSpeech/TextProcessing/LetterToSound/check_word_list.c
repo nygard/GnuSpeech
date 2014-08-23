@@ -191,13 +191,17 @@ static pktrie trie[TRIE_NODES] = {
     { 'a',  0,   266  },
 };
 
-
+/// This takes a word (with '#' at beginning and end).  It looks up the word in the exception list trie.
+/// If found, it replaces the original string with a pronunciation and returns 1.
+///
+/// @return 1 if the word was found in the exception list, 0 otherwise.
 int check_word_list(char *string, char **eow)
 {
+    fprintf(stderr, "check_word_list('%s', '%s')\n", string, *eow);
     int i = 0;
-    char *t = string;
+    char *startOfOriginalString = string;
 
-    string++;
+    string++; // Skip the initial '#'.
     *(*eow) = 0;
 
     while (*string) {
@@ -206,11 +210,12 @@ int check_word_list(char *string, char **eow)
             if (!*(string + 1)) {
                 if (!term)
                     break;
-                string = m_string[term - 1];
-                while (*string)
-                    *t++ = *string++;
-                *eow = t - 1;
-                return(1);
+
+                char *ptr = m_string[term - 1];
+                while (*ptr)
+                    *startOfOriginalString++ = *ptr++;
+                *eow = startOfOriginalString - 1;
+                return 1;
             }
             i = trie[cwl_index(*string++) + i].next_org;
             if (!i)
@@ -220,7 +225,7 @@ int check_word_list(char *string, char **eow)
     }
 
     *(*eow) = '#';
-    return(0);
+    return 0;
 }
 
 // escaped: \" \\ \'
