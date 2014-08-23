@@ -235,7 +235,6 @@ void reprint_cwl_trie(void)
         } else {
             printf("{ '%c',  ", ch);
         }
-        assert(trie[index].term_state < 1000);
         printf("%-3d, %-4d }, ", trie[index].term_state, trie[index].next_org);
         if (((index + 1) % 8) == 0) {
             printf("\n");
