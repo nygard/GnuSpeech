@@ -54,4 +54,49 @@ XCTAssert(strcmp(buf, expected) == 0);\
     CHECK_MEDIAL_S("a",    "a"); // single vowel
 }
 
+#pragma mark - Word Exception List
+
+- (void)DISABLED_testWordExceptions_TrilliumMistakes;
+{
+    char *endOfWord;
+    int found;
+
+    // They had 'bath' instead of 'both'.
+    strcpy(buf, "#bath#"); endOfWord = buf + strlen(buf) - 1;
+    found = check_word_list(buf, &endOfWord);
+    XCTAssert(found == 0, @"'bath'");
+
+    strcpy(buf, "#both#"); endOfWord = buf + strlen(buf) - 1;
+    found = check_word_list(buf, &endOfWord);
+    XCTAssert(found == 1, @"'both'");
+
+    // They had "dosn't" instead of "doesn't".
+    strcpy(buf, "#dosn't#"); endOfWord = buf + strlen(buf) - 1;
+    found = check_word_list(buf, &endOfWord);
+    XCTAssert(found == 0, @"'dosn't'");
+
+    strcpy(buf, "#doesn't#"); endOfWord = buf + strlen(buf) - 1;
+    found = check_word_list(buf, &endOfWord);
+    XCTAssert(found == 1, @"'doesn't'");
+
+    // Perhaps these were intentional, but 'you' and 'your' were not in any of the three versions of the paper I've seen.
+    strcpy(buf, "#you#"); endOfWord = buf + strlen(buf) - 1;
+    found = check_word_list(buf, &endOfWord);
+    XCTAssert(found == 0, @"'you'");
+
+    strcpy(buf, "#your#"); endOfWord = buf + strlen(buf) - 1;
+    found = check_word_list(buf, &endOfWord);
+    XCTAssert(found == 0, @"'your'");
+}
+
+- (void)DISABLED_testWordExceptions_1977Updates;
+{
+    char *endOfWord;
+    int result;
+
+    strcpy(buf, "#eye#"); endOfWord = buf + strlen(buf) - 1;
+    result = check_word_list(buf, &endOfWord);
+    XCTAssert(result == 0, @"'eye'");
+}
+
 @end
