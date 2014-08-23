@@ -35,12 +35,12 @@ static char *m_string[] = {
     /* [being] = */     "b_ee_i_ng_",
     /* [below] = */     "b_i_l_uh_uu_",
     /* [body] = */      "b_o_d_ee_",
-    /* [bath] = */      "b_aa_th_",                 // Not in 1977 revision.
+    /* [bath] = */      "b_aa_th_",                 // Not in 1977 version.  2014-08-22: Should be "both".
     /* [busy] = */      "b_i_z_ee_",
     /* [copy] = */      "k_o_p_ee_",
     /* [do] = */        "d_uu_",
     /* [does] = */      "d_a_z_",
-    /* [dosn't] = */    "d_a_z_uh_n_t_",
+    /* [dosn't] = */    "d_a_z_uh_n_t_",            // 2014-08-22: Should be "doesn't"
     /* [doing] = */     "d_uu_i_ng_",
     /* [done] = */      "d_a_n_",
     /* [dr] = */        "d_o_k_t_uh_r_",
@@ -53,7 +53,7 @@ static char *m_string[] = {
     /* [evening] = */   "ee_v_n_i_ng_",
     /* [every] = */     "e_v_r_ee_",
     /* [everyone] = */  "e_v_r_ee_w_uh_n_",
-    /* [eye] = */       "ah_i_",
+    /* [eye] = */       "ah_i_",                    // 2014-08-22: Removed from 1977 version.
     /* [february] = */  "f_e_b_r_uu_e_r_ee_",
     /* [finally] = */   "f_ah_i_n_uh_l_ee_",
     /* [friday] = */    "f_r_ah_i_d_e_i_",
@@ -126,8 +126,8 @@ static char *m_string[] = {
     /* [woman] = */     "w_u_m_uh_n_",
     /* [women] = */     "w_i_m_uh_n_",
     /* [yes] = */       "y_e_s_",
-    /* [you] = */       "y_uu_",                      // Not in 1977 revision.
-    /* [your] = */      "y_aw_r_",                    // Not in 1977 revision.
+    /* [you] = */       "y_uu_",                      // 2014-08-22: Not in 1977 version.
+    /* [your] = */      "y_aw_r_",                    // 2014-08-22: Not in 1977 version.
 };
 
 
