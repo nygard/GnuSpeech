@@ -10,7 +10,7 @@
 #define MAX_ORIGIN     376
 #define TRIE_NODES     441
 #define MIN_INDEX      '!'
-#define index(x)       (x - MIN_INDEX)
+#define cwl_index(x)   (x - MIN_INDEX)
 
 
 /*  DATA TYPES  **************************************************************/
@@ -201,8 +201,8 @@ int check_word_list(char *string, char **eow)
     *(*eow) = 0;
 
     while (*string) {
-        if (trie[index(*string) + i].val == *string) {
-            int term = trie[index(*string) + i].term_state;
+        if (trie[cwl_index(*string) + i].val == *string) {
+            int term = trie[cwl_index(*string) + i].term_state;
             if (!*(string + 1)) {
                 if (!term)
                     break;
@@ -212,7 +212,7 @@ int check_word_list(char *string, char **eow)
                 *eow = t - 1;
                 return(1);
             }
-            i = trie[index(*string++) + i].next_org;
+            i = trie[cwl_index(*string++) + i].next_org;
             if (!i)
                 break;
         } else
