@@ -3,6 +3,11 @@
 
 #import <GnuSpeech/GnuSpeech.h>
 
+/// This implements the rules described in "Synthetic English Speech by Rule", by M. Douglas McIlroy,
+/// Technical Report CSTR 14, Bell Telephone Laboratories.
+///
+/// Currently it is unclear if it is the 1973, 1974, or 1977 version that is implemented.
+
 @interface GSLetterToSound : GSPronunciationSource
 
 // Just for testing right now.

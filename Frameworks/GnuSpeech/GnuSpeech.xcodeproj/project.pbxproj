@@ -116,6 +116,7 @@
 		01ACA5E11544A80A00278339 /* MMGroupedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 01ACA5DF1544A80800278339 /* MMGroupedObject.m */; };
 		01B4561115452BE400D00A1A /* MMIntonationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B4560F15452BE400D00A1A /* MMIntonationParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01B4561215452BE400D00A1A /* MMIntonationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B4561015452BE400D00A1A /* MMIntonationParameters.m */; };
+		01D0D7AF19AB0343001BFBB1 /* LetterToSound-Exceptions-Trillium.xml in Resources */ = {isa = PBXBuildFile; fileRef = 01D0D7AE19AB0343001BFBB1 /* LetterToSound-Exceptions-Trillium.xml */; };
 		01DA73CB199F2CEB00A7633F /* GSPronunciationSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 01DA73C9199F2CEB00A7633F /* GSPronunciationSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01DA73CC199F2CEB00A7633F /* GSPronunciationSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 01DA73CA199F2CEB00A7633F /* GSPronunciationSource.m */; };
 		01DA73CF199F2E7D00A7633F /* GSLetterToSound.h in Headers */ = {isa = PBXBuildFile; fileRef = 01DA73CD199F2E7D00A7633F /* GSLetterToSound.h */; };
@@ -313,6 +314,7 @@
 		01AE22D7154109B200AC1015 /* GnuSpeechServerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeechServerProtocol.h; sourceTree = "<group>"; };
 		01B4560F15452BE400D00A1A /* MMIntonationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMIntonationParameters.h; path = MonetModel/MMIntonationParameters.h; sourceTree = "<group>"; };
 		01B4561015452BE400D00A1A /* MMIntonationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMIntonationParameters.m; path = MonetModel/MMIntonationParameters.m; sourceTree = "<group>"; };
+		01D0D7AE19AB0343001BFBB1 /* LetterToSound-Exceptions-Trillium.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "LetterToSound-Exceptions-Trillium.xml"; path = "TextProcessing/LetterToSound-Exceptions-Trillium.xml"; sourceTree = "<group>"; };
 		01DA73C8199F293200A7633F /* GSPronunciationDictionary-Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GSPronunciationDictionary-Private.h"; sourceTree = "<group>"; };
 		01DA73C9199F2CEB00A7633F /* GSPronunciationSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GSPronunciationSource.h; path = TextProcessing/GSPronunciationSource.h; sourceTree = "<group>"; };
 		01DA73CA199F2CEB00A7633F /* GSPronunciationSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GSPronunciationSource.m; path = TextProcessing/GSPronunciationSource.m; sourceTree = "<group>"; };
@@ -484,6 +486,7 @@
 				0147E43B19A06E3F00D285A3 /* GSSuffixWordType.h */,
 				0147E43C19A06E3F00D285A3 /* GSSuffixWordType.m */,
 				0147E43919A06C8500D285A3 /* SuffixToWordType.xml */,
+				01D0D7AE19AB0343001BFBB1 /* LetterToSound-Exceptions-Trillium.xml */,
 			);
 			name = "Letter to Sound 2.0";
 			sourceTree = "<group>";
@@ -1013,6 +1016,7 @@
 			files = (
 				0147E43A19A06C8500D285A3 /* SuffixToWordType.xml in Resources */,
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
+				01D0D7AF19AB0343001BFBB1 /* LetterToSound-Exceptions-Trillium.xml in Resources */,
 				012D53BA0B7FFB34001B50FC /* 2.0eMainDictionary.dict in Resources */,
 				0186C5DA199871B7002AB929 /* SpecialAcronyms.dict in Resources */,
 				012D53BC0B7FFB34001B50FC /* TTSSuffixList.txt in Resources */,

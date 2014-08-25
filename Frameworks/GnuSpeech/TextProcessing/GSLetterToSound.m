@@ -40,6 +40,34 @@ static NSString *GSLTSWordType_Unknown = @"j";
     return suffixToWordTypes;
 }
 
++ (NSDictionary *)wordExceptions;
+{
+    static NSDictionary *exceptions;
+
+    if (exceptions == nil) {
+        NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"LetterToSound-Exceptions-Trillium" withExtension:@"xml"];
+
+        NSError *error;
+        NSXMLDocument *document = [[NSXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error];
+        if (document == nil) {
+            NSLog(@"%s, error loading letter-to-sound exceptions: %@", __PRETTY_FUNCTION__, error);
+        } else {
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+
+            for (NSXMLElement *element in [[document rootElement] elementsForName:@"word"]) {
+                NSString *key   = [[element attributeForName:@"key"] stringValue];
+                NSString *value = [[element attributeForName:@"value"] stringValue];
+                dict[key] = value;
+            }
+
+            exceptions = [dict copy];
+            //NSLog(@"exceptions: %@", exceptions);
+        }
+    }
+
+    return exceptions;
+}
+
 #pragma mark -
 
 - (NSString *)pronunciationForWord:(NSString *)word;
@@ -60,6 +88,7 @@ static NSString *GSLTSWordType_Unknown = @"j";
     NSMutableString *pronunciation = [[NSMutableString alloc] init];
 
     [GSLetterToSound suffixToWordTypes];
+    [GSLetterToSound wordExceptions];
 
     NSUInteger syllableCount = 0;
 
