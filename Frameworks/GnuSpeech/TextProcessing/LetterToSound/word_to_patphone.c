@@ -40,12 +40,13 @@ int word_to_patphone(char *word)
 
     /*  FIND END OF WORD  */
     char *end_of_word = word + 1;
-    while (*end_of_word != '#')
+    while (*end_of_word != '#' && *end_of_word != 0)
     {
         end_of_word++;
     }
 
     /*  IF NO LITTLE LETTERS SPELL THE WORD  */
+    // This also lowercases the word buffer.
     if (all_caps(word))
     {
         fprintf(stderr, "all caps, spelling it.\n");
@@ -53,6 +54,7 @@ int word_to_patphone(char *word)
     }
 
     /*  IF SINGLE LETTER, SPELL IT  */
+    // Step 4(a)
     if (end_of_word == (word + 2))
     {
         fprintf(stderr, "single letter, spelling it\n");
@@ -66,7 +68,7 @@ int word_to_patphone(char *word)
         return spell_it(word);
     }
 
-    // Step (1): See if the whole word is in the exception list.
+    // Step 1: See if the whole word is in the exception list.
     if (check_word_list(word, &end_of_word))
     {
         fprintf(stderr, "word is in exception list\n");
@@ -75,18 +77,17 @@ int word_to_patphone(char *word)
         return 1;
     }
 
-    // Step (2): Map cpitals into small letters, strip punctuation, and try step 1 again.
+    // Step 2: Map cpitals into small letters, strip punctuation, and try step 1 again.
     // Omitted?  Handled earlier?
 
-    /*  KILL ANY TRAILING S  */
-    // Step (3): Strip trailing s.  Change final ie to y (regardless of trailing s).  Repeat step 1 if any changes.
+    // Step 3: Strip trailing s.  Change final ie to y (regardless of trailing s).  Repeat step 1 if any changes.
     replace_s = final_s(word, &end_of_word);
     fprintf(stderr, "replace_s? %d, word now: '%s'\n", replace_s, word);
 
     /*  FLIP IE TO Y, IF ANY CHANGES RECHECK WORD LIST  */
     if (ie_to_y(word, &end_of_word) || replace_s)
     {
-        fprintf(stderr, "changed ie to y: '%s'\n", word);
+        fprintf(stderr, "changed ie to y: '%s', or replaced s.\n", word);
 
         /*  IN WORD LIST NOW ALL DONE  */
         if (check_word_list(word, &end_of_word))
@@ -133,7 +134,7 @@ int word_to_patphone(char *word)
     return 0;
 }
 
-
+/// Replace word with the pronunciation of the spelling.  No bounds checking is performed.
 static int spell_it(char *word)
 {
     static char spell_string[8192];
@@ -155,7 +156,7 @@ static int spell_it(char *word)
         word++;
         while (*t)
             *s++ = *t++;
-    } while (*word != '#');
+    } while (*word != '#' && *word != 0);
 
     *s = 0;
 
@@ -164,6 +165,9 @@ static int spell_it(char *word)
     return 2;
 }
 
+/// Modify input buffer, changing all uppercase letters to lowercase.
+/// @return 1 if there were no lowercase letters, or if the input string was empty, or if the input string contained a non-alpha character (other than a single quote).
+/// @return 0 otherwise.
 static int all_caps(char *in)
 {
     int all_up   = 1;
@@ -173,7 +177,7 @@ static int all_caps(char *in)
     if (*in == '#')
         force_up = 1;
 
-    while (*in != '#') {
+    while (*in != '#' && *in != 0) {
         if      ((*in <= 'z') && (*in >= 'a')) all_up = 0;
         else if ((*in <= 'Z') && (*in >= 'A')) *in |= 0x20;
         else if (*in != '\'')                  force_up = 1;
