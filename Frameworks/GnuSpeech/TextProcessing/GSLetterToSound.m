@@ -284,12 +284,15 @@ static NSString *GSLTSWordType_Unknown = @"j";
         NSLog(@"Error: re_4_1c, %@", error);
         return nil;
     }
+
+    // 2014-08-31: I almost think this should be [^cfkpt]'?s$ so that it ignores the apostrophe.
     NSRegularExpression *re_4_1d = [[NSRegularExpression alloc] initWithPattern:@"[^cfkpt]s$" options:0 error:&error];
     if (re_4_1d == nil) {
         NSLog(@"Error: re_4_1d, %@", error);
         return nil;
     }
 
+    // 2014-08-31: The paper is unclear when 4(d) should be checked.
     BOOL hasFinalVoicedS = [re_4_1d firstMatchInString:modifiedWord options:0 range:NSMakeRange(0, [modifiedWord length])] != nil;
     BOOL hasFinalUnvoicedS = !hasFinalVoicedS && [modifiedWord hasSuffix:@"s"];
 
