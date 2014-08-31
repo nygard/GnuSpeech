@@ -3,13 +3,15 @@
 
 #import "letter_to_sound_private.h"
 
-/// Check for a final s, strip it if found and return s or z, or else return false.  Don't strip if it's the only character.
+/// Strip trailing S'.  Check for a final s, strip it if found and return 's' or 'z' (depending on preceding character), or else return 0.
+/// This appears to differ slightly from McIlroy's description.
+/// @return 's', 'z', or 0.
 char final_s(char *in, char **eow)
 {
     char *end = *eow;
     char retval = 0;
 
-    /*  STRIP TRAILING S's  */
+    // Strip trailing letter S followed by apostrophe (S')
     if ((*(end - 1) == '\'') && (*(end - 2) == 's')) {
         *--end = '#';
         *eow = end;
