@@ -90,6 +90,7 @@
 		0155E46D0B7BE8FA008D8879 /* MMGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E43D0B7BE8F9008D8879 /* MMGroup.m */; };
 		0155E4770B7BE92A008D8879 /* TRMSynthesizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4730B7BE92A008D8879 /* TRMSynthesizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E4780B7BE92A008D8879 /* TRMSynthesizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4740B7BE92A008D8879 /* TRMSynthesizer.m */; };
+		0157258519B2B4AA00881F5E /* LetterPronunciations.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0157258419B2B4AA00881F5E /* LetterPronunciations.xml */; };
 		0157785815410A48008C2ECF /* GnuSpeechServerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AE22D7154109B200AC1015 /* GnuSpeechServerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		015E9CD2154932E200E6974F /* STLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 015E9CD0154932E100E6974F /* STLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		015E9CD3154932E200E6974F /* STLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 015E9CD1154932E200E6974F /* STLogger.m */; };
@@ -285,6 +286,7 @@
 		0155E4740B7BE92A008D8879 /* TRMSynthesizer.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TRMSynthesizer.m; path = Tube/TRMSynthesizer.m; sourceTree = "<group>"; };
 		0155E4E00B7BF107008D8879 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		0155E4E10B7BF107008D8879 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = /System/Library/Frameworks/AudioUnit.framework; sourceTree = "<absolute>"; };
+		0157258419B2B4AA00881F5E /* LetterPronunciations.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = LetterPronunciations.xml; path = TextProcessing/LetterPronunciations.xml; sourceTree = "<group>"; };
 		015E9CD0154932E100E6974F /* STLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STLogger.h; sourceTree = "<group>"; };
 		015E9CD1154932E200E6974F /* STLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLogger.m; sourceTree = "<group>"; };
 		0161297D199C835F00CD2844 /* Punctuation1SingleQuote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Punctuation1SingleQuote.m; sourceTree = "<group>"; };
@@ -490,6 +492,7 @@
 				0147E43919A06C8500D285A3 /* SuffixToWordType.xml */,
 				01D0D7AE19AB0343001BFBB1 /* LetterToSound-Exceptions-Trillium.xml */,
 				01D0D7B219AB045D001BFBB1 /* LetterToSound-Exceptions.xml */,
+				0157258419B2B4AA00881F5E /* LetterPronunciations.xml */,
 			);
 			name = "Letter to Sound 2.0";
 			sourceTree = "<group>";
@@ -1020,6 +1023,7 @@
 				0147E43A19A06C8500D285A3 /* SuffixToWordType.xml in Resources */,
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 				01D0D7AF19AB0343001BFBB1 /* LetterToSound-Exceptions-Trillium.xml in Resources */,
+				0157258519B2B4AA00881F5E /* LetterPronunciations.xml in Resources */,
 				012D53BA0B7FFB34001B50FC /* 2.0eMainDictionary.dict in Resources */,
 				0186C5DA199871B7002AB929 /* SpecialAcronyms.dict in Resources */,
 				012D53BC0B7FFB34001B50FC /* TTSSuffixList.txt in Resources */,

@@ -68,6 +68,42 @@ static NSString *GSLTSWordType_Unknown = @"j";
     return exceptions;
 }
 
++ (NSDictionary *)letterPronunciations;
+{
+    static NSDictionary *letters;
+
+    if (letters == nil) {
+        NSURL *url = [[NSBundle bundleForClass:[self class]] URLForResource:@"LetterPronunciations" withExtension:@"xml"];
+
+        NSError *error;
+        NSXMLDocument *document = [[NSXMLDocument alloc] initWithContentsOfURL:url options:0 error:&error];
+        if (document == nil) {
+            NSLog(@"%s, error loading letter pronunciations exceptions: %@", __PRETTY_FUNCTION__, error);
+        } else {
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+
+            for (NSXMLElement *element in [[document rootElement] elementsForName:@"letter"]) {
+                NSString *key   = [[element attributeForName:@"key"] stringValue];
+                NSString *value = [[element stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                dict[key] = value;
+            }
+
+            {
+                NSXMLElement *element = [[[document rootElement] elementsForName:@"unknown"] firstObject];
+                if (element != nil) {
+                    NSString *value = [[element stringValue] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                    dict[@"unknown"] = value;
+                }
+            }
+
+            letters = [dict copy];
+            //NSLog(@"letters: %@", letters);
+        }
+    }
+
+    return letters;
+}
+
 #pragma mark -
 
 - (NSString *)pronunciationForWord:(NSString *)word;
@@ -89,6 +125,7 @@ static NSString *GSLTSWordType_Unknown = @"j";
 
     [GSLetterToSound suffixToWordTypes];
     [GSLetterToSound wordExceptions];
+    [GSLetterToSound letterPronunciations];
 
     NSUInteger syllableCount = 0;
 
@@ -127,6 +164,28 @@ static NSString *GSLTSWordType_Unknown = @"j";
     }
 
     return GSLTSWordType_Unknown;
+}
+
+#pragma mark -
+
+- (NSString *)pronunciationBySpellingWord:(NSString *)word;
+{
+    NSMutableString *pronunciation = [NSMutableString string];
+
+    NSDictionary *letters = [GSLetterToSound letterPronunciations];
+    NSString *unknown = letters[@"unknown"];
+    NSParameterAssert(unknown != nil);
+
+    [word enumerateSubstringsInRange:NSMakeRange(0, [word length]) options:NSStringEnumerationByComposedCharacterSequences usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+        //NSLog(@"substring: '%@', substringRange: %@, enclosingRange: %@", substring, NSStringFromRange(substringRange), NSStringFromRange(enclosingRange));
+        NSString *pr = letters[substring];
+        if (pr == nil)
+            pr = unknown;
+        [pronunciation appendString:pr];
+        [pronunciation appendString:@" "];
+    }];
+
+    return [pronunciation copy];
 }
 
 @end

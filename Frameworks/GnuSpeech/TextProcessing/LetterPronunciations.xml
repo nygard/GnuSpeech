@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='utf-8'?>
+<letters>
+  <unknown>'u_p_s</unknown>
+
+  <!-- Leading and trailing space in pronunciation will be stripped out. -->
+  <letter key=" "        name="blank"                 > 'b_l_aa_n_k                                      </letter>
+  <letter key="!"        name="exclamation point"     > "e_k_s.k_l_uh.'m_e_i.sh_uh_n 'p_o_i_n_t          </letter>
+  <letter key="&quot;"   name="double quote"          > 'd_a.b_uh_l 'k_w_uh_uu_t                         </letter>
+  <letter key="#"        name="number sign"           > 'n_a_m.b_r "s_ah_i_n                             </letter>
+  <letter key="$"        name="dollar sign"           > 'd_ar.l_uh_r "s_ah_i_n                           </letter>
+  <letter key="%"        name="percent sign"          > p_r.'s_e_n_t 's_ah_i_n                           </letter>
+  <letter key="&amp;"    name="ampersand"             > 'aa_m.p_r.s_aa_n_d                               </letter>
+  <letter key="'"        name="single quote"          > 's_i_ng.g_uh_l 'k_w_uh_uu_t                      </letter>
+  <letter key="("        name="open parenthesis"      > 'uh_uu.p_uh_n p_uh.'r_e_n.th_uh.s_i_s            </letter>
+  <letter key=")"        name="close parenthesis"     > 'k_l_uh_uu_z p_uh.'r_e_n.th_uh.s_i_s             </letter>
+  <letter key="*"        name="asterisk"              > 'aa_s.t_uh_r.i_s_k                               </letter>
+  <letter key="+"        name="plus sign"             > 'p_l_a_s 's_ah_i_n                               </letter>
+  <letter key=","        name="comma"                 > 'k_ar.m_uh                                       </letter>
+  <letter key="-"        name="hyphen"                > 'h_ah_i.f_uh_n                                   </letter>
+  <letter key="."        name="period"                > 'p_i_r.ee.uh_d                                   </letter>
+  <letter key="/"        name="slash"                 > 's_l_aa_sh                                       </letter>
+  <letter key=":"        name="colon"                 > 'k_uh_uu.l_uh_n                                  </letter>
+  <letter key=";"        name="semicolon"             > 's_e.m_ee."k_uh_uu.l_uh_n                        </letter>
+  <letter key="&lt;"     name="open angle bracket"    > 'uh_uu.p_uh_n 'aa_ng.g_uh_l 'b_r_aa.k_uh_t       </letter>
+  <letter key="="        name="equal sign"            > 'ee.k_w_uh_l 's_ah_i_n                           </letter>
+  <letter key=">"        name="close angle bracket"   > 'k_l_uh_uu_z 'aa_ng.g_uh_l 'b_r_aa.k_uh_t        </letter>
+  <letter key="?"        name="question mark"         > 'k_w_e_s.ch_uh_n 'm_ar_r_k                       </letter>
+  <letter key="@"        name="at sign"               > 'aa_t 's_ah_i_n                                  </letter>
+  <letter key="A"        name="A"                     > 'e_i                                             </letter>
+  <letter key="a"        name="A"                     > 'e_i                                             </letter>
+  <letter key="B"        name="B"                     > 'b_ee                                            </letter>
+  <letter key="b"        name="B"                     > 'b_ee                                            </letter>
+  <letter key="C"        name="C"                     > 's_ee                                            </letter>
+  <letter key="c"        name="C"                     > 's_ee                                            </letter>
+  <letter key="D"        name="D"                     > 'd_ee                                            </letter>
+  <letter key="d"        name="D"                     > 'd_ee                                            </letter>
+  <letter key="E"        name="E"                     > 'ee                                              </letter>
+  <letter key="e"        name="E"                     > 'ee                                              </letter>
+  <letter key="F"        name="F"                     > 'e_f                                             </letter>
+  <letter key="f"        name="F"                     > 'e_f                                             </letter>
+  <letter key="G"        name="G"                     > 'j_ee                                            </letter>
+  <letter key="g"        name="G"                     > 'j_ee                                            </letter>
+  <letter key="H"        name="H"                     > 'e_i_ch                                          </letter>
+  <letter key="h"        name="H"                     > 'e_i_ch                                          </letter>
+  <letter key="I"        name="I"                     > 'ah_i                                            </letter>
+  <letter key="i"        name="I"                     > 'ah_i                                            </letter>
+  <letter key="J"        name="J"                     > 'j_e_i                                           </letter>
+  <letter key="j"        name="J"                     > 'j_e_i                                           </letter>
+  <letter key="K"        name="K"                     > 'k_e_i                                           </letter>
+  <letter key="k"        name="K"                     > 'k_e_i                                           </letter>
+  <letter key="L"        name="L"                     > 'e_l                                             </letter>
+  <letter key="l"        name="L"                     > 'e_l                                             </letter>
+  <letter key="M"        name="M"                     > 'e_m                                             </letter>
+  <letter key="m"        name="M"                     > 'e_m                                             </letter>
+  <letter key="N"        name="N"                     > 'e_n                                             </letter>
+  <letter key="n"        name="N"                     > 'e_n                                             </letter>
+  <letter key="O"        name="O"                     > 'uh_uu                                           </letter>
+  <letter key="o"        name="O"                     > 'uh_uu                                           </letter>
+  <letter key="P"        name="P"                     > 'p_ee                                            </letter>
+  <letter key="p"        name="P"                     > 'p_ee                                            </letter>
+  <letter key="Q"        name="Q"                     > 'k_y_uu                                          </letter>
+  <letter key="q"        name="Q"                     > 'k_y_uu                                          </letter>
+  <letter key="R"        name="R"                     > 'ar_r                                            </letter>
+  <letter key="r"        name="R"                     > 'ar_r                                            </letter>
+  <letter key="S"        name="S"                     > 'e_s                                             </letter>
+  <letter key="s"        name="S"                     > 'e_s                                             </letter>
+  <letter key="T"        name="T"                     > 't_ee                                            </letter>
+  <letter key="t"        name="T"                     > 't_ee                                            </letter>
+  <letter key="U"        name="U"                     > 'y_uu                                            </letter>
+  <letter key="u"        name="U"                     > 'y_uu                                            </letter>
+  <letter key="V"        name="V"                     > 'v_ee                                            </letter>
+  <letter key="v"        name="V"                     > 'v_ee                                            </letter>
+  <letter key="W"        name="W"                     > 'd_a.b_uh_l.y_uu                                 </letter>
+  <letter key="w"        name="W"                     > 'd_a.b_uh_l.y_uu                                 </letter>
+  <letter key="X"        name="X"                     > 'e_k_s                                           </letter>
+  <letter key="x"        name="X"                     > 'e_k_s                                           </letter>
+  <letter key="Y"        name="Y"                     > 'w_ah_i                                          </letter>
+  <letter key="y"        name="Y"                     > 'w_ah_i                                          </letter>
+  <letter key="Z"        name="Z"                     > 'z_ee                                            </letter>
+  <letter key="z"        name="Z"                     > 'z_ee                                            </letter>
+  <letter key="["        name="open square bracket"   > 'uh_uu.p_uh_n 's_k_w_e_r 'b_r_aa.k_uh_t          </letter>
+  <letter key="\\"       name="back slash"            > 'b_aa_k.s_l_aa_sh                                </letter>
+  <letter key="]"        name="close square bracket"  > 'k_l_uh_uu_z 's_k_w_e_r 'b_r_aa.k_uh_t           </letter>
+  <letter key="^"        name="caret"                 > 'k_e.r_uh_t                                      </letter>
+  <letter key="_"        name="underscore"            > 'a_n.d_r."s_k_aw_r                               </letter>
+  <letter key="`"        name="grave accent"          > 'g_r_e_i_v 'aa_k.s_e_n_t                         </letter>
+  <letter key="{"        name="open brace"            > 'uh_uu.p_uh_n 'b_r_e_i_s                         </letter>
+  <letter key="|"        name="vertical bar"          > 'v_uh_r.t_i.k_uh_l 'b_a_r                        </letter>
+  <letter key="}"        name="close brace"           > 'k_l_uh_uu_z 'b_r_e_i_s                          </letter>
+  <letter key="~"        name="tilde"                 > 't_i_l.d_uh                                      </letter>
+</letters>

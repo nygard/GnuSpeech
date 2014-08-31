@@ -13,4 +13,6 @@
 // Just for testing right now.
 - (NSString *)new_pronunciationForWord:(NSString *)word;
 
+- (NSString *)pronunciationBySpellingWord:(NSString *)word;
+
 @end
