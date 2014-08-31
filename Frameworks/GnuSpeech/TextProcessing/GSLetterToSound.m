@@ -247,6 +247,8 @@ static NSString *GSLTSWordType_Unknown = @"j";
         return [self pronunciationBySpellingWord:word];
     }
 
+    word = [word lowercaseString];
+
     // Step 4(a): Reject a word consisting of one letter or a word without a vowel.
     if ([word length] == 1 || ![word gs_lts_hasVowels]) {
         NSLog(@"%s, word is one character, or has no vowels", __PRETTY_FUNCTION__);
