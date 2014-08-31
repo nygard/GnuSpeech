@@ -5,9 +5,40 @@
 
 #import "letter_to_sound.h"
 #import "GSSuffixWordType.h"
+#import "NSRegularExpression-GSExtensions.h"
 
 static NSString *GSLTSWordType_Unknown = @"j";
 
+@interface NSString (GSLetterToSound)
+- (BOOL)gs_lts_isAllCaps;
+- (BOOL)gs_lts_hasVowels;
+@end
+
+@implementation  NSString (GSLetterToSound)
+
+/// Single quote is ignored.  Non-alpha forces YES.
+- (BOOL)gs_lts_isAllCaps;
+{
+    NSCharacterSet *nonAlphaOrSingleQuoteCharacterSet = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'"] invertedSet];
+    NSRange nonAlphaOrSingleQuoteRange = [self rangeOfCharacterFromSet:nonAlphaOrSingleQuoteCharacterSet];
+    BOOL hasNonAlphaOrSingleQuote = nonAlphaOrSingleQuoteRange.length > 0;
+
+    NSRange lowerCaseLetterRange = [self rangeOfCharacterFromSet:[NSCharacterSet lowercaseLetterCharacterSet]];
+    BOOL hasLowercaseLetter = lowerCaseLetterRange.length > 0;
+
+    return hasNonAlphaOrSingleQuote || !hasLowercaseLetter;
+}
+
+- (BOOL)gs_lts_hasVowels;
+{
+    NSCharacterSet *vowels = [NSCharacterSet characterSetWithCharactersInString:@"aeiouyAEIOUY"];
+    NSRange range = [self rangeOfCharacterFromSet:vowels];
+    return range.location != NSNotFound;
+}
+
+@end
+
+#pragma mark -
 
 @implementation GSLetterToSound
 
@@ -120,14 +151,24 @@ static NSString *GSLTSWordType_Unknown = @"j";
 
 - (NSString *)new_pronunciationForWord:(NSString *)word;
 {
-    NSMutableString *str = [NSMutableString stringWithFormat:@"#%@#", word];
+//    [GSLetterToSound suffixToWordTypes];
+//    [GSLetterToSound wordExceptions];
+//    [GSLetterToSound letterPronunciations];
+
+//    NSMutableString *str = [NSMutableString stringWithFormat:@"#%@#", word];
     NSMutableString *pronunciation = [[NSMutableString alloc] init];
 
-    [GSLetterToSound suffixToWordTypes];
-    [GSLetterToSound wordExceptions];
-    [GSLetterToSound letterPronunciations];
 
     NSUInteger syllableCount = 0;
+
+
+    // Preprocess input.  We'll wait before surrounding the word with # -- regular expression ^ and $ should work instead.
+    BOOL isPronunciation;
+    NSString *s1 = [self patPhoneFromWord:word isPronunciation:&isPronunciation]; // Take the original word.
+    if (!isPronunciation) {
+    } else {
+        [pronunciation appendString:s1];
+    }
 
 #if 0
     /*  CONVERT WORD TO PRONUNCIATION  */
@@ -186,6 +227,93 @@ static NSString *GSLTSWordType_Unknown = @"j";
     }];
 
     return [pronunciation copy];
+}
+
+- (NSString *)exceptionPronunciationOfWord:(NSString *)word;
+{
+    return [[GSLetterToSound wordExceptions] objectForKey:word];
+}
+
+// I dunno what a patphone is, but nevertheless...
+// Step 4: Preprocess input.
+- (NSString *)patPhoneFromWord:(NSString *)word isPronunciation:(BOOL *)isPronunciation;
+{
+    NSParameterAssert(isPronunciation != NULL);
+    NSLog(@"%s, word: '%@'", __PRETTY_FUNCTION__, word);
+
+    if ([word gs_lts_isAllCaps]) {
+        NSLog(@"%s, word is all caps", __PRETTY_FUNCTION__);
+        *isPronunciation = YES;
+        return [self pronunciationBySpellingWord:word];
+    }
+
+    // Step 4(a): Reject a word consisting of one letter or a word without a vowel.
+    if ([word length] == 1 || ![word gs_lts_hasVowels]) {
+        NSLog(@"%s, word is one character, or has no vowels", __PRETTY_FUNCTION__);
+        *isPronunciation = YES;
+        return [self pronunciationBySpellingWord:word];
+    }
+
+    // Step 1: See if the whole word is in the exception list.
+    NSString *pr1 = [self exceptionPronunciationOfWord:word];
+    if (pr1 != nil) {
+        NSLog(@"%s, word is in exception list", __PRETTY_FUNCTION__);
+        *isPronunciation = YES;
+        return pr1;
+    }
+
+    // Step 2: Map cpitals into small letters, strip punctuation, and try step 1 again.
+    // Omitted?  Handled earlier?
+
+    // Step (3): Strip trailing s.  Change final ie to y (regardless of trailing s).  Repeat step 1 if any changes.
+    NSMutableString *modifiedWord = [word mutableCopy];
+
+    NSError *error;
+    NSRegularExpression *re_4_1a = [[NSRegularExpression alloc] initWithPattern:@"([^us])s$" options:0 error:&error];
+    if (re_4_1a == nil) {
+        NSLog(@"Error: re_4_1a, %@", error);
+        return nil;
+    }
+    NSRegularExpression *re_4_1b = [[NSRegularExpression alloc] initWithPattern:@"'$" options:0 error:&error];
+    if (re_4_1b == nil) {
+        NSLog(@"Error: re_4_1b, %@", error);
+        return nil;
+    }
+    NSRegularExpression *re_4_1c = [[NSRegularExpression alloc] initWithPattern:@"ie$" options:0 error:&error];
+    if (re_4_1c == nil) {
+        NSLog(@"Error: re_4_1c, %@", error);
+        return nil;
+    }
+    NSRegularExpression *re_4_1d = [[NSRegularExpression alloc] initWithPattern:@"[^cfkpt]s$" options:0 error:&error];
+    if (re_4_1d == nil) {
+        NSLog(@"Error: re_4_1d, %@", error);
+        return nil;
+    }
+
+    BOOL hasFinalVoicedS = [re_4_1d firstMatchInString:modifiedWord options:0 range:NSMakeRange(0, [modifiedWord length])] != nil;
+    BOOL hasFinalUnvoicedS = !hasFinalVoicedS && [modifiedWord hasSuffix:@"s"];
+
+    NSLog(@"hasFinalVoicedS? %d, hasFinalUnvoicedS? %d", hasFinalVoicedS, hasFinalUnvoicedS);
+
+    [re_4_1a replaceMatchesInString:modifiedWord options:0 withTemplate:@"$1"];
+    [re_4_1b replaceMatchesInString:modifiedWord options:0 withTemplate:@""];
+    [re_4_1c replaceMatchesInString:modifiedWord options:0 withTemplate:@"y"];
+
+    NSLog(@"modifiedWord: %@", modifiedWord);
+
+    // Repeating step 1, regardless of changes, because it's easier than tracking if there were changes.
+    NSString *pr2 = [self exceptionPronunciationOfWord:modifiedWord];
+    if (pr2 != nil) {
+        NSLog(@"%s, modified word is in exception list", __PRETTY_FUNCTION__);
+        *isPronunciation = YES;
+        if (hasFinalVoicedS)   return [pr2 stringByAppendingString:@"_z"];
+        if (hasFinalUnvoicedS) return [pr2 stringByAppendingString:@"_s"];
+        return pr2;
+    }
+
+
+    *isPronunciation = NO;
+    return [modifiedWord copy];
 }
 
 @end

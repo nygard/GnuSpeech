@@ -91,6 +91,7 @@
 		0155E4770B7BE92A008D8879 /* TRMSynthesizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0155E4730B7BE92A008D8879 /* TRMSynthesizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0155E4780B7BE92A008D8879 /* TRMSynthesizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0155E4740B7BE92A008D8879 /* TRMSynthesizer.m */; };
 		0157258519B2B4AA00881F5E /* LetterPronunciations.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0157258419B2B4AA00881F5E /* LetterPronunciations.xml */; };
+		0157258719B2F11D00881F5E /* LetterToSoundTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0157258619B2F11D00881F5E /* LetterToSoundTests.m */; };
 		0157785815410A48008C2ECF /* GnuSpeechServerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AE22D7154109B200AC1015 /* GnuSpeechServerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		015E9CD2154932E200E6974F /* STLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 015E9CD0154932E100E6974F /* STLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		015E9CD3154932E200E6974F /* STLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 015E9CD1154932E200E6974F /* STLogger.m */; };
@@ -287,6 +288,7 @@
 		0155E4E00B7BF107008D8879 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		0155E4E10B7BF107008D8879 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = /System/Library/Frameworks/AudioUnit.framework; sourceTree = "<absolute>"; };
 		0157258419B2B4AA00881F5E /* LetterPronunciations.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = LetterPronunciations.xml; path = TextProcessing/LetterPronunciations.xml; sourceTree = "<group>"; };
+		0157258619B2F11D00881F5E /* LetterToSoundTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LetterToSoundTests.m; sourceTree = "<group>"; };
 		015E9CD0154932E100E6974F /* STLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STLogger.h; sourceTree = "<group>"; };
 		015E9CD1154932E200E6974F /* STLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLogger.m; sourceTree = "<group>"; };
 		0161297D199C835F00CD2844 /* Punctuation1SingleQuote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Punctuation1SingleQuote.m; sourceTree = "<group>"; };
@@ -623,6 +625,7 @@
 				0161297D199C835F00CD2844 /* Punctuation1SingleQuote.m */,
 				0141098F199DC785003AD5BD /* PunctuationTests.m */,
 				0147E43319A0065000D285A3 /* InternalLetterToSoundTests.m */,
+				0157258619B2F11D00881F5E /* LetterToSoundTests.m */,
 				0186C5E31999409D002AB929 /* Supporting Files */,
 			);
 			path = GnuSpeechTests;
@@ -1048,6 +1051,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01102E27199A8EDA002B4522 /* ScannerTests.m in Sources */,
+				0157258719B2F11D00881F5E /* LetterToSoundTests.m in Sources */,
 				0161297E199C835F00CD2844 /* Punctuation1SingleQuote.m in Sources */,
 				0186C61719994213002AB929 /* ConditionInputTests.m in Sources */,
 				0147E43419A0065000D285A3 /* InternalLetterToSoundTests.m in Sources */,
