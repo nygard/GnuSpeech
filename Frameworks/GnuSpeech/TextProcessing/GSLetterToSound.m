@@ -267,52 +267,58 @@ static NSString *GSLTSWordType_Unknown = @"j";
     // Step 2: Map cpitals into small letters, strip punctuation, and try step 1 again.
     // Omitted?  Handled earlier?
 
-    // Step (3): Strip trailing s.  Change final ie to y (regardless of trailing s).  Repeat step 1 if any changes.
     NSMutableString *modifiedWord = [word mutableCopy];
 
-    NSError *error;
-    NSRegularExpression *re_4_1a = [[NSRegularExpression alloc] initWithPattern:@"([^us])s$" options:0 error:&error];
-    if (re_4_1a == nil) {
-        NSLog(@"Error: re_4_1a, %@", error);
-        return nil;
+    NSString *finalSSuffix;
+
+    // Step (3): Strip trailing s.  Change final ie to y (regardless of trailing s).  Repeat step 1 if any changes.
+    {
+        NSError *error;
+        NSRegularExpression *re_4_1a = [[NSRegularExpression alloc] initWithPattern:@"([^us])s$" options:0 error:&error];
+        if (re_4_1a == nil) {
+            NSLog(@"Error: re_4_1a, %@", error);
+            return nil;
+        }
+        NSRegularExpression *re_4_1b = [[NSRegularExpression alloc] initWithPattern:@"'$" options:0 error:&error];
+        if (re_4_1b == nil) {
+            NSLog(@"Error: re_4_1b, %@", error);
+            return nil;
+        }
+        NSRegularExpression *re_4_1c = [[NSRegularExpression alloc] initWithPattern:@"ie$" options:0 error:&error];
+        if (re_4_1c == nil) {
+            NSLog(@"Error: re_4_1c, %@", error);
+            return nil;
+        }
+
+        // 2014-08-31: I almost think this should be [^cfkpt]'?s$ so that it ignores the apostrophe.
+        NSRegularExpression *re_4_1d = [[NSRegularExpression alloc] initWithPattern:@"[^cfkpt]s$" options:0 error:&error];
+        if (re_4_1d == nil) {
+            NSLog(@"Error: re_4_1d, %@", error);
+            return nil;
+        }
+
+        // 2014-08-31: The paper is unclear when 4(d) should be checked.
+        BOOL hasFinalVoicedS = [re_4_1d firstMatchInString:modifiedWord options:0 range:NSMakeRange(0, [modifiedWord length])] != nil;
+        BOOL hasFinalUnvoicedS = !hasFinalVoicedS && [modifiedWord hasSuffix:@"s"];
+
+        if (hasFinalVoicedS)   finalSSuffix = @"_z";
+        if (hasFinalUnvoicedS) finalSSuffix = @"_s";
+
+        NSLog(@"hasFinalVoicedS? %d, hasFinalUnvoicedS? %d", hasFinalVoicedS, hasFinalUnvoicedS);
+
+        [re_4_1a replaceMatchesInString:modifiedWord options:0 withTemplate:@"$1"];
+        [re_4_1b replaceMatchesInString:modifiedWord options:0 withTemplate:@""];
+        [re_4_1c replaceMatchesInString:modifiedWord options:0 withTemplate:@"y"];
+        
+        NSLog(@"modifiedWord: %@", modifiedWord);
     }
-    NSRegularExpression *re_4_1b = [[NSRegularExpression alloc] initWithPattern:@"'$" options:0 error:&error];
-    if (re_4_1b == nil) {
-        NSLog(@"Error: re_4_1b, %@", error);
-        return nil;
-    }
-    NSRegularExpression *re_4_1c = [[NSRegularExpression alloc] initWithPattern:@"ie$" options:0 error:&error];
-    if (re_4_1c == nil) {
-        NSLog(@"Error: re_4_1c, %@", error);
-        return nil;
-    }
-
-    // 2014-08-31: I almost think this should be [^cfkpt]'?s$ so that it ignores the apostrophe.
-    NSRegularExpression *re_4_1d = [[NSRegularExpression alloc] initWithPattern:@"[^cfkpt]s$" options:0 error:&error];
-    if (re_4_1d == nil) {
-        NSLog(@"Error: re_4_1d, %@", error);
-        return nil;
-    }
-
-    // 2014-08-31: The paper is unclear when 4(d) should be checked.
-    BOOL hasFinalVoicedS = [re_4_1d firstMatchInString:modifiedWord options:0 range:NSMakeRange(0, [modifiedWord length])] != nil;
-    BOOL hasFinalUnvoicedS = !hasFinalVoicedS && [modifiedWord hasSuffix:@"s"];
-
-    NSLog(@"hasFinalVoicedS? %d, hasFinalUnvoicedS? %d", hasFinalVoicedS, hasFinalUnvoicedS);
-
-    [re_4_1a replaceMatchesInString:modifiedWord options:0 withTemplate:@"$1"];
-    [re_4_1b replaceMatchesInString:modifiedWord options:0 withTemplate:@""];
-    [re_4_1c replaceMatchesInString:modifiedWord options:0 withTemplate:@"y"];
-
-    NSLog(@"modifiedWord: %@", modifiedWord);
 
     // Repeating step 1, regardless of changes, because it's easier than tracking if there were changes.
     NSString *pr2 = [self exceptionPronunciationOfWord:modifiedWord];
     if (pr2 != nil) {
         NSLog(@"%s, modified word is in exception list", __PRETTY_FUNCTION__);
         *isPronunciation = YES;
-        if (hasFinalVoicedS)   return [pr2 stringByAppendingString:@"_z"];
-        if (hasFinalUnvoicedS) return [pr2 stringByAppendingString:@"_s"];
+        if (finalSSuffix != nil) return [pr2 stringByAppendingString:finalSSuffix];
         return pr2;
     }
 
