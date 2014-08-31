@@ -102,9 +102,9 @@ static int spell_it(char *word)
     do {
         if (*word < ' ') {
             if (*word == '\t')
-                t = "'t_aa_b";
+                t = "'t_aa_b ";
             else
-                t = "'u_p_s";   /* (OOPS!) */
+                t = "'u_p_s ";   /* (OOPS!) */
         } else
             t = letters[*word - ' '];
         word++;
