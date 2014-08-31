@@ -33,17 +33,19 @@ char *letter_to_sound(char *word)
     sprintf(buffer, "#%s#", word);
 
     /*  CONVERT WORD TO PRONUNCIATION  */
-    if (!word_to_patphone(buffer))
+    if (word_to_patphone(buffer) == 0)
     {
         isp_trans(buffer, pronunciation);
         /*  ATTEMPT TO MARK SYLL/STRESS  */
         number_of_syllables = syllabify(pronunciation);
         if (apply_stress(pronunciation, word))
             return NULL;
+        fprintf(stderr, "word_to_patphone() case 1, pronunciation: '%s'\n", pronunciation);
     }
     else
     {
         strcpy(pronunciation, buffer);
+        fprintf(stderr, "word_to_patphone() case 2, pronunciation: '%s'\n", pronunciation);
     }
 
     /*  APPEND WORD_TYPE_DELIMITER  */
