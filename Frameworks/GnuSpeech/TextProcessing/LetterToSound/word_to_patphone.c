@@ -6,17 +6,12 @@
 #import <strings.h>
 
 
-/*  LOCAL DEFINES  ***********************************************************/
-#define SPELL_STRING_LEN   8192
-
-
 /*  GLOBAL FUNCTIONS (LOCAL TO THIS FILE)  ***********************************/
 static int spell_it(char *word);
 static int all_caps(char *in);
 
 
 /*  GLOBAL VARIABLES (LOCAL TO THIS FILE)  ***********************************/
-static char spell_string[SPELL_STRING_LEN];
 static char *letters[] = {
     BLANK, EXCLAMATION_POINT, DOUBLE_QUOTE, NUMBER_SIGN, DOLLAR_SIGN,
     PERCENT_SIGN, AMPERSAND, SINGLE_QUOTE, OPEN_PARENTHESIS, CLOSE_PARENTHESIS,
@@ -31,60 +26,109 @@ static char *letters[] = {
     OPEN_BRACE, VERTICAL_BAR, CLOSE_BRACE, TILDE, UNKNOWN
 };
 
+/// This takes a word that is surrounded by '#'.  It performs steps 1-4(e) of McIlroy's rules.
+///
+/// @return 1 if the word was in the exception list.
+/// @return 2 if this spelled the word.
+/// @return 0 otherwise.
+
 int word_to_patphone(char *word)
 {
-    char *end_of_word;
+    fprintf(stderr, "word_to_patphone(%s)\n", word);
     char replace_s = 0;
 
 
     /*  FIND END OF WORD  */
-    end_of_word = word + 1;
+    char *end_of_word = word + 1;
     while (*end_of_word != '#')
+    {
         end_of_word++;
+    }
 
     /*  IF NO LITTLE LETTERS SPELL THE WORD  */
     if (all_caps(word))
+    {
+        fprintf(stderr, "all caps, spelling it.\n");
         return spell_it(word);
+    }
 
     /*  IF SINGLE LETTER, SPELL IT  */
     if (end_of_word == (word + 2))
+    {
+        fprintf(stderr, "single letter, spelling it\n");
         return spell_it(word);
+    }
 
     /*  IF NO VOWELS SPELL THE WORD  */
     if (!vowel_before(word, end_of_word))
+    {
+        fprintf(stderr, "no vowels, spelling it\n");
         return spell_it(word);
-
-    /*  SEE IF IT IS IN THE EXCEPTION LIST  */
-    if (check_word_list(word, &end_of_word)) {
-        *++end_of_word = 0;
-        return(1);
     }
 
+    // Step (1): See if the whole word is in the exception list.
+    if (check_word_list(word, &end_of_word))
+    {
+        fprintf(stderr, "word is in exception list\n");
+        *++end_of_word = 0;
+        fprintf(stderr, "word is now: '%s'\n", word);
+        return 1;
+    }
+
+    // Step (2): Map cpitals into small letters, strip punctuation, and try step 1 again.
+    // Omitted?  Handled earlier?
+
     /*  KILL ANY TRAILING S  */
+    // Step (3): Strip trailing s.  Change final ie to y (regardless of trailing s).  Repeat step 1 if any changes.
     replace_s = final_s(word, &end_of_word);
+    fprintf(stderr, "replace_s? %d, word now: '%s'\n", replace_s, word);
 
     /*  FLIP IE TO Y, IF ANY CHANGES RECHECK WORD LIST  */
     if (ie_to_y(word, &end_of_word) || replace_s)
-    /*  IN WORD LIST NOW ALL DONE  */
-        if (check_word_list(word, &end_of_word)) {   /* Will eliminate this as well */
-            if (replace_s) {
+    {
+        fprintf(stderr, "changed ie to y: '%s'\n", word);
+
+        /*  IN WORD LIST NOW ALL DONE  */
+        if (check_word_list(word, &end_of_word))
+        {
+            fprintf(stderr, "updated word is in exception list\n");
+            /* Will eliminate this as well */
+            if (replace_s)
+            {
                 *++end_of_word = replace_s;            /* & 0x5f [source of problems] */
                 *++end_of_word = '/';
             }
             *++end_of_word = 0;
+            fprintf(stderr, "word is now: '%s'\n", word);
             return 1;
         }
+    }
 
+    // Step 4(a): Reject a word consisting of 1 letter or a word without a vowel.
+    // ???
+
+    // Step 4(b)?
     mark_final_e(word, &end_of_word);
+    fprintf(stderr, "called mark_final_e(), word is now: '%s'\n", word);
+
+    // Step 4(c)
     long_medial_vowels(word, &end_of_word);
+    fprintf(stderr, "called long_medial_vowels(), word is now: '%s'\n", word);
+
+    // Step 4(d)
     medial_silent_e(word, &end_of_word);
+    fprintf(stderr, "called medial_silent_e(), word is now: '%s'\n", word);
+
+    // Step 4(e)
     medial_s(word, end_of_word);
+    fprintf(stderr, "called medial_s(), word is now: '%s'\n", word);
 
     if (replace_s) {
         *end_of_word++ = replace_s;
         *end_of_word = '#';
     }
     *++end_of_word = 0;
+    fprintf(stderr, "about to return, word is now: '%s'\n", word);
 
     return 0;
 }
@@ -92,11 +136,12 @@ int word_to_patphone(char *word)
 
 static int spell_it(char *word)
 {
+    static char spell_string[8192];
     char *s = spell_string;
     char *t;
     char *hold = word;
 
-    /*  EAT THE '#'  */
+    // Skip the leading #.
     word++;
 
     do {
