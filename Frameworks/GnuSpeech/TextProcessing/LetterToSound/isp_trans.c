@@ -19,8 +19,7 @@ typedef struct _pktrie {
     short               term_state;
     short               next_org;
 } pktrie;
-/*  STRUCTURE MAY BE MODIFIED IF MAX_ORGIN OR MAX_TERM_VAL CAN BE CONTAINED
- IN LESS THAN AN INT  */
+/*  STRUCTURE MAY BE MODIFIED IF MAX_ORGIN OR MAX_TERM_VAL CAN BE CONTAINED IN LESS THAN AN INT  */
 
 
 /*  GLOBAL VARIABLES (LOCAL TO THIS FILE)  ***********************************/
@@ -849,14 +848,17 @@ static pktrie trie[TRIE_NODES] = {
 
 void isp_trans(char *string, char *result)
 {
-    int                 i = 0, term = 0, tmp;
-    char               *k, *rc = NULL, tstr[1024], mstr[1024];
+    int i = 0;
+    int term = 0;
+    char *rc = NULL;
+    char tstr[1024];
+    char mstr[1024];
 
 
     strcpy(tstr, string);
     while (1) {
         if (*string && (trie[INDEX(*string) + i].val == *string)) {
-            tmp = trie[INDEX(*string) + i].term_state;
+            int tmp = trie[INDEX(*string) + i].term_state;
             if (tmp) {
                 term = tmp;
                 rc = string + 1;
@@ -873,7 +875,7 @@ void isp_trans(char *string, char *result)
 
         strcpy(mstr, rc);
         rc = mstr;
-        k = m_string[term - 1];
+        char *k = m_string[term - 1];
 
         while (*k && (*k != 'X'))
             *result++ = *k++;
