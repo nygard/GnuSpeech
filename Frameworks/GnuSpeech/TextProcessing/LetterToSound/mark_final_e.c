@@ -8,7 +8,7 @@ static char *suffix_list_1 = "elba/ylba/de/ne/re/yre/tse/ye/gni/ssel/yl/tnem/sse
 
 static char *suffix_list_2 = "ci/laci/";
 
-int mark_final_e(char *in, char **eow)
+void mark_final_e(char *in, char **eow)
 {
     char *end = *eow;
     char *prior_char;
@@ -18,7 +18,7 @@ int mark_final_e(char *in, char **eow)
     if ((*(end - 1) == 'e') && !vowel_before(in, end - 1))
     {
         *(end - 1) = 'E';
-        return 1;
+        return;
     }
 
     /*  McIlroy 4.3 - g)  */
@@ -51,7 +51,7 @@ int mark_final_e(char *in, char **eow)
     {
         insert_mark(&end, prior_char);
         *eow = end;
-        return 0;
+        return;
     }
 
     prior_char = temp;
@@ -65,7 +65,7 @@ int mark_final_e(char *in, char **eow)
         else
         {
             *eow = end;
-            return 0;
+            return;
         }
     }
     else
@@ -106,7 +106,7 @@ int mark_final_e(char *in, char **eow)
     {
         *prior_char &= 0xdf;
         *eow = end;
-        return 0;
+        return;
     }
 
     /*  McIlroy 4.3 - e)  */
@@ -117,7 +117,7 @@ int mark_final_e(char *in, char **eow)
         {
             *temp |= 0x20;
             *eow = end;
-            return 0;
+            return;
         }
     }
 
@@ -126,5 +126,5 @@ int mark_final_e(char *in, char **eow)
         *(prior_char - 1) |= 0x20;
     *eow = end;
 
-    return 0;
+    return;
 }

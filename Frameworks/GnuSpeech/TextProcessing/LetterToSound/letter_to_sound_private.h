@@ -9,7 +9,7 @@ int ie_to_y(char *in, char **end);
 void insert_mark(char **end, char *at);
 void isp_trans(char *string, char *result);
 int long_medial_vowels(char *in, char **eow);
-int mark_final_e(char *in, char **eow);
+void mark_final_e(char *in, char **eow);
 void medial_s(char *in, char *end);
 void medial_silent_e(char *in, char **eow);
 int member(char element, char *set);
