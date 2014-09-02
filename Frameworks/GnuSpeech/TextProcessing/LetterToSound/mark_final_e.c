@@ -8,6 +8,7 @@ static char *suffix_list_1 = "elba/ylba/de/ne/re/yre/tse/ye/gni/ssel/yl/tnem/sse
 
 static char *suffix_list_2 = "ci/laci/";
 
+/// Handle preprocessing in section McIlroy section 4.3, Final E.
 void mark_final_e(char *in, char **eow)
 {
     char *end = *eow;
@@ -32,7 +33,7 @@ void mark_final_e(char *in, char **eow)
             {
                 if (!vowel_before(in, prior_char))
                 {
-                    *prior_char &= 0xdf;
+                    *prior_char &= 0xdf; // Uppercase letter.
                 }
             }
         }
@@ -83,7 +84,7 @@ void mark_final_e(char *in, char **eow)
             {
                 if (!member(*(prior_char - 2), "aeo"))
                 {
-                    *(prior_char - 1) &= 0xdf;
+                    *(prior_char - 1) &= 0xdf; // Uppercase letter.
                 }
             }
         }
@@ -94,7 +95,7 @@ void mark_final_e(char *in, char **eow)
             if (member(*(prior_char - 2), "aeiouy"))
             {
                 if (!member(*(prior_char - 3), "aeo"))
-                    *(prior_char - 2) &= 0xdf;
+                    *(prior_char - 2) &= 0xdf; // Uppercase letter.
                 *(prior_char - 1) = 'T';
                 *prior_char = 'H';
             }
@@ -104,7 +105,7 @@ void mark_final_e(char *in, char **eow)
     /*  McIlroy 4.3 - d)  */
     if ((member(*prior_char, "iuy")) && !vowel_before(in, prior_char))
     {
-        *prior_char &= 0xdf;
+        *prior_char &= 0xdf; // Uppercase letter.
         *eow = end;
         return;
     }
@@ -115,7 +116,7 @@ void mark_final_e(char *in, char **eow)
         temp = (char *)vowel_before(in, prior_char);
         if (vowel_before(in, temp))
         {
-            *temp |= 0x20;
+            *temp |= 0x20; // Lowercase letter.
             *eow = end;
             return;
         }
@@ -123,7 +124,7 @@ void mark_final_e(char *in, char **eow)
 
     /*  McIlroy 4.3 - f)  */
     if ((*prior_char == 'l') && (*(prior_char - 1) == 'E'))
-        *(prior_char - 1) |= 0x20;
+        *(prior_char - 1) |= 0x20; // Lowercase letter.
     *eow = end;
 
     return;
