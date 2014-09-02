@@ -17,10 +17,15 @@
 /*  GLOBAL FUNCTIONS (LOCAL TO THIS FILE)  ***********************************/
 static char *word_type(char *word);
 
+static FILE *log_fp = NULL;
 
+/// Want to log some intermediate state, for testing.
+void lts_log_to_file(FILE *fp)
+{
+    log_fp = fp;
+}
 
-
-char *letter_to_sound(char *word)
+char *letter_to_sound(const char *word)
 {
     char buffer[MAX_WORD_LENGTH+3];
     static char pronunciation[MAX_PRONUNCIATION_LENGTH + 1];
@@ -28,6 +33,7 @@ char *letter_to_sound(char *word)
 
     memset(pronunciation, 0, MAX_PRONUNCIATION_LENGTH + 1); // Helps debugging.
 
+    if (log_fp != NULL) fprintf(log_fp, "%s", word);
 
     /*  FORMAT WORD  */
     sprintf(buffer, "#%s#", word);
@@ -35,17 +41,20 @@ char *letter_to_sound(char *word)
     /*  CONVERT WORD TO PRONUNCIATION  */
     if (word_to_patphone(buffer) == 0)
     {
+        if (log_fp != NULL) fprintf(log_fp, "\t%s", buffer);
         isp_trans(buffer, pronunciation);
         /*  ATTEMPT TO MARK SYLL/STRESS  */
         number_of_syllables = syllabify(pronunciation);
-        if (apply_stress(pronunciation, word))
+        if (log_fp != NULL) fprintf(log_fp, "\t%s\n", pronunciation);
+        if (apply_stress(pronunciation, (char *)word))
             return NULL;
-        fprintf(stderr, "word_to_patphone() case 1, pronunciation: '%s'\n", pronunciation);
+        //fprintf(stderr, "word_to_patphone() case 1, pronunciation: '%s'\n", pronunciation);
     }
     else
     {
+        if (log_fp != NULL) fprintf(log_fp, "\tn/a\t%s\n", buffer);
         strcpy(pronunciation, buffer);
-        fprintf(stderr, "word_to_patphone() case 2, pronunciation: '%s'\n", pronunciation);
+        //fprintf(stderr, "word_to_patphone() case 2, pronunciation: '%s'\n", pronunciation);
     }
 
     /*  APPEND WORD_TYPE_DELIMITER  */
@@ -53,7 +62,7 @@ char *letter_to_sound(char *word)
 
     /*  GUESS TYPE OF WORD  */
     if (number_of_syllables != 1)
-        strcat(pronunciation, word_type(word));
+        strcat(pronunciation, word_type((char *)word));
     else
         strcat(pronunciation, WORD_TYPE_UNKNOWN);
 

@@ -21,4 +21,4 @@
 ///     CONCEPTNAME (NOUN)  'm'
 ///
 /// @return Pronunciation of word, or NULL if any error (rare).
-char *letter_to_sound(char *word);
+char *letter_to_sound(const char *word);

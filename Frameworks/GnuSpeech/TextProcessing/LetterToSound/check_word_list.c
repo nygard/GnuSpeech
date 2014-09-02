@@ -197,7 +197,7 @@ static pktrie trie[TRIE_NODES] = {
 /// @return 1 if the word was found in the exception list, 0 otherwise.
 int check_word_list(char *string, char **eow)
 {
-    fprintf(stderr, "check_word_list('%s', '%s')\n", string, *eow);
+    //fprintf(stderr, "check_word_list('%s', '%s')\n", string, *eow);
     int i = 0;
     char *startOfOriginalString = string;
 

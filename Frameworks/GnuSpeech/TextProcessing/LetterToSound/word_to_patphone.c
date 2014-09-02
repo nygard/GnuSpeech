@@ -34,7 +34,7 @@ static char *letters[] = {
 
 int word_to_patphone(char *word)
 {
-    fprintf(stderr, "word_to_patphone(%s)\n", word);
+    //fprintf(stderr, "word_to_patphone(%s)\n", word);
     char replace_s = 0;
 
 
@@ -49,7 +49,7 @@ int word_to_patphone(char *word)
     // This also lowercases the word buffer.
     if (all_caps(word))
     {
-        fprintf(stderr, "all caps, spelling it.\n");
+        //fprintf(stderr, "all caps, spelling it.\n");
         return spell_it(word);
     }
 
@@ -57,21 +57,21 @@ int word_to_patphone(char *word)
     // Step 4(a)
     if (end_of_word == (word + 2))
     {
-        fprintf(stderr, "single letter, spelling it\n");
+        //fprintf(stderr, "single letter, spelling it\n");
         return spell_it(word);
     }
 
     /*  IF NO VOWELS SPELL THE WORD  */
     if (!vowel_before(word, end_of_word))
     {
-        fprintf(stderr, "no vowels, spelling it\n");
+        //fprintf(stderr, "no vowels, spelling it\n");
         return spell_it(word);
     }
 
     // Step 1: See if the whole word is in the exception list.
     if (check_word_list(word, &end_of_word))
     {
-        fprintf(stderr, "word is in exception list\n");
+        //fprintf(stderr, "word is in exception list\n");
         *++end_of_word = 0;
         fprintf(stderr, "word is now: '%s'\n", word);
         return 1;
@@ -82,12 +82,12 @@ int word_to_patphone(char *word)
 
     // Step 3: Strip trailing s.  Change final ie to y (regardless of trailing s).  Repeat step 1 if any changes.
     replace_s = final_s(word, &end_of_word);
-    fprintf(stderr, "replace_s? %d, word now: '%s'\n", replace_s, word);
+    //fprintf(stderr, "replace_s? %d, word now: '%s'\n", replace_s, word);
 
     /*  FLIP IE TO Y, IF ANY CHANGES RECHECK WORD LIST  */
     if (ie_to_y(word, &end_of_word) || replace_s)
     {
-        fprintf(stderr, "changed ie to y: '%s', or replaced s.\n", word);
+        //fprintf(stderr, "changed ie to y: '%s', or replaced s.\n", word);
 
         /*  IN WORD LIST NOW ALL DONE  */
         if (check_word_list(word, &end_of_word))
@@ -100,7 +100,7 @@ int word_to_patphone(char *word)
                 *++end_of_word = '/';
             }
             *++end_of_word = 0;
-            fprintf(stderr, "word is now: '%s'\n", word);
+            //fprintf(stderr, "word is now: '%s'\n", word);
             return 1;
         }
     }
@@ -110,26 +110,26 @@ int word_to_patphone(char *word)
 
     // Step 4(b)?
     mark_final_e(word, &end_of_word);
-    fprintf(stderr, "called mark_final_e(), word is now: '%s'\n", word);
+    //fprintf(stderr, "called mark_final_e(), word is now: '%s'\n", word);
 
     // Step 4(c)
     long_medial_vowels(word, &end_of_word);
-    fprintf(stderr, "called long_medial_vowels(), word is now: '%s'\n", word);
+    //fprintf(stderr, "called long_medial_vowels(), word is now: '%s'\n", word);
 
     // Step 4(d)
     medial_silent_e(word, &end_of_word);
-    fprintf(stderr, "called medial_silent_e(), word is now: '%s'\n", word);
+    //fprintf(stderr, "called medial_silent_e(), word is now: '%s'\n", word);
 
     // Step 4(e)
     medial_s(word, end_of_word);
-    fprintf(stderr, "called medial_s(), word is now: '%s'\n", word);
+    //fprintf(stderr, "called medial_s(), word is now: '%s'\n", word);
 
     if (replace_s) {
         *end_of_word++ = replace_s;
         *end_of_word = '#';
     }
     *++end_of_word = 0;
-    fprintf(stderr, "about to return, word is now: '%s'\n", word);
+    //fprintf(stderr, "about to return, word is now: '%s'\n", word);
 
     return 0;
 }

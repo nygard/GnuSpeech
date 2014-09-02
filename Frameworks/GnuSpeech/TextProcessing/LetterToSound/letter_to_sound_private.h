@@ -23,3 +23,5 @@ int word_to_patphone(char *word);
 
 void reprint_isp_trie(void);
 void reprint_cwl_trie(void);
+
+void lts_log_to_file(FILE *fp);
