@@ -1,0 +1,46 @@
+allong‚ aa.l_o_n.'zh_e_i%c
+andrÝ 'ar_n.d_r_e_i%a
+ballonn‚ "b_aa_l.uh.'n_e_i%a
+barr‚ b_ar.'r_e_i%a
+bergŠre b_e_r.'zh_e_r%j
+beurremani‚ b_er_r.m_ar_n.'y_e_i%j
+blas‚ b_l_ar.'z_e_i%c
+bomb‚ b_o_m.'b_e_i%j
+bonapp‚tit b_o.n_aa.p_e.'t_i%j
+bonmarch‚ b_aw.m_aa_r.'sh_e_i%j
+bonnetiŠre b_o_n.'t_i_e_uh_r%a
+bonsmarch‚s b_aw.m_ar.'sh_e_i%j
+boucl‚ b_uu.'k_l_e_i%a
+boŒte 'b_w_ah_t%j
+bris‚ b_r_ee.'z_e_i%a
+broch‚ b_r_o.'sh_e_i%ca
+brouill‚ b_r_uu.'y_e_i%c
+caf‚ k_aa.'f_e_i%a
+canap‚ 'k_aa_n.uh."p_e_i%a
+canci¢n k_ar_n.'th_y_aw_n%a
+chaŒn‚ sh_e.'n_e_i%j
+chiffonniŠre "sh_i_f.o.'n_i.e_uh_r%j
+chin‚ sh_ee.'n_e_i%j
+ch‚rie sh_e.'r_i%j
+cir‚ s_i.'r_e_i%a
+cisel‚ "s_ee.z_uh.'l_e_i%c
+ci‚naga 's_y_e_i.n_uh.g_uh%j
+clech‚ k_l_e_i.'sh_e_i%c
+clich‚ k_l_ee.'sh_e_i%ac
+communiqu‚ k_uh."m_y_uu.n_i.'k_e_i%a
+cong‚ 'k_o_n.zh_e_i%a
+consomm‚ "k_o_n.s_o.'m_e_i%a
+cortŠge k_aw_r.'t_e_zh%j
+corv‚e k_aw_r.'v_e_i%a
+coryph‚e "k_o_r.i.'f_e_i%j
+couch‚ k_uu.'sh_e_i%j
+coul‚e k_uu.'l_e_i%j
+criniŠre k_r_i_n.'y_e_r%j
+distingu‚ "d_i_s.t_aa_ng.'g_e_i%c
+enchaŒnement ar_n.sh_e_n.'m_ar_n%j
+frŠre 'f_r_e_r%j
+r‚clame r_e_i.'k_l_aa_m_e_i%j
+
+
+Fixed:
+shadowy 'sh_aa_d.uh_uu.i¥c
