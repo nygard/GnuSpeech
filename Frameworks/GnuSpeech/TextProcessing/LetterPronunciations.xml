@@ -88,4 +88,14 @@
   <letter key="|"        name="vertical bar"          > 'v_uh_r.t_i.k_uh_l 'b_a_r                        </letter>
   <letter key="}"        name="close brace"           > 'k_l_uh_uu_z 'b_r_e_i_s                          </letter>
   <letter key="~"        name="tilde"                 > 't_i_l.d_uh                                      </letter>
+  <letter key="0"        name="zero"                  > 'z_i_r.uh_uu                                     </letter>
+  <letter key="1"        name="one"                   > 'w_a_n                                           </letter>
+  <letter key="2"        name="two"                   > 't_uu                                            </letter>
+  <letter key="3"        name="three"                 > 'th_r_ee                                         </letter>
+  <letter key="4"        name="four"                  > 'f_aw_r                                          </letter>
+  <letter key="5"        name="five"                  > 'f_ah_i_v                                        </letter>
+  <letter key="6"        name="six"                   > 's_i_k_s                                         </letter>
+  <letter key="7"        name="seven"                 > 's_e.v_uh_n                                      </letter>
+  <letter key="8"        name="eight"                 > 'e_i_t                                           </letter>
+  <letter key="9"        name="nine"                  > 'n_ah_i_n                                        </letter>
 </letters>
