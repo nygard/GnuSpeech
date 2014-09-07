@@ -33,7 +33,7 @@ char *letter_to_sound(const char *word)
 
     memset(pronunciation, 0, MAX_PRONUNCIATION_LENGTH + 1); // Helps debugging.
 
-    if (log_fp != NULL) fprintf(log_fp, "%s", word);
+    if (log_fp != NULL) fprintf(log_fp, "%-32s", word);
 
     /*  FORMAT WORD  */
     sprintf(buffer, "#%s#", word);
@@ -41,7 +41,7 @@ char *letter_to_sound(const char *word)
     /*  CONVERT WORD TO PRONUNCIATION  */
     if (word_to_patphone(buffer) == 0)
     {
-        if (log_fp != NULL) fprintf(log_fp, "\t%s", buffer);
+        if (log_fp != NULL) fprintf(log_fp, "\t%-50s", buffer);
         isp_trans(buffer, pronunciation);
         /*  ATTEMPT TO MARK SYLL/STRESS  */
         number_of_syllables = syllabify(pronunciation);
@@ -52,7 +52,7 @@ char *letter_to_sound(const char *word)
     }
     else
     {
-        if (log_fp != NULL) fprintf(log_fp, "\tn/a\t%s\n", buffer);
+        if (log_fp != NULL) fprintf(log_fp, "\t%-50s\t%s\n", "n/a", buffer);
         strcpy(pronunciation, buffer);
         //fprintf(stderr, "word_to_patphone() case 2, pronunciation: '%s'\n", pronunciation);
     }
