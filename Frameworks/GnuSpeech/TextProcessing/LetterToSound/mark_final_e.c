@@ -11,6 +11,7 @@ static char *suffix_list_2 = "ci/laci/";
 /// Handle preprocessing in section McIlroy section 4.3, Final E.
 void mark_final_e(char *in, char **eow)
 {
+    fprintf(stderr, "mark_final_e(%s)\n", in);
     char *end = *eow;
     char *prior_char;
 
@@ -41,14 +42,14 @@ void mark_final_e(char *in, char **eow)
 
     /* McIlroy 4.3 - a)  */
     char *temp = prior_char = end - 1;
-    while ((prior_char = (char *)suffix(in, prior_char, suffix_list_1)))
+    while ((prior_char = (char *)suffix_with_vowel_before(in, prior_char, suffix_list_1)))
     {
         insert_mark(&end, prior_char);
         temp = prior_char;
     }
 
     prior_char = temp;
-    if ((prior_char = (char *)suffix(in, prior_char, suffix_list_2)))
+    if ((prior_char = (char *)suffix_with_vowel_before(in, prior_char, suffix_list_2)))
     {
         insert_mark(&end, prior_char);
         *eow = end;
@@ -56,7 +57,7 @@ void mark_final_e(char *in, char **eow)
     }
 
     prior_char = temp;
-    if ((prior_char = (char *)suffix(in, prior_char, "e/")))
+    if ((prior_char = (char *)suffix_with_vowel_before(in, prior_char, "e/")))
     {
         if (prior_char[2] != 'e')
         {

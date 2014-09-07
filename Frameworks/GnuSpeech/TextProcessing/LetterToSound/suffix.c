@@ -6,7 +6,7 @@
 /// Find suffix if vowel in word before the suffix.
 /// Return 0 if failed, or pointer to character which preceeds the suffix.
 
-char *suffix(char *in, char *end, char *suflist)
+char *suffix_with_vowel_before(char *in, char *end, char *suflist)
 {
     char *temp = (char *)ends_with(in, end, suflist);
     if (temp && vowel_before(in, temp + 1))

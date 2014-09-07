@@ -13,7 +13,7 @@ void mark_final_e(char *in, char **eow);
 void medial_s(char *in, char *end);
 void medial_silent_e(char *in, char **eow);
 int member(char element, char *set);
-char *suffix(char *in, char *end, char *suflist);
+char *suffix_with_vowel_before(char *in, char *end, char *suflist);
 long syllabify(char *word);
 char *vowel_before(char *start, char *position);
 int word_to_patphone(char *word);
