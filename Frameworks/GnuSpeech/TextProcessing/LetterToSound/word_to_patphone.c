@@ -54,7 +54,7 @@ int word_to_patphone(char *word)
     }
 
     /*  IF SINGLE LETTER, SPELL IT  */
-    // Step 4(a)
+    // Step 4(a): Reject a word consisting of 1 letter or a word without a vowel.
     if (end_of_word == (word + 2))
     {
         //fprintf(stderr, "single letter, spelling it\n");
@@ -104,9 +104,6 @@ int word_to_patphone(char *word)
             return 1;
         }
     }
-
-    // Step 4(a): Reject a word consisting of 1 letter or a word without a vowel.
-    // ???
 
     // Step 4(b)?
     mark_final_e(word, &end_of_word);
