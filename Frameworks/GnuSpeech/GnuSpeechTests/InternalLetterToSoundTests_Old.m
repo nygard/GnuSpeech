@@ -5,10 +5,10 @@
 
 #define BUFLEN (1000)
 
-@interface InternalLetterToSoundTests : XCTestCase
+@interface InternalLetterToSoundTests_Old : XCTestCase
 @end
 
-@implementation InternalLetterToSoundTests
+@implementation InternalLetterToSoundTests_Old
 {
     char buf[BUFLEN];
 }

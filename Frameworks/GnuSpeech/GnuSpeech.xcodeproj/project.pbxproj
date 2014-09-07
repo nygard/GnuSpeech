@@ -30,7 +30,7 @@
 		012D53BA0B7FFB34001B50FC /* 2.0eMainDictionary.dict in Resources */ = {isa = PBXBuildFile; fileRef = 012D53B70B7FFB34001B50FC /* 2.0eMainDictionary.dict */; };
 		012D53BC0B7FFB34001B50FC /* TTSSuffixList.txt in Resources */ = {isa = PBXBuildFile; fileRef = 012D53B90B7FFB34001B50FC /* TTSSuffixList.txt */; };
 		01410990199DC785003AD5BD /* PunctuationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0141098F199DC785003AD5BD /* PunctuationTests.m */; };
-		0147E43419A0065000D285A3 /* InternalLetterToSoundTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0147E43319A0065000D285A3 /* InternalLetterToSoundTests.m */; };
+		0147E43419A0065000D285A3 /* InternalLetterToSoundTests_Old.m in Sources */ = {isa = PBXBuildFile; fileRef = 0147E43319A0065000D285A3 /* InternalLetterToSoundTests_Old.m */; };
 		0147E43A19A06C8500D285A3 /* SuffixToWordType.xml in Resources */ = {isa = PBXBuildFile; fileRef = 0147E43919A06C8500D285A3 /* SuffixToWordType.xml */; };
 		0147E43D19A06E3F00D285A3 /* GSSuffixWordType.h in Headers */ = {isa = PBXBuildFile; fileRef = 0147E43B19A06E3F00D285A3 /* GSSuffixWordType.h */; };
 		0147E43E19A06E3F00D285A3 /* GSSuffixWordType.m in Sources */ = {isa = PBXBuildFile; fileRef = 0147E43C19A06E3F00D285A3 /* GSSuffixWordType.m */; };
@@ -225,7 +225,7 @@
 		012D53B70B7FFB34001B50FC /* 2.0eMainDictionary.dict */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = 2.0eMainDictionary.dict; path = TextProcessing/2.0eMainDictionary.dict; sourceTree = "<group>"; };
 		012D53B90B7FFB34001B50FC /* TTSSuffixList.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = TTSSuffixList.txt; path = TextProcessing/TTSSuffixList.txt; sourceTree = "<group>"; };
 		0141098F199DC785003AD5BD /* PunctuationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PunctuationTests.m; sourceTree = "<group>"; };
-		0147E43319A0065000D285A3 /* InternalLetterToSoundTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InternalLetterToSoundTests.m; sourceTree = "<group>"; };
+		0147E43319A0065000D285A3 /* InternalLetterToSoundTests_Old.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InternalLetterToSoundTests_Old.m; sourceTree = "<group>"; };
 		0147E43919A06C8500D285A3 /* SuffixToWordType.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = SuffixToWordType.xml; path = TextProcessing/SuffixToWordType.xml; sourceTree = "<group>"; };
 		0147E43B19A06E3F00D285A3 /* GSSuffixWordType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GSSuffixWordType.h; path = TextProcessing/GSSuffixWordType.h; sourceTree = "<group>"; };
 		0147E43C19A06E3F00D285A3 /* GSSuffixWordType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GSSuffixWordType.m; path = TextProcessing/GSSuffixWordType.m; sourceTree = "<group>"; };
@@ -624,7 +624,7 @@
 				01102E24199A0012002B4522 /* MarkModesTests.m */,
 				0161297D199C835F00CD2844 /* Punctuation1SingleQuote.m */,
 				0141098F199DC785003AD5BD /* PunctuationTests.m */,
-				0147E43319A0065000D285A3 /* InternalLetterToSoundTests.m */,
+				0147E43319A0065000D285A3 /* InternalLetterToSoundTests_Old.m */,
 				0157258619B2F11D00881F5E /* LetterToSoundTests.m */,
 				0186C5E31999409D002AB929 /* Supporting Files */,
 			);
@@ -1054,7 +1054,7 @@
 				0157258719B2F11D00881F5E /* LetterToSoundTests.m in Sources */,
 				0161297E199C835F00CD2844 /* Punctuation1SingleQuote.m in Sources */,
 				0186C61719994213002AB929 /* ConditionInputTests.m in Sources */,
-				0147E43419A0065000D285A3 /* InternalLetterToSoundTests.m in Sources */,
+				0147E43419A0065000D285A3 /* InternalLetterToSoundTests_Old.m in Sources */,
 				01102E25199A0012002B4522 /* MarkModesTests.m in Sources */,
 				0186C5E61999409D002AB929 /* GnuSpeechTests.m in Sources */,
 				01410990199DC785003AD5BD /* PunctuationTests.m in Sources */,
