@@ -427,33 +427,35 @@ static FILE *log_fp = NULL;
 
     // Lastly, 'e' itself is located and marked under the same proviso.  However 'e' before 'e', as in 'indeed' is
     // not marked, and termiates final 'e' processing.
-    //NSLog(@"searchRange: %@, str: %@, blah", NSStringFromRange(searchRange), [word substringWithRange:searchRange]);
-    NSRange r2 = NSMakeRange(searchRange.length - 1, 0);
-    r2.length = [word length] - r2.location;
-    //NSLog(@"search this: %@_______", [word substringWithRange:r2]);
 
-    NSRegularExpression *re_4_3a2 = [[NSRegularExpression alloc] initWithPattern:@"^ee" options:0 error:&error];
+    NSRange endingRange = NSMakeRange(searchRange.length, [word length] - searchRange.length);
+
+    NSRegularExpression *re_4_3a2 = [[NSRegularExpression alloc] initWithPattern:@"e$" options:0 error:&error];
     NSParameterAssert(re_4_3a2 != nil);
 
     {
-        NSTextCheckingResult *match = [re_4_3a2 firstMatchInString:word options:0 range:r2];
-        if (match != nil) {
-            // Terminate without marking.
-            return;
-        }
-    }
+        NSTextCheckingResult *beginningEndsWithE = [re_4_3a2 firstMatchInString:word options:0 range:searchRange];
+        if (beginningEndsWithE != nil) {
+            NSRegularExpression *re_4_3a3 = [[NSRegularExpression alloc] initWithPattern:@"^e" options:0 error:&error];
+            NSParameterAssert(re_4_3a3 != nil);
+            NSTextCheckingResult *endingStartsWithE = [re_4_3a3 firstMatchInString:word options:0 range:endingRange];
+            if (endingStartsWithE != nil) {
+                // Terminate without marking.
+                return;
+            }
 
-    NSRegularExpression *re_4_3a3 = [[NSRegularExpression alloc] initWithPattern:@"^e$" options:0 error:&error];
-    NSParameterAssert(re_4_3a3 != nil);
-
-    {
-        NSTextCheckingResult *match = [re_4_3a3 firstMatchInString:word options:0 range:r2];
-        if (match != nil) {
-            [word appendString:@"|"];
+            if (endingRange.length == 0) {
+                [word appendString:@"|"];
+                endingRange.location -= 1;
+                endingRange.length += 2;
+                searchRange.length -= 1;
+                NSParameterAssert(endingRange.location >= 0);
+            }
         }
     }
 
     // 4.3b:
+
 }
 
 - (void)longMedialVowels:(NSMutableString *)word;
