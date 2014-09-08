@@ -99,4 +99,17 @@ XCTAssert(strcmp(buf, expected) == 0);\
     XCTAssert(result == 0, @"'eye'");
 }
 
+#pragma mark - Mark Final E
+
+- (void)testSuffixMarkedOnlyIfVowelInRestOfWord;
+{
+    char *endOfWord;
+    strcpy(buf, "#zzzly#"); endOfWord = buf + strlen(buf) - 1;
+    mark_final_e(buf, &endOfWord);
+    NSLog(@"result: %s", buf);
+    XCTAssert(!strcmp(buf, "#zzzlY#"));
+}
+
+// cabal vs decabal (or decibel or decimal).
+
 @end

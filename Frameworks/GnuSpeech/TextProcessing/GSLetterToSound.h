@@ -12,7 +12,11 @@
 
 // Just for testing right now.
 - (NSString *)new_pronunciationForWord:(NSString *)word;
+- (void)logToFP:(FILE *)fp;
 
 - (NSString *)pronunciationBySpellingWord:(NSString *)word;
+
+// Testing:
+- (void)markFinalE:(NSMutableString *)word;
 
 @end

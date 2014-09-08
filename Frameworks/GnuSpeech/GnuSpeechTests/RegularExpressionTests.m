@@ -67,4 +67,16 @@
     XCTAssertEqualObjects(output, @"one\ntwo");
 }
 
+- (void)testCaratMatchesBeginningOfRange;
+{
+    NSError *error;
+    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:@"^e" options:0 error:&error];
+    XCTAssert(regex != nil);
+
+    NSString *input = @"ebel";
+    NSTextCheckingResult *result = [regex firstMatchInString:input options:0 range:NSMakeRange(2, [input length] - 2)];
+    XCTAssert(result != nil);
+    XCTAssert(result.range.location == 2);
+}
+
 @end

@@ -12,6 +12,7 @@ static NSString *GSLTSWordType_Unknown = @"j";
 @interface NSString (GSLetterToSound)
 - (BOOL)gs_lts_isAllCaps;
 - (BOOL)gs_lts_hasVowels;
+- (BOOL)gs_lts_hasVowelsInRange:(NSRange)range;
 @end
 
 @implementation  NSString (GSLetterToSound)
@@ -34,6 +35,13 @@ static NSString *GSLTSWordType_Unknown = @"j";
     NSCharacterSet *vowels = [NSCharacterSet characterSetWithCharactersInString:@"aeiouyAEIOUY"];
     NSRange range = [self rangeOfCharacterFromSet:vowels];
     return range.location != NSNotFound;
+}
+
+- (BOOL)gs_lts_hasVowelsInRange:(NSRange)range;
+{
+    NSCharacterSet *vowels = [NSCharacterSet characterSetWithCharactersInString:@"aeiouyAEIOUY"];
+    NSRange r1 = [self rangeOfCharacterFromSet:vowels options:0 range:range];
+    return r1.location != NSNotFound;
 }
 
 @end
@@ -149,6 +157,13 @@ static NSString *GSLTSWordType_Unknown = @"j";
 
 #pragma mark -
 
+static FILE *log_fp = NULL;
+
+- (void)logToFP:(FILE *)fp;
+{
+    log_fp = fp;
+}
+
 - (NSString *)new_pronunciationForWord:(NSString *)word;
 {
 //    [GSLetterToSound suffixToWordTypes];
@@ -161,12 +176,16 @@ static NSString *GSLTSWordType_Unknown = @"j";
 
     NSUInteger syllableCount = 0;
 
+    if (log_fp != NULL) fprintf(log_fp, "%-32s", [word cStringUsingEncoding:NSASCIIStringEncoding]);
 
     // Preprocess input.  We'll wait before surrounding the word with # -- regular expression ^ and $ should work instead.
     BOOL isPronunciation;
     NSString *s1 = [self patPhoneFromWord:word isPronunciation:&isPronunciation]; // Take the original word.
     if (!isPronunciation) {
+        if (log_fp != NULL) fprintf(log_fp, "\t%-50s", [[NSString stringWithFormat:@"#%@#", s1] cStringUsingEncoding:NSASCIIStringEncoding]);
+        if (log_fp != NULL) fprintf(log_fp, "\t%s\n", [@"???" cStringUsingEncoding:NSASCIIStringEncoding]);
     } else {
+        if (log_fp != NULL) fprintf(log_fp, "\t%-50s\t%s\n", "n/a", [s1 cStringUsingEncoding:NSASCIIStringEncoding]);
         [pronunciation appendString:s1];
     }
 
@@ -301,16 +320,16 @@ static NSString *GSLTSWordType_Unknown = @"j";
         BOOL hasFinalVoicedS = [re_4_1d firstMatchInString:modifiedWord options:0 range:NSMakeRange(0, [modifiedWord length])] != nil;
         BOOL hasFinalUnvoicedS = !hasFinalVoicedS && [modifiedWord hasSuffix:@"s"];
 
-        if (hasFinalVoicedS)   finalSSuffix = @"_z";
-        if (hasFinalUnvoicedS) finalSSuffix = @"_s";
+        if (hasFinalVoicedS)   finalSSuffix = @"z";
+        if (hasFinalUnvoicedS) finalSSuffix = @"s";
 
-        NSLog(@"hasFinalVoicedS? %d, hasFinalUnvoicedS? %d", hasFinalVoicedS, hasFinalUnvoicedS);
+//        NSLog(@"hasFinalVoicedS? %d, hasFinalUnvoicedS? %d", hasFinalVoicedS, hasFinalUnvoicedS);
 
         [re_4_1a replaceMatchesInString:modifiedWord options:0 withTemplate:@"$1"];
         [re_4_1b replaceMatchesInString:modifiedWord options:0 withTemplate:@""];
         [re_4_1c replaceMatchesInString:modifiedWord options:0 withTemplate:@"y"];
         
-        NSLog(@"modifiedWord: %@", modifiedWord);
+//        NSLog(@"modifiedWord: %@", modifiedWord);
     }
 
     // Repeating step 1, regardless of changes, because it's easier than tracking if there were changes.
@@ -318,13 +337,134 @@ static NSString *GSLTSWordType_Unknown = @"j";
     if (pr2 != nil) {
         NSLog(@"%s, modified word is in exception list", __PRETTY_FUNCTION__);
         *isPronunciation = YES;
-        if (finalSSuffix != nil) return [pr2 stringByAppendingString:finalSSuffix];
+        if (finalSSuffix != nil) return [pr2 stringByAppendingFormat:@"_%@", finalSSuffix];
         return pr2;
     }
 
+    // Step 4(b)?
+    [self markFinalE:modifiedWord];
+
+    // Step 4(c)
+    [self longMedialVowels:modifiedWord];
+
+    // Step 4(d)
+    [self medialSilentE:modifiedWord];
+
+    // Step 4(e)
+    [self medialS:modifiedWord];
+
+    if (finalSSuffix != nil) [modifiedWord appendString:finalSSuffix];
 
     *isPronunciation = NO;
     return [modifiedWord copy];
+}
+
+/// Mark potential silent 'e's with '|'.  And other stuff from rule 4.3.
+- (void)markFinalE:(NSMutableString *)word;
+{
+    NSError *error;
+
+    // 4.3a: If the final 'e' is the only vowel, replace with 'E'.
+    NSRegularExpression *re_4_3a = [[NSRegularExpression alloc] initWithPattern:@"^[^aeiouyAEIOUY]*(e)$" options:0 error:&error];
+    NSParameterAssert(re_4_3a != nil);
+
+    {
+        NSTextCheckingResult *match = [re_4_3a firstMatchInString:word options:0 range:NSMakeRange(0, [word length])];
+        if (match != nil) {
+            //[re_4_3a replaceMatchesInString:word options:0 withTemplate:@"$1E"];
+            [word replaceCharactersInRange:[match rangeAtIndex:1] withString:@"E"];
+            return;
+        }
+    }
+
+    // 4.3g: Look for ^[^aeiouy]*[aeiouy][^aeiouywx](al | le | re | us | y)$
+    //       if found, change     ------   to upper case.
+    // TODO: (2014-09-07) Just lowercase vowels?
+    NSRegularExpression *re_4_3g = [[NSRegularExpression alloc] initWithPattern:@"^[^aeiouy]*([aeiouy])[^aeiouywx](al|le|re|us|y)$" options:0 error:&error];
+    NSParameterAssert(re_4_3g != nil);
+    {
+        NSTextCheckingResult *match = [re_4_3g firstMatchInString:word options:0 range:NSMakeRange(0, [word length])];
+        if (match != nil)  {
+            NSRange r1 = [match rangeAtIndex:1];
+            [word replaceCharactersInRange:r1 withString:[[word substringWithRange:r1] uppercaseString]];
+        }
+    }
+
+    // 4.3a continued... should move 4.3g above.
+    NSArray *suffixes1 = @[ @"able", @"ably", @"ed", @"en", @"er", @"ery", @"est", @"ey", @"ing", @"less", @"ly", @"ment", @"ness", @"or", @"ful" ];
+    BOOL hasReplacedSuffix = NO;
+    NSRange searchRange = NSMakeRange(0, [word length]);
+    do {
+        //NSLog(@"--> searching: %@", [word substringWithRange:searchRange]);
+        hasReplacedSuffix = NO;
+        for (NSString *str in suffixes1) {
+            NSRange r1 = [word rangeOfString:str options:NSAnchoredSearch|NSBackwardsSearch range:searchRange];
+            //NSLog(@"suffix: %@, r1: %@", str, NSStringFromRange(r1));
+            if (r1.location != NSNotFound && [word gs_lts_hasVowelsInRange:NSMakeRange(0, r1.location)]) {
+                if ([str hasPrefix:@"e"]) {
+                    [word insertString:@"|" atIndex:r1.location + 1];
+                } else {
+                    [word insertString:@"|" atIndex:r1.location];
+                }
+                //NSLog(@"word is now: %@", word);
+                searchRange.length = r1.location;
+                hasReplacedSuffix = YES;
+                break;
+            }
+        }
+    } while (hasReplacedSuffix);
+
+    NSArray *suffixes2 = @[ @"ic", @"ical" ];
+    for (NSString *str in suffixes2) {
+        NSRange r1 = [word rangeOfString:str options:NSAnchoredSearch|NSBackwardsSearch range:searchRange];
+        if (r1.location != NSNotFound && [word gs_lts_hasVowelsInRange:NSMakeRange(0, r1.location)]) {
+            [word insertString:@"|" atIndex:r1.location];
+            searchRange.length = r1.location;
+            return; // And final 'e' processing ends.
+        }
+    }
+
+    // Lastly, 'e' itself is located and marked under the same proviso.  However 'e' before 'e', as in 'indeed' is
+    // not marked, and termiates final 'e' processing.
+    //NSLog(@"searchRange: %@, str: %@, blah", NSStringFromRange(searchRange), [word substringWithRange:searchRange]);
+    NSRange r2 = NSMakeRange(searchRange.length - 1, 0);
+    r2.length = [word length] - r2.location;
+    //NSLog(@"search this: %@_______", [word substringWithRange:r2]);
+
+    NSRegularExpression *re_4_3a2 = [[NSRegularExpression alloc] initWithPattern:@"^ee" options:0 error:&error];
+    NSParameterAssert(re_4_3a2 != nil);
+
+    {
+        NSTextCheckingResult *match = [re_4_3a2 firstMatchInString:word options:0 range:r2];
+        if (match != nil) {
+            // Terminate without marking.
+            return;
+        }
+    }
+
+    NSRegularExpression *re_4_3a3 = [[NSRegularExpression alloc] initWithPattern:@"^e$" options:0 error:&error];
+    NSParameterAssert(re_4_3a3 != nil);
+
+    {
+        NSTextCheckingResult *match = [re_4_3a3 firstMatchInString:word options:0 range:r2];
+        if (match != nil) {
+            [word appendString:@"|"];
+        }
+    }
+
+    // 4.3b:
+}
+
+- (void)longMedialVowels:(NSMutableString *)word;
+{
+}
+
+- (void)medialSilentE:(NSMutableString *)word;
+{
+}
+
+- (void)medialS:(NSMutableString *)word;
+{
 }
 
 @end
