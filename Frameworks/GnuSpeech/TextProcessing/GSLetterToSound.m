@@ -377,6 +377,7 @@ static FILE *log_fp = NULL;
         }
     }
 
+    // This matches the old code, but the paper just says 4.3g needs to be before 4.3b.
     // 4.3g: Look for ^[^aeiouy]*[aeiouy][^aeiouywx](al | le | re | us | y)$
     //       if found, change     ------   to upper case.
     // TODO: (2014-09-07) Just lowercase vowels?
