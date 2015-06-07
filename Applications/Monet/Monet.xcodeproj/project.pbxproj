@@ -489,6 +489,7 @@
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
+				01A44FE71B23FEAD0039C2C9 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -560,6 +561,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		01A44FE71B23FEAD0039C2C9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/zsh;
+			shellScript = "# Remove the symbolic links first!\n#exit 5\n#rm $DSTROOT/Library/Frameworks/*.framework/PrivateHeaders\n#rm $DSTROOT/Library/Frameworks/**/PrivateHeaders/*.h\n#rmdir $DSTROOT/Library/Frameworks/**/PrivateHeaders\nFPATH=$INSTALL_DIR/$FRAMEWORKS_FOLDER_PATH\nmkdir $FPATH\nmv $DSTROOT/Library/Frameworks/*.framework $FPATH\nrmdir $DSTROOT/Library/Frameworks\nrmdir $DSTROOT/Library\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D11072C0486CEB800E47090 /* Sources */ = {
@@ -728,7 +745,6 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Monet;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
@@ -747,7 +763,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = Monet_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Monet;
 				WRAPPER_EXTENSION = app;
 			};
