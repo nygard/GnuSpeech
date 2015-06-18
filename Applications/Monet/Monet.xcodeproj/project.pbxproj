@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01061F9D1B328A0C00FBB2B4 /* MIntonationParameterEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 01061F9B1B328A0C00FBB2B4 /* MIntonationParameterEditor.m */; };
+		01061F9E1B328A0C00FBB2B4 /* IntonationParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 01061F9C1B328A0C00FBB2B4 /* IntonationParameters.xib */; };
 		01C55C4B0B7BC7C6009F6A92 /* ReleaseNotes.html in Resources */ = {isa = PBXBuildFile; fileRef = 01C55C490B7BC7C6009F6A92 /* ReleaseNotes.html */; };
 		01C55C4D0B7BC7D8009F6A92 /* Default.mxml in Resources */ = {isa = PBXBuildFile; fileRef = 01C55C4C0B7BC7D8009F6A92 /* Default.mxml */; };
 		01C55C540B7BC82D009F6A92 /* CommentIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 01C55C4E0B7BC82D009F6A92 /* CommentIcon.tiff */; };
@@ -65,6 +67,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01061F9A1B328A0C00FBB2B4 /* MIntonationParameterEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIntonationParameterEditor.h; sourceTree = "<group>"; };
+		01061F9B1B328A0C00FBB2B4 /* MIntonationParameterEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIntonationParameterEditor.m; sourceTree = "<group>"; };
+		01061F9C1B328A0C00FBB2B4 /* IntonationParameters.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IntonationParameters.xib; sourceTree = "<group>"; };
 		01C55C4A0B7BC7C6009F6A92 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = English; path = English.lproj/ReleaseNotes.html; sourceTree = "<group>"; };
 		01C55C4C0B7BC7D8009F6A92 /* Default.mxml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Default.mxml; sourceTree = "<group>"; };
 		01C55C4E0B7BC82D009F6A92 /* CommentIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CommentIcon.tiff; sourceTree = "<group>"; };
@@ -168,6 +173,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01061F9F1B328A2B00FBB2B4 /* Intonation Parameters */ = {
+			isa = PBXGroup;
+			children = (
+				01061F9A1B328A0C00FBB2B4 /* MIntonationParameterEditor.h */,
+				01061F9B1B328A0C00FBB2B4 /* MIntonationParameterEditor.m */,
+				01061F9C1B328A0C00FBB2B4 /* IntonationParameters.xib */,
+			);
+			name = "Intonation Parameters";
+			sourceTree = "<group>";
+		};
 		0161BEF61544C3F100A1D178 /* Data Entry */ = {
 			isa = PBXGroup;
 			children = (
@@ -353,6 +368,7 @@
 				0161BEFA1544C41B00A1D178 /* Rule Tester */,
 				0161BEFB1544C42800A1D178 /* Special Transition Editor */,
 				0161BEFC1544C43A00A1D178 /* Synthesis */,
+				01061F9F1B328A2B00FBB2B4 /* Intonation Parameters */,
 				0161BEFF1544C46C00A1D178 /* Synthesis Parameters */,
 				0161BF001544C47E00A1D178 /* Transition Editor */,
 				01C55D840B7BCE53009F6A92 /* MWindowController.h */,
@@ -547,6 +563,7 @@
 				69CD4B300EDD15C800481C86 /* DataEntry.xib in Resources */,
 				69CD4B350EDD15E200481C86 /* PostureCategory.xib in Resources */,
 				69CD4B3A0EDD15F300481C86 /* Postures.xib in Resources */,
+				01061F9E1B328A0C00FBB2B4 /* IntonationParameters.xib in Resources */,
 				69CD4B3F0EDD160400481C86 /* PrototypeManager.xib in Resources */,
 				69CD4B440EDD161800481C86 /* ReleaseNotes.xib in Resources */,
 				69CD4B490EDD162800481C86 /* RuleManager.xib in Resources */,
@@ -592,6 +609,7 @@
 				01C55D570B7BCDB4009F6A92 /* MAIntonationScaleView.m in Sources */,
 				01C55D580B7BCDB4009F6A92 /* MAIntonationScrollView.m in Sources */,
 				01C55D590B7BCDB4009F6A92 /* MAIntonationView.m in Sources */,
+				01061F9D1B328A0C00FBB2B4 /* MIntonationParameterEditor.m in Sources */,
 				01C55D660B7BCDEE009F6A92 /* EventListView.m in Sources */,
 				01C55D670B7BCDEE009F6A92 /* MCommentCell.m in Sources */,
 				01C55D680B7BCDEE009F6A92 /* MExtendedTableView.m in Sources */,
