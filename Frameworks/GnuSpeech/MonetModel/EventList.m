@@ -440,7 +440,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     return _events;
 }
 
-// Get the event a time "time", creating it if necessary and insserting into "events" array.
+// Get the event a time "time", creating it if necessary and inserting into "events" array.
 // Time relative to zeroRef
 - (Event *)eventAtTimeOffset:(double)time;
 {
