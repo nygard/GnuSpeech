@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01061FA21B329D4200FBB2B4 /* MMIntonation.h in Headers */ = {isa = PBXBuildFile; fileRef = 01061FA01B329D4200FBB2B4 /* MMIntonation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01061FA31B329D4200FBB2B4 /* MMIntonation.m in Sources */ = {isa = PBXBuildFile; fileRef = 01061FA11B329D4200FBB2B4 /* MMIntonation.m */; };
 		010DE7331545598D005E337E /* MMToneGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 010DE7311545598D005E337E /* MMToneGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		010DE7341545598D005E337E /* MMToneGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE7321545598D005E337E /* MMToneGroup.m */; };
 		010DE75A15463851005E337E /* MMFRuleSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE75915463851005E337E /* MMFRuleSymbols.m */; };
@@ -186,6 +188,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01061FA01B329D4200FBB2B4 /* MMIntonation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMIntonation.h; path = MonetModel/MMIntonation.h; sourceTree = "<group>"; };
+		01061FA11B329D4200FBB2B4 /* MMIntonation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMIntonation.m; path = MonetModel/MMIntonation.m; sourceTree = "<group>"; };
 		010DE7311545598D005E337E /* MMToneGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMToneGroup.h; path = MonetModel/MMToneGroup.h; sourceTree = "<group>"; };
 		010DE7321545598D005E337E /* MMToneGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMToneGroup.m; path = MonetModel/MMToneGroup.m; sourceTree = "<group>"; };
 		010DE75915463851005E337E /* MMFRuleSymbols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFRuleSymbols.m; sourceTree = "<group>"; };
@@ -462,6 +466,8 @@
 				0155E4130B7BE8F9008D8879 /* Event.m */,
 				01B4560F15452BE400D00A1A /* MMIntonationParameters.h */,
 				01B4561015452BE400D00A1A /* MMIntonationParameters.m */,
+				01061FA01B329D4200FBB2B4 /* MMIntonation.h */,
+				01061FA11B329D4200FBB2B4 /* MMIntonation.m */,
 				0155E4140B7BE8F9008D8879 /* EventList.h */,
 				0155E4150B7BE8F9008D8879 /* EventList.m */,
 				010DE7311545598D005E337E /* MMToneGroup.h */,
@@ -841,6 +847,7 @@
 				69E228680FB13394001B3C04 /* vowel_before.h in Headers */,
 				0157785815410A48008C2ECF /* GnuSpeechServerProtocol.h in Headers */,
 				01E6107C1996A566009CDE09 /* MMPhone.h in Headers */,
+				01061FA21B329D4200FBB2B4 /* MMIntonation.h in Headers */,
 				0165043D1543B42700D64E98 /* MMDriftGenerator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -950,6 +957,7 @@
 				69300A3F0FAB841E0041EBFB /* TTSParser.m in Sources */,
 				694157980FAB8D66009D4192 /* GSParser.m in Sources */,
 				6951479F0FB0D73000B6DDD6 /* MMBooleanExpression.m in Sources */,
+				01061FA31B329D4200FBB2B4 /* MMIntonation.m in Sources */,
 				695147A10FB0D73000B6DDD6 /* MMBooleanNode.m in Sources */,
 				695147A30FB0D73000B6DDD6 /* MMBooleanParser.m in Sources */,
 				695147A60FB0D73000B6DDD6 /* MMBooleanTerminal.m in Sources */,
