@@ -24,7 +24,4 @@
 /// Affects hard coded parameters 7 and 8 (r1 and r2).
 @property (assign) double radiusMultiply;
 
-- (id)initFromUserDefaults;
-- (void)saveToUserDefaults;
-
 @end

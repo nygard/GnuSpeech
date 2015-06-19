@@ -18,6 +18,8 @@
 #import "MTransitionEditor.h"
 #import "MWindowController.h"
 
+#import "MMIntonation-Monet.h"
+
 #define MDK_MonetFileDirectory @"MonetFileDirectory"
 
 @interface AppController ()
@@ -70,6 +72,8 @@
     //NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
 
     //NSLog(@"[NSApp delegate]: %@", [NSApp delegate]);
+
+    [MMIntonation setupUserDefaults];
 
     [[self dataEntryController] showWindowIfVisibleOnLaunch];
     [[self postureCategoryController] showWindowIfVisibleOnLaunch];
