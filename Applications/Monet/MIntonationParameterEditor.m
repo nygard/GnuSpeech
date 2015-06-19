@@ -3,9 +3,8 @@
 
 #import "MIntonationParameterEditor.h"
 
-@interface MIntonationParameterEditor ()
-
-@end
+// This stores all of the values in user defaults.  It might be better suited as part of a preference panel.
+// This currently uses bindings to the shared user defaults controller to load nd save the values.
 
 @implementation MIntonationParameterEditor
 
@@ -15,11 +14,6 @@
     }
 
     return self;
-}
-
-- (void)windowDidLoad;
-{
-    [super windowDidLoad];
 }
 
 @end

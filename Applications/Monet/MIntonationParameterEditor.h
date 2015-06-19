@@ -3,10 +3,6 @@
 
 #import "MWindowController.h"
 
-@class MMIntonation;
-
 @interface MIntonationParameterEditor : MWindowController
-
-@property (strong) MMIntonation *intonation;
 
 @end
