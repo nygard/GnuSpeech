@@ -27,10 +27,17 @@
                             <constraint firstAttribute="width" constant="70" id="Ne7-sg-TNT"/>
                         </constraints>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" drawsBackground="YES" id="FtC-gf-kXr">
+                            <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="0.00" numberStyle="decimal" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" minimumFractionDigits="2" maximumFractionDigits="2" id="cTx-sS-i10">
+                                <real key="minimum" value="0.20000000000000001"/>
+                                <real key="maximum" value="2"/>
+                            </numberFormatter>
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <binding destination="gnV-9r-4Kd" name="value" keyPath="values.Tempo" id="wi1-T9-vyd"/>
+                        </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bdN-aA-WQD">
                         <rect key="frame" x="18" y="385" width="106" height="17"/>
@@ -102,6 +109,9 @@
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <binding destination="gnV-9r-4Kd" name="value" keyPath="values.ShouldUseMacroIntonation" id="25y-OU-aDj"/>
+                        </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="4Fh-I8-DGp">
                         <rect key="frame" x="128" y="202" width="57" height="18"/>
@@ -109,6 +119,9 @@
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <binding destination="gnV-9r-4Kd" name="value" keyPath="values.ShouldUseMicroIntonation" id="aG4-OV-BLt"/>
+                        </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="ybk-Sc-jHk">
                         <rect key="frame" x="128" y="151" width="73" height="18"/>
@@ -116,6 +129,9 @@
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <binding destination="gnV-9r-4Kd" name="value" keyPath="values.ShouldUseDrift" id="xkm-Bx-hp1"/>
+                        </connections>
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="svI-Bi-Bky">
                         <rect key="frame" x="128" y="182" width="71" height="18"/>
@@ -123,6 +139,9 @@
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <binding destination="gnV-9r-4Kd" name="value" keyPath="values.ShouldUseSmoothIntonation" id="olT-kv-rtt"/>
+                        </connections>
                     </button>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fOi-6Z-QSc">
                         <rect key="frame" x="130" y="20" width="70" height="22"/>
@@ -130,10 +149,20 @@
                             <constraint firstAttribute="width" constant="70" id="p72-5G-36n"/>
                         </constraints>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" drawsBackground="YES" id="oNs-L5-Sbk">
+                            <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="0.00" numberStyle="decimal" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" minimumFractionDigits="2" maximumFractionDigits="2" id="qqM-Ys-Kbx">
+                                <real key="minimum" value="0.20000000000000001"/>
+                                <real key="maximum" value="2"/>
+                                <metadata>
+                                    <real key="inspectorSampleValue" value="1.2"/>
+                                </metadata>
+                            </numberFormatter>
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <binding destination="gnV-9r-4Kd" name="value" keyPath="values.RadiusMultiply" id="f4a-cH-nVb"/>
+                        </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="n8d-4H-K7i">
                         <rect key="frame" x="18" y="22" width="106" height="17"/>
@@ -164,10 +193,14 @@
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PUo-2A-kiM">
                         <rect key="frame" x="130" y="123" width="66" height="22"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" drawsBackground="YES" id="0fY-14-hr0">
+                            <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="0.0" numberStyle="decimal" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" minimumFractionDigits="1" maximumFractionDigits="1" id="epy-BY-oL7"/>
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <binding destination="gnV-9r-4Kd" name="value" keyPath="values.DriftDeviation" id="Mwp-hE-w2U"/>
+                        </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dy1-g2-7sP">
                         <rect key="frame" x="130" y="91" width="66" height="22"/>
@@ -176,6 +209,9 @@
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <binding destination="gnV-9r-4Kd" name="value" keyPath="values.DriftCutoff" id="GbW-bC-78l"/>
+                        </connections>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aPB-bi-mcX">
                         <rect key="frame" x="18" y="125" width="106" height="17"/>
@@ -216,6 +252,9 @@
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <binding destination="gnV-9r-4Kd" name="value" keyPath="values.NotionalPitch" id="oAw-xX-EVd"/>
+                        </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5BC-hc-AYf">
                         <rect key="frame" x="130" y="351" width="91" height="22"/>
@@ -224,6 +263,9 @@
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <binding destination="gnV-9r-4Kd" name="value" keyPath="values.PretonicRange" id="RHK-CZ-fBa"/>
+                        </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vy3-WD-Wf0">
                         <rect key="frame" x="130" y="319" width="91" height="22"/>
@@ -232,6 +274,9 @@
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <binding destination="gnV-9r-4Kd" name="value" keyPath="values.PretonicLift" id="4cn-Os-gRc"/>
+                        </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UT8-rm-5mn">
                         <rect key="frame" x="130" y="287" width="91" height="22"/>
@@ -240,6 +285,9 @@
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <binding destination="gnV-9r-4Kd" name="value" keyPath="values.TonicRange" id="r0S-8D-uBp"/>
+                        </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ch4-s6-ecg">
                         <rect key="frame" x="130" y="255" width="91" height="22"/>
@@ -248,14 +296,23 @@
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <binding destination="gnV-9r-4Kd" name="value" keyPath="values.TonicMovement" id="0Lm-Ve-AF4"/>
+                        </connections>
                     </textField>
                     <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ici-H3-vxt">
                         <rect key="frame" x="205" y="17" width="19" height="27"/>
-                        <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="9R3-bS-ifH"/>
+                        <stepperCell key="cell" continuous="YES" alignment="left" increment="0.20000000000000001" minValue="0.20000000000000001" maxValue="2" doubleValue="1" id="9R3-bS-ifH"/>
+                        <connections>
+                            <binding destination="gnV-9r-4Kd" name="value" keyPath="values.RadiusMultiply" id="nxD-aa-0S7"/>
+                        </connections>
                     </stepper>
                     <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dMq-ge-rfu">
                         <rect key="frame" x="205" y="49" width="19" height="27"/>
-                        <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="DkS-OQ-AmC"/>
+                        <stepperCell key="cell" continuous="YES" alignment="left" increment="0.20000000000000001" minValue="0.20000000000000001" maxValue="2" doubleValue="1" id="DkS-OQ-AmC"/>
+                        <connections>
+                            <binding destination="gnV-9r-4Kd" name="value" keyPath="values.Tempo" id="hQY-zk-L9f"/>
+                        </connections>
                     </stepper>
                 </subviews>
                 <constraints>
@@ -568,6 +625,8 @@
                     <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </box>
             </subviews>
+            <point key="canvasLocation" x="352.5" y="809.5"/>
         </view>
+        <userDefaultsController representsSharedInstance="YES" id="gnV-9r-4Kd"/>
     </objects>
 </document>
