@@ -182,8 +182,6 @@
 				01061F9A1B328A0C00FBB2B4 /* MIntonationParameterEditor.h */,
 				01061F9B1B328A0C00FBB2B4 /* MIntonationParameterEditor.m */,
 				01061F9C1B328A0C00FBB2B4 /* IntonationParameters.xib */,
-				01462BFF1B34B2CF0029A6A2 /* MMIntonation-Monet.h */,
-				01462C001B34B2CF0029A6A2 /* MMIntonation-Monet.m */,
 			);
 			name = "Intonation Parameters";
 			sourceTree = "<group>";
@@ -334,6 +332,8 @@
 			children = (
 				01C55D480B7BCD69009F6A92 /* MMDisplayParameter.h */,
 				01C55D490B7BCD69009F6A92 /* MMDisplayParameter.m */,
+				01462BFF1B34B2CF0029A6A2 /* MMIntonation-Monet.h */,
+				01462C001B34B2CF0029A6A2 /* MMIntonation-Monet.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
