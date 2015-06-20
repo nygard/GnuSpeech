@@ -210,7 +210,7 @@
         currentPoint.y = (yScale * self.zeroIndex) + ([currentDisplayPoint value] * yScale / self.sectionAmount);
 
         //NSLog(@"%2d: currentPoint: %@", index, NSStringFromPoint(currentPoint));
-        if (NSPointInRect(currentPoint, selectionRect) == YES) {
+        if (NSPointInRect(currentPoint, selectionRect)) {
             [self.selectedPoints addObject:currentDisplayPoint];
         }
     }

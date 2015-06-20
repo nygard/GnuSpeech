@@ -311,10 +311,10 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     [self drawPhones];
     [self drawTransition];
     [self highlightSelectedPoints];
-    if (_flags.shouldDrawSlopes == YES)
+    if (_flags.shouldDrawSlopes)
         [self drawSlopes];
 
-    if (_flags.shouldDrawSelection == YES) {
+    if (_flags.shouldDrawSelection) {
         NSRect selectionRect = [self rectFormedByPoint:_selectionPoint1 andPoint:_selectionPoint2];
         selectionRect.origin.x += 0.5;
         selectionRect.origin.y += 0.5;
@@ -688,7 +688,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
             //NSLog(@"NewPoint Time: %f  value: %f", [tempPoint freeTime], [tempPoint value]);
             [newPoint setValue:newValue];
             if ([[self delegate] respondsToSelector:@selector(transitionView:shouldAddPoint:)] == NO
-                || [[self delegate] transitionView:self shouldAddPoint:newPoint] == YES) {
+                || [[self delegate] transitionView:self shouldAddPoint:newPoint]) {
                 [_transition insertPoint:newPoint];
                 [_selectedPoints removeAllObjects];
                 [_selectedPoints addObject:newPoint];
@@ -713,7 +713,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     if ([self isEnabled] == NO)
         return;
 
-    if (_flags.shouldDrawSelection == YES) {
+    if (_flags.shouldDrawSelection) {
         NSPoint hitPoint = [self convertPoint:[event locationInWindow] fromView:nil];
         //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
         _selectionPoint2 = hitPoint;
@@ -876,7 +876,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
 
     NSWindow *window = [self window];
 
-    if ([window makeFirstResponder:window] == YES) {
+    if ([window makeFirstResponder:window]) {
         [self _setEditingSlope:slope];
         CGFloat timeScale = [self timeScale];
 
@@ -1025,7 +1025,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
         currentPoint.y = (yScale * _zeroIndex) + ([currentDisplayPoint value] * yScale / _sectionAmount);
 
         //NSLog(@"%2d: currentPoint: %@", index, NSStringFromPoint(currentPoint));
-        if (NSPointInRect(currentPoint, selectionRect) == YES) {
+        if (NSPointInRect(currentPoint, selectionRect)) {
             [_selectedPoints addObject:currentDisplayPoint];
         }
     }
@@ -1039,7 +1039,7 @@ NSString *TransitionViewSelectionDidChangeNotification = @"TransitionViewSelecti
     NSNotification *notification = [NSNotification notificationWithName:TransitionViewSelectionDidChangeNotification object:self];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
 
-    if ([[self delegate] respondsToSelector:@selector(transitionViewSelectionDidChange:)] == YES)
+    if ([[self delegate] respondsToSelector:@selector(transitionViewSelectionDidChange:)])
         [[self delegate] transitionViewSelectionDidChange:notification];
 }
 

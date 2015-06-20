@@ -184,7 +184,7 @@
     [_noseCoefSlider     setDoubleValue:[synthesisParameters noseCoef]];
     [_mixOffsetSlider    setDoubleValue:[synthesisParameters mixOffset]];
 
-    if ([synthesisParameters shouldUseNoiseModulation] == YES)
+    if ([synthesisParameters shouldUseNoiseModulation])
         [_modulation selectCellAtRow:0 column:1];
     else
         [_modulation selectCellAtRow:0 column:0];

@@ -229,7 +229,7 @@ char *getNameWithoutExtensionOfFile(char *fileName)
 //    NXHashState     state;
 //    int             i =0;
 //
-//    if (has_changed == YES){
+//    if (has_changed){
 //		has_changed = NO;
 //		state = NXInitHashState(hashTable);
 //

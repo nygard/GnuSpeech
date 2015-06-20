@@ -241,7 +241,7 @@
     count = [_displayParameters count];
     for (index = 0; index < count; index++) {
         MMDisplayParameter *displayParameter = [_displayParameters objectAtIndex:index];
-        if ([displayParameter shouldDisplay] == YES)
+        if ([displayParameter shouldDisplay])
             [array addObject:displayParameter];
     }
     [_eventListView setDisplayParameters:array];
@@ -681,15 +681,15 @@
     if (tableView == _parameterTableView) {
         MMDisplayParameter *displayParameter = [_displayParameters objectAtIndex:row];
 		
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"name" isEqual:identifier]) {
             return [displayParameter name];
-        } else if ([@"shouldDisplay" isEqual:identifier] == YES) {
+        } else if ([@"shouldDisplay" isEqual:identifier]) {
             return [NSNumber numberWithBool:[displayParameter shouldDisplay]];
         }
     } else if (tableView == _intonationRuleTableView) {
-        if ([@"rule" isEqual:identifier] == YES) {
+        if ([@"rule" isEqual:identifier]) {
             return [_eventList ruleDescriptionAtIndex:row];
-        } else if ([@"number" isEqual:identifier] == YES) {
+        } else if ([@"number" isEqual:identifier]) {
             return [NSString stringWithFormat:@"%lu.", row + 1];
         }
     }
@@ -704,7 +704,7 @@
     if (tableView == _parameterTableView) {
         MMDisplayParameter *displayParameter = [_displayParameters objectAtIndex:row];
 		
-        if ([@"shouldDisplay" isEqual:identifier] == YES) {
+        if ([@"shouldDisplay" isEqual:identifier]) {
             [displayParameter setShouldDisplay:[object boolValue]];
             [self _updateDisplayedParameters];
         }

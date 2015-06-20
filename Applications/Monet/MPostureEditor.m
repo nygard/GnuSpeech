@@ -274,17 +274,17 @@
     if (tableView == _postureTableView) {
         MMPosture *posture = [[[self model] postures] objectAtIndex:row];
 
-        if ([@"hasComment" isEqual:identifier] == YES) {
+        if ([@"hasComment" isEqual:identifier]) {
             return [NSNumber numberWithBool:[posture hasComment]];
-        } else if ([@"name" isEqual:identifier] == YES) {
+        } else if ([@"name" isEqual:identifier]) {
             return [posture name];
         }
     } else if (tableView == _categoryTableView) {
         MMCategory *category = [[[self model] categories] objectAtIndex:row];
 
-        if ([@"isMember" isEqual:identifier] == YES) {
+        if ([@"isMember" isEqual:identifier]) {
             return [NSNumber numberWithBool:[[self selectedPosture] isMemberOfCategory:category]];
-        } else if ([@"name" isEqual:identifier] == YES) {
+        } else if ([@"name" isEqual:identifier]) {
             return [category name];
         }
     } else if (tableView == _parameterTableView || tableView == _metaParameterTableView) {
@@ -296,9 +296,9 @@
         else
             parameter = [[[self model] metaParameters] objectAtIndex:row];
 
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"name" isEqual:identifier]) {
             return [parameter name];
-        } else if ([@"value" isEqual:identifier] == YES) {
+        } else if ([@"value" isEqual:identifier]) {
             MMTarget *aTarget;
 
             if (tableView == _parameterTableView)
@@ -309,19 +309,19 @@
                 return nil;
 
             return [NSNumber numberWithDouble:[aTarget value]];
-        } else if ([@"minimum" isEqual:identifier] == YES) {
+        } else if ([@"minimum" isEqual:identifier]) {
             return [NSNumber numberWithDouble:[parameter minimumValue]];
-        } else if ([@"maximum" isEqual:identifier] == YES) {
+        } else if ([@"maximum" isEqual:identifier]) {
             return [NSNumber numberWithDouble:[parameter maximumValue]];
-        } else if ([@"default" isEqual:identifier] == YES) {
+        } else if ([@"default" isEqual:identifier]) {
             return [NSNumber numberWithDouble:[parameter defaultValue]];
         }
     } else if (tableView == _symbolTableView) {
         MMSymbol *symbol = [[[self model] symbols] objectAtIndex:row];
 
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"name" isEqual:identifier]) {
             return [symbol name];
-        } else if ([@"value" isEqual:identifier] == YES) {
+        } else if ([@"value" isEqual:identifier]) {
             MMTarget *aTarget;
 
             aTarget = [[[self selectedPosture] symbolTargets] objectAtIndex:row];
@@ -329,11 +329,11 @@
                 return nil;
 
             return [NSNumber numberWithDouble:[aTarget value]];
-        } else if ([@"minimum" isEqual:identifier] == YES) {
+        } else if ([@"minimum" isEqual:identifier]) {
             return [NSNumber numberWithDouble:[symbol minimumValue]];
-        } else if ([@"maximum" isEqual:identifier] == YES) {
+        } else if ([@"maximum" isEqual:identifier]) {
             return [NSNumber numberWithDouble:[symbol maximumValue]];
-        } else if ([@"default" isEqual:identifier] == YES) {
+        } else if ([@"default" isEqual:identifier]) {
             return [NSNumber numberWithDouble:[symbol defaultValue]];
         }
     }
@@ -348,20 +348,20 @@
     if (tableView == _postureTableView) {
         MMPosture *posture = [[[self model] postures] objectAtIndex:row];
 
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"name" isEqual:identifier]) {
             [posture setName:object];
         }
     } else if (tableView == _categoryTableView) {
         MMCategory *category = [[[self model] categories] objectAtIndex:row];
 
-        if ([@"isMember" isEqual:identifier] == YES) {
-            if ([object boolValue] == YES)
+        if ([@"isMember" isEqual:identifier]) {
+            if ([object boolValue])
                 [[self selectedPosture] addCategory:category];
             else
                 [[self selectedPosture] removeCategory:category];
         }
     } else if (tableView == _parameterTableView || tableView == _metaParameterTableView) {
-        if ([@"value" isEqual:identifier] == YES) {
+        if ([@"value" isEqual:identifier]) {
             MMTarget *aTarget;
 
             if (tableView == _parameterTableView)
@@ -372,7 +372,7 @@
             [aTarget setValue:[object doubleValue]];
         }
     } else if (tableView == _symbolTableView) {
-        if ([@"value" isEqual:identifier] == YES) {
+        if ([@"value" isEqual:identifier]) {
             MMTarget *aTarget;
 
             aTarget = [[[self selectedPosture] symbolTargets] objectAtIndex:row];
@@ -439,7 +439,7 @@
     count = [postures count];
     for (index = 0; index < count; index++) {
         posture = [postures objectAtIndex:index];
-        if ([[posture name] hasPrefix:characters] == YES) {
+        if ([[posture name] hasPrefix:characters]) {
             [_postureTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
             [_postureTableView scrollRowToVisible:index];
             return NO;

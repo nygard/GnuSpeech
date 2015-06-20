@@ -55,7 +55,7 @@
 		4186417E0A31AF2200531338 /* ResponderNotifyingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResponderNotifyingWindow.h; sourceTree = "<group>"; };
 		4186417F0A31AF2200531338 /* ResponderNotifyingWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResponderNotifyingWindow.m; sourceTree = "<group>"; };
 		41CC57430AE05E1100DC3B3C /* PrDict.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; path = PrDict.h; sourceTree = "<group>"; };
-		41CC57440AE05E1100DC3B3C /* PrDict.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; path = PrDict.m; sourceTree = "<group>"; };
+		41CC57440AE05E1100DC3B3C /* PrDict.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PrDict.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		41E31DB00A2F37DF001E06A9 /* APPL.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = APPL.icns; sourceTree = "<group>"; };
 		41E31DD00A2F3CD6001E06A9 /* IPA-SIL keyboard 0.6.dmg */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IPA-SIL keyboard 0.6.dmg"; sourceTree = "<group>"; };
 		41E31DD50A2F3E4A001E06A9 /* DoulosSIL4FontDocumentation.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = DoulosSIL4FontDocumentation.pdf; sourceTree = "<group>"; };

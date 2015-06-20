@@ -16,7 +16,7 @@
 - (id)selectedItemOfClass:(Class)aClass;
 {
     id selectedItem = [self selectedItem];
-    if ([selectedItem isKindOfClass:aClass] == YES)
+    if ([selectedItem isKindOfClass:aClass])
         return selectedItem;
 
     return nil;

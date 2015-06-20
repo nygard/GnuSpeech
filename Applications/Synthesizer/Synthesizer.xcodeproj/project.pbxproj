@@ -157,7 +157,7 @@
 		633938D009D8C93400216B59 /* Crossmix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Crossmix.h; sourceTree = "<group>"; };
 		633938D109D8C93400216B59 /* Crossmix.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Crossmix.m; sourceTree = "<group>"; };
 		633938D209D8C93400216B59 /* FricativeArrow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FricativeArrow.h; sourceTree = "<group>"; };
-		633938D309D8C93400216B59 /* FricativeArrow.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FricativeArrow.m; sourceTree = "<group>"; };
+		633938D309D8C93400216B59 /* FricativeArrow.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FricativeArrow.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		633938D409D8C93400216B59 /* Harmonics.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Harmonics.h; sourceTree = "<group>"; };
 		633938D509D8C93400216B59 /* Harmonics.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Harmonics.m; sourceTree = "<group>"; };
 		633938D609D8C93400216B59 /* PitchScale.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PitchScale.h; sourceTree = "<group>"; };

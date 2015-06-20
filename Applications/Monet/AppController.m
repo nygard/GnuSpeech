@@ -213,7 +213,7 @@
 - (void)_loadFile:(NSString *)aFilename;
 {
     NSString *extension = [aFilename pathExtension];
-    if ([extension isEqualToString:@"mxml"] == YES) {
+    if ([extension isEqualToString:@"mxml"]) {
         [self _loadMonetXMLFile:aFilename];
     }
 }
@@ -241,7 +241,7 @@
 
             newFilename = [[self.filename stringByDeletingPathExtension] stringByAppendingPathExtension:@"mxml"];
             result = [_model writeXMLToFile:newFilename comment:nil];
-            if (result == YES) {
+            if (result) {
                 NSLog(@"Renamed file from %@ to %@", [self.filename lastPathComponent], [newFilename lastPathComponent]);
                 [self setFilename:newFilename];
             }

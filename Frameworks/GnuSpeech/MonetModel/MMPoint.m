@@ -153,7 +153,7 @@
         [resultString appendFormat:@" time-expression=\"%@\"", GSXMLAttributeString([_timeEquation name], NO)];
     }
 
-    if (_isPhantom == YES)
+    if (_isPhantom)
         [resultString appendFormat:@" is-phantom=\"%@\"", GSXMLBoolAttributeString(_isPhantom)];
 
     [resultString appendString:@"/>\n"];

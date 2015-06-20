@@ -166,7 +166,7 @@
     //NSLog(@"identifier: %@, item: %p, item class: %@", identifier, item, NSStringFromClass([item class]));
 
     if (outlineView == _equationOutlineView) {
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"name" isEqual:identifier]) {
             return [item name];
         }
     }
@@ -212,7 +212,7 @@
 
 - (BOOL)transitionView:(TransitionView *)transitionView shouldAddPoint:(MMPoint *)point;
 {
-    if ([[_transitionView transition] isTimeInSlopeRatio:[point cachedTime]] == YES) {
+    if ([[_transitionView transition] isTimeInSlopeRatio:[point cachedTime]]) {
         if (NSRunAlertPanel(@"Insert Point", @"Insert Point into Slope Ratio?", @"Insert", @"Don't Insert", nil) == NSAlertDefaultReturn)
             return YES;
         else

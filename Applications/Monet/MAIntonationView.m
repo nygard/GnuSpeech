@@ -243,10 +243,10 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [self drawPostureLabels];
     [self drawIntonationPoints];
 
-    if (_flags.shouldDrawSmoothPoints == YES && _flags.mouseBeingDragged == NO)
+    if (_flags.shouldDrawSmoothPoints && _flags.mouseBeingDragged == NO)
         [self drawSmoothPoints];
 
-    if (_flags.shouldDrawSelection == YES) {
+    if (_flags.shouldDrawSelection) {
         NSRect selectionRect;
 
         selectionRect = [self rectFormedByPoint:_selectionPoint1 andPoint:_selectionPoint2];
@@ -790,7 +790,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 //        return;
 
     [self autoscroll:event];
-    if (_flags.shouldDrawSelection == YES) {
+    if (_flags.shouldDrawSelection) {
         hitPoint = [self convertPoint:[event locationInWindow] fromView:nil];
         //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
         _selectionPoint2 = hitPoint;
@@ -839,7 +839,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         currentPoint.y = rint(([currentIntonationPoint semitone] + ZERO_SECTION) * [self sectionHeight]) + 0.5;
 
         //NSLog(@"%2d: currentPoint: %@", index, NSStringFromPoint(currentPoint));
-        if (NSPointInRect(currentPoint, selectionRect) == YES) {
+        if (NSPointInRect(currentPoint, selectionRect)) {
             [_selectedPoints addObject:currentIntonationPoint];
         }
     }
@@ -988,7 +988,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     aNotification = [NSNotification notificationWithName:MAIntonationViewSelectionDidChangeNotification object:self];
     [[NSNotificationCenter defaultCenter] postNotification:aNotification];
 
-    if ([[self delegate] respondsToSelector:@selector(intonationViewSelectionDidChange:)] == YES)
+    if ([[self delegate] respondsToSelector:@selector(intonationViewSelectionDidChange:)])
         [[self delegate] intonationViewSelectionDidChange:aNotification];
 
     [self setNeedsDisplay:YES];

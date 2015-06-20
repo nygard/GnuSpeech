@@ -607,7 +607,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 //NSLog(@"Foot tempo indicator - 'f'");
                 [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
                 double aDouble;
-                if ([scanner scanDouble:&aDouble] == YES) {
+                if ([scanner scanDouble:&aDouble]) {
                     //NSLog(@"current foot tempo: %g", aDouble);
                     [self setCurrentFootTempo:aDouble];
                 }
@@ -617,7 +617,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 //NSLog(@"Foot tempo indicator - 'r'");
                 [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
                 double aDouble;
-                if ([scanner scanDouble:&aDouble] == YES) {
+                if ([scanner scanDouble:&aDouble]) {
                     //NSLog(@"ruleTemp = %g", aDouble);
                     ruleTempo = aDouble;
                 }
