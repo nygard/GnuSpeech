@@ -11,6 +11,11 @@
 @property (weak) IBOutlet NSTableView *eventTableView;
 @end
 
+// 2015-06-20: This generates the following message when synthesizing and then showing the events:
+// Layout still needs update after calling -[NSScrollView layout].  NSScrollView or one of its superclasses may have overridden -layout without calling super. Or, something may have dirtied layout in the middle of updating it.  Both are programming errors in Cocoa Autolayout.  The former is pretty likely to arise if some pre-Cocoa Autolayout class had a method called layout, but it should be fixed.
+// This is on OS X 10.10.3.  Searches show other people getting the same message, and it might be an Apple bug.  Not investigating further right now.
+
+
 @implementation MEventTableController
 
 - (id)init;
