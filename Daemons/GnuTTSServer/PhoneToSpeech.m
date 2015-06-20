@@ -95,28 +95,17 @@
     [self.eventList setUp];
 	
     self.eventList.pitchMean = [[[self model] synthesisParameters] pitch];
-    self.eventList.globalTempo = 1.0;  // hard-coded defaults taken from Monet
-	
-	self.eventList.shouldUseMacroIntonation = YES;
-	self.eventList.shouldUseMicroIntonation = YES;
-	self.eventList.shouldUseDrift = YES;
-	[self.eventList.driftGenerator configureWithDeviation:1.0 sampleRate:500 lowpassCutoff:4.0];  // hard-coded defaults taken from Monet
-    self.eventList.radiusMultiply = 1.0;  // hard-coded defaults taken from Monet
-	
-	// These are the Monet defaults we've just hard-coded (for now).
-    self.eventList.intonationParameters.notionalPitch = -1.0;
-    self.eventList.intonationParameters.pretonicRange = 2.0;
-    self.eventList.intonationParameters.pretonicLift  = -2.0;
-    self.eventList.intonationParameters.tonicRange    = -10.0;
-    self.eventList.intonationParameters.tonicMovement = -6.0;
+    MMIntonation *intonation = [[MMIntonation alloc] init];;
+    self.eventList.intonation = intonation;
+
+	[self.eventList.driftGenerator configureWithDeviation:intonation.driftDeviation sampleRate:500 lowpassCutoff:intonation.driftCutoff];
 }
 
 - (void)continueSynthesis;
 {
     // NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];	
     // [eventList setShouldUseSmoothIntonation:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];
-	[self.eventList setShouldUseSmoothIntonation:YES];
-	
+
     [self.eventList applyIntonation];
 		
     [self.synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
