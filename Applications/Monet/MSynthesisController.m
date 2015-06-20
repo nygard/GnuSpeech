@@ -215,7 +215,7 @@
         MMParameter *currentParameter = [parameters objectAtIndex:index];
 		
         MMDisplayParameter *displayParameter = [[MMDisplayParameter alloc] initWithParameter:currentParameter];
-        [displayParameter setTag:currentTag++];
+        displayParameter.tag = currentTag++;
         [_displayParameters addObject:displayParameter];
     }
 	
@@ -223,8 +223,8 @@
         MMParameter *currentParameter = [parameters objectAtIndex:index];
 		
         MMDisplayParameter *displayParameter = [[MMDisplayParameter alloc] initWithParameter:currentParameter];
-        [displayParameter setIsSpecial:YES];
-        [displayParameter setTag:currentTag++];
+        displayParameter.isSpecial = YES;
+        displayParameter.tag = currentTag++;
         [_displayParameters addObject:displayParameter];
     }
 	
