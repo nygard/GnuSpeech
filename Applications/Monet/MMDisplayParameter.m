@@ -24,6 +24,14 @@
     return self;
 }
 
+#pragma mark - Debugging
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@: %p> name: %@",
+            NSStringFromClass([self class]), self,
+            self.name];
+}
 
 #pragma mark -
 
