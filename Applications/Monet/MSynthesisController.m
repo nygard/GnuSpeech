@@ -145,7 +145,6 @@
         
         [self _updateDisplayParameters];
         [self _updateEventColumns];
-        [self updateViews];
     }
 }
 
@@ -188,8 +187,6 @@
     [[_intonationView documentView] setEventList:_eventList];
 	
     [self _updateSelectedPointDetails];
-	
-    [self updateViews];
 
     [_textStringTextField removeAllItems];
     [_textStringTextField addItemsWithObjectValues:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_DefaultUtterances]];
@@ -276,10 +273,6 @@
     }
 
     [_eventTableView reloadData];
-}
-
-- (void)updateViews;
-{
 }
 
 - (void)_updateDisplayedParameters;
