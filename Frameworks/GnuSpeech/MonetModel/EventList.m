@@ -473,13 +473,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 // Time relative to zeroRef
 - (void)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value;
 {
-    [self insertEvent:number atTimeOffset:time withValue:value flag:NO];
-}
-
-- (void)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value flag:(BOOL)flag;
-{
     Event *event = [self eventAtTimeOffset:time];
-    if (flag) event.isAtPosture = flag; // Otherwise it clears an already set flag.
     if (number >= 0) {
         // TODO (2012-04-23): This appears to be another hard-coded setting.  7 and 8 seems to be... parameters r1 and r2
         if ((number >= 7) && (number <= 8))
@@ -487,6 +481,13 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         else
             [event setValue:value atIndex:number];
     }
+}
+
+/// This represents the time exactly on a posture, not interpolated between them.
+- (void)insertPostureEventAtTimeOffset:(double)time;
+{
+    Event *event = [self eventAtTimeOffset:time];
+    event.isAtPosture = YES;
 }
 
 - (void)finalEvent:(NSUInteger)number withValue:(double)value;
@@ -1029,19 +1030,19 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         case MMPhoneType_Tetraphone: {
             MMPhone *phonePlus3 = _phones[phoneIndex+3];
             phonePlus3.onset = (double)_zeroRef + ruleSymbols.beat;
-            [self insertEvent:-1 atTimeOffset:ruleSymbols.mark2 withValue:0.0 flag:YES];
+            [self insertPostureEventAtTimeOffset:ruleSymbols.mark2];
             // Fall through
         }
         case MMPhoneType_Triphone: {
             MMPhone *phonePlus2 = _phones[phoneIndex+2];
             phonePlus2.onset = (double)_zeroRef + ruleSymbols.beat;
-            [self insertEvent:-1 atTimeOffset:ruleSymbols.mark1 withValue:0.0 flag:YES];
+            [self insertPostureEventAtTimeOffset:ruleSymbols.mark1];
             // Fall through
         }
         case MMPhoneType_Diphone: {
             MMPhone *phonePlus1 = _phones[phoneIndex+1];
             phonePlus1.onset = (double)_zeroRef + ruleSymbols.beat;
-            [self insertEvent:-1 atTimeOffset:0.0 withValue:0.0 flag:YES];
+            [self insertPostureEventAtTimeOffset:0.0];
         }
             break;
     }
@@ -1153,8 +1154,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     }
 
     [self setZeroRef:(int)(ruleSymbols.ruleDuration * self.multiplier) + _zeroRef];
-    [self insertEvent:-1 atTimeOffset:0.0 withValue:0.0 flag:YES];
-    
+    [self insertPostureEventAtTimeOffset:0.0];
+
     [self.delegate eventListDidGenerateOutput:self];
 }
 
