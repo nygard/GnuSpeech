@@ -15,6 +15,7 @@
 
 #import "MIntonationParameterEditor.h"
 #import "MMIntonation-Monet.h"
+#import "MEventTableController.h"
 
 #define MDK_DefaultUtterances          @"DefaultUtterances"
 
@@ -27,6 +28,7 @@
 @property (readonly) EventList *eventList;
 @property (readonly) TRMSynthesizer *synthesizer;
 @property (strong) STLogger *logger;
+@property (strong) MEventTableController *eventTableController;
 
 @end
 
@@ -75,6 +77,8 @@
 
     // Event Table stuff
     IBOutlet NSTableView *_eventTableView;
+
+    MEventTableController *_eventTableController;
 }
 
 + (void)initialize;
@@ -117,6 +121,9 @@
         [_intonationPrintInfo setHorizontalPagination:NSAutoPagination];
         [_intonationPrintInfo setVerticalPagination:NSFitPagination];
         [_intonationPrintInfo setOrientation:NSPaperOrientationLandscape];
+
+        _eventTableController = [[MEventTableController alloc] init];
+        _eventTableController.eventList = _eventList;
     }
 	
     return self;
@@ -143,6 +150,7 @@
         [_intonationRuleTableView reloadData]; // Because EventList doesn't send out a notification yet.
         
         [self _updateDisplayParameters];
+        self.eventTableController.displayParameters = _displayParameters;
         [self _updateEventColumns];
     }
 }
@@ -196,6 +204,7 @@
     [[[_eventTableView tableColumnWithIdentifier:@"isAtPosture"] dataCell] setFormatter:defaultNumberFormatter];
 	
     [self _updateDisplayParameters];
+    self.eventTableController.displayParameters = _displayParameters;
     [self _updateEventColumns];
 }
 
@@ -226,7 +235,7 @@
         displayParameter.tag = currentTag++;
         [_displayParameters addObject:displayParameter];
     }
-	
+
     // TODO (2004-03-30): This used to have Intonation (tag=32).  How did that work?
 	
     [_parameterTableView reloadData];
@@ -315,6 +324,11 @@
         [_intonationRuleTableView scrollRowToVisible:[selectedIntonationPoint ruleIndex]];
         [_intonationRuleTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[selectedIntonationPoint ruleIndex]] byExtendingSelection:NO];
     }
+}
+
+- (IBAction)showEventTable:(id)sender;
+{
+    [self.eventTableController showWindow:self];
 }
 
 - (IBAction)showIntonationWindow:(id)sender;
@@ -446,6 +460,7 @@
     [_eventList applyIntonation];
 	
     //[eventList printDataStructures:@"Before synthesis"];
+    self.eventTableController.eventList = _eventList;
     [_eventTableView reloadData];
 	
     [self.synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
@@ -474,6 +489,7 @@
 	
     [_eventList generateIntonationPoints];
     [_intonationRuleTableView reloadData];
+    self.eventTableController.eventList = _eventList;
     [_eventTableView reloadData];
     if ([[_eventList intonationPoints] count] > 0)
         [[_intonationView documentView] selectIntonationPoint:[[_eventList intonationPoints] objectAtIndex:0]];

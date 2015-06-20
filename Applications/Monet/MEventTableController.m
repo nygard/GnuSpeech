@@ -5,6 +5,7 @@
 
 #import <GnuSpeech/GnuSpeech.h>
 #import "NSNumberFormatter-Extensions.h"
+#import "MMDisplayParameter.h"
 
 @interface MEventTableController ()
 @property (weak) IBOutlet NSTableView *eventTableView;
@@ -22,16 +23,19 @@
 
 - (void)windowDidLoad;
 {
-    NSButtonCell *checkboxCell = [[NSButtonCell alloc] initTextCell:@""];
-    [checkboxCell setControlSize:NSSmallControlSize];
-    [checkboxCell setButtonType:NSSwitchButton];
-    [checkboxCell setImagePosition:NSImageOnly];
-    [checkboxCell setEditable:NO];
-    [[self.eventTableView tableColumnWithIdentifier:@"isAtPosture"] setDataCell:checkboxCell];
+//    NSButtonCell *checkboxCell = [[NSButtonCell alloc] initTextCell:@""];
+//    [checkboxCell setControlSize:NSSmallControlSize];
+//    [checkboxCell setButtonType:NSSwitchButton];
+//    [checkboxCell setImagePosition:NSImageOnly];
+//    [checkboxCell setEditable:NO];
+//    [[self.eventTableView tableColumnWithIdentifier:@"isAtPosture"] setDataCell:checkboxCell];
+//
+//
+//    NSNumberFormatter *defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
+//    [[[self.eventTableView tableColumnWithIdentifier:@"isAtPosture"] dataCell] setFormatter:defaultNumberFormatter];
 
-
-    NSNumberFormatter *defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
-    [[[self.eventTableView tableColumnWithIdentifier:@"isAtPosture"] dataCell] setFormatter:defaultNumberFormatter];
+//    [self _updateEventColumns];
+//    [self.eventTableView reloadData];
 }
 
 #pragma mark -
@@ -39,7 +43,60 @@
 - (void)setEventList:(EventList *)eventList;
 {
     _eventList = eventList;
-    [self.eventTableView reloadData];
+//    [self.eventTableView reloadData];
+}
+
+- (void)setDisplayParameters:(NSArray *)displayParameters;
+{
+    _displayParameters = [displayParameters copy];
+//    [self _updateEventColumns];
+//    [self.eventTableView reloadData];
+}
+
+/// Create a column for each non-special dispaly parameter.  The special ones will be displayed in a second row of the same column.
+/// Add four columns for the intonation values at the end.
+- (void)_updateEventColumns;
+{
+    return;
+    NSMutableArray *tableColumns = [[_eventTableView tableColumns] mutableCopy];
+    [tableColumns removeObject:[_eventTableView tableColumnWithIdentifier:@"time"]];
+    [tableColumns removeObject:[_eventTableView tableColumnWithIdentifier:@"isAtPosture"]];
+    for (NSTableColumn *tableColumn in tableColumns) {
+        [_eventTableView removeTableColumn:tableColumn];
+    }
+
+    NSNumberFormatter *defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter2];
+
+    NSUInteger count = [_displayParameters count];
+    for (NSUInteger index = 0; index < count; index++) {
+        MMDisplayParameter *displayParameter = _displayParameters[index];
+
+        if ([displayParameter isSpecial] == NO) {
+            NSTableColumn *tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%lu", displayParameter.tag]];
+            [tableColumn setEditable:NO];
+            [[tableColumn headerCell] setTitle:[[displayParameter parameter] name]];
+            [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
+            [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
+            [[tableColumn dataCell] setDrawsBackground:NO];
+            [tableColumn setWidth:60.0];
+            [_eventTableView addTableColumn:tableColumn];
+        }
+    }
+
+    // And finally add columns for the intonation values:
+    NSArray *others = @[ @"Semitone", @"Slope", @"2nd Derivative", @"3rd Derivative" ];
+    for (NSUInteger index = 0; index < [others count]; index++) {
+        NSTableColumn *tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%lu", 32 + index]];
+        [tableColumn setEditable:NO];
+        [[tableColumn headerCell] setTitle:others[index]];
+        [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
+        [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
+        [[tableColumn dataCell] setDrawsBackground:NO];
+        [tableColumn setWidth:80.0];
+        [_eventTableView addTableColumn:tableColumn];
+    }
+
+//    [_eventTableView reloadData];
 }
 
 #pragma mark - NSTableViewDataSource
@@ -56,17 +113,17 @@
 {
     id identifier = [tableColumn identifier];
 
-    if (tableView == _eventTableView) {
+    if (tableView == self.eventTableView) {
         NSInteger eventNumber = row / 2;
         if ([@"time" isEqual:identifier] == YES) {
-            return [NSNumber numberWithInteger:[[[_eventList events] objectAtIndex:eventNumber] time]];
+            return [NSNumber numberWithInteger:[[self.eventList.events objectAtIndex:eventNumber] time]];
         } else if ([@"isAtPosture" isEqual:identifier] == YES) {
-            return [NSNumber numberWithBool:[[[_eventList events] objectAtIndex:eventNumber] isAtPosture]];
+            return [NSNumber numberWithBool:[self.eventList.events[eventNumber] isAtPosture]];
         } else {
             NSInteger rowOffset = row % 2;
             NSInteger index = [identifier intValue] + rowOffset * 16;
             if (rowOffset == 0 || index < 32) {
-                double value = [[[_eventList events] objectAtIndex:eventNumber] getValueAtIndex:index];
+                double value = [self.eventList.events[eventNumber] getValueAtIndex:index];
                 if (value == NaN) return nil;
                 return [NSNumber numberWithDouble:value];
             }

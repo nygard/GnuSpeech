@@ -8,5 +8,6 @@
 @interface MEventTableController : MWindowController
 
 @property (nonatomic, strong) EventList *eventList;
+@property (nonatomic, strong) NSArray *displayParameters;
 
 @end
