@@ -238,13 +238,13 @@
     NSInteger count, index;
     NSString *others[4] = { @"Semitone", @"Slope", @"2nd Derivative?", @"3rd Derivative?"};
 	
-    NSArray *tableColumns = [_eventTableView tableColumns];
-    for (index = [tableColumns count] - 1; index >= 0; index--) { // Note that this fails if we make count an "unsigned int".
-        NSTableColumn *tableColumn = [tableColumns objectAtIndex:index];
-        if ([[tableColumn identifier] isKindOfClass:[NSNumber class]])
-            [_eventTableView removeTableColumn:tableColumn];
+    NSMutableArray *tableColumns = [[_eventTableView tableColumns] mutableCopy];
+    [tableColumns removeObject:[_eventTableView tableColumnWithIdentifier:@"time"]];
+    [tableColumns removeObject:[_eventTableView tableColumnWithIdentifier:@"isAtPosture"]];
+    for (NSTableColumn *tableColumn in tableColumns) {
+        [_eventTableView removeTableColumn:tableColumn];
     }
-	
+
     NSNumberFormatter *defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter2];
 	
     count = [_displayParameters count];
