@@ -319,7 +319,7 @@
 											<string key="NSFrameSize">{184, 444}</string>
 											<reference key="NSSuperview" ref="69494914"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="598555094"/>
+											<reference key="NSNextKeyView" ref="234124331"/>
 											<bool key="NSEnabled">YES</bool>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 											<bool key="NSControlAllowsExpansionToolTips">YES</bool>
@@ -494,7 +494,7 @@
 							<string key="NSFrame">{{20, 296}, {201, 477}}</string>
 							<reference key="NSSuperview" ref="551879624"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="234124331"/>
+							<reference key="NSNextKeyView" ref="69494914"/>
 							<int key="NSsFlags">133170</int>
 							<reference key="NSVScroller" ref="598555094"/>
 							<reference key="NSHScroller" ref="156058326"/>
@@ -584,7 +584,7 @@
 												<object class="NSFont" key="NSSupport">
 													<bool key="IBIsSystemFont">YES</bool>
 													<double key="NSSize">12</double>
-													<int key="NSfFlags">4883</int>
+													<int key="NSfFlags">787</int>
 												</object>
 												<object class="NSColor" key="NSBackgroundColor">
 													<int key="NSColorSpace">3</int>
@@ -727,7 +727,7 @@
 											<string key="NSFrameSize">{663, 65}</string>
 											<reference key="NSSuperview" ref="443837820"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="369794200"/>
+											<reference key="NSNextKeyView" ref="141875484"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="708931099">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -864,7 +864,7 @@
 									<string key="NSFrame">{{664, 1}, {15, 65}}</string>
 									<reference key="NSSuperview" ref="641957115"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="63222835"/>
+									<reference key="NSNextKeyView"/>
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 									<string key="NSControlAction">_doScroller:</string>
 									<reference key="NSControlTarget" ref="641957115"/>
@@ -892,7 +892,7 @@
 							<string key="NSFrame">{{229, 89}, {680, 67}}</string>
 							<reference key="NSSuperview" ref="551879624"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="141875484"/>
+							<reference key="NSNextKeyView" ref="443837820"/>
 							<int key="NSsFlags">133138</int>
 							<reference key="NSVScroller" ref="369794200"/>
 							<reference key="NSHScroller" ref="141875484"/>
@@ -993,31 +993,6 @@
 							<double key="NSMinMagnification">0.25</double>
 							<double key="NSMaxMagnification">4</double>
 							<double key="NSMagnification">1</double>
-						</object>
-						<object class="NSButton" id="63222835">
-							<reference key="NSNextResponder" ref="551879624"/>
-							<int key="NSvFlags">292</int>
-							<string key="NSFrame">{{270, 46}, {68, 32}}</string>
-							<reference key="NSSuperview" ref="551879624"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="223333079"/>
-							<string key="NSReuseIdentifierKey">_NS:9</string>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSButtonCell" key="NSCell" id="510153572">
-								<int key="NSCellFlags">67108864</int>
-								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">New</string>
-								<reference key="NSSupport" ref="890233787"/>
-								<string key="NSCellIdentifier">_NS:9</string>
-								<reference key="NSControlView" ref="63222835"/>
-								<int key="NSButtonFlags">-2038284288</int>
-								<int key="NSButtonFlags2">129</int>
-								<string key="NSAlternateContents"/>
-								<string key="NSKeyEquivalent"/>
-								<int key="NSPeriodicDelay">200</int>
-								<int key="NSPeriodicInterval">25</int>
-							</object>
-							<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 						</object>
 					</array>
 					<string key="NSFrameSize">{929, 793}</string>
@@ -3023,14 +2998,6 @@
 					<int key="connectionID">373</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">showNewIntonationParameters:</string>
-						<reference key="source" ref="197401424"/>
-						<reference key="destination" ref="63222835"/>
-					</object>
-					<int key="connectionID">376</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="655065997"/>
@@ -3267,7 +3234,6 @@
 							<reference ref="826840649"/>
 							<reference ref="937881075"/>
 							<reference ref="253771883"/>
-							<reference ref="63222835"/>
 						</array>
 						<reference key="parent" ref="655065997"/>
 					</object>
@@ -4359,19 +4325,6 @@
 						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="253771883"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">374</int>
-						<reference key="object" ref="63222835"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="510153572"/>
-						</array>
-						<reference key="parent" ref="551879624"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">375</int>
-						<reference key="object" ref="510153572"/>
-						<reference key="parent" ref="63222835"/>
-					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -4533,8 +4486,6 @@
 				<string key="340.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="341.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="342.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="374.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="375.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="51.CustomClassName">MAIntonationScrollView</string>
 				<string key="51.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="55.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4685,7 +4636,6 @@
 						<string key="setSlope:">id</string>
 						<string key="showIntonationParameterWindow:">id</string>
 						<string key="showIntonationWindow:">id</string>
-						<string key="showNewIntonationParameters:">id</string>
 						<string key="synthesizeToFile:">id</string>
 						<string key="synthesizeWithContour:">id</string>
 						<string key="synthesizeWithSoftware:">id</string>
@@ -4755,10 +4705,6 @@
 							<string key="name">showIntonationWindow:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="showNewIntonationParameters:">
-							<string key="name">showNewIntonationParameters:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="synthesizeToFile:">
 							<string key="name">synthesizeToFile:</string>
 							<string key="candidateClassName">id</string>
@@ -4810,7 +4756,6 @@
 						<string key="setSlope:">id</string>
 						<string key="showIntonationParameterWindow:">id</string>
 						<string key="showIntonationWindow:">id</string>
-						<string key="showNewIntonationParameters:">id</string>
 						<string key="synthesizeToFile:">id</string>
 						<string key="synthesizeWithContour:">id</string>
 						<string key="synthesizeWithSoftware:">id</string>
@@ -4874,10 +4819,6 @@
 						</object>
 						<object class="IBActionInfo" key="showIntonationWindow:">
 							<string key="name">showIntonationWindow:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="showNewIntonationParameters:">
-							<string key="name">showNewIntonationParameters:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="synthesizeToFile:">

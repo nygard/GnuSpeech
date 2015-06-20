@@ -53,6 +53,4 @@
 - (IBAction)updateMicroIntonation:(id)sender;
 - (IBAction)updateDrift:(id)sender;
 
-- (IBAction)showNewIntonationParameters:(id)sender;
-
 @end

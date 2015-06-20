@@ -90,8 +90,6 @@
 
     // Event Table stuff
     IBOutlet NSTableView *_eventTableView;
-
-    MIntonationParameterEditor *_foo;
 }
 
 + (void)initialize;
@@ -961,17 +959,6 @@
     NSLog(@"%s", __PRETTY_FUNCTION__);
     // Close file
     self.logger = nil;
-}
-
-#pragma mark - testing
-
-- (IBAction)showNewIntonationParameters:(id)sender;
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    if (_foo == nil) {
-        _foo = [[MIntonationParameterEditor alloc] init];
-    }
-    [_foo showWindow:self];
 }
 
 @end
