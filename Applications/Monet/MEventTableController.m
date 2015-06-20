@@ -23,19 +23,19 @@
 
 - (void)windowDidLoad;
 {
-//    NSButtonCell *checkboxCell = [[NSButtonCell alloc] initTextCell:@""];
-//    [checkboxCell setControlSize:NSSmallControlSize];
-//    [checkboxCell setButtonType:NSSwitchButton];
-//    [checkboxCell setImagePosition:NSImageOnly];
-//    [checkboxCell setEditable:NO];
-//    [[self.eventTableView tableColumnWithIdentifier:@"isAtPosture"] setDataCell:checkboxCell];
-//
-//
-//    NSNumberFormatter *defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
-//    [[[self.eventTableView tableColumnWithIdentifier:@"isAtPosture"] dataCell] setFormatter:defaultNumberFormatter];
+    NSButtonCell *checkboxCell = [[NSButtonCell alloc] initTextCell:@""];
+    [checkboxCell setControlSize:NSSmallControlSize];
+    [checkboxCell setButtonType:NSSwitchButton];
+    [checkboxCell setImagePosition:NSImageOnly];
+    [checkboxCell setEditable:NO];
+    [[self.eventTableView tableColumnWithIdentifier:@"isAtPosture"] setDataCell:checkboxCell];
 
-//    [self _updateEventColumns];
-//    [self.eventTableView reloadData];
+
+    NSNumberFormatter *defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
+    [[[self.eventTableView tableColumnWithIdentifier:@"time"] dataCell] setFormatter:defaultNumberFormatter];
+
+    [self _updateEventColumns];
+    [self.eventTableView reloadData];
 }
 
 #pragma mark -
@@ -43,21 +43,20 @@
 - (void)setEventList:(EventList *)eventList;
 {
     _eventList = eventList;
-//    [self.eventTableView reloadData];
+    [self.eventTableView reloadData];
 }
 
 - (void)setDisplayParameters:(NSArray *)displayParameters;
 {
     _displayParameters = [displayParameters copy];
-//    [self _updateEventColumns];
-//    [self.eventTableView reloadData];
+    [self _updateEventColumns];
+    [self.eventTableView reloadData];
 }
 
 /// Create a column for each non-special dispaly parameter.  The special ones will be displayed in a second row of the same column.
 /// Add four columns for the intonation values at the end.
 - (void)_updateEventColumns;
 {
-    return;
     NSMutableArray *tableColumns = [[_eventTableView tableColumns] mutableCopy];
     [tableColumns removeObject:[_eventTableView tableColumnWithIdentifier:@"time"]];
     [tableColumns removeObject:[_eventTableView tableColumnWithIdentifier:@"isAtPosture"]];
@@ -96,7 +95,7 @@
         [_eventTableView addTableColumn:tableColumn];
     }
 
-//    [_eventTableView reloadData];
+    [_eventTableView reloadData];
 }
 
 #pragma mark - NSTableViewDataSource
@@ -115,9 +114,9 @@
 
     if (tableView == self.eventTableView) {
         NSInteger eventNumber = row / 2;
-        if ([@"time" isEqual:identifier] == YES) {
+        if ([@"time" isEqual:identifier]) {
             return [NSNumber numberWithInteger:[[self.eventList.events objectAtIndex:eventNumber] time]];
-        } else if ([@"isAtPosture" isEqual:identifier] == YES) {
+        } else if ([@"isAtPosture" isEqual:identifier]) {
             return [NSNumber numberWithBool:[self.eventList.events[eventNumber] isAtPosture]];
         } else {
             NSInteger rowOffset = row % 2;
