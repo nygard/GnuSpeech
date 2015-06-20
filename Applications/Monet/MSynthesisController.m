@@ -67,7 +67,7 @@
     NSPrintInfo *_intonationPrintInfo;
 
     MModel *_model;
-    NSMutableArray *_displayParameters;
+    NSArray *_displayParameters;
     EventList *_eventList;
     STLogger *_logger;
 
@@ -203,31 +203,32 @@
 
 - (void)_updateDisplayParameters;
 {
-    NSUInteger count, index;
     NSInteger currentTag = 0;
-	
-    [_displayParameters removeAllObjects];
-	
+
+    NSMutableArray *displayParameters = [[NSMutableArray alloc] init];
+
     NSArray *parameters = [_model parameters];
-    count = [parameters count];
-    for (index = 0; index < count && index < 16; index++) { // TODO (2004-03-30): Some hardcoded limits exist in Event
-        MMParameter *currentParameter = [parameters objectAtIndex:index];
+    NSUInteger count = [parameters count];
+    for (NSUInteger index = 0; index < count && index < 16; index++) { // TODO (2004-03-30): Some hardcoded limits exist in Event
+        MMParameter *currentParameter = parameters[index];
 		
         MMDisplayParameter *displayParameter = [[MMDisplayParameter alloc] initWithParameter:currentParameter];
         displayParameter.tag = currentTag++;
-        [_displayParameters addObject:displayParameter];
+        [displayParameters addObject:displayParameter];
     }
 	
-    for (index = 0; index < count && index < 16; index++) { // TODO (2004-03-30): Some hardcoded limits exist in Event
-        MMParameter *currentParameter = [parameters objectAtIndex:index];
+    for (NSUInteger index = 0; index < count && index < 16; index++) { // TODO (2004-03-30): Some hardcoded limits exist in Event
+        MMParameter *currentParameter = parameters[index];
 		
         MMDisplayParameter *displayParameter = [[MMDisplayParameter alloc] initWithParameter:currentParameter];
         displayParameter.isSpecial = YES;
         displayParameter.tag = currentTag++;
-        [_displayParameters addObject:displayParameter];
+        [displayParameters addObject:displayParameter];
     }
 
     // TODO (2004-03-30): This used to have Intonation (tag=32).  How did that work?
+
+    _displayParameters = displayParameters;
 	
     [_parameterTableView reloadData];
 }
