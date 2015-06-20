@@ -23,7 +23,7 @@
 #define MDK_SoundOutputDirectory       @"SoundOutputDirectory"
 #define MDK_IntonationContourDirectory @"IntonationContourDirectory"
 
-@interface MSynthesisController () <NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDelegate, NSTextViewDelegate, EventListDelegate, NSFileManagerDelegate>
+@interface MSynthesisController () <NSTableViewDataSource, NSComboBoxDelegate, NSTextViewDelegate, EventListDelegate, NSFileManagerDelegate>
 
 @property (readonly) EventList *eventList;
 @property (readonly) TRMSynthesizer *synthesizer;
@@ -74,9 +74,6 @@
     TRMSynthesizer *_synthesizer;
 
 	MMTextToPhone *_textToPhone;
-
-    // Event Table stuff
-    IBOutlet NSTableView *_eventTableView;
 
     MEventTableController *_eventTableController;
 }
@@ -151,7 +148,6 @@
         
         [self _updateDisplayParameters];
         self.eventTableController.displayParameters = _displayParameters;
-        [self _updateEventColumns];
     }
 }
 
@@ -178,9 +174,7 @@
     [checkboxCell setEditable:NO];
 	
     [[_parameterTableView tableColumnWithIdentifier:@"shouldDisplay"] setDataCell:checkboxCell];
-    NSButtonCell *checkboxCell2 = [checkboxCell copy]; // So that making it transparent doesn't affect the other one.
-    [[_eventTableView tableColumnWithIdentifier:@"isAtPosture"] setDataCell:checkboxCell2];
-	
+
 	
     NSNumberFormatter *defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
     [_semitoneTextField setFormatter:defaultNumberFormatter];
@@ -200,12 +194,9 @@
     [_textStringTextField selectItemAtIndex:0];
 	[_phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];	
 	[_phoneStringTextView setString:[_textToPhone phoneForText:[_textStringTextField stringValue]]];
-	
-    [[[_eventTableView tableColumnWithIdentifier:@"isAtPosture"] dataCell] setFormatter:defaultNumberFormatter];
-	
+
     [self _updateDisplayParameters];
     self.eventTableController.displayParameters = _displayParameters;
-    [self _updateEventColumns];
 }
 
 #pragma mark -
@@ -239,51 +230,6 @@
     // TODO (2004-03-30): This used to have Intonation (tag=32).  How did that work?
 	
     [_parameterTableView reloadData];
-}
-
-/// Create a column for each non-special dispaly parameter.  The special ones will be displayed in a second row of the same column.
-/// Add four columns for the intonation values at the end.
-- (void)_updateEventColumns;
-{
-    NSMutableArray *tableColumns = [[_eventTableView tableColumns] mutableCopy];
-    [tableColumns removeObject:[_eventTableView tableColumnWithIdentifier:@"time"]];
-    [tableColumns removeObject:[_eventTableView tableColumnWithIdentifier:@"isAtPosture"]];
-    for (NSTableColumn *tableColumn in tableColumns) {
-        [_eventTableView removeTableColumn:tableColumn];
-    }
-
-    NSNumberFormatter *defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter2];
-	
-    NSUInteger count = [_displayParameters count];
-    for (NSUInteger index = 0; index < count; index++) {
-        MMDisplayParameter *displayParameter = _displayParameters[index];
-		
-        if ([displayParameter isSpecial] == NO) {
-            NSTableColumn *tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%lu", displayParameter.tag]];
-            [tableColumn setEditable:NO];
-            [[tableColumn headerCell] setTitle:[[displayParameter parameter] name]];
-            [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
-            [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
-			[[tableColumn dataCell] setDrawsBackground:NO];
-            [tableColumn setWidth:60.0];
-            [_eventTableView addTableColumn:tableColumn];
-        }
-    }
-	
-    // And finally add columns for the intonation values:
-    NSArray *others = @[ @"Semitone", @"Slope", @"2nd Derivative", @"3rd Derivative" ];
-    for (NSUInteger index = 0; index < [others count]; index++) {
-        NSTableColumn *tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%lu", 32 + index]];
-        [tableColumn setEditable:NO];
-        [[tableColumn headerCell] setTitle:others[index]];
-        [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
-        [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
-        [[tableColumn dataCell] setDrawsBackground:NO];
-        [tableColumn setWidth:80.0];
-        [_eventTableView addTableColumn:tableColumn];
-    }
-
-    [_eventTableView reloadData];
 }
 
 - (void)_updateDisplayedParameters;
@@ -461,8 +407,7 @@
 	
     //[eventList printDataStructures:@"Before synthesis"];
     self.eventTableController.eventList = _eventList;
-    [_eventTableView reloadData];
-	
+
     [self.synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
     [self.synthesizer removeAllParameters];
     
@@ -490,7 +435,6 @@
     [_eventList generateIntonationPoints];
     [_intonationRuleTableView reloadData];
     self.eventTableController.eventList = _eventList;
-    [_eventTableView reloadData];
     if ([[_eventList intonationPoints] count] > 0)
         [[_intonationView documentView] selectIntonationPoint:[[_eventList intonationPoints] objectAtIndex:0]];
     [_intonationView display];
@@ -725,10 +669,7 @@
 	
     if (tableView == _intonationRuleTableView)
         return [_eventList ruleCount];
-	
-    if (tableView == _eventTableView)
-        return [[_eventList events] count] * 2;
-	
+
     return 0;
 }
 
@@ -750,21 +691,6 @@
         } else if ([@"number" isEqual:identifier] == YES) {
             return [NSString stringWithFormat:@"%lu.", row + 1];
         }
-    } else if (tableView == _eventTableView) {
-        NSInteger eventNumber = row / 2;
-        if ([@"time" isEqual:identifier] == YES) {
-            return [NSNumber numberWithInteger:[[[_eventList events] objectAtIndex:eventNumber] time]];
-        } else if ([@"isAtPosture" isEqual:identifier] == YES) {
-            return [NSNumber numberWithBool:[[[_eventList events] objectAtIndex:eventNumber] isAtPosture]];
-        } else {
-            NSInteger rowOffset = row % 2;
-            NSInteger index = [identifier intValue] + rowOffset * 16;
-            if (rowOffset == 0 || index < 32) {
-                double value = [[[_eventList events] objectAtIndex:eventNumber] getValueAtIndex:index];
-                if (value == NaN) return nil;
-                return [NSNumber numberWithDouble:value];
-            }
-        }
     }
 	
     return nil;
@@ -780,24 +706,6 @@
         if ([@"shouldDisplay" isEqual:identifier] == YES) {
             [displayParameter setShouldDisplay:[object boolValue]];
             [self _updateDisplayedParameters];
-        }
-    }
-}
-
-#pragma mark - NSTableViewDelegate
-
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
-{
-    id identifier = [tableColumn identifier];
-	
-    if (tableView == _eventTableView) {
-        if ([@"time" isEqual:identifier] && (row % 2) == 1) {
-            [cell setObjectValue:nil];
-        } else if ([@"isAtPosture" isEqual:identifier]) {
-            if ((row % 2) == 0)
-                [cell setTransparent:NO];
-            else
-                [cell setTransparent:YES];
         }
     }
 }
