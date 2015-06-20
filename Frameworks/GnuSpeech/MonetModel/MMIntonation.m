@@ -16,7 +16,7 @@
 
         _shouldUseMacroIntonation = YES;
         _shouldUseMicroIntonation = YES;
-        _shouldUseSmoothSmoothIntonation = YES;
+        _shouldUseSmoothIntonation = YES;
 
         _shouldUseDrift = YES;
         _driftDeviation = 1.0;

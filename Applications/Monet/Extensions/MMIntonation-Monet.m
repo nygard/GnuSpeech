@@ -9,7 +9,6 @@
 #define MDK_TonicRange                 @"TonicRange"
 #define MDK_TonicMovement              @"TonicMovement"
 
-#define MDK_ShouldUseSmoothIntonation  @"ShouldUseSmoothIntonation"
 #define MDK_ShouldUseMacroIntonation   @"ShouldUseMacroIntonation"
 #define MDK_ShouldUseMicroIntonation   @"ShouldUseMicroIntonation"
 
@@ -59,9 +58,9 @@
         _tonicRange    = [defaults floatForKey:MDK_TonicRange];
         _tonicMovement = [defaults floatForKey:MDK_TonicMovement];
 
-        _shouldUseMacroIntonation        = [defaults boolForKey:MDK_ShouldUseMacroIntonation];
-        _shouldUseMicroIntonation        = [defaults boolForKey:MDK_ShouldUseMicroIntonation];
-        _shouldUseSmoothSmoothIntonation = [defaults boolForKey:MDK_ShouldUseSmoothIntonation];
+        _shouldUseMacroIntonation  = [defaults boolForKey:MDK_ShouldUseMacroIntonation];
+        _shouldUseMicroIntonation  = [defaults boolForKey:MDK_ShouldUseMicroIntonation];
+        _shouldUseSmoothIntonation = [defaults boolForKey:MDK_ShouldUseSmoothIntonation];
 
         _shouldUseDrift = [defaults boolForKey:MDK_ShouldUseDrift];
         _driftDeviation = [defaults floatForKey:MDK_DriftDeviation];
@@ -78,22 +77,22 @@
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    [defaults setFloat:self.notionalPitch                  forKey:MDK_NotionalPitch];
-    [defaults setFloat:self.pretonicRange                  forKey:MDK_PretonicRange];
-    [defaults setFloat:self.pretonicLift                   forKey:MDK_PretonicLift];
-    [defaults setFloat:self.tonicRange                     forKey:MDK_TonicRange];
-    [defaults setFloat:self.tonicMovement                  forKey:MDK_TonicMovement];
+    [defaults setFloat:self.notionalPitch            forKey:MDK_NotionalPitch];
+    [defaults setFloat:self.pretonicRange            forKey:MDK_PretonicRange];
+    [defaults setFloat:self.pretonicLift             forKey:MDK_PretonicLift];
+    [defaults setFloat:self.tonicRange               forKey:MDK_TonicRange];
+    [defaults setFloat:self.tonicMovement            forKey:MDK_TonicMovement];
 
-    [defaults setBool:self.shouldUseMacroIntonation        forKey:MDK_ShouldUseMacroIntonation];
-    [defaults setBool:self.shouldUseMicroIntonation        forKey:MDK_ShouldUseMicroIntonation];
-    [defaults setBool:self.shouldUseSmoothSmoothIntonation forKey:MDK_ShouldUseSmoothIntonation];
+    [defaults setBool:self.shouldUseMacroIntonation  forKey:MDK_ShouldUseMacroIntonation];
+    [defaults setBool:self.shouldUseMicroIntonation  forKey:MDK_ShouldUseMicroIntonation];
+    [defaults setBool:self.shouldUseSmoothIntonation forKey:MDK_ShouldUseSmoothIntonation];
 
-    [defaults setBool:self.shouldUseDrift                  forKey:MDK_ShouldUseDrift];
-    [defaults setFloat:self.driftDeviation                 forKey:MDK_DriftDeviation];
-    [defaults setFloat:self.driftCutoff                    forKey:MDK_DriftCutoff];
+    [defaults setBool:self.shouldUseDrift            forKey:MDK_ShouldUseDrift];
+    [defaults setFloat:self.driftDeviation           forKey:MDK_DriftDeviation];
+    [defaults setFloat:self.driftCutoff              forKey:MDK_DriftCutoff];
 
-    [defaults setDouble:self.tempo                         forKey:MDK_Tempo];
-    [defaults setDouble:self.radiusMultiply                forKey:MDK_RadiusMultiply];
+    [defaults setDouble:self.tempo                   forKey:MDK_Tempo];
+    [defaults setDouble:self.radiusMultiply          forKey:MDK_RadiusMultiply];
 }
 
 @end

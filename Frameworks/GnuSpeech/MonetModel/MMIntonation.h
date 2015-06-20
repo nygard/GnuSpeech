@@ -13,7 +13,7 @@
 
 @property (assign) BOOL shouldUseMacroIntonation;
 @property (assign) BOOL shouldUseMicroIntonation;
-@property (assign) BOOL shouldUseSmoothSmoothIntonation;
+@property (assign) BOOL shouldUseSmoothIntonation;
 
 @property (assign) BOOL shouldUseDrift;
 @property (assign) float driftDeviation; // Standard devications

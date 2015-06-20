@@ -3,6 +3,8 @@
 
 #import <GnuSpeech/GnuSpeech.h>
 
+#define MDK_ShouldUseSmoothIntonation  @"ShouldUseSmoothIntonation"
+
 @interface MMIntonation (Monet)
 
 + (void)setupUserDefaults;
