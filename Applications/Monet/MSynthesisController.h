@@ -14,7 +14,6 @@
 - (NSUndoManager *)undoManager;
 
 - (IBAction)showIntonationWindow:(id)sender;
-- (IBAction)showIntonationParameterWindow:(id)sender;
 
 - (IBAction)synthesizeWithSoftware:(id)sender;
 - (IBAction)synthesizeToFile:(id)sender;
@@ -46,11 +45,5 @@
 
 // MAIntonationView delegate
 - (void)intonationViewSelectionDidChange:(NSNotification *)notification;
-
-// Intonation Parameters
-- (IBAction)updateSmoothIntonation:(id)sender;
-- (IBAction)updateMacroIntonation:(id)sender;
-- (IBAction)updateMicroIntonation:(id)sender;
-- (IBAction)updateDrift:(id)sender;
 
 @end

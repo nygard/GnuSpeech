@@ -12,6 +12,7 @@
 #import "MMEquation.h"
 #import "MMFRuleSymbols.h"
 #import "MMIntonationPoint.h"
+#import "MMIntonation.h"
 #import "MModel.h"
 #import "MMParameter.h"
 #import "MMPoint.h"
@@ -21,7 +22,6 @@
 #import "MMSlopeRatio.h"
 #import "MMTarget.h"
 #import "MMTransition.h"
-#import "MMIntonationParameters.h"
 #import "MMToneGroup.h"
 #import "MMPhone.h"
 
@@ -74,17 +74,17 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     NSUInteger _duration; // Move... somewhere else.
     NSUInteger _timeQuantization; // in msecs.  By default it generates parameters every 4 msec
 
-    BOOL _shouldUseMacroIntonation;
-    BOOL _shouldUseMicroIntonation;
-    BOOL _shouldUseDrift;
-    BOOL _shouldUseSmoothIntonation;
+//    BOOL _shouldUseMacroIntonation;
+//    BOOL _shouldUseMicroIntonation;
+//    BOOL _shouldUseDrift;
+//    BOOL _shouldUseSmoothIntonation;
     BOOL _intonationPointsNeedSorting;
 
-    double _radiusMultiply; // Affects hard coded parameters, in this case r1 and r2.
+//    double _radiusMultiply; // Affects hard coded parameters, in this case r1 and r2.
     double _pitchMean;
-    double _globalTempo;
+//    double _globalTempo;
     double _multiplier; // Move... somewhere else.
-    MMIntonationParameters *_intonationParameters;
+    MMIntonation *_intonation;
 
     NSMutableArray *_phones;
 
@@ -120,7 +120,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         _intonationPoints = [[NSMutableArray alloc] init];
         _intonationPointsNeedSorting = NO;
         
-        _intonationParameters = [[MMIntonationParameters alloc] init];
+        _intonation = [[MMIntonation alloc] init];
         
         _toneGroups = [[NSMutableArray alloc] init];
         
@@ -130,8 +130,6 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         _phones = [[NSMutableArray alloc] init];
         
         [self setUp];
-        
-        _radiusMultiply = 1.0;
     }
         
     return self;
@@ -187,19 +185,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     _duration = 0;
     _timeQuantization = 4;
 
-    _globalTempo = 1.0;
     _multiplier = 1.0;
-    self.shouldUseMacroIntonation = NO;
-    self.shouldUseMicroIntonation = NO;
-    self.shouldUseDrift = NO;
-
-    _intonationParameters.notionalPitch = 0;
-    _intonationParameters.pretonicRange = 0;
-    _intonationParameters.pretonicLift  = -2;
-    _intonationParameters.tonicRange    = -8;
-    _intonationParameters.tonicMovement = -6;
-
-    self.shouldUseSmoothIntonation = NO;
 
     [_phones removeAllObjects];
 
@@ -494,7 +480,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     if (number >= 0) {
         // TODO (2012-04-23): This appears to be another hard-coded setting.  7 and 8 seems to be... parameters r1 and r2
         if ((number >= 7) && (number <= 8))
-            [event setValue:value*self.radiusMultiply atIndex:number];
+            [event setValue:value*self.intonation.radiusMultiply atIndex:number];
         else
             [event setValue:value atIndex:number];
     }
@@ -692,12 +678,12 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
             double tempo = 117.7 - (19.36 * (double)rus);
             _feet[i].tempo -= tempo / 180.0;
             //NSLog(@"Rus = %d tempTempo = %f", rus, tempo);
-            footTempo = self.globalTempo * _feet[i].tempo;
+            footTempo = self.intonation.tempo * _feet[i].tempo;
         } else {
             double tempo = 18.5 - (2.08 * (double)rus);
             _feet[i].tempo -= tempo / 140.0;
             //NSLog(@"Rus = %d tempTempo = %f", rus, tempTempo);
-            footTempo = self.globalTempo * _feet[i].tempo;
+            footTempo = self.intonation.tempo * _feet[i].tempo;
         }
 
         // Adjust the posture tempos for postures in this foot, limiting it to a minimum of 0.2 and maximum of 2.0.
@@ -800,7 +786,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         double startTime = startPhone.onset;
         double endTime   = endPhone.onset;
 
-        double pretonicDelta = (_intonationParameters.pretonicRange) / (endTime - startTime);
+        double pretonicDelta = (_intonation.pretonicRange) / (endTime - startTime);
         //NSLog(@"Pretonic Delta = %f time = %f", pretonicDelta, (endTime - startTime));
 
         /* Set up intonation boundary variables */
@@ -819,14 +805,14 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 NSUInteger ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
 
                 // randomSemitone is in range of +/- 1/2 of pretonicLift
-                double randomSemitone = ((double)random() / (double)0x7fffffff) * (double)_intonationParameters.pretonicLift - _intonationParameters.pretonicLift / 2.0;
+                double randomSemitone = ((double)random() / (double)0x7fffffff) * (double)_intonation.pretonicLift - _intonation.pretonicLift / 2.0;
                 // Slopes from 0.02 to 0.035
                 double randomSlope = ((double)random() / (double)0x7fffffff) * 0.015 + 0.02;
 
                 MMIntonationPoint *newIntonationPoint = [[MMIntonationPoint alloc] init];
                 // TODO (2004-08-19): But this will generate extra change notifications.  Try setting the event list for the intonation point in -addIntonationPoint:.
                 MMPhone *phone = _phones[phoneIndex];
-                [newIntonationPoint setSemitone:((phone.onset-startTime) * pretonicDelta) + _intonationParameters.notionalPitch + randomSemitone];
+                [newIntonationPoint setSemitone:((phone.onset-startTime) * pretonicDelta) + _intonation.notionalPitch + randomSemitone];
                 [newIntonationPoint setOffsetTime:offsetTime];
                 [newIntonationPoint setSlope:randomSlope];
                 [newIntonationPoint setRuleIndex:ruleIndex];
@@ -841,7 +827,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 double randomSlope = ((double)random() / (double)0x7fffffff) * 0.03 + 0.02;
 
                 MMIntonationPoint *newIntonationPoint = [[MMIntonationPoint alloc] init];
-                [newIntonationPoint setSemitone:_intonationParameters.pretonicRange + _intonationParameters.notionalPitch];
+                [newIntonationPoint setSemitone:_intonation.pretonicRange + _intonation.notionalPitch];
                 [newIntonationPoint setOffsetTime:offsetTime];
                 [newIntonationPoint setSlope:randomSlope];
                 [newIntonationPoint setRuleIndex:ruleIndex];
@@ -851,7 +837,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                 ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
 
                 newIntonationPoint = [[MMIntonationPoint alloc] init];
-                [newIntonationPoint setSemitone:_intonationParameters.pretonicRange + _intonationParameters.notionalPitch + _intonationParameters.tonicRange];
+                [newIntonationPoint setSemitone:_intonation.pretonicRange + _intonation.notionalPitch + _intonation.tonicRange];
                 [newIntonationPoint setOffsetTime:0.0];
                 [newIntonationPoint setSlope:0.0];
                 [newIntonationPoint setRuleIndex:ruleIndex];
@@ -899,7 +885,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     for (NSUInteger i = 16; i < 36; i++)
         currentValues[i] = currentDeltas[i] = 0.0;
 
-    if (self.shouldUseSmoothIntonation) {
+    if (self.intonation.shouldUseSmoothIntonation) {
         // Find the first value for "32", and use that as the current value[32], no delta
         NSUInteger j = 0;
         while ( (temp = [[_events objectAtIndex:j] getValueAtIndex:32]) == NaN) {
@@ -940,11 +926,11 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         for (NSUInteger j = 0; j < 16; j++) {
             table[j] = (float)currentValues[j] + (float)currentValues[j+16];
         }
-        if (!self.shouldUseMicroIntonation)
+        if (!self.intonation.shouldUseMicroIntonation)
             table[0] = 0.0;
-        if (self.shouldUseDrift)
+        if (self.intonation.shouldUseDrift)
             table[0] += self.driftGenerator.generateDrift;
-        if (self.shouldUseMacroIntonation) {
+        if (self.intonation.shouldUseMacroIntonation) {
             //NSLog(@"sumi, table[0]: %f, currentValues[32]: %f", table[0], currentValues[32]);
             table[0] += currentValues[32];
         }
@@ -957,7 +943,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
             if (currentDeltas[j]) // TODO (2012-04-23): Just add unconditionally
                 currentValues[j] += currentDeltas[j];
         }
-        if (self.shouldUseSmoothIntonation) {
+        if (self.intonation.shouldUseSmoothIntonation) {
             currentDeltas[34] += currentDeltas[35];
             currentDeltas[33] += currentDeltas[34];
             currentValues[32] += currentDeltas[33];
@@ -990,7 +976,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
                     }
                 }
             }
-            if (self.shouldUseSmoothIntonation) {
+            if (self.intonation.shouldUseSmoothIntonation) {
                 if ([[_events objectAtIndex:i-1] getValueAtIndex:33] != NaN) {
                     currentDeltas[32] = 0.0;
                     currentDeltas[33] = [[_events objectAtIndex:i-1] getValueAtIndex:33];
@@ -1273,7 +1259,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
 - (void)applyIntonation;
 {
-    if (self.shouldUseSmoothIntonation)
+    if (self.intonation.shouldUseSmoothIntonation)
         [self _applySmoothIntonation];
     else
         [self _applyFlatIntonation];

@@ -14,11 +14,8 @@
 #import "MMDisplayParameter.h"
 
 #import "MIntonationParameterEditor.h"
+#import "MMIntonation-Monet.h"
 
-#define MDK_ShouldUseSmoothIntonation  @"ShouldUseSmoothIntonation"
-#define MDK_ShouldUseMacroIntonation   @"ShouldUseMacroIntonation"
-#define MDK_ShouldUseMicroIntonation   @"ShouldUseMicroIntonation"
-#define MDK_ShouldUseDrift             @"ShouldUseDrift"
 #define MDK_DefaultUtterances          @"DefaultUtterances"
 
 #define MDK_GraphImagesDirectory       @"GraphImagesDirectory"
@@ -51,18 +48,6 @@
     // Save panel accessory view
     IBOutlet NSView *_savePanelAccessoryView;
     IBOutlet NSPopUpButton *_fileTypePopUpButton;
-
-    // Intonation parameter window
-    IBOutlet NSWindow *_intonationParameterWindow;
-
-    IBOutlet NSTextField *_tempoField;
-    IBOutlet NSForm *_intonParmsField;
-    IBOutlet NSTextField *_radiusMultiplyField;
-
-    IBOutlet NSMatrix *_intonationMatrix;
-    IBOutlet NSTextField *_driftDeviationField;
-    IBOutlet NSTextField *_driftCutoffField;
-    IBOutlet NSButton *_smoothIntonationSwitch;
 
     // Intonation window
     IBOutlet NSWindow *_intonationWindow;
@@ -178,12 +163,8 @@
 	[_eventListView setMouseValueField:_mouseValueField];
 	[_scrollView setDocumentView:_eventListView];
 	
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-    [_intonationParameterWindow setFrameAutosaveName:@"Intonation Parameters"];
     [_intonationWindow setFrameAutosaveName:@"Intonation"];
-    [[_intonationView documentView] setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
-	
+
     NSButtonCell *checkboxCell = [[NSButtonCell alloc] initTextCell:@""];
     [checkboxCell setControlSize:NSSmallControlSize];
     [checkboxCell setButtonType:NSSwitchButton];
@@ -209,13 +190,7 @@
     [self _updateSelectedPointDetails];
 	
     [self updateViews];
-	
-    // Set up default values for intonation checkboxes
-    [_smoothIntonationSwitch setState:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];
-    [[_intonationMatrix cellAtRow:0 column:0] setState:[defaults boolForKey:MDK_ShouldUseMacroIntonation]];
-    [[_intonationMatrix cellAtRow:1 column:0] setState:[defaults boolForKey:MDK_ShouldUseMicroIntonation]];
-    [[_intonationMatrix cellAtRow:2 column:0] setState:[defaults boolForKey:MDK_ShouldUseDrift]];
-	
+
     [_textStringTextField removeAllItems];
     [_textStringTextField addItemsWithObjectValues:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_DefaultUtterances]];
     [_textStringTextField selectItemAtIndex:0];
@@ -327,15 +302,6 @@
     [_parameterTableView reloadData];
 }
 
-- (void)_takeIntonationParametersFromUI;
-{
-    self.eventList.intonationParameters.notionalPitch = [[_intonParmsField cellAtIndex:0] floatValue];
-    self.eventList.intonationParameters.pretonicRange = [[_intonParmsField cellAtIndex:1] floatValue];
-    self.eventList.intonationParameters.pretonicLift = [[_intonParmsField cellAtIndex:2] floatValue];
-    self.eventList.intonationParameters.tonicRange = [[_intonParmsField cellAtIndex:3] floatValue];
-    self.eventList.intonationParameters.tonicMovement = [[_intonParmsField cellAtIndex:4] floatValue];
-}
-
 - (void)_updateSelectedPointDetails;
 {
     MMIntonationPoint *selectedIntonationPoint = [self selectedIntonationPoint];
@@ -364,12 +330,6 @@
 {
     [self window]; // Make sure the nib is loaded
     [_intonationWindow makeKeyAndOrderFront:self];
-}
-
-- (IBAction)showIntonationParameterWindow:(id)sender;
-{
-    [self window]; // Make sure the nib is loaded
-    [_intonationParameterWindow makeKeyAndOrderFront:self];
 }
 
 - (IBAction)synthesizeWithSoftware:(id)sender;
@@ -481,26 +441,17 @@
     [_eventList setUp];
 	
     [_eventList setPitchMean:[[[self model] synthesisParameters] pitch]];
-    [_eventList setGlobalTempo:[_tempoField doubleValue]];
-	
-    [_eventList setShouldUseMacroIntonation:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseMacroIntonation]];
-    [_eventList setShouldUseMicroIntonation:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseMicroIntonation]];
-    [_eventList setShouldUseDrift:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseDrift]];
 
-    NSLog(@"%s, drift deviation: %f, cutoff: %f", __PRETTY_FUNCTION__, [_driftDeviationField floatValue], [_driftCutoffField floatValue]);
-    [_eventList.driftGenerator configureWithDeviation:[_driftDeviationField floatValue] sampleRate:500 lowpassCutoff:[_driftCutoffField floatValue]];
+    MMIntonation *intonation = [[MMIntonation alloc] initFromUserDefaults];
+    _eventList.intonation = intonation;
+
+    NSLog(@"%s, drift deviation: %f, cutoff: %f", __PRETTY_FUNCTION__, intonation.driftDeviation, intonation.driftCutoff);
+    [_eventList.driftGenerator configureWithDeviation:intonation.driftDeviation sampleRate:500 lowpassCutoff:intonation.driftCutoff];
     //[eventList.driftGenerator setupWithDeviation:0.5 sampleRate:250 lowpassCutoff:0.5];
-	
-    [_eventList setRadiusMultiply:[_radiusMultiplyField doubleValue]];
-	
-    [self _takeIntonationParametersFromUI];
 }
 
 - (void)continueSynthesis;
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-    [_eventList setShouldUseSmoothIntonation:[defaults boolForKey:MDK_ShouldUseSmoothIntonation]];
     [_eventList applyIntonation];
 	
     //[eventList printDataStructures:@"Before synthesis"];
@@ -525,7 +476,9 @@
 {
     NSLog(@" > %s", __PRETTY_FUNCTION__);
 	
-    [self _takeIntonationParametersFromUI];
+    MMIntonation *intonation = [[MMIntonation alloc] initFromUserDefaults];
+    _eventList.intonation = intonation;
+
     [[_intonationView documentView] setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
 	
     [_eventList generateIntonationPoints];
@@ -900,28 +853,6 @@
 	}
 	[_phoneStringTextView setTextColor:[NSColor blackColor]];	
 	[_textStringTextField setTextColor:[NSColor redColor]];
-}
-
-#pragma mark - Intonation Parameters
-
-- (IBAction)updateSmoothIntonation:(id)sender;
-{
-    [[NSUserDefaults standardUserDefaults] setBool:[sender state] forKey:MDK_ShouldUseSmoothIntonation];
-}
-
-- (IBAction)updateMacroIntonation:(id)sender;
-{
-    [[NSUserDefaults standardUserDefaults] setBool:[[sender selectedCell] state] forKey:MDK_ShouldUseMacroIntonation];
-}
-
-- (IBAction)updateMicroIntonation:(id)sender;
-{
-    [[NSUserDefaults standardUserDefaults] setBool:[[sender selectedCell] state] forKey:MDK_ShouldUseMicroIntonation];
-}
-
-- (IBAction)updateDrift:(id)sender;
-{
-    [[NSUserDefaults standardUserDefaults] setBool:[[sender selectedCell] state] forKey:MDK_ShouldUseDrift];
 }
 
 #pragma mark - EventListDelegate

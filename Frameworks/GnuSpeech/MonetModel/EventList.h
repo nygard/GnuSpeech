@@ -17,23 +17,23 @@ struct _rule {
 @protocol EventListDelegate;
 
 
-@class MMIntonationParameters;
+@class MMIntonation;
 
 @interface EventList : NSObject
 
 @property (nonatomic, strong) MModel *model;
 @property (weak) id <EventListDelegate> delegate;
 
-@property (assign) BOOL shouldUseMacroIntonation;
-@property (assign) BOOL shouldUseMicroIntonation;
-@property (assign) BOOL shouldUseDrift;
-@property (assign) BOOL shouldUseSmoothIntonation;
+//@property (assign) BOOL shouldUseMacroIntonation;
+//@property (assign) BOOL shouldUseMicroIntonation;
+//@property (assign) BOOL shouldUseDrift;
+//@property (assign) BOOL shouldUseSmoothIntonation;
+//
+//@property (assign) double radiusMultiply;
+//@property (assign) double globalTempo;
 
-@property (assign) double radiusMultiply;
+@property (strong) MMIntonation *intonation;
 @property (assign) double pitchMean;
-@property (assign) double globalTempo;
-
-@property (readonly) MMIntonationParameters *intonationParameters;
 
 - (void)setUp; // TODO (2012-04-26): See if we can't just do this when we apply intonation
 
