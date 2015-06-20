@@ -235,9 +235,6 @@
 
 - (void)_updateEventColumns;
 {
-    NSInteger count, index;
-    NSString *others[4] = { @"Semitone", @"Slope", @"2nd Derivative?", @"3rd Derivative?"};
-	
     NSMutableArray *tableColumns = [[_eventTableView tableColumns] mutableCopy];
     [tableColumns removeObject:[_eventTableView tableColumnWithIdentifier:@"time"]];
     [tableColumns removeObject:[_eventTableView tableColumnWithIdentifier:@"isAtPosture"]];
@@ -247,12 +244,12 @@
 
     NSNumberFormatter *defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter2];
 	
-    count = [_displayParameters count];
-    for (index = 0; index < count; index++) {
-        MMDisplayParameter *displayParameter = [_displayParameters objectAtIndex:index];
+    NSUInteger count = [_displayParameters count];
+    for (NSUInteger index = 0; index < count; index++) {
+        MMDisplayParameter *displayParameter = _displayParameters[index];
 		
         if ([displayParameter isSpecial] == NO) {
-            NSTableColumn *tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%lu", [displayParameter tag]]];
+            NSTableColumn *tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%lu", displayParameter.tag]];
             [tableColumn setEditable:NO];
             [[tableColumn headerCell] setTitle:[[displayParameter parameter] name]];
             [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
@@ -264,17 +261,18 @@
     }
 	
     // And finally add columns for the intonation values:
-    for (index = 0; index < 4; index++) {
+    NSArray *others = @[ @"Semitone", @"Slope", @"2nd Derivative", @"3rd Derivative" ];
+    for (NSUInteger index = 0; index < [others count]; index++) {
         NSTableColumn *tableColumn = [[NSTableColumn alloc] initWithIdentifier:[NSString stringWithFormat:@"%lu", 32 + index]];
         [tableColumn setEditable:NO];
         [[tableColumn headerCell] setTitle:others[index]];
         [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
         [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
         [[tableColumn dataCell] setDrawsBackground:NO];
-        [tableColumn setWidth:60.0];
+        [tableColumn setWidth:80.0];
         [_eventTableView addTableColumn:tableColumn];
     }
-	
+
     [_eventTableView reloadData];
 }
 
