@@ -233,6 +233,8 @@
     [_parameterTableView reloadData];
 }
 
+/// Create a column for each non-special dispaly parameter.  The special ones will be displayed in a second row of the same column.
+/// Add four columns for the intonation values at the end.
 - (void)_updateEventColumns;
 {
     NSMutableArray *tableColumns = [[_eventTableView tableColumns] mutableCopy];
