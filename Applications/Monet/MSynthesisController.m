@@ -257,9 +257,7 @@
             [[tableColumn headerCell] setTitle:[[displayParameter parameter] name]];
             [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
             [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
-#ifndef GNUSTEP
 			[[tableColumn dataCell] setDrawsBackground:NO];
-#endif
             [tableColumn setWidth:60.0];
             [_eventTableView addTableColumn:tableColumn];
         }
@@ -272,9 +270,7 @@
         [[tableColumn headerCell] setTitle:others[index]];
         [[tableColumn dataCell] setFormatter:defaultNumberFormatter];
         [[tableColumn dataCell] setAlignment:NSRightTextAlignment];
-#ifndef GNUSTEP
         [[tableColumn dataCell] setDrawsBackground:NO];
-#endif
         [tableColumn setWidth:60.0];
         [_eventTableView addTableColumn:tableColumn];
     }
