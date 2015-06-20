@@ -51,7 +51,7 @@ struct _rule {
 
 // Events
 - (NSArray *)events;
-- (Event *)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value;
+- (void)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value;
 
 // Other
 - (void)parsePhoneString:(NSString *)str;

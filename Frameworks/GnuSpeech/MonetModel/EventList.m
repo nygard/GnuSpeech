@@ -443,8 +443,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
     // If there are no events yet, we can just add it.
     if ([_events count] == 0) {
-        newEvent = [[Event alloc] init];
-        newEvent.time = tempTime;
+        newEvent = [[Event alloc] initWithTime:tempTime];
         [_events addObject:newEvent];
         return newEvent;
     }
@@ -458,25 +457,29 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 
         // Otherwise we'll need to create an Event at that time and insert it in the proper place.
         if ([[_events objectAtIndex:i] time] < tempTime) {
-            newEvent = [[Event alloc] init];
-            newEvent.time = tempTime;
+            newEvent = [[Event alloc] initWithTime:tempTime];
             [_events insertObject:newEvent atIndex:i+1];
             return newEvent;
         }
     }
 
     // In this case the event should come at the end of the list.
-    newEvent = [[Event alloc] init];
-    newEvent.time = tempTime;
+    newEvent = [[Event alloc] initWithTime:tempTime];
     [_events insertObject:newEvent atIndex:i+1];
 
     return newEvent;
 }
 
 // Time relative to zeroRef
-- (Event *)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value;
+- (void)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value;
+{
+    [self insertEvent:number atTimeOffset:time withValue:value flag:NO];
+}
+
+- (void)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value flag:(BOOL)flag;
 {
     Event *event = [self eventAtTimeOffset:time];
+    if (flag) event.flag = flag; // Otherwise it clears an already set flag.
     if (number >= 0) {
         // TODO (2012-04-23): This appears to be another hard-coded setting.  7 and 8 seems to be... parameters r1 and r2
         if ((number >= 7) && (number <= 8))
@@ -484,15 +487,13 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         else
             [event setValue:value atIndex:number];
     }
-
-    return event;
 }
 
 - (void)finalEvent:(NSUInteger)number withValue:(double)value;
 {
     Event *lastEvent = [_events lastObject];
     [lastEvent setValue:value atIndex:number];
-    [lastEvent setFlag:YES];
+    lastEvent.flag = YES;
 }
 
 #pragma mark - Other
@@ -757,7 +758,8 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 //    if (currentPhone)
 //        [self generateIntonationPoints];
 
-    [[_events lastObject] setFlag:YES];
+    Event *lastEvent = [_events lastObject];
+    lastEvent.flag = YES;
 
     [self printDataStructures:@"Applied rules"];
 
@@ -1027,19 +1029,19 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
         case MMPhoneType_Tetraphone: {
             MMPhone *phonePlus3 = _phones[phoneIndex+3];
             phonePlus3.onset = (double)_zeroRef + ruleSymbols.beat;
-            [[self insertEvent:-1 atTimeOffset:ruleSymbols.mark2 withValue:0.0] setFlag:YES];
+            [self insertEvent:-1 atTimeOffset:ruleSymbols.mark2 withValue:0.0 flag:YES];
             // Fall through
         }
         case MMPhoneType_Triphone: {
             MMPhone *phonePlus2 = _phones[phoneIndex+2];
             phonePlus2.onset = (double)_zeroRef + ruleSymbols.beat;
-            [[self insertEvent:-1 atTimeOffset:ruleSymbols.mark1 withValue:0.0] setFlag:YES];
+            [self insertEvent:-1 atTimeOffset:ruleSymbols.mark1 withValue:0.0 flag:YES];
             // Fall through
         }
         case MMPhoneType_Diphone: {
             MMPhone *phonePlus1 = _phones[phoneIndex+1];
             phonePlus1.onset = (double)_zeroRef + ruleSymbols.beat;
-            [[self insertEvent:-1 atTimeOffset:0.0 withValue:0.0] setFlag:YES];
+            [self insertEvent:-1 atTimeOffset:0.0 withValue:0.0 flag:YES];
         }
             break;
     }
@@ -1151,7 +1153,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     }
 
     [self setZeroRef:(int)(ruleSymbols.ruleDuration * self.multiplier) + _zeroRef];
-    [[self insertEvent:-1 atTimeOffset:0.0 withValue:0.0] setFlag:YES];
+    [self insertEvent:-1 atTimeOffset:0.0 withValue:0.0 flag:YES];
     
     [self.delegate eventListDidGenerateOutput:self];
 }

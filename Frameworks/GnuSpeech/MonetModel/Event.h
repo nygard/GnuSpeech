@@ -3,11 +3,18 @@
 
 #import <Foundation/Foundation.h>
 
+#include <math.h>
+
+// 2015-06-20: <http://www.gnu.org/software/libc/manual/html_node/Infinity-and-NaN.html> Indicates this would be +infinity, not NaN.
 #define NaN (1.0/0.0)
 
 @interface Event : NSObject
 
-@property (assign) NSUInteger time;
+- (id)initWithTime:(NSUInteger)time;
+
+@property (readonly) NSUInteger time;
+
+// TODO: (2015-06-20) What is this flag used for?  Rename it.
 @property (assign) BOOL flag;
 
 - (double)getValueAtIndex:(NSUInteger)index;

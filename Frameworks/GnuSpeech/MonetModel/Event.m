@@ -12,10 +12,10 @@
     double _value[MAX_VALUES];
 }
 
-- (id)init;
+- (id)initWithTime:(NSUInteger)time;
 {
     if ((self = [super init])) {
-        _time = 0;
+        _time = time;
         _flag = NO;
 
         for (NSUInteger index = 0; index < MAX_VALUES; index++)
