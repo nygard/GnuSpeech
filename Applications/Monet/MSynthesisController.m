@@ -173,7 +173,7 @@
 	
     [[_parameterTableView tableColumnWithIdentifier:@"shouldDisplay"] setDataCell:checkboxCell];
     NSButtonCell *checkboxCell2 = [checkboxCell copy]; // So that making it transparent doesn't affect the other one.
-    [[_eventTableView tableColumnWithIdentifier:@"flag"] setDataCell:checkboxCell2];
+    [[_eventTableView tableColumnWithIdentifier:@"isAtPosture"] setDataCell:checkboxCell2];
 	
 	
     NSNumberFormatter *defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
@@ -197,7 +197,7 @@
 	[_phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];	
 	[_phoneStringTextView setString:[_textToPhone phoneForText:[_textStringTextField stringValue]]];
 	
-    [[[_eventTableView tableColumnWithIdentifier:@"flag"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[_eventTableView tableColumnWithIdentifier:@"isAtPosture"] dataCell] setFormatter:defaultNumberFormatter];
 	
     [self _updateEventColumns];
 }
@@ -743,8 +743,8 @@
         NSInteger eventNumber = row / 2;
         if ([@"time" isEqual:identifier] == YES) {
             return [NSNumber numberWithInteger:[[[_eventList events] objectAtIndex:eventNumber] time]];
-        } else if ([@"flag" isEqual:identifier] == YES) {
-            return [NSNumber numberWithBool:[[[_eventList events] objectAtIndex:eventNumber] flag]];
+        } else if ([@"isAtPosture" isEqual:identifier] == YES) {
+            return [NSNumber numberWithBool:[[[_eventList events] objectAtIndex:eventNumber] isAtPosture]];
         } else {
             NSInteger rowOffset = row % 2;
             NSInteger index = [identifier intValue] + rowOffset * 16;
@@ -782,7 +782,7 @@
     if (tableView == _eventTableView) {
         if ([@"time" isEqual:identifier] && (row % 2) == 1) {
             [cell setObjectValue:nil];
-        } else if ([@"flag" isEqual:identifier]) {
+        } else if ([@"isAtPosture" isEqual:identifier]) {
             if ((row % 2) == 0)
                 [cell setTransparent:NO];
             else

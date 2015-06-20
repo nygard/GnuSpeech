@@ -14,8 +14,8 @@
 
 @property (readonly) NSUInteger time;
 
-// TODO: (2015-06-20) What is this flag used for?  Rename it.
-@property (assign) BOOL flag;
+/// If YES, this event represents an exact posture.
+@property (assign) BOOL isAtPosture;
 
 - (double)getValueAtIndex:(NSUInteger)index;
 - (void)setValue:(double)value atIndex:(NSUInteger)index;

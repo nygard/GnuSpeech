@@ -27,11 +27,11 @@
     [checkboxCell setButtonType:NSSwitchButton];
     [checkboxCell setImagePosition:NSImageOnly];
     [checkboxCell setEditable:NO];
-    [[self.eventTableView tableColumnWithIdentifier:@"flag"] setDataCell:checkboxCell];
+    [[self.eventTableView tableColumnWithIdentifier:@"isAtPosture"] setDataCell:checkboxCell];
 
 
     NSNumberFormatter *defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
-    [[[self.eventTableView tableColumnWithIdentifier:@"flag"] dataCell] setFormatter:defaultNumberFormatter];
+    [[[self.eventTableView tableColumnWithIdentifier:@"isAtPosture"] dataCell] setFormatter:defaultNumberFormatter];
 }
 
 #pragma mark -
@@ -60,8 +60,8 @@
         NSInteger eventNumber = row / 2;
         if ([@"time" isEqual:identifier] == YES) {
             return [NSNumber numberWithInteger:[[[_eventList events] objectAtIndex:eventNumber] time]];
-        } else if ([@"flag" isEqual:identifier] == YES) {
-            return [NSNumber numberWithBool:[[[_eventList events] objectAtIndex:eventNumber] flag]];
+        } else if ([@"isAtPosture" isEqual:identifier] == YES) {
+            return [NSNumber numberWithBool:[[[_eventList events] objectAtIndex:eventNumber] isAtPosture]];
         } else {
             NSInteger rowOffset = row % 2;
             NSInteger index = [identifier intValue] + rowOffset * 16;
@@ -85,7 +85,7 @@
     if (tableView == _eventTableView) {
         if ([@"time" isEqual:identifier] && (row % 2) == 1) {
             [cell setObjectValue:nil];
-        } else if ([@"flag" isEqual:identifier]) {
+        } else if ([@"isAtPosture" isEqual:identifier]) {
             if ((row % 2) == 0)
                 [cell setTransparent:NO];
             else

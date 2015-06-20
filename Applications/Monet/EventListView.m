@@ -240,7 +240,7 @@
     for (NSUInteger i = 0; i < [events count]; i++) {
         currentX = [self scaledX:[[events objectAtIndex:i] time]];
 
-        if ([[events objectAtIndex:i] flag]) {
+        if ([[events objectAtIndex:i] isAtPosture]) {
             currentPhone = [_eventList getPhoneAtIndex:phoneIndex++];
             if (currentPhone) {
                 [[NSColor blackColor] set];

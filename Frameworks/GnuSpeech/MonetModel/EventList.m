@@ -479,7 +479,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 - (void)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value flag:(BOOL)flag;
 {
     Event *event = [self eventAtTimeOffset:time];
-    if (flag) event.flag = flag; // Otherwise it clears an already set flag.
+    if (flag) event.isAtPosture = flag; // Otherwise it clears an already set flag.
     if (number >= 0) {
         // TODO (2012-04-23): This appears to be another hard-coded setting.  7 and 8 seems to be... parameters r1 and r2
         if ((number >= 7) && (number <= 8))
@@ -493,7 +493,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 {
     Event *lastEvent = [_events lastObject];
     [lastEvent setValue:value atIndex:number];
-    lastEvent.flag = YES;
+    lastEvent.isAtPosture = YES;
 }
 
 #pragma mark - Other
@@ -759,7 +759,7 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
 //        [self generateIntonationPoints];
 
     Event *lastEvent = [_events lastObject];
-    lastEvent.flag = YES;
+    lastEvent.isAtPosture = YES;
 
     [self printDataStructures:@"Applied rules"];
 

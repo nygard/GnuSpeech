@@ -8,7 +8,7 @@
 @implementation Event
 {
     NSUInteger _time;
-    BOOL _flag;
+    BOOL _isAtPosture;
     double _value[MAX_VALUES];
 }
 
@@ -16,7 +16,7 @@
 {
     if ((self = [super init])) {
         _time = time;
-        _flag = NO;
+        _isAtPosture = NO;
 
         for (NSUInteger index = 0; index < MAX_VALUES; index++)
             _value[index] = NaN;
@@ -31,9 +31,9 @@
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@: %p> time: %lu, flag: %d, values: (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g)",
+    return [NSString stringWithFormat:@"<%@: %p> time: %lu, isAtPosture? %d, values: (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g) (%5.2g %5.2g %5.2g %5.2g %5.2g %5.2g)",
             NSStringFromClass([self class]), self,
-            self.time, self.flag,
+            self.time, self.isAtPosture,
             _value[0], _value[1], _value[2], _value[3], _value[4], _value[5],
             _value[6], _value[7], _value[8], _value[9], _value[10], _value[11],
             _value[12], _value[13], _value[14], _value[15], _value[16], _value[17],

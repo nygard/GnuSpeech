@@ -397,7 +397,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     for (index = 0; index < count; index++) {
         currentX = ((float)[[events objectAtIndex:index] time] / _timeScale);
 
-        if ([[events objectAtIndex:index] flag]) {
+        if ([[events objectAtIndex:index] isAtPosture]) {
             currentPosture = [_eventList getPhoneAtIndex:postureIndex++];
             if (currentPosture != nil) {
                 //NSLog(@"[currentPosture name]: %@", [currentPosture name]);
