@@ -100,8 +100,7 @@
     if ((self = [super initWithWindowNibName:@"Synthesis"])) {
         _model = model;
         _displayParameters = [[NSMutableArray alloc] init];
-        [self _updateDisplayParameters];
-        
+
         _eventList = [[EventList alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(intonationPointDidChange:)
@@ -196,8 +195,11 @@
 	
     [[[_eventTableView tableColumnWithIdentifier:@"isAtPosture"] dataCell] setFormatter:defaultNumberFormatter];
 	
+    [self _updateDisplayParameters];
     [self _updateEventColumns];
 }
+
+#pragma mark -
 
 - (void)_updateDisplayParameters;
 {
