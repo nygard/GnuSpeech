@@ -19,12 +19,10 @@
 #define MDK_Tempo                      @"Tempo"
 #define MDK_RadiusMultiply             @"RadiusMultiply"
 
-@implementation MMIntonation
+@implementation MMIntonation (Monet)
 
 + (void)setupUserDefaults;
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-
     NSDictionary *defaults = @{
                                MDK_NotionalPitch             : @-1,
                                MDK_PretonicRange             : @2,
@@ -52,22 +50,22 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
     if ((self = [super init])) {
-        _notionalPitch = [defaults floatForKey:MDK_NotionalPitch];
-        _pretonicRange = [defaults floatForKey:MDK_PretonicRange];
-        _pretonicLift  = [defaults floatForKey:MDK_PretonicLift];
-        _tonicRange    = [defaults floatForKey:MDK_TonicRange];
-        _tonicMovement = [defaults floatForKey:MDK_TonicMovement];
+        self.notionalPitch = [defaults floatForKey:MDK_NotionalPitch];
+        self.pretonicRange = [defaults floatForKey:MDK_PretonicRange];
+        self.pretonicLift  = [defaults floatForKey:MDK_PretonicLift];
+        self.tonicRange    = [defaults floatForKey:MDK_TonicRange];
+        self.tonicMovement = [defaults floatForKey:MDK_TonicMovement];
 
-        _shouldUseMacroIntonation  = [defaults boolForKey:MDK_ShouldUseMacroIntonation];
-        _shouldUseMicroIntonation  = [defaults boolForKey:MDK_ShouldUseMicroIntonation];
-        _shouldUseSmoothIntonation = [defaults boolForKey:MDK_ShouldUseSmoothIntonation];
+        self.shouldUseMacroIntonation  = [defaults boolForKey:MDK_ShouldUseMacroIntonation];
+        self.shouldUseMicroIntonation  = [defaults boolForKey:MDK_ShouldUseMicroIntonation];
+        self.shouldUseSmoothIntonation = [defaults boolForKey:MDK_ShouldUseSmoothIntonation];
 
-        _shouldUseDrift = [defaults boolForKey:MDK_ShouldUseDrift];
-        _driftDeviation = [defaults floatForKey:MDK_DriftDeviation];
-        _driftCutoff    = [defaults floatForKey:MDK_DriftCutoff];
+        self.shouldUseDrift = [defaults boolForKey:MDK_ShouldUseDrift];
+        self.driftDeviation = [defaults floatForKey:MDK_DriftDeviation];
+        self.driftCutoff    = [defaults floatForKey:MDK_DriftCutoff];
 
-        _tempo          = [defaults doubleForKey:MDK_Tempo];
-        _radiusMultiply = [defaults doubleForKey:MDK_RadiusMultiply];
+        self.tempo          = [defaults doubleForKey:MDK_Tempo];
+        self.radiusMultiply = [defaults doubleForKey:MDK_RadiusMultiply];
     }
 
     return self;
