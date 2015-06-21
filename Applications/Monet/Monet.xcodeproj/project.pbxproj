@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		01061F9D1B328A0C00FBB2B4 /* MIntonationParameterEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 01061F9B1B328A0C00FBB2B4 /* MIntonationParameterEditor.m */; };
 		01061F9E1B328A0C00FBB2B4 /* IntonationParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 01061F9C1B328A0C00FBB2B4 /* IntonationParameters.xib */; };
+		010751461B36596E0029A4D5 /* MIntonationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 010751441B36596E0029A4D5 /* MIntonationController.m */; };
+		010751471B36596E0029A4D5 /* Intonation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 010751451B36596E0029A4D5 /* Intonation.xib */; };
 		01462C011B34B2CF0029A6A2 /* MMIntonation-Monet.m in Sources */ = {isa = PBXBuildFile; fileRef = 01462C001B34B2CF0029A6A2 /* MMIntonation-Monet.m */; };
 		01462C051B35131D0029A6A2 /* MEventTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01462C031B35131D0029A6A2 /* MEventTableController.m */; };
 		01462C061B35131D0029A6A2 /* EventTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 01462C041B35131D0029A6A2 /* EventTable.xib */; };
@@ -73,6 +75,9 @@
 		01061F9A1B328A0C00FBB2B4 /* MIntonationParameterEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIntonationParameterEditor.h; sourceTree = "<group>"; };
 		01061F9B1B328A0C00FBB2B4 /* MIntonationParameterEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIntonationParameterEditor.m; sourceTree = "<group>"; };
 		01061F9C1B328A0C00FBB2B4 /* IntonationParameters.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IntonationParameters.xib; sourceTree = "<group>"; };
+		010751431B36596E0029A4D5 /* MIntonationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIntonationController.h; sourceTree = "<group>"; };
+		010751441B36596E0029A4D5 /* MIntonationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIntonationController.m; sourceTree = "<group>"; };
+		010751451B36596E0029A4D5 /* Intonation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Intonation.xib; sourceTree = "<group>"; };
 		01462BFF1B34B2CF0029A6A2 /* MMIntonation-Monet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MMIntonation-Monet.h"; path = "Extensions/MMIntonation-Monet.h"; sourceTree = "<group>"; };
 		01462C001B34B2CF0029A6A2 /* MMIntonation-Monet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "MMIntonation-Monet.m"; path = "Extensions/MMIntonation-Monet.m"; sourceTree = "<group>"; };
 		01462C021B35131D0029A6A2 /* MEventTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEventTableController.h; sourceTree = "<group>"; };
@@ -189,6 +194,16 @@
 				01061F9C1B328A0C00FBB2B4 /* IntonationParameters.xib */,
 			);
 			name = "Intonation Parameters";
+			sourceTree = "<group>";
+		};
+		010751481B3659740029A4D5 /* Intonation */ = {
+			isa = PBXGroup;
+			children = (
+				010751431B36596E0029A4D5 /* MIntonationController.h */,
+				010751441B36596E0029A4D5 /* MIntonationController.m */,
+				010751451B36596E0029A4D5 /* Intonation.xib */,
+			);
+			name = Intonation;
 			sourceTree = "<group>";
 		};
 		01462C071B3513220029A6A2 /* Event Table */ = {
@@ -389,6 +404,7 @@
 				0161BEFB1544C42800A1D178 /* Special Transition Editor */,
 				0161BEFC1544C43A00A1D178 /* Synthesis */,
 				01462C071B3513220029A6A2 /* Event Table */,
+				010751481B3659740029A4D5 /* Intonation */,
 				01061F9F1B328A2B00FBB2B4 /* Intonation Parameters */,
 				0161BEFF1544C46C00A1D178 /* Synthesis Parameters */,
 				0161BF001544C47E00A1D178 /* Transition Editor */,
@@ -571,6 +587,7 @@
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				01C55C4B0B7BC7C6009F6A92 /* ReleaseNotes.html in Resources */,
+				010751471B36596E0029A4D5 /* Intonation.xib in Resources */,
 				01C55C4D0B7BC7D8009F6A92 /* Default.mxml in Resources */,
 				01C55C540B7BC82D009F6A92 /* CommentIcon.tiff in Resources */,
 				01C55C550B7BC82D009F6A92 /* dotInspector.tiff in Resources */,
@@ -628,6 +645,7 @@
 				01462C011B34B2CF0029A6A2 /* MMIntonation-Monet.m in Sources */,
 				01C55CB60B7BCB03009F6A92 /* NSBezierPath-Extensions.m in Sources */,
 				01C55CB70B7BCB03009F6A92 /* NSColor-STExtensions.m in Sources */,
+				010751461B36596E0029A4D5 /* MIntonationController.m in Sources */,
 				01C55CB80B7BCB03009F6A92 /* NSOutlineView-Extensions.m in Sources */,
 				01C55D4D0B7BCD69009F6A92 /* MMDisplayParameter.m in Sources */,
 				01C55D570B7BCDB4009F6A92 /* MAIntonationScaleView.m in Sources */,
