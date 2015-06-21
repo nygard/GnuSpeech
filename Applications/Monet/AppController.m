@@ -20,6 +20,8 @@
 
 #import "MMIntonation-Monet.h"
 #import "MIntonationParameterEditor.h"
+#import "MIntonationController.h"
+
 
 #define MDK_MonetFileDirectory @"MonetFileDirectory"
 
@@ -37,6 +39,7 @@
 @property (nonatomic, readonly) MSynthesisController *synthesisController;
 @property (nonatomic, readonly) MReleaseNotesController *releaseNotesController;
 @property (nonatomic, readonly) MIntonationParameterEditor *intonationParameterEditor;
+@property (nonatomic, readonly) MIntonationController *intonationController;
 @end
 
 #pragma mark -
@@ -59,6 +62,7 @@
     MReleaseNotesController *_releaseNotesController;
 
     MIntonationParameterEditor *_intonationParameterEditor;
+    MIntonationController *_intonationController;
 }
 
 - (id)init;
@@ -499,10 +503,21 @@
 
 #pragma mark - Intonation Window
 
+- (MIntonationController *)intonationController;
+{
+    if (_intonationController == nil)
+        _intonationController = [[MIntonationController alloc] init];
+
+    return _intonationController;
+}
+
 - (IBAction)showIntonationWindow:(id)sender;
 {
     [self.synthesisController setModel:_model];
     [self.synthesisController showIntonationWindow:self];
+
+    // And show the new one at the same time for now:
+    [self.intonationController showWindow:self];
 }
 
 #pragma mark - Intonation Parameter Window
