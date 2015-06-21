@@ -77,78 +77,68 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
-    //NSLog(@"<%@>[%p]  > %s", NSStringFromClass([self class]), self, _cmd);
-
-    //NSLog(@"[NSApp delegate]: %@", [NSApp delegate]);
-
     [MMIntonation setupUserDefaults];
 
-    [[self dataEntryController] showWindowIfVisibleOnLaunch];
-    [[self postureCategoryController] showWindowIfVisibleOnLaunch];
-    [[self postureEditor] showWindowIfVisibleOnLaunch];
-    [[self prototypeManager] showWindowIfVisibleOnLaunch];
-    [[self transitionEditor] showWindowIfVisibleOnLaunch];
-    [[self specialTransitionEditor] showWindowIfVisibleOnLaunch];
-    [[self ruleTester] showWindowIfVisibleOnLaunch];
-    [[self ruleManager] showWindowIfVisibleOnLaunch];
-    [[self synthesisParameterEditor] showWindowIfVisibleOnLaunch];
-    [[self synthesisController] showWindowIfVisibleOnLaunch];
-    [[self releaseNotesController] showWindowIfVisibleOnLaunch];
+    [self.dataEntryController       showWindowIfVisibleOnLaunch];
+    [self.postureCategoryController showWindowIfVisibleOnLaunch];
+    [self.postureEditor             showWindowIfVisibleOnLaunch];
+    [self.prototypeManager          showWindowIfVisibleOnLaunch];
+    [self.transitionEditor          showWindowIfVisibleOnLaunch];
+    [self.specialTransitionEditor   showWindowIfVisibleOnLaunch];
+    [self.ruleTester                showWindowIfVisibleOnLaunch];
+    [self.ruleManager               showWindowIfVisibleOnLaunch];
+    [self.synthesisParameterEditor  showWindowIfVisibleOnLaunch];
+    [self.synthesisController       showWindowIfVisibleOnLaunch];
+    [self.releaseNotesController    showWindowIfVisibleOnLaunch];
 
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldActivateOnLaunch"])
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"shouldActivateOnLaunch"]) {
         [NSApp activateIgnoringOtherApps:YES];
+    }
 
     NSString *path = [[NSBundle mainBundle] pathForResource:@"Diphones" ofType:@"mxml"];
-    //path = [[NSBundle mainBundle] pathForResource:@"Default" ofType:@"mxml"];	
-    [self _loadMonetXMLFile:path];	
-	
-    //NSLog(@"<%@>[%p] <  %s", NSStringFromClass([self class]), self, _cmd);
+    [self _loadMonetXMLFile:path];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification;
 {
     // I think this will be more reliable that using -windowWillClose:, since the windows do close when the app terminates...
-    [[self dataEntryController] saveWindowIsVisibleOnLaunch];
-    [[self postureCategoryController] saveWindowIsVisibleOnLaunch];
-    [[self postureEditor] saveWindowIsVisibleOnLaunch];
-    [[self prototypeManager] saveWindowIsVisibleOnLaunch];
-    [[self transitionEditor] saveWindowIsVisibleOnLaunch];
-    [[self specialTransitionEditor] saveWindowIsVisibleOnLaunch];
-    [[self ruleTester] saveWindowIsVisibleOnLaunch];
-    [[self ruleManager] saveWindowIsVisibleOnLaunch];
-    [[self synthesisParameterEditor] saveWindowIsVisibleOnLaunch];
-    [[self synthesisController] saveWindowIsVisibleOnLaunch];
-    //[[self intonationController] saveWindowIsVisibleOnLaunch];
-    //[[self intonationParameterEditor] saveWindowIsVisibleOnLaunch];
-    [[self releaseNotesController] saveWindowIsVisibleOnLaunch];
+    [self.dataEntryController       saveWindowIsVisibleOnLaunch];
+    [self.postureCategoryController saveWindowIsVisibleOnLaunch];
+    [self.postureEditor             saveWindowIsVisibleOnLaunch];
+    [self.prototypeManager          saveWindowIsVisibleOnLaunch];
+    [self.transitionEditor          saveWindowIsVisibleOnLaunch];
+    [self.specialTransitionEditor   saveWindowIsVisibleOnLaunch];
+    [self.ruleTester                saveWindowIsVisibleOnLaunch];
+    [self.ruleManager               saveWindowIsVisibleOnLaunch];
+    [self.synthesisParameterEditor  saveWindowIsVisibleOnLaunch];
+    [self.synthesisController       saveWindowIsVisibleOnLaunch];
+    //[self.intonationController      saveWindowIsVisibleOnLaunch];
+    //[self.intonationParameterEditor saveWindowIsVisibleOnLaunch];
+    [self.releaseNotesController    saveWindowIsVisibleOnLaunch];
 }
 
 - (IBAction)openFile:(id)sender;
 {
-    NSUInteger count, index;
-    NSArray *types;
-    NSArray *fnames;
-    NSOpenPanel *openPanel;
-
     NSLog(@" > %s", __PRETTY_FUNCTION__);
 
-    types = [NSArray arrayWithObjects:@"mxml", nil];
-    openPanel = [NSOpenPanel openPanel]; // Each call resets values, including filenames
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel]; // Each call resets values, including filenames
     NSString *path = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_MonetFileDirectory];
-    if (path != nil)
-        [openPanel setDirectoryURL:[NSURL fileURLWithPath:path]];
-    [openPanel setAllowsMultipleSelection:NO];
-    [openPanel setAllowedFileTypes:types];
+    if (path != nil) {
+        openPanel.directoryURL = [NSURL fileURLWithPath:path];
+    }
+    openPanel.allowsMultipleSelection = NO;
+    openPanel.allowedFileTypes = @[ @"mxml" ];
 
-    if ([openPanel runModal] == NSFileHandlingPanelCancelButton)
+    if ([openPanel runModal] == NSFileHandlingPanelCancelButton) {
         return;
+    }
 
     [[NSUserDefaults standardUserDefaults] setObject:[[openPanel directoryURL] path] forKey:MDK_MonetFileDirectory];
 
-    fnames = [openPanel URLs];
-    count = [fnames count];
-    for (index = 0; index < count; index++)
-        [self _loadFile:[[fnames objectAtIndex:index] path]];
+    NSArray *fnames = [openPanel URLs];
+    for (NSURL *url in fnames) {
+        [self _loadFile:url.path];
+    }
 
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
@@ -197,35 +187,39 @@
 
 - (void)setModel:(MModel *)newModel;
 {
-    if (newModel == _model)
+    if (newModel == _model) {
         return;
+    }
 
     _model = newModel;
 
-    [_dataEntryController setModel:_model];
-    [_postureCategoryController setModel:_model];
-    [_postureEditor setModel:_model];
-    [_prototypeManager setModel:_model];
-    [_transitionEditor setModel:_model];
-    [_specialTransitionEditor setModel:_model];
-    [_ruleTester setModel:_model];
-    [_ruleManager setModel:_model];
-    [_synthesisParameterEditor setModel:_model];
-    [_synthesisController setModel:_model];
+    _dataEntryController.model       = _model;
+    _postureCategoryController.model = _model;
+    _postureEditor.model             = _model;
+    _prototypeManager.model          = _model;
+    _transitionEditor.model          = _model;
+    _specialTransitionEditor.model   = _model;
+    _ruleTester.model                = _model;;
+    _ruleManager.model               = _model;
+    _synthesisParameterEditor.model  = _model;
+    _synthesisController.model       = _model;
 }
 
-- (void)_loadFile:(NSString *)aFilename;
+- (void)_loadFile:(NSString *)filename;
 {
-    NSString *extension = [aFilename pathExtension];
+    NSString *extension = [filename pathExtension];
     if ([extension isEqualToString:@"mxml"]) {
-        [self _loadMonetXMLFile:aFilename];
+        [self _loadMonetXMLFile:filename];
     }
 }
 
 - (void)_loadMonetXMLFile:(NSString *)filename;
 {
-    MDocument *document = [[MDocument alloc] initWithXMLFile:filename error:NULL];
-    if (document != nil) {
+    NSError *error;
+    MDocument *document = [[MDocument alloc] initWithXMLFile:filename error:&error];
+    if (document == nil) {
+        NSLog(@"%s, error: %@", __PRETTY_FUNCTION__, error);
+    } else {
         [self setModel:[document model]];
         [self setFilename:filename];
     }
@@ -241,21 +235,21 @@
         NSString *extension = [self.filename pathExtension];
 
         if ([@"mxml" isEqualToString:extension] == NO) {
-            NSString *newFilename;
-
-            newFilename = [[self.filename stringByDeletingPathExtension] stringByAppendingPathExtension:@"mxml"];
+            NSString *newFilename = [[self.filename stringByDeletingPathExtension] stringByAppendingPathExtension:@"mxml"];
             result = [_model writeXMLToFile:newFilename comment:nil];
             if (result) {
                 NSLog(@"Renamed file from %@ to %@", [self.filename lastPathComponent], [newFilename lastPathComponent]);
                 [self setFilename:newFilename];
             }
-        } else
+        } else {
             result = [_model writeXMLToFile:self.filename comment:nil];
+        }
 
-        if (result == NO)
+        if (result == NO) {
             NSRunAlertPanel(@"Save Failed", @"Couldn't save document to %@", @"OK", nil, nil, self.filename);
-        else
+        } else {
             NSLog(@"Saved file: %@", self.filename);
+        }
     }
 }
 
@@ -263,20 +257,21 @@
 {
     NSSavePanel *savePanel = [NSSavePanel savePanel];
     NSString *path = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_MonetFileDirectory];
-    if (path != nil)
-        [savePanel setDirectoryURL:[NSURL fileURLWithPath:path]];
-    [savePanel setAllowedFileTypes:[NSArray arrayWithObject:@"mxml"]];
-    [savePanel setNameFieldStringValue:[self.filename lastPathComponent]];
+    if (path != nil) {
+        savePanel.directoryURL = [NSURL fileURLWithPath:path];
+    }
+    savePanel.allowedFileTypes = @[ @"mxml" ];
+    savePanel.nameFieldStringValue = [self.filename lastPathComponent];
     if ([savePanel runModal] == NSFileHandlingPanelOKButton) {
-        [[NSUserDefaults standardUserDefaults] setObject:[[savePanel directoryURL] path] forKey:MDK_MonetFileDirectory];
+        [[NSUserDefaults standardUserDefaults] setObject:savePanel.directoryURL.path forKey:MDK_MonetFileDirectory];
 
-        NSString *newFilename = [[savePanel URL] path];
+        NSString *newFilename = savePanel.URL.path;
 
         BOOL result = [_model writeXMLToFile:newFilename comment:nil];
 
-        if (result == NO)
+        if (result == NO) {
             NSRunAlertPanel(@"Save Failed", @"Couldn't save document to %@", @"OK", nil, nil, self.filename);
-        else {
+        } else {
             [self setFilename:newFilename];
             NSLog(@"Saved file: %@", newFilename);
         }
@@ -286,10 +281,11 @@
 // TODO (2004-05-20): We could only enable this when filename != nil, or just wait until we start using the document architecture.
 - (IBAction)revertDocumentToSaved:(id)sender;
 {
-    if (self.filename == nil)
+    if (self.filename == nil) {
         NSBeep();
-    else
+    } else {
         [self _loadFile:self.filename];
+    }
 }
 
 - (IBAction)savePrototypes:(id)sender;
@@ -355,8 +351,9 @@
 
 - (MPostureCategoryController *)postureCategoryController;
 {
-    if (_postureCategoryController == nil)
+    if (_postureCategoryController == nil) {
         _postureCategoryController = [[MPostureCategoryController alloc] initWithModel:_model];
+    }
 
     return _postureCategoryController;
 }
@@ -441,8 +438,9 @@
 
 - (MRuleTester *)ruleTester;
 {
-    if (_ruleTester == nil)
+    if (_ruleTester == nil) {
         _ruleTester = [[MRuleTester alloc] initWithModel:_model];
+    }
 
     return _ruleTester;
 }
@@ -457,8 +455,9 @@
 
 - (MRuleManager *)ruleManager;
 {
-    if (_ruleManager == nil)
+    if (_ruleManager == nil) {
         _ruleManager = [[MRuleManager alloc] initWithModel:_model];
+    }
 
     return _ruleManager;
 }
@@ -469,12 +468,13 @@
     [self.ruleManager showWindow:self];
 }
 
-#pragma mark - Synthesis Paremeter Editor
+#pragma mark - Synthesis Parameter Editor
 
 - (MSynthesisParameterEditor *)synthesisParameterEditor;
 {
-    if (_synthesisParameterEditor == nil)
+    if (_synthesisParameterEditor == nil) {
         _synthesisParameterEditor = [[MSynthesisParameterEditor alloc] initWithModel:_model];
+    }
 
     return _synthesisParameterEditor;
 }
@@ -489,8 +489,9 @@
 
 - (MSynthesisController *)synthesisController;
 {
-    if (_synthesisController == nil)
+    if (_synthesisController == nil) {
         _synthesisController = [[MSynthesisController alloc] initWithModel:_model];
+    }
 
     return _synthesisController;
 }
@@ -505,8 +506,9 @@
 
 - (MIntonationController *)intonationController;
 {
-    if (_intonationController == nil)
+    if (_intonationController == nil) {
         _intonationController = [[MIntonationController alloc] init];
+    }
 
     return _intonationController;
 }
@@ -540,8 +542,9 @@
 
 - (MReleaseNotesController *)releaseNotesController;
 {
-    if (_releaseNotesController == nil)
+    if (_releaseNotesController == nil) {
         _releaseNotesController = [[MReleaseNotesController alloc] init];
+    }
 
     return _releaseNotesController;
 }
