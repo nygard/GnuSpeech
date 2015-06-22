@@ -53,7 +53,8 @@
 
     // Intonation window
     IBOutlet NSWindow *_intonationWindow;
-    IBOutlet MAIntonationScrollView *_intonationView;
+    IBOutlet MAIntonationScrollView *_intonationScrollView;
+    IBOutlet MAIntonationView *_intonationView;
 
     IBOutlet NSTextField *_semitoneTextField;
     IBOutlet NSTextField *_hertzTextField;
@@ -184,8 +185,8 @@
     [_beatOffsetTextField setFormatter:defaultNumberFormatter];
     [_absTimeTextField setFormatter:defaultNumberFormatter];
 	
-    [[_intonationView documentView] setDelegate:self];
-    [[_intonationView documentView] setEventList:_eventList];
+    [_intonationView setDelegate:self];
+    [_intonationView setEventList:_eventList];
 	
     [self _updateSelectedPointDetails];
 
@@ -421,7 +422,7 @@
     [_eventListView setEventList:_eventList];
     [_eventListView display]; // TODO (2004-03-17): It's not updating otherwise
 	
-    [[_intonationView documentView] updateEvents]; // Because it doesn't post notifications yet.  We need to resize the width.
+    [_intonationView updateEvents]; // Because it doesn't post notifications yet.  We need to resize the width.
 }
 
 - (IBAction)generateContour:(id)sender;
@@ -431,14 +432,14 @@
     MMIntonation *intonation = [[MMIntonation alloc] initFromUserDefaults];
     _eventList.intonation = intonation;
 
-    [[_intonationView documentView] setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
+    [_intonationView setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
 	
     [_eventList generateIntonationPoints];
     [_intonationRuleTableView reloadData];
     self.eventTableController.eventList = _eventList;
     if ([[_eventList intonationPoints] count] > 0)
-        [[_intonationView documentView] selectIntonationPoint:[[_eventList intonationPoints] objectAtIndex:0]];
-    [_intonationView display];
+        [_intonationView selectIntonationPoint:[[_eventList intonationPoints] objectAtIndex:0]];
+    [_intonationScrollView display];
 	
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
@@ -566,7 +567,7 @@
 
 - (MMIntonationPoint *)selectedIntonationPoint;
 {
-    return [[_intonationView documentView] selectedIntonationPoint];
+    return [_intonationView selectedIntonationPoint];
 }
 
 - (IBAction)setSemitone:(id)sender;
@@ -636,7 +637,7 @@
 // Currently set up to print the intonation contour.
 - (IBAction)printDocument:(id)sender;
 {
-    NSSize printableSize = [_intonationView printableSize];
+    NSSize printableSize = [_intonationScrollView printableSize];
     NSRect printFrame;
     printFrame.origin = NSZeroPoint;
     printFrame.size = [NSScrollView frameSizeForContentSize:printableSize horizontalScrollerClass:nil verticalScrollerClass:nil borderType:NSNoBorder controlSize:NSRegularControlSize scrollerStyle:NSScrollerStyleLegacy];
@@ -647,7 +648,7 @@
 	
     [[printView documentView] setEventList:_eventList];
     [[printView documentView] setShouldDrawSelection:NO];
-    [[printView documentView] setShouldDrawSmoothPoints:[[_intonationView documentView] shouldDrawSmoothPoints]];
+    [[printView documentView] setShouldDrawSmoothPoints:[_intonationView shouldDrawSmoothPoints]];
 	
     NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:printView printInfo:_intonationPrintInfo];
     [printOperation setShowsPrintPanel:YES];
