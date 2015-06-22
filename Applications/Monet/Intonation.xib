@@ -115,7 +115,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" id="py2-V8-GC7">
-                                    <rect key="frame" x="98" y="46" width="16" height="17"/>
+                                    <rect key="frame" x="98" y="46" width="18" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="St" id="Bj4-tt-0oz">
                                         <font key="font" metaFont="system"/>
@@ -238,7 +238,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="dD4-WW-wST" id="ha6-pv-6rm">
-                                    <rect key="frame" x="0.0" y="0.0" width="259" height="130"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="259" height="19"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
