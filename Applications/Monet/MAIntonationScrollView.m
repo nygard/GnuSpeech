@@ -39,13 +39,9 @@
 
 - (void)addScaleView;
 {
-    NSSize contentSize;
-    NSRect scaleFrame;
-    NSRect documentVisibleRect;
+    NSSize contentSize = [self contentSize];
 
-    contentSize = [self contentSize];
-
-    scaleFrame = NSMakeRect(0, 0, SCALE_WIDTH, contentSize.height);
+    NSRect scaleFrame = NSMakeRect(0, 0, SCALE_WIDTH, contentSize.height);
     _scaleView = [[MAIntonationScaleView alloc] initWithFrame:scaleFrame];
     [self addSubview:_scaleView];
 
@@ -53,7 +49,7 @@
 
     [self tile];
 
-    documentVisibleRect = [self documentVisibleRect];
+    NSRect documentVisibleRect = [self documentVisibleRect];
 
     [[self documentView] setFrame:documentVisibleRect];
     [[self documentView] setNeedsDisplay:YES];
@@ -81,10 +77,8 @@
 
 - (NSSize)printableSize;
 {
-    NSSize scaleViewSize, printableSize;
-
-    scaleViewSize = [_scaleView frame].size;
-    printableSize = [[self documentView] frame].size;
+    NSSize scaleViewSize = [_scaleView frame].size;
+    NSSize printableSize = [[self documentView] frame].size;
     printableSize.width += scaleViewSize.width;
 
     return printableSize;
