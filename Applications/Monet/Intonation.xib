@@ -12,6 +12,7 @@
                 <outlet property="beatTextField" destination="H0S-s9-5Ks" id="1Ck-wA-g4w"/>
                 <outlet property="hertzTextField" destination="jg7-j5-zvw" id="n4c-RA-ovB"/>
                 <outlet property="intonationRuleTableView" destination="ha6-pv-6rm" id="rRv-kD-zGW"/>
+                <outlet property="intonationScrollView" destination="fcR-Es-piY" id="zTy-k9-Sdk"/>
                 <outlet property="intonationView" destination="4ON-Gz-0Gf" id="ekJ-Wv-wZ2"/>
                 <outlet property="semitoneTextField" destination="S6x-zg-suV" id="yAl-m9-90v"/>
                 <outlet property="slopeTextField" destination="5eO-eC-ye1" id="hft-Gi-6fw"/>

@@ -3,6 +3,10 @@
 
 #import "MWindowController.h"
 
+@class EventList;
+
 @interface MIntonationController : MWindowController
+
+@property (strong) EventList *eventList;
 
 @end
