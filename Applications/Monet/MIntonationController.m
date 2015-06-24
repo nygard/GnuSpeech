@@ -118,7 +118,6 @@
     [self.intonationView setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
 
     [self.eventList generateIntonationPoints];
-//    [_intonationRuleTableView reloadData];
 //    self.eventTableController.eventList = self.eventList;
     if ([[self.eventList intonationPoints] count] > 0)
         [self.intonationView selectIntonationPoint:[[self.eventList intonationPoints] objectAtIndex:0]];
