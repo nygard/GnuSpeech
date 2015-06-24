@@ -43,6 +43,7 @@
 - (void)dealloc;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:EventListDidGenerateIntonationPoints object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EventListDidChangeIntonationPoints   object:nil];
 }
 
 #pragma mark -
@@ -71,9 +72,11 @@
 - (void)setEventList:(EventList *)eventList;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:EventListDidGenerateIntonationPoints object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EventListDidChangeIntonationPoints   object:nil];
     _eventList = eventList;
     if (_eventList != nil) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventListDidGenerateIntonationPoints:) name:EventListDidGenerateIntonationPoints object:_eventList];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(intonationPointDidChange:)             name:EventListDidChangeIntonationPoints   object:_eventList];
     }
 }
 
