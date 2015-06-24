@@ -95,9 +95,6 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
     NSMutableArray *_intonationPoints; // Sorted by absolute time
 
     __weak id <EventListDelegate> _delegate;
-    
-    // Hack for inflexible XML parsing.  I have plan to change how I parse XML.
-    NSUInteger _parseState;
 
     MMDriftGenerator *_driftGenerator;
 }
