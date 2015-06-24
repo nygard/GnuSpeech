@@ -115,12 +115,7 @@
     MMIntonation *intonation = [[MMIntonation alloc] initFromUserDefaults];
     self.eventList.intonation = intonation;
 
-    [self.intonationView setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
-
     [self.eventList generateIntonationPoints];
-//    self.eventTableController.eventList = self.eventList;
-    if ([[self.eventList intonationPoints] count] > 0)
-        [self.intonationView selectIntonationPoint:[[self.eventList intonationPoints] objectAtIndex:0]];
     [_intonationScrollView display];
 
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
@@ -262,6 +257,9 @@
 - (void)eventListDidGenerateIntonationPoints:(NSNotificationCenter *)notification;
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
+    [self.intonationView setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
+    if ([[self.eventList intonationPoints] count] > 0)
+        [self.intonationView selectIntonationPoint:[[self.eventList intonationPoints] objectAtIndex:0]];
     [_intonationRuleTableView reloadData];
 }
 
