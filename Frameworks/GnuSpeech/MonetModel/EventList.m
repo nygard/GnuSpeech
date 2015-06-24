@@ -75,15 +75,9 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
     NSUInteger _duration; // Move... somewhere else.
     NSUInteger _timeQuantization; // in msecs.  By default it generates parameters every 4 msec
 
-//    BOOL _shouldUseMacroIntonation;
-//    BOOL _shouldUseMicroIntonation;
-//    BOOL _shouldUseDrift;
-//    BOOL _shouldUseSmoothIntonation;
     BOOL _intonationPointsNeedSorting;
 
-//    double _radiusMultiply; // Affects hard coded parameters, in this case r1 and r2.
     double _pitchMean;
-//    double _globalTempo;
     double _multiplier; // Move... somewhere else.
     MMIntonation *_intonation;
 
