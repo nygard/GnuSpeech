@@ -160,11 +160,16 @@
         if (result == NSFileHandlingPanelOKButton) {
             [[NSUserDefaults standardUserDefaults] setObject:[[openPanel directoryURL] path] forKey:MDK_IntonationContourDirectory];
 
-//            [self prepareForSynthesis];
+            MMIntonation *intonation = [[MMIntonation alloc] initFromUserDefaults];
+            [self.eventList resetWithIntonation:intonation];
 
             [self.eventList loadIntonationContourFromXMLFile:[[openPanel URL] path]];
 
+            // TODO: (2015-06-24) Update the phone string shown by the synthesizer controller.  Also update the text, but need to save the text in contour for that.
             //[phoneStringTextField setStringValue:[eventList phoneString]];
+            [self.intonationView setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
+            if ([[self.eventList intonationPoints] count] > 0)
+                [self.intonationView selectIntonationPoint:[[self.eventList intonationPoints] objectAtIndex:0]];
             [_intonationRuleTableView reloadData];
         }
     }];

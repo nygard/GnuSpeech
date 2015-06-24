@@ -26,7 +26,7 @@ struct _rule {
 
 @property (strong) MMIntonation *intonation;
 
-- (void)setUp; // TODO (2012-04-26): See if we can't just do this when we apply intonation
+- (void)resetWithIntonation:(MMIntonation *)intonation; // TODO (2012-04-26): See if we can't just do this when we apply intonation
 
 // Rules
 - (struct _rule *)getRuleAtIndex:(NSUInteger)ruleIndex;

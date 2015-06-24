@@ -153,7 +153,7 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
 {
     if (newModel != _model) {
         // TODO (2004-08-19): Maybe it's better just to allocate a new one?  Or create it just before synthesis?
-        [self setUp]; // So that we don't have stuff left over from the previous model, which can cause a crash.
+        [self resetWithIntonation:self.intonation]; // So that we don't have stuff left over from the previous model, which can cause a crash.
 
         _model = newModel;
     }
@@ -182,7 +182,7 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
 
 #pragma mark -
 
-- (void)setUp;
+- (void)resetWithIntonation:(MMIntonation *)intonation;
 {
     // _model remains the same
     // _phoneString is unchanged...
@@ -215,6 +215,14 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
 
 //    phoneTempo[0] = 1.0;
     _feet[0].tempo = 1.0;
+
+    // And now the stuff that used to be in -prepareForSynthesis
+
+    self.intonation = intonation;
+
+    NSLog(@"%s, drift deviation: %f, cutoff: %f", __PRETTY_FUNCTION__, intonation.driftDeviation, intonation.driftCutoff);
+    [self.driftGenerator configureWithDeviation:intonation.driftDeviation sampleRate:500 lowpassCutoff:intonation.driftCutoff];
+    //[self.driftGenerator setupWithDeviation:0.5 sampleRate:250 lowpassCutoff:0.5];
 }
 
 - (void)setFullTimeScale;

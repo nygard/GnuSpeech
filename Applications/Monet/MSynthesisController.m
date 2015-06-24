@@ -339,8 +339,9 @@
 {
 	NSString *phoneString = [self getAndSyncPhoneString];
 		
-    [self prepareForSynthesis];
-	
+    MMIntonation *intonation = [[MMIntonation alloc] initFromUserDefaults];
+    [self.eventList resetWithIntonation:intonation];
+
     [_eventList parsePhoneString:phoneString]; // This creates the tone groups, feet.
     [_eventList applyRhythm];
     [_eventList applyRules]; // This applies the rules, adding events to the EventList.
@@ -401,18 +402,6 @@
     [_eventList clearIntonationEvents];
     [self.synthesizer setShouldSaveToSoundFile:NO];
     [self continueSynthesis];
-}
-
-- (void)prepareForSynthesis;
-{
-    [_eventList setUp];
-
-    MMIntonation *intonation = [[MMIntonation alloc] initFromUserDefaults];
-    _eventList.intonation = intonation;
-
-    NSLog(@"%s, drift deviation: %f, cutoff: %f", __PRETTY_FUNCTION__, intonation.driftDeviation, intonation.driftCutoff);
-    [_eventList.driftGenerator configureWithDeviation:intonation.driftDeviation sampleRate:500 lowpassCutoff:intonation.driftCutoff];
-    //[eventList.driftGenerator setupWithDeviation:0.5 sampleRate:250 lowpassCutoff:0.5];
 }
 
 - (void)continueSynthesis;
@@ -613,8 +602,9 @@
         if (result == NSFileHandlingPanelOKButton) {
             [[NSUserDefaults standardUserDefaults] setObject:[[openPanel directoryURL] path] forKey:MDK_IntonationContourDirectory];
 			
-            [self prepareForSynthesis];
-			
+            MMIntonation *intonation = [[MMIntonation alloc] initFromUserDefaults];
+            [self.eventList resetWithIntonation:intonation];
+
             [_eventList loadIntonationContourFromXMLFile:[[openPanel URL] path]];
 			
             //[phoneStringTextField setStringValue:[eventList phoneString]];
