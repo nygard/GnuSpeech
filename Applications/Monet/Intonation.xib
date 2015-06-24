@@ -71,6 +71,9 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="synthesizeWithContour:" target="-1" id="JDn-bW-z0m"/>
+                        </connections>
                     </button>
                     <box title="Slope" id="Qzf-JV-xgt">
                         <rect key="frame" x="17" y="24" width="135" height="67"/>

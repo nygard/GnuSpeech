@@ -129,6 +129,7 @@
 
         _intonationController = [[MIntonationController alloc] init];
         _intonationController.eventList = _eventList;
+        _intonationController.nextResponder = self;
 
     }
 
