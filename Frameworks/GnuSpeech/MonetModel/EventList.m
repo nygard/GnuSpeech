@@ -24,6 +24,7 @@
 #import "MMTransition.h"
 #import "MMToneGroup.h"
 #import "MMPhone.h"
+#import "MMSynthesisParameters.h"
 
 #import "STLogger.h"
 
@@ -75,7 +76,6 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
     NSUInteger _duration; // Move... somewhere else.
     NSUInteger _timeQuantization; // in msecs.  By default it generates parameters every 4 msec
 
-    double _pitchMean;
     double _multiplier; // Move... somewhere else.
 
     MMIntonation *_intonation;
@@ -863,6 +863,8 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
 {
     //NSLog(@"%s, self: %@", _cmd, self);
 
+    NSParameterAssert(_model != nil);
+
     [self.delegate eventListWillGenerateOutput:self];
     
     if ([_events count] == 0)
@@ -942,7 +944,7 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
             table[0] += currentValues[32];
         }
 
-        table[0] += self.pitchMean;
+        table[0] += self.model.synthesisParameters.pitch;
 
         [self.delegate eventList:self generatedOutputValues:table valueCount:16];
 

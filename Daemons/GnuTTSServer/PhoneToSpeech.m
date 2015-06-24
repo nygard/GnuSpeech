@@ -94,7 +94,6 @@
 {
     [self.eventList setUp];
 	
-    self.eventList.pitchMean = [[[self model] synthesisParameters] pitch];
     MMIntonation *intonation = [[MMIntonation alloc] init];;
     self.eventList.intonation = intonation;
 

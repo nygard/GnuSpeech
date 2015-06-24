@@ -403,8 +403,6 @@
 - (void)prepareForSynthesis;
 {
     [_eventList setUp];
-	
-    [_eventList setPitchMean:[[[self model] synthesisParameters] pitch]];
 
     MMIntonation *intonation = [[MMIntonation alloc] initFromUserDefaults];
     _eventList.intonation = intonation;

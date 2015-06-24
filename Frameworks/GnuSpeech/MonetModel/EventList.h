@@ -25,7 +25,6 @@ struct _rule {
 @property (weak) id <EventListDelegate> delegate;
 
 @property (strong) MMIntonation *intonation;
-@property (assign) double pitchMean;
 
 - (void)setUp; // TODO (2012-04-26): See if we can't just do this when we apply intonation
 
