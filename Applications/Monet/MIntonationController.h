@@ -7,6 +7,6 @@
 
 @interface MIntonationController : MWindowController
 
-@property (strong) EventList *eventList;
+@property (nonatomic, strong) EventList *eventList;
 
 @end

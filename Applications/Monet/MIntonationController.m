@@ -40,6 +40,11 @@
     return self;
 }
 
+- (void)dealloc;
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EventListDidGenerateIntonationPoints object:nil];
+}
+
 #pragma mark -
 
 - (void)windowDidLoad;
@@ -59,6 +64,17 @@
 
     [self _updateSelectedPointDetails];
 
+}
+
+#pragma mark -
+
+- (void)setEventList:(EventList *)eventList;
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EventListDidGenerateIntonationPoints object:nil];
+    _eventList = eventList;
+    if (_eventList != nil) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventListDidGenerateIntonationPoints:) name:EventListDidGenerateIntonationPoints object:_eventList];
+    }
 }
 
 #pragma mark -
@@ -99,7 +115,7 @@
     [self.intonationView setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
 
     [self.eventList generateIntonationPoints];
-    [_intonationRuleTableView reloadData];
+//    [_intonationRuleTableView reloadData];
 //    self.eventTableController.eventList = self.eventList;
     if ([[self.eventList intonationPoints] count] > 0)
         [self.intonationView selectIntonationPoint:[[self.eventList intonationPoints] objectAtIndex:0]];
@@ -237,6 +253,14 @@
 - (void)intonationViewSelectionDidChange:(NSNotification *)notification;
 {
     [self _updateSelectedPointDetails];
+}
+
+#pragma mark -
+
+- (void)eventListDidGenerateIntonationPoints:(NSNotificationCenter *)notification;
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    [_intonationRuleTableView reloadData];
 }
 
 @end

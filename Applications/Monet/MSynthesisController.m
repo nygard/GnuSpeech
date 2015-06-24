@@ -17,6 +17,8 @@
 #import "MMIntonation-Monet.h"
 #import "MEventTableController.h"
 
+#import "MIntonationController.h"
+
 #define MDK_DefaultUtterances          @"DefaultUtterances"
 
 #define MDK_GraphImagesDirectory       @"GraphImagesDirectory"
@@ -29,6 +31,7 @@
 @property (readonly) TRMSynthesizer *synthesizer;
 @property (strong) STLogger *logger;
 @property (strong) MEventTableController *eventTableController;
+@property (strong) MIntonationController *intonationController;
 
 @end
 
@@ -77,6 +80,7 @@
 	MMTextToPhone *_textToPhone;
 
     MEventTableController *_eventTableController;
+    MIntonationController *_intonationController;
 }
 
 + (void)initialize;
@@ -122,8 +126,12 @@
 
         _eventTableController = [[MEventTableController alloc] init];
         _eventTableController.eventList = _eventList;
+
+        _intonationController = [[MIntonationController alloc] init];
+        _intonationController.eventList = _eventList;
+
     }
-	
+
     return self;
 }
 
@@ -283,6 +291,9 @@
 {
     [self window]; // Make sure the nib is loaded
     [_intonationWindow makeKeyAndOrderFront:self];
+
+    // And show the new one at the same time for now:
+    [self.intonationController showWindow:self];
 }
 
 - (IBAction)synthesizeWithSoftware:(id)sender;
