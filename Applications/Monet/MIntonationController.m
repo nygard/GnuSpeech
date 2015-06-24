@@ -133,22 +133,22 @@
 
 - (IBAction)setSemitone:(id)sender;
 {
-    [[self selectedIntonationPoint] setSemitone:[_semitoneTextField doubleValue]];
+    self.selectedIntonationPoint.semitone = self.semitoneTextField.doubleValue;
 }
 
 - (IBAction)setHertz:(id)sender;
 {
-    [[self selectedIntonationPoint] setSemitoneInHertz:[_hertzTextField doubleValue]];
+    self.selectedIntonationPoint.semitoneInHertz = self.hertzTextField.doubleValue;
 }
 
 - (IBAction)setSlope:(id)sender;
 {
-    [[self selectedIntonationPoint] setSlope:[_slopeTextField doubleValue]];
+    self.selectedIntonationPoint.slope = self.slopeTextField.doubleValue;
 }
 
 - (IBAction)setBeatOffset:(id)sender;
 {
-    [[self selectedIntonationPoint] setOffsetTime:[_beatOffsetTextField doubleValue]];
+    self.selectedIntonationPoint.offsetTime = self.beatOffsetTextField.doubleValue;
 }
 
 - (IBAction)openIntonationContour:(id)sender;
