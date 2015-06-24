@@ -24,14 +24,6 @@ struct _rule {
 @property (nonatomic, strong) MModel *model;
 @property (weak) id <EventListDelegate> delegate;
 
-//@property (assign) BOOL shouldUseMacroIntonation;
-//@property (assign) BOOL shouldUseMicroIntonation;
-//@property (assign) BOOL shouldUseDrift;
-//@property (assign) BOOL shouldUseSmoothIntonation;
-//
-//@property (assign) double radiusMultiply;
-//@property (assign) double globalTempo;
-
 @property (strong) MMIntonation *intonation;
 @property (assign) double pitchMean;
 
