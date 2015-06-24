@@ -144,12 +144,11 @@
 {
 #if 0
     // 2012-04-21: Check to see what this was supposed to do, and replace functionality if necessary.
-    NSArray *types;
     NSArray *fnames;
     NSUInteger count, index;
     NSOpenPanel *openPanel;
 
-    types = [NSArray arrayWithObject:@"trm"];
+    NSArray *types = @[ @"trm" ];
 
     openPanel = [NSOpenPanel openPanel]; // Each call resets values, including filenames
     [openPanel setAllowsMultipleSelection:YES];
