@@ -1123,12 +1123,8 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
                     //tempEvent = [self insertEvent:i atTimeOffset:tempTime withValue:value];
                 }
                 // TODO (2004-03-01): I don't see how this works...
-                MMParameter *foo = _model.parameters[transitionIndex];
-                NSLog(@"transitionIndex: %ld, _min[]: %f, _max[]: %f, parm min/max: %f %f", transitionIndex, _min[transitionIndex], _max[transitionIndex], foo.minimumValue, foo.maximumValue);
-                NSParameterAssert(_min[transitionIndex] == foo.minimumValue);
-                NSParameterAssert(_max[transitionIndex] == foo.maximumValue);
                 maxValue = [currentPoint calculatePointsWithPhonesInArray:somePhones ruleSymbols:ruleSymbols andCacheWithTag:cache
-                                                                 baseline:targets[currentType-2] delta:currentDelta min:_min[transitionIndex] max:_max[transitionIndex]
+                                                                 baseline:targets[currentType-2] delta:currentDelta parameter:_model.parameters[transitionIndex]
                                                         andAddToEventList:self atIndex:transitionIndex];
             }
         } else {

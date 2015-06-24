@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class EventList, MMEquation, MModel, MMFRuleSymbols;
+@class EventList, MMEquation, MModel, MMFRuleSymbols, MMParameter;
 
 @interface MMPoint : NSObject
 
@@ -24,7 +24,7 @@
 
 - (void)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag andAddToDisplay:(NSMutableArray *)displayList;
 - (double)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag
-                                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
+                                  baseline:(double)baseline delta:(double)delta parameter:(MMParameter *)parameter
                          andAddToEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
