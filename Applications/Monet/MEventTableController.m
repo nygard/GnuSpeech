@@ -15,6 +15,8 @@
 // Layout still needs update after calling -[NSScrollView layout].  NSScrollView or one of its superclasses may have overridden -layout without calling super. Or, something may have dirtied layout in the middle of updating it.  Both are programming errors in Cocoa Autolayout.  The former is pretty likely to arise if some pre-Cocoa Autolayout class had a method called layout, but it should be fixed.
 // This is on OS X 10.10.3.  Searches show other people getting the same message, and it might be an Apple bug.  Not investigating further right now.
 
+// TODO: (2015-06-23) Intonation values don't get updated after Generate Contour.  It looks like the intonation points are separate from the values in the EventList, and the EventList values aren't getting updated.  This was true before my recent changes.
+
 
 @implementation MEventTableController
 
@@ -47,7 +49,11 @@
 
 - (void)setEventList:(EventList *)eventList;
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EventListDidGenerateIntonationPoints object:nil];
     _eventList = eventList;
+    if (_eventList != nil) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventListDidGenerateIntonationPoints:) name:EventListDidGenerateIntonationPoints object:_eventList];
+    }
     [self.eventTableView reloadData];
 }
 
@@ -153,6 +159,13 @@
                 [cell setTransparent:YES];
         }
     }
+}
+
+#pragma mark -
+
+- (void)eventListDidGenerateIntonationPoints:(NSNotificationCenter *)notification;
+{
+    [self.eventTableView reloadData];
 }
 
 @end
