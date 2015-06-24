@@ -215,7 +215,7 @@
     [printOperation runOperation];
 }
 
-- (void)intonationPointDidChange:(NSNotification *)aNotification;
+- (void)intonationPointDidChange:(NSNotification *)notification;
 {
     [self _updateSelectedPointDetails];
 }

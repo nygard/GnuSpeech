@@ -983,13 +983,11 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)_selectionDidChange;
 {
-    NSNotification *aNotification;
-
-    aNotification = [NSNotification notificationWithName:MAIntonationViewSelectionDidChangeNotification object:self];
-    [[NSNotificationCenter defaultCenter] postNotification:aNotification];
+    NSNotification *notification = [NSNotification notificationWithName:MAIntonationViewSelectionDidChangeNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 
     if ([[self delegate] respondsToSelector:@selector(intonationViewSelectionDidChange:)])
-        [[self delegate] intonationViewSelectionDidChange:aNotification];
+        [[self delegate] intonationViewSelectionDidChange:notification];
 
     [self setNeedsDisplay:YES];
 }

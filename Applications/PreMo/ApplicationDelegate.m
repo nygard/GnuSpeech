@@ -39,7 +39,7 @@
     [super dealloc];
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification;
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
 {
 }
 

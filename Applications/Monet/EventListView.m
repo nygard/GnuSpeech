@@ -402,7 +402,7 @@
     [[self window] setAcceptsMouseMovedEvents:NO];
 }
 
-- (void)frameDidChange:(NSNotification *)aNotification;
+- (void)frameDidChange:(NSNotification *)notification;
 {
 	[self setNeedsDisplay:YES];
     [self resetTrackingRect];  // track

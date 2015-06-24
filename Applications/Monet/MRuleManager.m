@@ -765,7 +765,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 {
     NSTextView *textView = [notification object];
     // NSTextMovement is a key in the user info
-    //NSLog(@"[aNotification userInfo]: %@", [aNotification userInfo]);
+    //NSLog(@"[notification userInfo]: %@", [notification userInfo]);
 
     NSString *newStringValue = [[textView string] copy];
 

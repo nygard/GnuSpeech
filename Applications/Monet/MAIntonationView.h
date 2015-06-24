@@ -7,7 +7,7 @@
 @class MAIntonationScaleView;
 
 @protocol MAIntonationViewNotification
-- (void)intonationViewSelectionDidChange:(NSNotification *)aNotification;
+- (void)intonationViewSelectionDidChange:(NSNotification *)notification;
 @end
 
 extern NSString *MAIntonationViewSelectionDidChangeNotification;

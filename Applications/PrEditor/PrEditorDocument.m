@@ -312,13 +312,13 @@ static NSString* UnknownPOS = @"j";
 
 // Notification that the window is becoming or resigning being key
 
-- (void)windowDidBecomeKey:(NSNotification *)aNotification;
+- (void)windowDidBecomeKey:(NSNotification *)notification;
 {
-    ResponderNotifyingWindow* myWindow = [aNotification object];
+    ResponderNotifyingWindow* myWindow = [notification object];
     [self window:myWindow madeFirstResponder:[myWindow firstResponder]]; 
 }
 
-- (void)windowDidResignKey:(NSNotification *)aNotification;
+- (void)windowDidResignKey:(NSNotification *)notification;
 {
     [self swapOutIPAKeyboard];
 }

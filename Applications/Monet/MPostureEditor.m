@@ -455,7 +455,7 @@
 {
     NSTextView *textView = [notification object];
     // NSTextMovement is a key in the user info
-    //NSLog(@"[aNotification userInfo]: %@", [aNotification userInfo]);
+    //NSLog(@"[notification userInfo]: %@", [notification userInfo]);
 
     NSString *newComment = [[textView string] copy];
     //NSLog(@"(1) newComment: %@", newComment);

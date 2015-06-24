@@ -91,11 +91,11 @@ int maxVelumDiam = 50;
 	
 }
 
-- (void)controlTextDidEndEditing:(NSNotification *)aNotification;
+- (void)controlTextDidEndEditing:(NSNotification *)notification;
 {
-	int tag = [[aNotification object] tag];
+	int tag = [[notification object] tag];
 	NSLog(@" Tag value is %d", tag);
-	foo = [[aNotification object] floatValue];
+	foo = [[notification object] floatValue];
 	[self setSection:(float)foo:tag];
 }
 
