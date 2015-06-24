@@ -1244,6 +1244,7 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
         intonationPoint.eventList = nil;
     }
     [_intonationPoints removeAllObjects];
+    self.intonationPointsNeedSorting = NO;
     [self clearIntonationEvents];
 
     NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:NSKeyValueChangeRemoval], NSKeyValueChangeKindKey, nil];
