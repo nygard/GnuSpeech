@@ -75,10 +75,9 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
     NSUInteger _duration; // Move... somewhere else.
     NSUInteger _timeQuantization; // in msecs.  By default it generates parameters every 4 msec
 
-    BOOL _intonationPointsNeedSorting;
-
     double _pitchMean;
     double _multiplier; // Move... somewhere else.
+
     MMIntonation *_intonation;
 
     NSMutableArray *_phones;
@@ -92,7 +91,9 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
     struct _rule _rules[MAXRULES];
 
     NSMutableArray *_events;
+
     NSMutableArray *_intonationPoints; // Sorted by absolute time
+    BOOL _intonationPointsNeedSorting;
 
     __weak id <EventListDelegate> _delegate;
 
@@ -110,28 +111,32 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
         _duration  = 0;
         _timeQuantization = 4;
 
+        // _pitchMean?
         _multiplier = 1.0;
+
+        _intonation = [[MMIntonation alloc] init];
+
+        _phones = [[NSMutableArray alloc] init];
 
         _footCount = 0;
         memset(_feet, 0, MAXFEET * sizeof(struct _foot));
+
+        _toneGroups = [[NSMutableArray alloc] init];
 
         _currentRule = 0;
         memset(_rules, 0, MAXRULES * sizeof(struct _rule));
 
         _events = [[NSMutableArray alloc] init];
+
         _intonationPoints = [[NSMutableArray alloc] init];
         _intonationPointsNeedSorting = NO;
-        
-        _intonation = [[MMIntonation alloc] init];
-        
-        _toneGroups = [[NSMutableArray alloc] init];
-        
+
+        _delegate = nil;
+
         _driftGenerator = [[MMDriftGenerator alloc] init];
         [_driftGenerator configureWithDeviation:1 sampleRate:500 lowpassCutoff:1000];
 
-        _phones = [[NSMutableArray alloc] init];
-        
-        [self setUp];
+        _feet[0].tempo = 1.0;
     }
         
     return self;
@@ -179,28 +184,37 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
 
 - (void)setUp;
 {
-    [_events removeAllObjects];
-    [self removeAllIntonationPoints];
+    // _model remains the same
+    // _phoneString is unchanged...
 
     _zeroRef = 0;
     _zeroIndex = 0;
     _duration = 0;
     _timeQuantization = 4;
 
+    // _pitchMean?
     _multiplier = 1.0;
+
+    // _intonation is unchanged
 
     [_phones removeAllObjects];
 
     _footCount = 0;
     bzero(_feet, MAXFEET * sizeof(struct _foot));
 
+    [self.toneGroups removeAllObjects];
+
     _currentRule = 0;
     bzero(_rules, MAXRULES * sizeof(struct _rule));
 
+    [_events removeAllObjects];
+    [self removeAllIntonationPoints];
+
+    // _delegate remains unchanged
+    // _driftGenerator remains unchanged
+
 //    phoneTempo[0] = 1.0;
     _feet[0].tempo = 1.0;
-    
-    [self.toneGroups removeAllObjects];
 }
 
 - (void)setFullTimeScale;
