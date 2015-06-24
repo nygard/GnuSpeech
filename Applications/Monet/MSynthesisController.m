@@ -463,10 +463,6 @@
 
 - (void)saveGraphImagesToPath:(NSString *)basePath;
 {
-    NSUInteger count, index, offset;
-    NSDictionary *jpegProperties = nil;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-	
     NSLog(@" > %s", __PRETTY_FUNCTION__);
 	
     NSMutableString *html = [NSMutableString string];
@@ -485,10 +481,10 @@
     [html appendString:@"    <p><object type='audio/basic' data='output.au'></object></p>\n"];
     [html appendFormat:@"    <p>Generated %@</p>\n", GSXMLCharacterData([[NSCalendarDate calendarDate] description])];
     [html appendString:@"    <p>\n"];
-	
-    NSUInteger number = 1;
-	
-    NSError *error = nil;
+
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    NSError *error;
     if (![fileManager createDirectoryAtPath:basePath withIntermediateDirectories:NO attributes:nil error:&error]) {
         NSLog(@"Error: %@", error);
     }
@@ -497,13 +493,16 @@
         NSLog(@"Error: %@", error);
     }
 
-    jpegProperties = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:0.95], NSImageCompressionFactor,
-					  nil];
+    NSDictionary *jpegProperties = @{
+                                     NSImageCompressionFactor : @(0.95),
+                                     };
 
-    count = [_displayParameters count];
-    for (index = 0; index < count; index += 4) {
+    NSUInteger number = 1;
+
+    NSUInteger count = [_displayParameters count];
+    for (NSUInteger index = 0; index < count; index += 4) {
         NSMutableArray *parms = [[NSMutableArray alloc] init];
-        for (offset = 0; offset < 4 && index + offset < count; offset++) {
+        for (NSUInteger offset = 0; offset < 4 && index + offset < count; offset++) {
             [parms addObject:[_displayParameters objectAtIndex:index + offset]];
         }
         [_eventListView setDisplayParameters:parms];
