@@ -43,6 +43,7 @@ struct _foot {
 };
 
 NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoints";
+NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonationPoints";
 
 @interface EventList ()
 @property (assign) BOOL intonationPointsNeedSorting;
@@ -852,6 +853,9 @@ NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoi
     }
 
     //[self printDataStructures:@"After applyIntonation generateEvents"];
+
+    // One final notification after all the changes are complete is more convenient.
+    [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidGenerateIntonationPoints object:self userInfo:nil];
 }
 
 // TODO (2012-04-24): Split out file output and delegate notification

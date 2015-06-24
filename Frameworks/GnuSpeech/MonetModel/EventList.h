@@ -97,4 +97,5 @@ struct _rule {
 @end
 
 extern NSString *EventListDidChangeIntonationPoints;
+extern NSString *EventListDidGenerateIntonationPoints;
 
