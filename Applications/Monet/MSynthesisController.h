@@ -15,7 +15,7 @@
 
 - (IBAction)showIntonationWindow:(id)sender;
 
-- (IBAction)synthesizeWithSoftware:(id)sender;
+- (IBAction)synthesize:(id)sender;
 - (IBAction)synthesizeToFile:(id)sender;
 - (IBAction)fileTypeDidChange:(id)sender;
 - (IBAction)parseText:(id)sender;

@@ -296,7 +296,7 @@
     [self.intonationController showWindow:self];
 }
 
-- (IBAction)synthesizeWithSoftware:(id)sender;
+- (IBAction)synthesize:(id)sender;
 {
     NSLog(@" > %s", __PRETTY_FUNCTION__);
     [self.synthesizer setShouldSaveToSoundFile:NO];
