@@ -3,7 +3,7 @@
 
 #import "MWindowController.h"
 
-@class MMIntonationPoint, MModel;
+@class MModel;
 
 @interface MSynthesisController : MWindowController
 
@@ -21,29 +21,9 @@
 - (IBAction)parseText:(id)sender;
 
 - (IBAction)synthesizeWithContour:(id)sender;
-- (IBAction)generateContour:(id)sender;
 
 - (IBAction)generateGraphImages:(id)sender;
 
 - (IBAction)addTextString:(id)sender;
-
-// Intonation Point details
-- (MMIntonationPoint *)selectedIntonationPoint;
-- (IBAction)setSemitone:(id)sender;
-- (IBAction)setHertz:(id)sender;
-- (IBAction)setSlope:(id)sender;
-- (IBAction)setBeatOffset:(id)sender;
-
-- (IBAction)openIntonationContour:(id)sender;
-- (IBAction)saveIntonationContour:(id)sender;
-
-- (IBAction)runPageLayout:(id)sender;
-- (IBAction)printDocument:(id)sender;
-
-// MExtendedTableView delegate
-- (BOOL)control:(NSControl *)control shouldProcessCharacters:(NSString *)characters;
-
-// MAIntonationView delegate
-- (void)intonationViewSelectionDidChange:(NSNotification *)notification;
 
 @end

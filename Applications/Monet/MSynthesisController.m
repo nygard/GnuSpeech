@@ -8,8 +8,6 @@
 #import "NSNumberFormatter-Extensions.h"
 
 #import "EventListView.h"
-#import "MAIntonationScrollView.h"
-#import "MAIntonationView.h"
 #import "MExtendedTableView.h"
 #import "MMDisplayParameter.h"
 
@@ -54,22 +52,6 @@
     IBOutlet NSView *_savePanelAccessoryView;
     IBOutlet NSPopUpButton *_fileTypePopUpButton;
 
-    // Intonation window
-    IBOutlet NSWindow *_intonationWindow;
-    IBOutlet MAIntonationScrollView *_intonationScrollView;
-    IBOutlet MAIntonationView *_intonationView;
-
-    IBOutlet NSTextField *_semitoneTextField;
-    IBOutlet NSTextField *_hertzTextField;
-    IBOutlet NSTextField *_slopeTextField;
-
-    IBOutlet NSTableView *_intonationRuleTableView;
-    IBOutlet NSTextField *_beatTextField;
-    IBOutlet NSTextField *_beatOffsetTextField;
-    IBOutlet NSTextField *_absTimeTextField;
-
-    NSPrintInfo *_intonationPrintInfo;
-
     MModel *_model;
     NSArray *_displayParameters;
     EventList *_eventList;
@@ -108,10 +90,6 @@
         _displayParameters = [[NSMutableArray alloc] init];
 
         _eventList = [[EventList alloc] init];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(intonationPointDidChange:)
-                                                     name:EventListDidChangeIntonationPoints
-                                                   object:_eventList];
         
         [self setWindowFrameAutosaveName:@"Synthesis"];
         
@@ -119,11 +97,6 @@
         
         _textToPhone = [[MMTextToPhone alloc] init];
         
-        _intonationPrintInfo = [[NSPrintInfo alloc] init];
-        [_intonationPrintInfo setHorizontalPagination:NSAutoPagination];
-        [_intonationPrintInfo setVerticalPagination:NSFitPagination];
-        [_intonationPrintInfo setOrientation:NSPaperOrientationLandscape];
-
         _eventTableController = [[MEventTableController alloc] init];
         _eventTableController.eventList = _eventList;
 
@@ -134,11 +107,6 @@
     }
 
     return self;
-}
-
-- (void)dealloc;
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark -
@@ -154,8 +122,7 @@
         _model = newModel;
         
         [_eventList setModel:_model];
-        [_intonationRuleTableView reloadData]; // Because EventList doesn't send out a notification yet.
-        
+
         [self _updateDisplayParameters];
         self.eventTableController.displayParameters = _displayParameters;
     }
@@ -174,8 +141,6 @@
 	[_eventListView setMouseTimeField:_mouseTimeField];
 	[_eventListView setMouseValueField:_mouseValueField];
 	[_scrollView setDocumentView:_eventListView];
-	
-    [_intonationWindow setFrameAutosaveName:@"Intonation"];
 
     NSButtonCell *checkboxCell = [[NSButtonCell alloc] initTextCell:@""];
     [checkboxCell setControlSize:NSSmallControlSize];
@@ -184,20 +149,6 @@
     [checkboxCell setEditable:NO];
 	
     [[_parameterTableView tableColumnWithIdentifier:@"shouldDisplay"] setDataCell:checkboxCell];
-
-	
-    NSNumberFormatter *defaultNumberFormatter = [NSNumberFormatter defaultNumberFormatter];
-    [_semitoneTextField setFormatter:defaultNumberFormatter];
-    [_hertzTextField setFormatter:defaultNumberFormatter];
-    [_slopeTextField setFormatter:defaultNumberFormatter];
-    [_beatTextField setFormatter:defaultNumberFormatter];
-    [_beatOffsetTextField setFormatter:defaultNumberFormatter];
-    [_absTimeTextField setFormatter:defaultNumberFormatter];
-	
-    [_intonationView setDelegate:self];
-    [_intonationView setEventList:_eventList];
-	
-    [self _updateSelectedPointDetails];
 
     [_textStringTextField removeAllItems];
     [_textStringTextField addItemsWithObjectValues:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_DefaultUtterances]];
@@ -259,30 +210,6 @@
     [_parameterTableView reloadData];
 }
 
-- (void)_updateSelectedPointDetails;
-{
-    MMIntonationPoint *selectedIntonationPoint = [self selectedIntonationPoint];
-	
-    if (selectedIntonationPoint == nil) {
-        [_semitoneTextField setStringValue:@""];
-        [_hertzTextField setStringValue:@""];
-        [_slopeTextField setStringValue:@""];
-        [_beatTextField setStringValue:@""];
-        [_beatOffsetTextField setStringValue:@""];
-        [_absTimeTextField setStringValue:@""];
-    } else {
-        [_semitoneTextField setDoubleValue:[selectedIntonationPoint semitone]];
-        [_hertzTextField setDoubleValue:[selectedIntonationPoint semitoneInHertz]];
-        [_slopeTextField setDoubleValue:[selectedIntonationPoint slope]];
-        [_beatTextField setDoubleValue:[selectedIntonationPoint beatTime]];
-        [_beatOffsetTextField setDoubleValue:[selectedIntonationPoint offsetTime]];
-        [_absTimeTextField setDoubleValue:[selectedIntonationPoint absoluteTime]];
-		
-        [_intonationRuleTableView scrollRowToVisible:[selectedIntonationPoint ruleIndex]];
-        [_intonationRuleTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[selectedIntonationPoint ruleIndex]] byExtendingSelection:NO];
-    }
-}
-
 - (IBAction)showEventTable:(id)sender;
 {
     [self.eventTableController showWindow:self];
@@ -291,9 +218,7 @@
 - (IBAction)showIntonationWindow:(id)sender;
 {
     [self window]; // Make sure the nib is loaded
-    [_intonationWindow makeKeyAndOrderFront:self];
 
-    // And show the new one at the same time for now:
     [self.intonationController showWindow:self];
 }
 
@@ -346,8 +271,7 @@
     [_eventList applyRhythm];
     [_eventList applyRules]; // This applies the rules, adding events to the EventList.
     [_eventList generateIntonationPoints];
-    [_intonationRuleTableView reloadData];
-	
+
     [self continueSynthesis];
 }
 
@@ -422,27 +346,6 @@
 	
     [_eventListView setEventList:_eventList];
     [_eventListView display]; // TODO (2004-03-17): It's not updating otherwise
-	
-    [_intonationView updateEvents]; // Because it doesn't post notifications yet.  We need to resize the width.
-}
-
-- (IBAction)generateContour:(id)sender;
-{
-    NSLog(@" > %s", __PRETTY_FUNCTION__);
-	
-    MMIntonation *intonation = [[MMIntonation alloc] initFromUserDefaults];
-    _eventList.intonation = intonation;
-
-    [_intonationView setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
-	
-    [_eventList generateIntonationPoints];
-    [_intonationRuleTableView reloadData];
-    self.eventTableController.eventList = _eventList;
-    if ([[_eventList intonationPoints] count] > 0)
-        [_intonationView selectIntonationPoint:[[_eventList intonationPoints] objectAtIndex:0]];
-    [_intonationScrollView display];
-	
-    NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 - (IBAction)generateGraphImages:(id)sender;
@@ -563,106 +466,6 @@
     [[NSUserDefaults standardUserDefaults] setObject:[_textStringTextField objectValues] forKey:MDK_DefaultUtterances];
 }
 
-#pragma mark - Intonation Point details
-
-- (MMIntonationPoint *)selectedIntonationPoint;
-{
-    return [_intonationView selectedIntonationPoint];
-}
-
-- (IBAction)setSemitone:(id)sender;
-{
-    [[self selectedIntonationPoint] setSemitone:[_semitoneTextField doubleValue]];
-}
-
-- (IBAction)setHertz:(id)sender;
-{
-    [[self selectedIntonationPoint] setSemitoneInHertz:[_hertzTextField doubleValue]];
-}
-
-- (IBAction)setSlope:(id)sender;
-{
-    [[self selectedIntonationPoint] setSlope:[_slopeTextField doubleValue]];
-}
-
-- (IBAction)setBeatOffset:(id)sender;
-{
-    [[self selectedIntonationPoint] setOffsetTime:[_beatOffsetTextField doubleValue]];
-}
-
-- (IBAction)openIntonationContour:(id)sender;
-{
-    NSString *directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_IntonationContourDirectory];
-    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-    [openPanel setAllowedFileTypes:@[ @"org.gnu.gnuspeech.intonation-contour" ]];
-    if (directory != nil)
-        [openPanel setDirectoryURL:[NSURL fileURLWithPath:directory]];
-	
-    [openPanel beginSheetModalForWindow:_intonationWindow completionHandler:^(NSInteger result){
-        if (result == NSFileHandlingPanelOKButton) {
-            [[NSUserDefaults standardUserDefaults] setObject:[[openPanel directoryURL] path] forKey:MDK_IntonationContourDirectory];
-			
-            MMIntonation *intonation = [[MMIntonation alloc] initFromUserDefaults];
-            [self.eventList resetWithIntonation:intonation];
-
-            [_eventList loadIntonationContourFromXMLFile:[[openPanel URL] path]];
-			
-            //[phoneStringTextField setStringValue:[eventList phoneString]];
-            [_intonationRuleTableView reloadData];
-        }
-    }];
-}
-
-- (IBAction)saveIntonationContour:(id)sender;
-{
-    NSString *directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_IntonationContourDirectory];
-    NSSavePanel *savePanel = [NSSavePanel savePanel];
-    [savePanel setAllowedFileTypes:@[ @"org.gnu.gnuspeech.intonation-contour" ]];
-    if (directory != nil)
-        [savePanel setDirectoryURL:[NSURL fileURLWithPath:directory]];
-
-    [savePanel beginSheetModalForWindow:_intonationWindow completionHandler:^(NSInteger result){
-        if (result == NSFileHandlingPanelOKButton) {
-            [[NSUserDefaults standardUserDefaults] setObject:[[savePanel directoryURL] path] forKey:MDK_IntonationContourDirectory];
-            [_eventList writeXMLToFile:[[savePanel URL] path] comment:nil];
-        }
-    }];
-}
-
-- (IBAction)runPageLayout:(id)sender;
-{
-    NSPageLayout *pageLayout = [NSPageLayout pageLayout];
-    [pageLayout runModalWithPrintInfo:_intonationPrintInfo];
-}
-
-// Currently set up to print the intonation contour.
-- (IBAction)printDocument:(id)sender;
-{
-    NSSize printableSize = [_intonationScrollView printableSize];
-    NSRect printFrame;
-    printFrame.origin = NSZeroPoint;
-    printFrame.size = [NSScrollView frameSizeForContentSize:printableSize horizontalScrollerClass:nil verticalScrollerClass:nil borderType:NSNoBorder controlSize:NSRegularControlSize scrollerStyle:NSScrollerStyleLegacy];
-
-    MAIntonationScrollView *printView = [[MAIntonationScrollView alloc] initWithFrame:printFrame];
-    [printView setBorderType:NSNoBorder];
-    [printView setHasHorizontalScroller:NO];
-	
-    [[printView documentView] setEventList:_eventList];
-    [[printView documentView] setShouldDrawSelection:NO];
-    [[printView documentView] setShouldDrawSmoothPoints:[_intonationView shouldDrawSmoothPoints]];
-	
-    NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:printView printInfo:_intonationPrintInfo];
-    [printOperation setShowsPrintPanel:YES];
-    [printOperation setShowsProgressPanel:YES];
-	
-    [printOperation runOperation];
-}
-
-- (void)intonationPointDidChange:(NSNotification *)notification;
-{
-    [self _updateSelectedPointDetails];
-}
-
 #pragma mark - NSTableViewDataSource
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
@@ -670,9 +473,6 @@
     if (tableView == _parameterTableView)
         return [_displayParameters count];
 	
-    if (tableView == _intonationRuleTableView)
-        return [_eventList ruleCount];
-
     return 0;
 }
 
@@ -687,12 +487,6 @@
             return [displayParameter name];
         } else if ([@"shouldDisplay" isEqual:identifier]) {
             return [NSNumber numberWithBool:[displayParameter shouldDisplay]];
-        }
-    } else if (tableView == _intonationRuleTableView) {
-        if ([@"rule" isEqual:identifier]) {
-            return [_eventList ruleDescriptionAtIndex:row];
-        } else if ([@"number" isEqual:identifier]) {
-            return [NSString stringWithFormat:@"%lu.", row + 1];
         }
     }
 	
@@ -739,13 +533,6 @@
     }
 	
     return YES;
-}
-
-#pragma mark - MAIntonationView delegate
-
-- (void)intonationViewSelectionDidChange:(NSNotification *)notification;
-{
-    [self _updateSelectedPointDetails];
 }
 
 #pragma mark - NSComboBoxDelegate
