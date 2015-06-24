@@ -296,6 +296,8 @@
     [self.intonationController showWindow:self];
 }
 
+#pragma mark -
+
 - (IBAction)synthesize:(id)sender;
 {
     NSLog(@" > %s", __PRETTY_FUNCTION__);
@@ -311,20 +313,20 @@
     NSString *directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_SoundOutputDirectory];
 	
     NSSavePanel *savePanel = [NSSavePanel savePanel];
-    [savePanel setCanSelectHiddenExtension:YES];
-    [savePanel setAllowedFileTypes:[NSArray arrayWithObjects:@"au", @"aiff", @"wav", nil]];
-    [savePanel setAccessoryView:_savePanelAccessoryView];
+    savePanel.canSelectHiddenExtension = YES;
+    savePanel.allowedFileTypes = @[ @"au", @"aiff", @"wav" ];
+    savePanel.accessoryView = _savePanelAccessoryView;
     if (directory != nil)
-        [savePanel setDirectoryURL:[NSURL fileURLWithPath:directory]];
+        savePanel.directoryURL = [NSURL fileURLWithPath:directory];
     [self fileTypeDidChange:nil];
     // TODO (2012-04-18): Might need to set up "Untitled" in name
 	
-    [savePanel beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result){
+    [savePanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
         if (result == NSFileHandlingPanelOKButton) {
-            [[NSUserDefaults standardUserDefaults] setObject:[[savePanel directoryURL] path] forKey:MDK_SoundOutputDirectory];
-            [self.synthesizer setShouldSaveToSoundFile:YES];
-            [self.synthesizer setFileType:[[_fileTypePopUpButton selectedItem] tag]];
-            [self.synthesizer setFilename:[[savePanel URL] path]];
+            [[NSUserDefaults standardUserDefaults] setObject:savePanel.directoryURL.path forKey:MDK_SoundOutputDirectory];
+            self.synthesizer.shouldSaveToSoundFile = YES;
+            self.synthesizer.fileType = [[_fileTypePopUpButton selectedItem] tag];
+            self.synthesizer.filename = savePanel.URL.path;
             [self synthesize];
         }
     }];
