@@ -91,9 +91,6 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
     NSUInteger _currentRule;
     struct _rule _rules[MAXRULES];
 
-    double _min[16]; // Min of each parameter value
-    double _max[16]; // Max of each parameter value
-
     NSMutableArray *_events;
     NSMutableArray *_intonationPoints; // Sorted by absolute time
 
@@ -717,21 +714,6 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
     //[self printDataStructures:@"Start of generateEvents"];
     NSParameterAssert(_model != nil);
 
-    // Record min/max values for each of the parameters
-    {
-        NSMutableArray *parameters = _model.parameters;
-
-        //NSLog(@"parameters: %@", parameters);
-        NSUInteger count = [parameters count];
-        for (NSUInteger index = 0; index < count && index < 16; index++) {
-            MMParameter *parameter = [parameters objectAtIndex:index];
-
-            _min[index] = parameter.minimumValue;
-            _max[index] = parameter.maximumValue;
-            //NSLog(@"Min: %9.3f Max: %9.3f", min[index], max[index]);
-        }
-    }
-
     {
         NSMutableArray *tempPhones     = [[NSMutableArray alloc] init];
         NSMutableArray *tempCategoryList = [[NSMutableArray alloc] init];
@@ -1137,6 +1119,7 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
     // TODO (2004-08-15): Does this support slope ratios?
     for (NSUInteger parameterIndex = 0; parameterIndex < 16; parameterIndex++) {
         MMTransition *transition = [rule getSpecialProfile:parameterIndex];
+        MMParameter *parameter = _model.parameters[parameterIndex];
         if (transition != nil) {
             NSArray *points = [transition points];
             NSUInteger pointCount = [points count];
@@ -1155,7 +1138,7 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
 
                 /* Calculate value of event */
                 //value = (([currentPoint value]/100.0) * (max[parameterIndex] - min[parameterIndex])) + min[parameterIndex];
-                double value = (([currentPoint value] / 100.0) * (_max[parameterIndex] - _min[parameterIndex]));
+                double value = (([currentPoint value] / 100.0) * (parameter.maximumValue - parameter.minimumValue));
                 //maxValue = value;
 
                 /* insert event into event list */
