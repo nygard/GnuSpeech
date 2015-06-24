@@ -110,7 +110,20 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
     if ((self = [super init])) {
         _model = nil;
         _phoneString = nil;
-        
+
+        _zeroRef   = 0;
+        _zeroIndex = 0;
+        _duration  = 0;
+        _timeQuantization = 4;
+
+        _multiplier = 1.0;
+
+        _footCount = 0;
+        memset(_feet, 0, MAXFEET * sizeof(struct _foot));
+
+        _currentRule = 0;
+        memset(_rules, 0, MAXRULES * sizeof(struct _rule));
+
         _events = [[NSMutableArray alloc] init];
         _intonationPoints = [[NSMutableArray alloc] init];
         _intonationPointsNeedSorting = NO;
@@ -1110,6 +1123,10 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
                     //tempEvent = [self insertEvent:i atTimeOffset:tempTime withValue:value];
                 }
                 // TODO (2004-03-01): I don't see how this works...
+                MMParameter *foo = _model.parameters[transitionIndex];
+                NSLog(@"transitionIndex: %ld, _min[]: %f, _max[]: %f, parm min/max: %f %f", transitionIndex, _min[transitionIndex], _max[transitionIndex], foo.minimumValue, foo.maximumValue);
+                NSParameterAssert(_min[transitionIndex] == foo.minimumValue);
+                NSParameterAssert(_max[transitionIndex] == foo.maximumValue);
                 maxValue = [currentPoint calculatePointsWithPhonesInArray:somePhones ruleSymbols:ruleSymbols andCacheWithTag:cache
                                                                  baseline:targets[currentType-2] delta:currentDelta min:_min[transitionIndex] max:_max[transitionIndex]
                                                         andAddToEventList:self atIndex:transitionIndex];
