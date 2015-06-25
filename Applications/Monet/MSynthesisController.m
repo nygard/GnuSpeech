@@ -16,6 +16,7 @@
 #import "MEventTableController.h"
 
 #import "MIntonationController.h"
+#import "MDisplayParametersController.h"
 
 #define MDK_DefaultUtterances          @"DefaultUtterances"
 
@@ -30,7 +31,7 @@
 @property (strong) STLogger *logger;
 @property (strong) MEventTableController *eventTableController;
 @property (strong) MIntonationController *intonationController;
-
+@property (strong) MDisplayParametersController *displayParametersController;
 @end
 
 #pragma mark -
@@ -63,6 +64,7 @@
 
     MEventTableController *_eventTableController;
     MIntonationController *_intonationController;
+    MDisplayParametersController *_displayParametersController;
 }
 
 + (void)initialize;
@@ -104,6 +106,7 @@
         _intonationController.eventList = _eventList;
         _intonationController.nextResponder = self;
 
+        _displayParametersController = [[MDisplayParametersController alloc] init];
     }
 
     return self;
@@ -593,5 +596,14 @@
     // Close file
     self.logger = nil;
 }
+
+#pragma mark -
+
+- (IBAction)editDisplayParameters:(id)sender;
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    [self.displayParametersController showWindow:self];
+}
+
 
 @end
