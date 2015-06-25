@@ -11,10 +11,15 @@
 
 - (id)init;
 {
-    if ((self = [super initWithWindowNibName:@"DisplayParameters"])) {
+    if ((self = [super initWithNibName:@"DisplayParameters" bundle:nil])) {
     }
 
     return self;
+}
+
+- (void)viewDidLoad;
+{
+    [super viewDidLoad];
 }
 
 @end

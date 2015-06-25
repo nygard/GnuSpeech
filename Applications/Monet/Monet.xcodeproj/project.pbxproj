@@ -14,8 +14,8 @@
 		01462C011B34B2CF0029A6A2 /* MMIntonation-Monet.m in Sources */ = {isa = PBXBuildFile; fileRef = 01462C001B34B2CF0029A6A2 /* MMIntonation-Monet.m */; };
 		01462C051B35131D0029A6A2 /* MEventTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01462C031B35131D0029A6A2 /* MEventTableController.m */; };
 		01462C061B35131D0029A6A2 /* EventTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 01462C041B35131D0029A6A2 /* EventTable.xib */; };
-		0158447C1B3BA6C300490599 /* MDisplayParametersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0158447A1B3BA6C300490599 /* MDisplayParametersController.m */; };
-		0158447D1B3BA6C300490599 /* DisplayParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0158447B1B3BA6C300490599 /* DisplayParameters.xib */; };
+		015844821B3BAA3B00490599 /* MDisplayParametersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 015844801B3BAA3B00490599 /* MDisplayParametersController.m */; };
+		015844831B3BAA3B00490599 /* DisplayParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 015844811B3BAA3B00490599 /* DisplayParameters.xib */; };
 		01C55C4B0B7BC7C6009F6A92 /* ReleaseNotes.html in Resources */ = {isa = PBXBuildFile; fileRef = 01C55C490B7BC7C6009F6A92 /* ReleaseNotes.html */; };
 		01C55C4D0B7BC7D8009F6A92 /* Default.mxml in Resources */ = {isa = PBXBuildFile; fileRef = 01C55C4C0B7BC7D8009F6A92 /* Default.mxml */; };
 		01C55C540B7BC82D009F6A92 /* CommentIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 01C55C4E0B7BC82D009F6A92 /* CommentIcon.tiff */; };
@@ -85,9 +85,9 @@
 		01462C021B35131D0029A6A2 /* MEventTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEventTableController.h; sourceTree = "<group>"; };
 		01462C031B35131D0029A6A2 /* MEventTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEventTableController.m; sourceTree = "<group>"; };
 		01462C041B35131D0029A6A2 /* EventTable.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventTable.xib; sourceTree = "<group>"; };
-		015844791B3BA6C300490599 /* MDisplayParametersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDisplayParametersController.h; sourceTree = "<group>"; };
-		0158447A1B3BA6C300490599 /* MDisplayParametersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDisplayParametersController.m; sourceTree = "<group>"; };
-		0158447B1B3BA6C300490599 /* DisplayParameters.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DisplayParameters.xib; sourceTree = "<group>"; };
+		0158447F1B3BAA3B00490599 /* MDisplayParametersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDisplayParametersController.h; sourceTree = "<group>"; };
+		015844801B3BAA3B00490599 /* MDisplayParametersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDisplayParametersController.m; sourceTree = "<group>"; };
+		015844811B3BAA3B00490599 /* DisplayParameters.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DisplayParameters.xib; sourceTree = "<group>"; };
 		01C55C4A0B7BC7C6009F6A92 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = English; path = English.lproj/ReleaseNotes.html; sourceTree = "<group>"; };
 		01C55C4C0B7BC7D8009F6A92 /* Default.mxml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Default.mxml; sourceTree = "<group>"; };
 		01C55C4E0B7BC82D009F6A92 /* CommentIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CommentIcon.tiff; sourceTree = "<group>"; };
@@ -224,9 +224,9 @@
 		0158447E1B3BA6C700490599 /* Display Parameters */ = {
 			isa = PBXGroup;
 			children = (
-				015844791B3BA6C300490599 /* MDisplayParametersController.h */,
-				0158447A1B3BA6C300490599 /* MDisplayParametersController.m */,
-				0158447B1B3BA6C300490599 /* DisplayParameters.xib */,
+				0158447F1B3BAA3B00490599 /* MDisplayParametersController.h */,
+				015844801B3BAA3B00490599 /* MDisplayParametersController.m */,
+				015844811B3BAA3B00490599 /* DisplayParameters.xib */,
 			);
 			name = "Display Parameters";
 			sourceTree = "<group>";
@@ -607,7 +607,6 @@
 				01C55C4D0B7BC7D8009F6A92 /* Default.mxml in Resources */,
 				01C55C540B7BC82D009F6A92 /* CommentIcon.tiff in Resources */,
 				01C55C550B7BC82D009F6A92 /* dotInspector.tiff in Resources */,
-				0158447D1B3BA6C300490599 /* DisplayParameters.xib in Resources */,
 				01C55C560B7BC82D009F6A92 /* Monet2.icns in Resources */,
 				01C55C570B7BC82D009F6A92 /* monet2.jpg in Resources */,
 				01C55C580B7BC82D009F6A92 /* squareInspector.tiff in Resources */,
@@ -619,6 +618,7 @@
 				69CD4B300EDD15C800481C86 /* DataEntry.xib in Resources */,
 				69CD4B350EDD15E200481C86 /* PostureCategory.xib in Resources */,
 				69CD4B3A0EDD15F300481C86 /* Postures.xib in Resources */,
+				015844831B3BAA3B00490599 /* DisplayParameters.xib in Resources */,
 				01061F9E1B328A0C00FBB2B4 /* IntonationParameters.xib in Resources */,
 				69CD4B3F0EDD160400481C86 /* PrototypeManager.xib in Resources */,
 				69CD4B440EDD161800481C86 /* ReleaseNotes.xib in Resources */,
@@ -663,6 +663,7 @@
 				01C55CB60B7BCB03009F6A92 /* NSBezierPath-Extensions.m in Sources */,
 				01C55CB70B7BCB03009F6A92 /* NSColor-STExtensions.m in Sources */,
 				010751461B36596E0029A4D5 /* MIntonationController.m in Sources */,
+				015844821B3BAA3B00490599 /* MDisplayParametersController.m in Sources */,
 				01C55CB80B7BCB03009F6A92 /* NSOutlineView-Extensions.m in Sources */,
 				01C55D4D0B7BCD69009F6A92 /* MMDisplayParameter.m in Sources */,
 				01C55D570B7BCDB4009F6A92 /* MAIntonationScaleView.m in Sources */,
@@ -680,7 +681,6 @@
 				01C55D880B7BCE53009F6A92 /* MPostureCategoryController.m in Sources */,
 				01C55D890B7BCE53009F6A92 /* MPostureEditor.m in Sources */,
 				01C55D8A0B7BCE53009F6A92 /* MPrototypeManager.m in Sources */,
-				0158447C1B3BA6C300490599 /* MDisplayParametersController.m in Sources */,
 				01C55D8B0B7BCE53009F6A92 /* MReleaseNotesController.m in Sources */,
 				01C55D8C0B7BCE53009F6A92 /* MRuleManager.m in Sources */,
 				01C55D8D0B7BCE53009F6A92 /* MRuleTester.m in Sources */,

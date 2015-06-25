@@ -602,7 +602,11 @@
 - (IBAction)editDisplayParameters:(id)sender;
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    [self.displayParametersController showWindow:self];
+    NSPopover *popover = [[NSPopover alloc] init];
+    popover.contentViewController = self.displayParametersController;
+    popover.behavior = NSPopoverBehaviorTransient;
+    [popover showRelativeToRect:CGRectZero ofView:sender preferredEdge:NSMinYEdge];
+//    [self.displayParametersController showWindow:self];
 }
 
 
