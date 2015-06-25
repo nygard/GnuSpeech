@@ -196,12 +196,9 @@
 
 - (void)_updateDisplayedParameters;
 {
-    NSUInteger count, index;
-	
     NSMutableArray *array = [[NSMutableArray alloc] init];
-    count = [_displayParameters count];
-    for (index = 0; index < count; index++) {
-        MMDisplayParameter *displayParameter = [_displayParameters objectAtIndex:index];
+
+    for (MMDisplayParameter *displayParameter in _displayParameters) {
         if ([displayParameter shouldDisplay])
             [array addObject:displayParameter];
     }
