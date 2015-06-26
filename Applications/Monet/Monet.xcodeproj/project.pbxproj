@@ -16,6 +16,7 @@
 		01462C061B35131D0029A6A2 /* EventTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 01462C041B35131D0029A6A2 /* EventTable.xib */; };
 		015844821B3BAA3B00490599 /* MDisplayParametersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 015844801B3BAA3B00490599 /* MDisplayParametersController.m */; };
 		015844831B3BAA3B00490599 /* DisplayParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 015844811B3BAA3B00490599 /* DisplayParameters.xib */; };
+		015844861B3CE18E00490599 /* MAGraphNameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 015844851B3CE18E00490599 /* MAGraphNameView.m */; };
 		01C55C4B0B7BC7C6009F6A92 /* ReleaseNotes.html in Resources */ = {isa = PBXBuildFile; fileRef = 01C55C490B7BC7C6009F6A92 /* ReleaseNotes.html */; };
 		01C55C4D0B7BC7D8009F6A92 /* Default.mxml in Resources */ = {isa = PBXBuildFile; fileRef = 01C55C4C0B7BC7D8009F6A92 /* Default.mxml */; };
 		01C55C540B7BC82D009F6A92 /* CommentIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 01C55C4E0B7BC82D009F6A92 /* CommentIcon.tiff */; };
@@ -88,6 +89,8 @@
 		0158447F1B3BAA3B00490599 /* MDisplayParametersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDisplayParametersController.h; sourceTree = "<group>"; };
 		015844801B3BAA3B00490599 /* MDisplayParametersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDisplayParametersController.m; sourceTree = "<group>"; };
 		015844811B3BAA3B00490599 /* DisplayParameters.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DisplayParameters.xib; sourceTree = "<group>"; };
+		015844841B3CE18E00490599 /* MAGraphNameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGraphNameView.h; sourceTree = "<group>"; };
+		015844851B3CE18E00490599 /* MAGraphNameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGraphNameView.m; sourceTree = "<group>"; };
 		01C55C4A0B7BC7C6009F6A92 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = English; path = English.lproj/ReleaseNotes.html; sourceTree = "<group>"; };
 		01C55C4C0B7BC7D8009F6A92 /* Default.mxml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Default.mxml; sourceTree = "<group>"; };
 		01C55C4E0B7BC82D009F6A92 /* CommentIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CommentIcon.tiff; sourceTree = "<group>"; };
@@ -399,6 +402,8 @@
 				01C55D630B7BCDEE009F6A92 /* SpecialView.m */,
 				01C55D640B7BCDEE009F6A92 /* TransitionView.h */,
 				01C55D650B7BCDEE009F6A92 /* TransitionView.m */,
+				015844841B3CE18E00490599 /* MAGraphNameView.h */,
+				015844851B3CE18E00490599 /* MAGraphNameView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -656,6 +661,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				015844861B3CE18E00490599 /* MAGraphNameView.m in Sources */,
 				01462C051B35131D0029A6A2 /* MEventTableController.m in Sources */,
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				01C55CA10B7BCAAD009F6A92 /* NSNumberFormatter-Extensions.m in Sources */,

@@ -170,7 +170,7 @@ DQ
                         </connections>
                     </button>
                     <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="339">
-                        <rect key="frame" x="20" y="61" width="889" height="501"/>
+                        <rect key="frame" x="334" y="61" width="575" height="501"/>
                         <clipView key="contentView" id="1Fv-Iq-Q6K">
                             <rect key="frame" x="1" y="1" width="663" height="565"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -204,7 +204,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="23">
-                        <rect key="frame" x="62" y="570" width="80" height="22"/>
+                        <rect key="frame" x="376" y="570" width="80" height="22"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="7zm-UI-Ntg"/>
                         </constraints>
@@ -215,7 +215,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="27">
-                        <rect key="frame" x="196" y="570" width="80" height="22"/>
+                        <rect key="frame" x="510" y="570" width="80" height="22"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="Oiv-W9-7xU"/>
                         </constraints>
@@ -226,7 +226,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="28">
-                        <rect key="frame" x="18" y="572" width="38" height="17"/>
+                        <rect key="frame" x="332" y="572" width="38" height="17"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Time:" id="239">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -234,7 +234,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="25">
-                        <rect key="frame" x="148" y="572" width="42" height="17"/>
+                        <rect key="frame" x="462" y="572" width="42" height="17"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Value:" id="237">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -266,9 +266,17 @@ DQ
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="ICt-HI-5Y0" customClass="MAGraphNameView">
+                        <rect key="frame" x="20" y="341" width="306" height="221"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="221" id="8JR-Ru-Cl8"/>
+                            <constraint firstAttribute="width" constant="306" id="HsV-Wp-DiK"/>
+                        </constraints>
+                    </customView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="28" firstAttribute="baseline" secondItem="23" secondAttribute="baseline" id="0YB-WU-dzG"/>
+                    <constraint firstItem="339" firstAttribute="leading" secondItem="ICt-HI-5Y0" secondAttribute="trailing" constant="8" symbolic="YES" id="1wC-1t-bUe"/>
                     <constraint firstItem="27" firstAttribute="top" secondItem="qei-eK-IZB" secondAttribute="bottom" constant="8" symbolic="YES" id="2eq-sH-5AO"/>
                     <constraint firstAttribute="bottom" secondItem="217" secondAttribute="bottom" constant="20" symbolic="YES" id="3Iv-LG-kOe"/>
                     <constraint firstItem="310" firstAttribute="top" secondItem="312" secondAttribute="top" id="3pv-Lw-eta"/>
@@ -277,9 +285,9 @@ DQ
                     <constraint firstItem="312" firstAttribute="top" secondItem="329" secondAttribute="bottom" constant="20" symbolic="YES" id="5HL-cP-f0N"/>
                     <constraint firstAttribute="bottom" secondItem="SLb-wE-mjW" secondAttribute="bottom" constant="20" symbolic="YES" id="6s7-7Y-UeK"/>
                     <constraint firstItem="iOQ-2y-Maq" firstAttribute="top" secondItem="339" secondAttribute="bottom" constant="8" symbolic="YES" id="9XK-IO-8y4"/>
-                    <constraint firstItem="339" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" symbolic="YES" id="A3h-6k-MVI"/>
                     <constraint firstItem="qei-eK-IZB" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="BE6-do-FmP"/>
                     <constraint firstItem="25" firstAttribute="leading" secondItem="23" secondAttribute="trailing" constant="8" symbolic="YES" id="Bpo-Cw-2Je"/>
+                    <constraint firstItem="ICt-HI-5Y0" firstAttribute="top" secondItem="27" secondAttribute="bottom" constant="8" symbolic="YES" id="CFc-Ah-Wcu"/>
                     <constraint firstAttribute="trailing" secondItem="312" secondAttribute="trailing" constant="20" symbolic="YES" id="DNQ-z0-3Yh"/>
                     <constraint firstItem="qei-eK-IZB" firstAttribute="top" secondItem="31" secondAttribute="bottom" constant="20" symbolic="YES" id="Dpt-bV-V8n"/>
                     <constraint firstItem="217" firstAttribute="leading" secondItem="186" secondAttribute="trailing" constant="12" symbolic="YES" id="Ft0-cb-XNt"/>
@@ -294,6 +302,7 @@ DQ
                     <constraint firstAttribute="trailing" secondItem="31" secondAttribute="trailing" constant="20" symbolic="YES" id="VBK-js-985"/>
                     <constraint firstItem="329" firstAttribute="top" secondItem="6" secondAttribute="top" constant="20" symbolic="YES" id="WKD-U9-8ps"/>
                     <constraint firstItem="310" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" symbolic="YES" id="YEx-eM-k7R"/>
+                    <constraint firstItem="ICt-HI-5Y0" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" id="ZyT-6a-iIR"/>
                     <constraint firstItem="5SL-RS-j1B" firstAttribute="centerY" secondItem="iOQ-2y-Maq" secondAttribute="centerY" id="aU4-E2-0rK"/>
                     <constraint firstItem="qei-eK-IZB" firstAttribute="top" secondItem="24" secondAttribute="bottom" constant="8" symbolic="YES" id="abN-Dd-CHc"/>
                     <constraint firstItem="312" firstAttribute="leading" secondItem="310" secondAttribute="trailing" constant="8" symbolic="YES" id="cCc-Xv-v2q"/>
