@@ -3,6 +3,9 @@
 
 #import "MAGraphView.h"
 
+#import <GnuSpeech/GnuSpeech.h>
+#import "MMDisplayParameter.h"
+
 @implementation MAGraphView
 
 - (id)initWithFrame:(NSRect)frameRect;
@@ -28,6 +31,11 @@
     self.wantsLayer = YES;
     self.layer.backgroundColor = [[NSColor magentaColor] colorWithAlphaComponent:0.2].CGColor;
     self.layer.borderWidth = 1;
+}
+
+- (CGSize)intrinsicContentSize;
+{
+    return CGSizeMake(400, 100);
 }
 
 @end

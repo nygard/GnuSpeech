@@ -3,6 +3,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface MAGraphView : NSView
+@class MMDisplayParameter;
 
+@interface MAGraphView : NSView
+@property (nonatomic, strong) MMDisplayParameter *displayParameter;
 @end

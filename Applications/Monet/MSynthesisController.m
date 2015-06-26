@@ -188,9 +188,6 @@
 
     self.rulePhoneView.eventList = self.eventList;
 
-    MAGraphView *gv1 = [[MAGraphView alloc] initWithFrame:CGRectMake(0, 0, 300, 100)];
-    [self.graphStackView addView:gv1 inGravity:NSStackViewGravityTop];
-
     NSLayoutConstraint *c2 = [NSLayoutConstraint constraintWithItem:self.graphStackView
                                                           attribute:NSLayoutAttributeHeight
                                                           relatedBy:NSLayoutRelationGreaterThanOrEqual
@@ -241,8 +238,16 @@
         graphNameView.translatesAutoresizingMaskIntoConstraints = NO;
         graphNameView.displayParameter = displayParameter;
         [self.leftStackView addView:graphNameView inGravity:NSStackViewGravityTop];
+
+
+        MAGraphView *gv1 = [[MAGraphView alloc] initWithFrame:CGRectMake(0, 0, 300, 100)];
+        gv1.translatesAutoresizingMaskIntoConstraints = NO;
+        gv1.displayParameter = displayParameter;
+        [self.graphStackView addView:gv1 inGravity:NSStackViewGravityTop];
+
         if (!displayParameter.shouldDisplay) {
-            [self.leftStackView setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:graphNameView];
+            [self.leftStackView  setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:graphNameView];
+            [self.graphStackView setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:gv1];
         }
     }
 }
@@ -265,6 +270,18 @@
                 [self.leftStackView setVisibilityPriority:NSStackViewVisibilityPriorityMustHold forView:graphNameView];
             } else {
                 [self.leftStackView setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:graphNameView];
+            }
+        }
+    }
+
+    for (NSView *view in self.graphStackView.views) {
+        if ([view respondsToSelector:@selector(displayParameter)]) {
+            MAGraphView *graphView = (MAGraphView *)view;
+            MMDisplayParameter *displayParameter = graphView.displayParameter;
+            if ([displayParameter shouldDisplay]) {
+                [self.graphStackView setVisibilityPriority:NSStackViewVisibilityPriorityMustHold forView:graphView];
+            } else {
+                [self.graphStackView setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:graphView];
             }
         }
     }
