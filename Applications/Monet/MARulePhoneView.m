@@ -3,7 +3,15 @@
 
 #import "MARulePhoneView.h"
 
+#import <GnuSpeech/GnuSpeech.h>
+
+#define TRACKHEIGHT		(120.0)
+
 @implementation MARulePhoneView
+{
+    CGFloat _timeScale;
+    NSTextFieldCell *_ruleCell;
+}
 
 - (id)initWithFrame:(NSRect)frameRect;
 {
@@ -28,18 +36,86 @@
     self.wantsLayer = YES;
     self.layer.backgroundColor = [[NSColor redColor] colorWithAlphaComponent:0.2].CGColor;
     self.layer.borderWidth = 1;
+
+    _timeScale = 0.5;
+
+    _ruleCell = [[NSTextFieldCell alloc] initTextCell:@""];
+    [_ruleCell setFont:[NSFont labelFontOfSize:10.0]];
+    [_ruleCell setAlignment:NSCenterTextAlignment];
+    [_ruleCell setBordered:YES];
+    [_ruleCell setEnabled:YES];
 }
 
-//- (void)drawRect:(NSRect)rect;
-//{
-//    [super drawRect:rect];
-//}
+- (void)drawRect:(NSRect)rect;
+{
+    CGFloat leftInset = 80.0;
+    [super drawRect:rect];
+
+    NSRect bounds = NSIntegralRect([self bounds]);
+    NSLog(@"%s, bounds: %@", __PRETTY_FUNCTION__, NSStringFromRect(bounds));
+
+    NSFont *font = [NSFont systemFontOfSize:10];
+
+    [font set];
+    CGFloat currentX = 0;
+    CGFloat extraWidth = 0.0;
+
+    NSUInteger count = [self.eventList ruleCount];
+    NSLog(@"count: %lu", count);
+    for (NSUInteger index = 0; index < count; index++) {
+        struct _rule *rule = [self.eventList getRuleAtIndex:index];
+
+        NSRect cellFrame;
+        cellFrame.origin.x = leftInset + currentX;
+        cellFrame.origin.y = bounds.size.height - 25.0;
+        cellFrame.size.height = 18.0;
+        cellFrame.size.width = rule->duration * _timeScale + extraWidth;
+        NSLog(@"%3lu: %@", index, NSStringFromRect(cellFrame));
+
+        [_ruleCell setIntegerValue:rule->number];
+        [_ruleCell drawWithFrame:cellFrame inView:self];
+
+        extraWidth = 1.0;
+        currentX += cellFrame.size.width - extraWidth;
+    }
+
+    // Draw phones/postures along top
+    [font set];
+    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
+    [bezierPath setLineWidth:1];
+
+    NSUInteger phoneIndex = 0;
+    NSArray *events = [_eventList events];
+    for (NSUInteger index = 0; index < [events count]; index++) {
+        currentX = leftInset + [[events objectAtIndex:index] time] * _timeScale;
+
+        if ([[events objectAtIndex:index] isAtPosture]) {
+            MMPosture *currentPhone = [_eventList getPhoneAtIndex:phoneIndex++];
+            if (currentPhone) {
+                [[NSColor blackColor] set];
+                [[currentPhone name] drawAtPoint:NSMakePoint(currentX, bounds.size.height - 42.0) withAttributes:nil];
+            }
+        }
+
+//        [bezierPath moveToPoint:NSMakePoint(currentX + 0.5, bounds.size.height - (50.0 + 1.0 + (float)j * TRACKHEIGHT))];
+//        [bezierPath lineToPoint:NSMakePoint(currentX + 0.5, bounds.size.height - 50.0 - 1.0)];
+    }
+
+    [[NSColor lightGrayColor] set];
+    [bezierPath stroke];
+}
 
 #pragma mark -
 
 - (CGSize)intrinsicContentSize;
 {
-    return CGSizeMake(10, 100);
+    return CGSizeMake(800, 50);
+}
+
+// Just for testing.
+- (void)mouseDown:(NSEvent *)theEvent;
+{
+    [self setNeedsDisplay:YES];
 }
 
 @end

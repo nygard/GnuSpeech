@@ -179,6 +179,8 @@
                                                          multiplier:1.0
                                                            constant:0];
     [self.leftStackView.enclosingScrollView addConstraint:c1];
+
+    self.rulePhoneView.eventList = self.eventList;
 }
 
 #pragma mark -
