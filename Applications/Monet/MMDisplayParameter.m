@@ -19,6 +19,7 @@
         _parameter = parameter;
         _isSpecial = NO;
         _tag = 0;
+        _shouldDisplay = YES;
     }
 
     return self;
