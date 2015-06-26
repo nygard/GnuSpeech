@@ -5,7 +5,8 @@
 
 #import <GnuSpeech/GnuSpeech.h>
 
-NSString *MMDisplayParameterNotification_DidChange = @"MMDisplayParameterNotification_DidChange";
+NSString *MMDisplayParameterNotification_DidChange       = @"MMDisplayParameterNotification_DidChange";
+NSString *MMDisplayParameterUserInfoKey_DisplayParameter = @"DisplayParameter";
 
 @implementation MMDisplayParameter
 {
@@ -41,7 +42,10 @@ NSString *MMDisplayParameterNotification_DidChange = @"MMDisplayParameterNotific
 - (void)setShouldDisplay:(BOOL)shouldDisplay;
 {
     _shouldDisplay = shouldDisplay;
-    [[NSNotificationCenter defaultCenter] postNotificationName:MMDisplayParameterNotification_DidChange object:self.parameter.model userInfo:nil];
+    NSDictionary *userInfo = @{
+                               @"displayParameter" : self,
+                               };
+    [[NSNotificationCenter defaultCenter] postNotificationName:MMDisplayParameterNotification_DidChange object:self.parameter.model userInfo:userInfo];
 }
 
 - (void)toggleShouldDisplay;

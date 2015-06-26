@@ -23,3 +23,4 @@
 @end
 
 extern NSString *MMDisplayParameterNotification_DidChange;
+extern NSString *MMDisplayParameterUserInfoKey_DisplayParameter;
