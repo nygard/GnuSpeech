@@ -18,6 +18,7 @@
 #import "MIntonationController.h"
 #import "MDisplayParametersController.h"
 #import "MAGraphNameView.h"
+#import "MARulePhoneView.h"
 
 #define MDK_DefaultUtterances          @"DefaultUtterances"
 
@@ -28,6 +29,8 @@
 @interface MSynthesisController () <NSTableViewDataSource, NSComboBoxDelegate, NSTextViewDelegate, EventListDelegate, NSFileManagerDelegate>
 @property (weak) IBOutlet NSScrollView *leftScrollView;
 @property (weak) IBOutlet NSStackView *leftStackView;
+@property (weak) IBOutlet NSScrollView *topScrollView;
+@property (weak) IBOutlet MARulePhoneView *rulePhoneView;
 
 
 @property (readonly) EventList *eventList;

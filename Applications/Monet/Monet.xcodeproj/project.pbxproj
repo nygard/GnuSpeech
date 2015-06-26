@@ -14,6 +14,7 @@
 		01462C011B34B2CF0029A6A2 /* MMIntonation-Monet.m in Sources */ = {isa = PBXBuildFile; fileRef = 01462C001B34B2CF0029A6A2 /* MMIntonation-Monet.m */; };
 		01462C051B35131D0029A6A2 /* MEventTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01462C031B35131D0029A6A2 /* MEventTableController.m */; };
 		01462C061B35131D0029A6A2 /* EventTable.xib in Resources */ = {isa = PBXBuildFile; fileRef = 01462C041B35131D0029A6A2 /* EventTable.xib */; };
+		0148E7D41B3D229400E1F09C /* MARulePhoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0148E7D31B3D229400E1F09C /* MARulePhoneView.m */; };
 		015844821B3BAA3B00490599 /* MDisplayParametersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 015844801B3BAA3B00490599 /* MDisplayParametersController.m */; };
 		015844831B3BAA3B00490599 /* DisplayParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 015844811B3BAA3B00490599 /* DisplayParameters.xib */; };
 		015844861B3CE18E00490599 /* MAGraphNameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 015844851B3CE18E00490599 /* MAGraphNameView.m */; };
@@ -86,6 +87,8 @@
 		01462C021B35131D0029A6A2 /* MEventTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEventTableController.h; sourceTree = "<group>"; };
 		01462C031B35131D0029A6A2 /* MEventTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEventTableController.m; sourceTree = "<group>"; };
 		01462C041B35131D0029A6A2 /* EventTable.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventTable.xib; sourceTree = "<group>"; };
+		0148E7D21B3D229400E1F09C /* MARulePhoneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MARulePhoneView.h; sourceTree = "<group>"; };
+		0148E7D31B3D229400E1F09C /* MARulePhoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MARulePhoneView.m; sourceTree = "<group>"; };
 		0158447F1B3BAA3B00490599 /* MDisplayParametersController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MDisplayParametersController.h; sourceTree = "<group>"; };
 		015844801B3BAA3B00490599 /* MDisplayParametersController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MDisplayParametersController.m; sourceTree = "<group>"; };
 		015844811B3BAA3B00490599 /* DisplayParameters.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DisplayParameters.xib; sourceTree = "<group>"; };
@@ -404,6 +407,8 @@
 				01C55D650B7BCDEE009F6A92 /* TransitionView.m */,
 				015844841B3CE18E00490599 /* MAGraphNameView.h */,
 				015844851B3CE18E00490599 /* MAGraphNameView.m */,
+				0148E7D21B3D229400E1F09C /* MARulePhoneView.h */,
+				0148E7D31B3D229400E1F09C /* MARulePhoneView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -686,6 +691,7 @@
 				01C55D870B7BCE53009F6A92 /* MDataEntryController.m in Sources */,
 				01C55D880B7BCE53009F6A92 /* MPostureCategoryController.m in Sources */,
 				01C55D890B7BCE53009F6A92 /* MPostureEditor.m in Sources */,
+				0148E7D41B3D229400E1F09C /* MARulePhoneView.m in Sources */,
 				01C55D8A0B7BCE53009F6A92 /* MPrototypeManager.m in Sources */,
 				01C55D8B0B7BCE53009F6A92 /* MReleaseNotesController.m in Sources */,
 				01C55D8C0B7BCE53009F6A92 /* MRuleManager.m in Sources */,
