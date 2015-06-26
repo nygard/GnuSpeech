@@ -28,10 +28,15 @@
 #define MDK_IntonationContourDirectory @"IntonationContourDirectory"
 
 @interface MSynthesisController () <NSTableViewDataSource, NSComboBoxDelegate, NSTextViewDelegate, EventListDelegate, NSFileManagerDelegate>
+
 @property (weak) IBOutlet NSScrollView *leftScrollView;
 @property (weak) IBOutlet NSStackView *leftStackView;
+
 @property (weak) IBOutlet NSScrollView *topScrollView;
 @property (weak) IBOutlet MARulePhoneView *rulePhoneView;
+
+@property (weak) IBOutlet NSScrollView *graphScrollView;
+@property (weak) IBOutlet NSStackView *graphStackView;
 
 
 @property (readonly) EventList *eventList;
@@ -182,6 +187,18 @@
     [self.leftStackView.enclosingScrollView addConstraint:c1];
 
     self.rulePhoneView.eventList = self.eventList;
+
+    MAGraphView *gv1 = [[MAGraphView alloc] initWithFrame:CGRectMake(0, 0, 300, 100)];
+    [self.graphStackView addView:gv1 inGravity:NSStackViewGravityTop];
+
+    NSLayoutConstraint *c2 = [NSLayoutConstraint constraintWithItem:self.graphStackView
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationGreaterThanOrEqual
+                                                             toItem:self.graphStackView.superview // clipview
+                                                          attribute:NSLayoutAttributeHeight
+                                                         multiplier:1.0
+                                                           constant:0];
+    [self.graphStackView.enclosingScrollView addConstraint:c2];
 }
 
 #pragma mark -
