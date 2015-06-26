@@ -17,6 +17,7 @@
 
 #import "MIntonationController.h"
 #import "MDisplayParametersController.h"
+#import "MAGraphView.h"
 #import "MAGraphNameView.h"
 #import "MARulePhoneView.h"
 
