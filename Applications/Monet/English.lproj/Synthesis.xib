@@ -266,8 +266,8 @@ DQ
                             <rect key="frame" x="1" y="1" width="166" height="79"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <stackView orientation="vertical" alignment="centerX" horizontalHuggingPriority="249" verticalHuggingPriority="249" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EeE-Sx-UBN">
-                                    <rect key="frame" x="119" y="41" width="0.0" height="0.0"/>
+                                <stackView orientation="vertical" alignment="centerX" horizontalHuggingPriority="249" verticalHuggingPriority="249" fixedFrame="YES" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="300" translatesAutoresizingMaskIntoConstraints="NO" id="EeE-Sx-UBN">
+                                    <rect key="frame" x="0.0" y="0.0" width="100" height="300"/>
                                 </stackView>
                             </subviews>
                         </clipView>
