@@ -35,7 +35,7 @@
 
 - (CGSize)intrinsicContentSize;
 {
-    return CGSizeMake(400, 100);
+    return CGSizeMake(2000, 100);
 }
 
 @end

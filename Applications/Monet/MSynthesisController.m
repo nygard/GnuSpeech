@@ -196,6 +196,10 @@
                                                          multiplier:1.0
                                                            constant:0];
     [self.graphStackView.enclosingScrollView addConstraint:c2];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewDidScroll:) name:NSScrollViewDidLiveScrollNotification object:self.graphScrollView];
+    // This doesn't work.  Nor does 0, 0.
+//    [self.graphScrollView scrollRectToVisible:CGRectMake(0, 2900, 10, 10)];
 }
 
 #pragma mark -
@@ -619,6 +623,24 @@
 - (void)displayParameterDidChange:(NSNotification *)notification;
 {
     [self _updateDisplayedParameters];
+}
+
+- (void)scrollViewDidScroll:(NSNotification *)notification;
+{
+//    NSScrollView *scrollView = notification.object;
+    NSLog(@"%s, object: %@, vis: %@", __PRETTY_FUNCTION__, notification.object, NSStringFromRect(self.graphScrollView.documentVisibleRect));
+    NSLog(@"leftScrollView: %@", self.leftScrollView);
+
+    NSRect r1 = self.graphScrollView.documentVisibleRect;
+    NSRect r2 = self.leftScrollView.documentVisibleRect;
+    r2 = self.leftStackView.visibleRect;
+
+    NSLog(@"r1: %@", NSStringFromRect(r1));
+    NSLog(@"r2: %@", NSStringFromRect(r2));
+
+    r2.origin.y = r1.origin.y;
+    NSLog(@"r2: %@", NSStringFromRect(r2));
+    [self.leftStackView scrollRectToVisible:r2];
 }
 
 @end
