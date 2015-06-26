@@ -4,7 +4,6 @@
 #import "MAGraphNameView.h"
 
 @interface MAGraphNameView ()
-@property (strong) NSTextField *nameLabel;
 @property (strong) NSTextField *topLabel;
 @property (strong) NSTextField *bottomLabel;
 @end

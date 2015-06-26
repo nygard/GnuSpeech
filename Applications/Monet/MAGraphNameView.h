@@ -4,5 +4,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface MAGraphNameView : NSView
-
+@property (strong) NSTextField *nameLabel; // Testing.
 @end

@@ -17,6 +17,7 @@
 
 #import "MIntonationController.h"
 #import "MDisplayParametersController.h"
+#import "MAGraphNameView.h"
 
 #define MDK_DefaultUtterances          @"DefaultUtterances"
 
@@ -25,6 +26,9 @@
 #define MDK_IntonationContourDirectory @"IntonationContourDirectory"
 
 @interface MSynthesisController () <NSTableViewDataSource, NSComboBoxDelegate, NSTextViewDelegate, EventListDelegate, NSFileManagerDelegate>
+@property (weak) IBOutlet NSScrollView *leftScrollView;
+@property (weak) IBOutlet NSStackView *leftStackView;
+
 
 @property (readonly) EventList *eventList;
 @property (readonly) TRMSynthesizer *synthesizer;
@@ -162,6 +166,26 @@
     [self _updateDisplayParameters];
     [self _updateDisplayedParameters];
     self.eventTableController.displayParameters = _displayParameters;
+
+    MAGraphNameView *v1 = [[MAGraphNameView alloc] initWithFrame:CGRectZero];
+    v1.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.leftStackView addView:v1 inGravity:NSStackViewGravityTop];
+
+    MAGraphNameView *v2 = [[MAGraphNameView alloc] initWithFrame:CGRectZero];
+    v2.translatesAutoresizingMaskIntoConstraints = NO;
+    v2.nameLabel.stringValue = @"two";
+    [self.leftStackView addView:v2 inGravity:NSStackViewGravityTop];
+
+    NSLayoutConstraint *c1 = [NSLayoutConstraint constraintWithItem:self.leftStackView
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationGreaterThanOrEqual
+                                                             toItem:self.leftStackView.superview // clipview
+                                                          attribute:NSLayoutAttributeHeight
+                                                         multiplier:1.0
+                                                           constant:0];
+    NSLog(@"c1 priority: %f", c1.priority);
+    [self.leftStackView.enclosingScrollView addConstraint:c1];
+
 }
 
 #pragma mark -
