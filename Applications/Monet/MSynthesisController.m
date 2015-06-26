@@ -41,7 +41,6 @@
     // Synthesis window
 	IBOutlet NSComboBox *_textStringTextField;
 	IBOutlet NSTextView *_phoneStringTextView;
-    IBOutlet NSTableView *_parameterTableView;
     IBOutlet EventListView *_eventListView;
 	IBOutlet NSScrollView *_scrollView;
     IBOutlet NSButton *_parametersStore;
@@ -114,17 +113,12 @@
 
 #pragma mark -
 
-- (MModel *)model;
-{
-    return _model;
-}
-
 - (void)setModel:(MModel *)newModel;
 {
     if (newModel != _model) {
         _model = newModel;
         
-        [_eventList setModel:_model];
+        _eventList.model = _model;
 
         [self _updateDisplayParameters];
         self.eventTableController.displayParameters = _displayParameters;
@@ -145,14 +139,6 @@
 	[_eventListView setMouseValueField:_mouseValueField];
 	[_scrollView setDocumentView:_eventListView];
 
-    NSButtonCell *checkboxCell = [[NSButtonCell alloc] initTextCell:@""];
-    [checkboxCell setControlSize:NSSmallControlSize];
-    [checkboxCell setButtonType:NSSwitchButton];
-    [checkboxCell setImagePosition:NSImageOnly];
-    [checkboxCell setEditable:NO];
-	
-    [[_parameterTableView tableColumnWithIdentifier:@"shouldDisplay"] setDataCell:checkboxCell];
-
     [_textStringTextField removeAllItems];
     [_textStringTextField addItemsWithObjectValues:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_DefaultUtterances]];
     [_textStringTextField selectItemAtIndex:0];
@@ -171,7 +157,7 @@
 
     NSMutableArray *displayParameters = [[NSMutableArray alloc] init];
 
-    NSArray *parameters = [_model parameters];
+    NSArray *parameters = self.model.parameters;
     NSUInteger count = [parameters count];
     for (NSUInteger index = 0; index < count && index < 16; index++) { // TODO (2004-03-30): Some hardcoded limits exist in Event
         MMParameter *currentParameter = parameters[index];
@@ -193,8 +179,6 @@
     // TODO (2004-03-30): This used to have Intonation (tag=32).  How did that work?
 
     _displayParameters = displayParameters;
-	
-    [_parameterTableView reloadData];
 }
 
 - (void)_updateDisplayedParameters;
@@ -206,8 +190,6 @@
             [array addObject:displayParameter];
     }
     [_eventListView setDisplayParameters:array];
-	
-    [_parameterTableView reloadData];
 }
 
 - (IBAction)showEventTable:(id)sender;
@@ -464,75 +446,6 @@
 	[_phoneStringTextView setTextColor:[NSColor blackColor]];
 	
     [[NSUserDefaults standardUserDefaults] setObject:[_textStringTextField objectValues] forKey:MDK_DefaultUtterances];
-}
-
-#pragma mark - NSTableViewDataSource
-
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
-{
-    if (tableView == _parameterTableView)
-        return [_displayParameters count];
-	
-    return 0;
-}
-
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
-{
-    id identifier = [tableColumn identifier];
-	
-    if (tableView == _parameterTableView) {
-        MMDisplayParameter *displayParameter = [_displayParameters objectAtIndex:row];
-		
-        if ([@"name" isEqual:identifier]) {
-            return [displayParameter name];
-        } else if ([@"shouldDisplay" isEqual:identifier]) {
-            return [NSNumber numberWithBool:[displayParameter shouldDisplay]];
-        }
-    }
-	
-    return nil;
-}
-
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
-{
-    id identifier = [tableColumn identifier];
-	
-    if (tableView == _parameterTableView) {
-        MMDisplayParameter *displayParameter = [_displayParameters objectAtIndex:row];
-		
-        if ([@"shouldDisplay" isEqual:identifier]) {
-            [displayParameter setShouldDisplay:[object boolValue]];
-            [self _updateDisplayedParameters];
-        }
-    }
-}
-
-#pragma mark - MExtendedTableView delegate
-
-- (BOOL)control:(NSControl *)control shouldProcessCharacters:(NSString *)characters;
-{
-    if ([characters isEqualToString:@" "]) {
-        NSInteger selectedRow = [_parameterTableView selectedRow];
-        if (selectedRow != -1) {
-            [[_displayParameters objectAtIndex:selectedRow] toggleShouldDisplay];
-            [self _updateDisplayedParameters];
-            [(MExtendedTableView *)control doNotCombineNextKey];
-            return NO;
-        }
-    } else {
-        NSUInteger count, index;
-		
-        count = [_displayParameters count];
-        for (index = 0; index < count; index++) {
-            if ([[[[_displayParameters objectAtIndex:index] parameter] name] hasPrefix:characters ignoreCase:YES]) {
-                [_parameterTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-                [_parameterTableView scrollRowToVisible:index];
-                return NO;
-            }
-        }
-    }
-	
-    return YES;
 }
 
 #pragma mark - NSComboBoxDelegate
