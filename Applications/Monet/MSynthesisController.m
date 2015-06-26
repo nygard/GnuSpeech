@@ -176,6 +176,13 @@
     v2.nameLabel.stringValue = @"two";
     [self.leftStackView addView:v2 inGravity:NSStackViewGravityTop];
 
+    MAGraphNameView *v3 = [[MAGraphNameView alloc] initWithFrame:CGRectZero];
+    v3.translatesAutoresizingMaskIntoConstraints = NO;
+    v3.nameLabel.stringValue = @"three";
+    [self.leftStackView addView:v3 inGravity:NSStackViewGravityTop];
+
+    [self.leftStackView setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:v2];
+
     NSLayoutConstraint *c1 = [NSLayoutConstraint constraintWithItem:self.leftStackView
                                                           attribute:NSLayoutAttributeHeight
                                                           relatedBy:NSLayoutRelationGreaterThanOrEqual
