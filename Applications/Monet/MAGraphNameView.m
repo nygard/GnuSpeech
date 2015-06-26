@@ -37,7 +37,8 @@
 
     _nameLabel = [[NSTextField alloc] initWithFrame:CGRectZero];
     _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _nameLabel.stringValue = @"Testing";
+    _nameLabel.stringValue = @"fricBW\n(special)";
+//    _nameLabel.usesSingleLineMode = NO;
     [self addSubview:_nameLabel];
 
     _topLabel = [[NSTextField alloc] initWithFrame:CGRectZero];
