@@ -69,7 +69,7 @@ DQ
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="186">
-                        <rect key="frame" x="111" y="13" width="173" height="32"/>
+                        <rect key="frame" x="14" y="13" width="173" height="32"/>
                         <buttonCell key="cell" type="push" title="Save Graph Images..." bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="241">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -108,7 +108,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="217">
-                        <rect key="frame" x="284" y="13" width="132" height="32"/>
+                        <rect key="frame" x="187" y="13" width="132" height="32"/>
                         <buttonCell key="cell" type="push" title="Show Events..." bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="243">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -243,16 +243,6 @@ DQ
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SLb-wE-mjW">
-                        <rect key="frame" x="14" y="13" width="97" height="32"/>
-                        <buttonCell key="cell" type="push" title="Graphs..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2P3-Kv-IGz">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="editDisplayParameters:" target="-2" id="shr-By-QMP"/>
-                        </connections>
-                    </button>
                     <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iOQ-2y-Maq">
                         <rect key="frame" x="797" y="18" width="114" height="37"/>
                         <constraints>
@@ -291,6 +281,16 @@ DQ
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
+                    <button verticalHuggingPriority="750" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="SLb-wE-mjW">
+                        <rect key="frame" x="818" y="563" width="97" height="32"/>
+                        <buttonCell key="cell" type="push" title="Graphs..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2P3-Kv-IGz">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="editDisplayParameters:" target="-2" id="shr-By-QMP"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="28" firstAttribute="baseline" secondItem="23" secondAttribute="baseline" id="0YB-WU-dzG"/>
@@ -301,12 +301,13 @@ DQ
                     <constraint firstItem="JIu-Bu-11q" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" symbolic="YES" id="4jQ-3d-dei"/>
                     <constraint firstAttribute="bottom" secondItem="186" secondAttribute="bottom" constant="20" symbolic="YES" id="4mO-eb-xbJ"/>
                     <constraint firstItem="312" firstAttribute="top" secondItem="329" secondAttribute="bottom" constant="20" symbolic="YES" id="5HL-cP-f0N"/>
-                    <constraint firstAttribute="bottom" secondItem="SLb-wE-mjW" secondAttribute="bottom" constant="20" symbolic="YES" id="6s7-7Y-UeK"/>
+                    <constraint firstAttribute="trailing" secondItem="SLb-wE-mjW" secondAttribute="trailing" constant="20" symbolic="YES" id="7rM-gk-JPS"/>
                     <constraint firstItem="iOQ-2y-Maq" firstAttribute="top" secondItem="339" secondAttribute="bottom" constant="8" symbolic="YES" id="9XK-IO-8y4"/>
                     <constraint firstItem="qei-eK-IZB" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="BE6-do-FmP"/>
                     <constraint firstItem="25" firstAttribute="leading" secondItem="23" secondAttribute="trailing" constant="8" symbolic="YES" id="Bpo-Cw-2Je"/>
                     <constraint firstAttribute="trailing" secondItem="312" secondAttribute="trailing" constant="20" symbolic="YES" id="DNQ-z0-3Yh"/>
                     <constraint firstItem="qei-eK-IZB" firstAttribute="top" secondItem="31" secondAttribute="bottom" constant="20" symbolic="YES" id="Dpt-bV-V8n"/>
+                    <constraint firstItem="339" firstAttribute="top" secondItem="SLb-wE-mjW" secondAttribute="bottom" constant="8" id="Evo-Dp-T20"/>
                     <constraint firstItem="217" firstAttribute="leading" secondItem="186" secondAttribute="trailing" constant="12" symbolic="YES" id="Ft0-cb-XNt"/>
                     <constraint firstItem="293" firstAttribute="baseline" secondItem="299" secondAttribute="baseline" id="K5T-2l-d2O"/>
                     <constraint firstItem="299" firstAttribute="top" secondItem="6" secondAttribute="top" constant="20" symbolic="YES" id="Kpj-Hf-H4g"/>
@@ -331,14 +332,13 @@ DQ
                     <constraint firstItem="339" firstAttribute="bottom" secondItem="JIu-Bu-11q" secondAttribute="bottom" id="fwT-9o-Lzy"/>
                     <constraint firstItem="26" firstAttribute="top" secondItem="312" secondAttribute="bottom" constant="20" symbolic="YES" id="jaO-2f-LJz"/>
                     <constraint firstItem="339" firstAttribute="top" secondItem="23" secondAttribute="bottom" constant="8" symbolic="YES" id="jyP-ZE-wik"/>
-                    <constraint firstItem="186" firstAttribute="leading" secondItem="SLb-wE-mjW" secondAttribute="trailing" constant="12" symbolic="YES" id="mWY-Wz-2Cu"/>
                     <constraint firstItem="26" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="24" secondAttribute="trailing" constant="8" symbolic="YES" id="pFj-fs-ldX"/>
                     <constraint firstItem="293" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" symbolic="YES" id="qMu-qJ-ZNP"/>
                     <constraint firstAttribute="trailing" secondItem="iOQ-2y-Maq" secondAttribute="trailing" constant="20" symbolic="YES" id="sir-5G-uhv"/>
                     <constraint firstItem="299" firstAttribute="leading" secondItem="312" secondAttribute="leading" id="tM9-CX-ZDg"/>
                     <constraint firstItem="24" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" symbolic="YES" id="tiV-rq-SEP"/>
                     <constraint firstAttribute="trailing" secondItem="qei-eK-IZB" secondAttribute="trailing" id="tzW-sk-S2a"/>
-                    <constraint firstItem="SLb-wE-mjW" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" symbolic="YES" id="vvV-4X-1iO"/>
+                    <constraint firstItem="186" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" symbolic="YES" id="vbF-dv-tnE"/>
                     <constraint firstItem="27" firstAttribute="leading" secondItem="25" secondAttribute="trailing" constant="8" symbolic="YES" id="xto-dM-ewZ"/>
                     <constraint firstAttribute="trailing" secondItem="329" secondAttribute="trailing" constant="20" symbolic="YES" id="yK1-VV-8mC"/>
                     <constraint firstItem="339" firstAttribute="top" secondItem="JIu-Bu-11q" secondAttribute="top" id="yW9-9t-PR0"/>

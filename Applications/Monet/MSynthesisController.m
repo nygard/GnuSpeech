@@ -573,7 +573,7 @@
     popover.contentViewController = self.displayParametersController;
     popover.behavior = NSPopoverBehaviorTransient;
     self.displayParametersController.displayParameters = _displayParameters;
-    [popover showRelativeToRect:CGRectZero ofView:sender preferredEdge:NSMinYEdge];
+    [popover showRelativeToRect:CGRectZero ofView:sender preferredEdge:NSMaxYEdge];
 }
 
 - (void)displayParameterDidChange:(NSNotification *)notification;
