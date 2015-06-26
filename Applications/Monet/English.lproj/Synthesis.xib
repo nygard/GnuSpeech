@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" promptedForUpgradeToXcode5="NO">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
         <development version="5000" identifier="xcode"/>
@@ -20,7 +20,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Synthesis Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="10" userLabel="Synthesis">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -122,7 +122,7 @@ DQ
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView importsGraphics="NO" richText="NO" findStyle="panel" verticallyResizable="YES" id="315">
-                                    <rect key="frame" x="0.0" y="0.0" width="663" height="65"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="663" height="68"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <size key="minSize" width="805" height="68"/>
@@ -269,8 +269,8 @@ DQ
                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="ICt-HI-5Y0" customClass="MAGraphNameView">
                         <rect key="frame" x="20" y="341" width="306" height="221"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="221" id="8JR-Ru-Cl8"/>
-                            <constraint firstAttribute="width" constant="306" id="HsV-Wp-DiK"/>
+                            <constraint firstAttribute="height" constant="221" placeholder="YES" id="8JR-Ru-Cl8"/>
+                            <constraint firstAttribute="width" constant="306" placeholder="YES" id="HsV-Wp-DiK"/>
                         </constraints>
                     </customView>
                 </subviews>
@@ -339,7 +339,7 @@ DQ
                     <rect key="frame" x="85" y="17" width="84" height="26"/>
                     <popUpButtonCell key="cell" type="push" title="au" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="227" id="273">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="225">
                             <items>
                                 <menuItem title="au" state="on" id="227"/>
