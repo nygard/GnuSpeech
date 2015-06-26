@@ -5,4 +5,6 @@
 
 @interface MDisplayParametersController : NSViewController
 
+@property (nonatomic, strong) NSArray *displayParameters;
+
 @end

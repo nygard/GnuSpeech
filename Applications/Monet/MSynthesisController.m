@@ -605,6 +605,7 @@
     NSPopover *popover = [[NSPopover alloc] init];
     popover.contentViewController = self.displayParametersController;
     popover.behavior = NSPopoverBehaviorTransient;
+    self.displayParametersController.displayParameters = _displayParameters;
     [popover showRelativeToRect:CGRectZero ofView:sender preferredEdge:NSMinYEdge];
 //    [self.displayParametersController showWindow:self];
 }
