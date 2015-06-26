@@ -3,6 +3,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class MMDisplayParameter;
+
 @interface MAGraphNameView : NSView
-@property (strong) NSTextField *nameLabel; // Testing.
+@property (nonatomic, strong) MMDisplayParameter *displayParameter;
 @end

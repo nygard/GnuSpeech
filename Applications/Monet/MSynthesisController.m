@@ -167,22 +167,7 @@
     [self _updateDisplayedParameters];
     self.eventTableController.displayParameters = _displayParameters;
 
-    MAGraphNameView *v1 = [[MAGraphNameView alloc] initWithFrame:CGRectZero];
-    v1.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.leftStackView addView:v1 inGravity:NSStackViewGravityTop];
-
-    MAGraphNameView *v2 = [[MAGraphNameView alloc] initWithFrame:CGRectZero];
-    v2.translatesAutoresizingMaskIntoConstraints = NO;
-    v2.nameLabel.stringValue = @"two";
-    [self.leftStackView addView:v2 inGravity:NSStackViewGravityTop];
-
-    MAGraphNameView *v3 = [[MAGraphNameView alloc] initWithFrame:CGRectZero];
-    v3.translatesAutoresizingMaskIntoConstraints = NO;
-    v3.nameLabel.stringValue = @"three";
-    [self.leftStackView addView:v3 inGravity:NSStackViewGravityTop];
-
-    [self.leftStackView setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:v2];
-
+    // This makes sure the graphs are at the top, even when the scrollview is tall compared to the height of the stack view.
     NSLayoutConstraint *c1 = [NSLayoutConstraint constraintWithItem:self.leftStackView
                                                           attribute:NSLayoutAttributeHeight
                                                           relatedBy:NSLayoutRelationGreaterThanOrEqual
@@ -190,9 +175,7 @@
                                                           attribute:NSLayoutAttributeHeight
                                                          multiplier:1.0
                                                            constant:0];
-    NSLog(@"c1 priority: %f", c1.priority);
     [self.leftStackView.enclosingScrollView addConstraint:c1];
-
 }
 
 #pragma mark -
@@ -225,6 +208,20 @@
     // TODO (2004-03-30): This used to have Intonation (tag=32).  How did that work?
 
     _displayParameters = displayParameters;
+
+    for (NSView *view in self.leftStackView.views) {
+        [self.leftStackView removeView:view];
+    }
+
+    for (MMDisplayParameter *displayParameter in _displayParameters) {
+        MAGraphNameView *graphNameView = [[MAGraphNameView alloc] initWithFrame:CGRectZero];
+        graphNameView.translatesAutoresizingMaskIntoConstraints = NO;
+        graphNameView.displayParameter = displayParameter;
+        [self.leftStackView addView:graphNameView inGravity:NSStackViewGravityTop];
+        if (!displayParameter.shouldDisplay) {
+            [self.leftStackView setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:graphNameView];
+        }
+    }
 }
 
 - (void)_updateDisplayedParameters;
@@ -236,6 +233,18 @@
             [array addObject:displayParameter];
     }
     [_eventListView setDisplayParameters:array];
+
+    for (NSView *view in self.leftStackView.views) {
+        if ([view respondsToSelector:@selector(displayParameter)]) {
+            MAGraphNameView *graphNameView = (MAGraphNameView *)view;
+            MMDisplayParameter *displayParameter = graphNameView.displayParameter;
+            if ([displayParameter shouldDisplay]) {
+                [self.leftStackView setVisibilityPriority:NSStackViewVisibilityPriorityMustHold forView:graphNameView];
+            } else {
+                [self.leftStackView setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:graphNameView];
+            }
+        }
+    }
 }
 
 - (IBAction)showEventTable:(id)sender;
@@ -560,13 +569,11 @@
 
 - (IBAction)editDisplayParameters:(id)sender;
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     NSPopover *popover = [[NSPopover alloc] init];
     popover.contentViewController = self.displayParametersController;
     popover.behavior = NSPopoverBehaviorTransient;
     self.displayParametersController.displayParameters = _displayParameters;
     [popover showRelativeToRect:CGRectZero ofView:sender preferredEdge:NSMinYEdge];
-//    [self.displayParametersController showWindow:self];
 }
 
 - (void)displayParameterDidChange:(NSNotification *)notification;

@@ -3,7 +3,11 @@
 
 #import "MAGraphNameView.h"
 
+#import <GnuSpeech/GnuSpeech.h>
+#import "MMDisplayParameter.h"
+
 @interface MAGraphNameView ()
+@property (strong) NSTextField *nameLabel;
 @property (strong) NSTextField *topLabel;
 @property (strong) NSTextField *bottomLabel;
 @end
@@ -79,6 +83,16 @@
 - (CGSize)intrinsicContentSize;
 {
     return CGSizeMake(100, 100);
+}
+
+#pragma mark -
+
+- (void)setDisplayParameter:(MMDisplayParameter *)displayParameter;
+{
+    _displayParameter = displayParameter;
+    self.nameLabel.stringValue   = self.displayParameter.label;
+    self.topLabel.stringValue    = [NSString stringWithFormat:@"%.0f", self.displayParameter.parameter.maximumValue];
+    self.bottomLabel.stringValue = [NSString stringWithFormat:@"%.0f", self.displayParameter.parameter.minimumValue];
 }
 
 @end
