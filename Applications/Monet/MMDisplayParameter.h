@@ -14,10 +14,12 @@
 @property (assign) BOOL isSpecial;
 @property (assign) NSUInteger tag;
 
-@property (assign) BOOL shouldDisplay;
+@property (nonatomic, assign) BOOL shouldDisplay;
 - (void)toggleShouldDisplay;
 
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *label;
 
 @end
+
+extern NSString *MMDisplayParameterNotification_DidChange;

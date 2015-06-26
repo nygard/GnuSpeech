@@ -106,9 +106,18 @@
         _intonationController.nextResponder = self;
 
         _displayParametersController = [[MDisplayParametersController alloc] init];
+
+        if (_model != nil) {
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayParameterDidChange:) name:MMDisplayParameterNotification_DidChange object:_model];
+        }
     }
 
     return self;
+}
+
+- (void)dealloc;
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark -
@@ -116,12 +125,17 @@
 - (void)setModel:(MModel *)newModel;
 {
     if (newModel != _model) {
+        if (_model != nil) {
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:MMDisplayParameterNotification_DidChange object:_model];
+        }
         _model = newModel;
         
         _eventList.model = _model;
 
         [self _updateDisplayParameters];
+        [self _updateDisplayedParameters];
         self.eventTableController.displayParameters = _displayParameters;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayParameterDidChange:) name:MMDisplayParameterNotification_DidChange object:_model];
     }
 }
 
@@ -146,6 +160,7 @@
 	[_phoneStringTextView setString:[_textToPhone phoneForText:[_textStringTextField stringValue]]];
 
     [self _updateDisplayParameters];
+    [self _updateDisplayedParameters];
     self.eventTableController.displayParameters = _displayParameters;
 }
 
@@ -523,5 +538,9 @@
 //    [self.displayParametersController showWindow:self];
 }
 
+- (void)displayParameterDidChange:(NSNotification *)notification;
+{
+    [self _updateDisplayedParameters];
+}
 
 @end
