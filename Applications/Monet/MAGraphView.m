@@ -79,6 +79,7 @@
 
 - (void)drawRect:(NSRect)rect;
 {
+    CGFloat leftInset = 5.0;
     NSRect bounds = self.bounds;
     CGFloat topInset = 2.0;
     CGFloat bottomInset = 2.0;
@@ -98,14 +99,14 @@
         [valuePath setLineDash:dash count:2 phase:0];
         for (Event *event in events) {
             if (event.isAtPosture) {
-                CGFloat x = event.time * _timeScale;
+                CGFloat x = leftInset + event.time * _timeScale;
                 [posturePath moveToPoint:CGPointMake(x, 0)];
                 [posturePath lineToPoint:CGPointMake(x, NSMaxY(bounds))];
             } else {
                 double value = [event getValueAtIndex:parameterIndex];
 
                 if (value != NaN) {
-                    CGFloat x = event.time * _timeScale;
+                    CGFloat x = leftInset + event.time * _timeScale;
                     [valuePath moveToPoint:CGPointMake(x, 0)];
                     [valuePath lineToPoint:CGPointMake(x, NSMaxY(bounds))];
                 }
@@ -123,7 +124,7 @@
 
             if (value != NaN) {
                 CGPoint p1;
-                p1.x = event.time * _timeScale;
+                p1.x = leftInset + event.time * _timeScale;
                 p1.y = rint(bottomInset + trackHeight * (value - currentMin) / (currentMax - currentMin));
                 [valuePath moveToPoint:p1];
                 [valuePath appendBezierPathWithArcWithCenter:p1 radius:2 startAngle:0 endAngle:360];
@@ -142,7 +143,7 @@
 
             if (value != NaN) {
                 CGPoint p1;
-                p1.x = event.time * _timeScale;
+                p1.x = leftInset + event.time * _timeScale;
                 p1.y = rint(bottomInset + trackHeight * (value - currentMin) / (currentMax - currentMin));
                 if (isFirstPoint) {
                     isFirstPoint = NO;

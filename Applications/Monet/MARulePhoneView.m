@@ -69,7 +69,7 @@
 
 - (void)drawRect:(NSRect)rect;
 {
-    CGFloat leftInset = 0.0;
+    CGFloat leftInset = 5.0;
     [super drawRect:rect];
 
     NSRect bounds = NSIntegralRect([self bounds]);
