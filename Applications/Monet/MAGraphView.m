@@ -94,9 +94,7 @@
 
     BOOL isFirstPoint = YES;
 
-    for (NSUInteger index = 0; index < [events count]; index++) {
-        Event *currentEvent = events[index];
-
+    for (Event *currentEvent in events) {
         double value = [currentEvent getValueAtIndex:parameterIndex];
 
         if (value != NaN) {
