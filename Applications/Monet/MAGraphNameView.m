@@ -96,9 +96,9 @@
                                                       constant:0.0]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[name]-|" options:0 metrics:nil views:views]];
 
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[topLabel(30)]-(4)-[rightLine(1)]|"    options:0 metrics:nil views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[topLabel]-(4)-[rightLine(1)]|"    options:0 metrics:nil views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[topLabel]"     options:0 metrics:nil views:views]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[bottomLabel(30)]-(4)-[rightLine]|" options:0 metrics:nil views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[bottomLabel]-(4)-[rightLine]|" options:0 metrics:nil views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[bottomLabel]|"  options:0 metrics:nil views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[rightLine]|"  options:0 metrics:nil views:views]];
 }
