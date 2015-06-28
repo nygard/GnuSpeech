@@ -641,6 +641,13 @@
     r2.origin.y = r1.origin.y;
     NSLog(@"r2: %@", NSStringFromRect(r2));
     [self.leftStackView scrollRectToVisible:r2];
+
+    NSLog(@"topScrollView: %@", self.topScrollView);
+    NSRect r3 = self.topScrollView.documentVisibleRect;
+    NSLog(@"r3: %@", NSStringFromRect(r3));
+    r3.origin.x = r1.origin.x;
+    NSLog(@"r3: %@", NSStringFromRect(r3));
+    [self.rulePhoneView scrollRectToVisible:r3];
 }
 
 @end
