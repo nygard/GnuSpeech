@@ -10,6 +10,7 @@
 @property (strong) NSTextField *nameLabel;
 @property (strong) NSTextField *topLabel;
 @property (strong) NSTextField *bottomLabel;
+@property (strong) NSView *rightLine;
 @end
 
 @implementation MAGraphNameView
@@ -57,11 +58,18 @@
     _bottomLabel.stringValue = @"0";
     [self addSubview:_bottomLabel];
 
+    _rightLine = [[NSView alloc] initWithFrame:CGRectZero];
+    _rightLine.translatesAutoresizingMaskIntoConstraints = NO;
+    _rightLine.wantsLayer = YES;
+    _rightLine.layer.backgroundColor = [NSColor blackColor].CGColor;
+    [self addSubview:_rightLine];
+
 
     NSDictionary *views = @{
                             @"name"        : _nameLabel,
                             @"topLabel"    : _topLabel,
                             @"bottomLabel" : _bottomLabel,
+                            @"rightLine"   : _rightLine,
                             };
 
     [self addConstraint:[NSLayoutConstraint constraintWithItem:_nameLabel
@@ -73,10 +81,11 @@
                                                       constant:0.0]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[name]-|" options:0 metrics:nil views:views]];
 
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[topLabel(30)]-(8)-|"    options:0 metrics:nil views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[topLabel(30)]-(8)-[rightLine(1)]|"    options:0 metrics:nil views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[topLabel]"     options:0 metrics:nil views:views]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[bottomLabel(30)]-(8)-|" options:0 metrics:nil views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[bottomLabel(30)]-(8)-[rightLine]|" options:0 metrics:nil views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[bottomLabel]|"  options:0 metrics:nil views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[rightLine]|"  options:0 metrics:nil views:views]];
 }
 
 #pragma mark -

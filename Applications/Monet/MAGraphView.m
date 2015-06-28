@@ -34,7 +34,7 @@
     self.wantsLayer = YES;
     //self.layer.backgroundColor = [[NSColor magentaColor] colorWithAlphaComponent:0.2].CGColor;
     self.layer.backgroundColor = [NSColor whiteColor].CGColor;
-    self.layer.borderWidth = 1;
+    //self.layer.borderWidth = 1;
 
     _timeScale = 0.5;
 }
@@ -85,6 +85,17 @@
     CGFloat topInset = 2.0;
     CGFloat bottomInset = 2.0;
     CGFloat trackHeight = bounds.size.height - topInset - bottomInset;
+
+    {
+        NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
+        [bezierPath moveToPoint:CGPointMake(0,              0.5)];
+        [bezierPath lineToPoint:CGPointMake(NSMaxX(bounds), 0.5)];
+        [bezierPath moveToPoint:CGPointMake(0,              NSMaxY(bounds) - 0.5)];
+        [bezierPath lineToPoint:CGPointMake(NSMaxX(bounds), NSMaxY(bounds) - 0.5)];
+
+        [[NSColor blackColor] set];
+        [bezierPath stroke];
+    }
 
 
     NSUInteger parameterIndex = self.displayParameter.tag;
