@@ -36,7 +36,7 @@
 - (void)_commonInit_MAGraphNameView;
 {
     self.wantsLayer = YES;
-    self.layer.backgroundColor = [[NSColor greenColor] colorWithAlphaComponent:0.2].CGColor;
+    //self.layer.backgroundColor = [[NSColor greenColor] colorWithAlphaComponent:0.2].CGColor;
     //self.layer.borderWidth = 1;
 
     _nameLabel = [[NSTextField alloc] initWithFrame:CGRectZero];
@@ -44,18 +44,33 @@
     _nameLabel.alignment = NSCenterTextAlignment;
     _nameLabel.stringValue = @"fricBW\n(special)";
 //    _nameLabel.usesSingleLineMode = NO;
+    [_nameLabel setEditable:NO];
+    _nameLabel.selectable = YES;
+    [_nameLabel setBezeled:NO];
+    _nameLabel.drawsBackground = NO;
     [self addSubview:_nameLabel];
 
     _topLabel = [[NSTextField alloc] initWithFrame:CGRectZero];
     _topLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _topLabel.alignment = NSRightTextAlignment;
     _topLabel.stringValue = @"13";
+    _topLabel.font = [NSFont labelFontOfSize:[NSFont smallSystemFontSize]];
+//    _topLabel.isEditable = NO;
+    [_topLabel setEditable:NO];
+    _topLabel.selectable = YES;
+    [_topLabel setBezeled:NO];
+    _topLabel.drawsBackground = NO;
     [self addSubview:_topLabel];
 
     _bottomLabel = [[NSTextField alloc] initWithFrame:CGRectZero];
     _bottomLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _bottomLabel.alignment = NSRightTextAlignment;
     _bottomLabel.stringValue = @"0";
+    _bottomLabel.font = [NSFont labelFontOfSize:[NSFont smallSystemFontSize]];
+    [_bottomLabel setEditable:NO];
+    _bottomLabel.selectable = YES;
+    [_bottomLabel setBezeled:NO];
+    _bottomLabel.drawsBackground = NO;
     [self addSubview:_bottomLabel];
 
     _rightLine = [[NSView alloc] initWithFrame:CGRectZero];
@@ -81,9 +96,9 @@
                                                       constant:0.0]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[name]-|" options:0 metrics:nil views:views]];
 
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[topLabel(30)]-(8)-[rightLine(1)]|"    options:0 metrics:nil views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[topLabel(30)]-(4)-[rightLine(1)]|"    options:0 metrics:nil views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[topLabel]"     options:0 metrics:nil views:views]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[bottomLabel(30)]-(8)-[rightLine]|" options:0 metrics:nil views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[bottomLabel(30)]-(4)-[rightLine]|" options:0 metrics:nil views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[bottomLabel]|"  options:0 metrics:nil views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[rightLine]|"  options:0 metrics:nil views:views]];
 }
