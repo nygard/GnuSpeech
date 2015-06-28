@@ -135,7 +135,7 @@
 
 - (CGSize)intrinsicContentSize;
 {
-    return CGSizeMake(800, 50);
+    return CGSizeMake(2000, 50);
 }
 
 #pragma mark -
