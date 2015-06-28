@@ -5,8 +5,9 @@
 
 #import <GnuSpeech/GnuSpeech.h>
 
-#define TRACKHEIGHT		(120.0)
+#define HEIGHT (40)
 
+// TODO: (2015-06-28) Perhaps this would be better as two separate views, one for rules and one for postures.  Then we could baseline align the labels.
 @implementation MARulePhoneView
 {
     NSTextFieldCell *_ruleCell;
@@ -77,13 +78,13 @@
 - (CGSize)intrinsicContentSize;
 {
     if (self.eventList == nil) {
-        return CGSizeMake(800, 50);
+        return CGSizeMake(800, HEIGHT);
     }
 
-    CGSize size = CGSizeMake(0, 50);
+    CGSize size = CGSizeMake(0, HEIGHT);
     Event *lastEvent = self.eventList.events.lastObject;
     if (lastEvent == nil) {
-        return CGSizeMake(800, 50);
+        return CGSizeMake(800, HEIGHT);
     }
 
     CGFloat leftInset = 5.0;
@@ -110,8 +111,8 @@
 
     {
         NSBezierPath *path = [[NSBezierPath alloc] init];
-        CGFloat top    = bounds.size.height - 7.0;
-        CGFloat bottom = bounds.size.height - 25.0;
+        CGFloat top    = 19;
+        CGFloat bottom = 1;
 
         [path moveToPoint:NSMakePoint(leftInset,                  top)];
         [path lineToPoint:NSMakePoint(NSMaxX(self.bounds) - 15.0, top)];
@@ -133,7 +134,7 @@
             CGFloat right = leftInset + e2.time * _scale;
             NSRect cellFrame;
             cellFrame.origin.x = left;
-            cellFrame.origin.y = bounds.size.height - 25.0 - 3;
+            cellFrame.origin.y = 1 - 3;
             cellFrame.size.height = 18.0;
             cellFrame.size.width = rint(right - left);
             //NSLog(@"%3lu: %@", index, NSStringFromRect(cellFrame));
@@ -164,7 +165,7 @@
             MMPosture *currentPhone = [_eventList getPhoneAtIndex:phoneIndex++];
             if (currentPhone) {
                 [[NSColor blackColor] set];
-                [[currentPhone name] drawAtPoint:NSMakePoint(currentX, bounds.size.height - 42.0) withAttributes:nil];
+                [[currentPhone name] drawAtPoint:NSMakePoint(currentX, 20) withAttributes:nil];
             }
         }
     }
@@ -175,8 +176,8 @@
     {
         // Draw this last, so that vertical lines don't overlap.
         NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
-        [bezierPath moveToPoint:CGPointMake(0,              0.5)];
-        [bezierPath lineToPoint:CGPointMake(NSMaxX(bounds), 0.5)];
+//        [bezierPath moveToPoint:CGPointMake(0,              0.5)];
+//        [bezierPath lineToPoint:CGPointMake(NSMaxX(bounds), 0.5)];
         [bezierPath moveToPoint:CGPointMake(0,              NSMaxY(bounds) - 0.5)];
         [bezierPath lineToPoint:CGPointMake(NSMaxX(bounds), NSMaxY(bounds) - 0.5)];
 
