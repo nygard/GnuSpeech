@@ -33,6 +33,13 @@
     self.layer.borderWidth = 1;
 }
 
+- (void)dealloc;
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark -
+
 - (CGSize)intrinsicContentSize;
 {
     return CGSizeMake(2000, 100);
@@ -46,8 +53,21 @@
 
 - (void)setEventList:(EventList *)eventList;
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EventListNotification_DidGenerateOutput object:nil];
+
     _eventList = eventList;
+    if (_eventList != nil) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventListDidGenerateOutput:) name:EventListNotification_DidGenerateOutput object:_eventList];
+    }
+
     [self setNeedsDisplay:YES];
+}
+
+#pragma mark -
+
+- (void)eventListDidGenerateOutput:(NSNotification *)notification;
+{
+    NSLog(@"%s, displayParameter: %@", __PRETTY_FUNCTION__, self.displayParameter);
 }
 
 @end

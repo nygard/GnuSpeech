@@ -46,6 +46,8 @@ struct _foot {
 NSString *EventListDidChangeIntonationPoints = @"EventListDidChangeIntonationPoints";
 NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonationPoints";
 
+NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidGenerateOutput";
+
 @interface EventList ()
 @property (assign) BOOL intonationPointsNeedSorting;
 @property (nonatomic, assign) NSInteger zeroRef;
@@ -1003,6 +1005,9 @@ NSString *EventListDidGenerateIntonationPoints = @"EventListDidGenerateIntonatio
             }
         }
     }
+
+    // Use a notification so that multiple objects can be notified.  Also, this happens at a different time to the current delegate method.
+    [[NSNotificationCenter defaultCenter] postNotificationName:EventListNotification_DidGenerateOutput object:self userInfo:nil];
 
     // TODO (2004-03-25): There used to be some silence padding here.
 

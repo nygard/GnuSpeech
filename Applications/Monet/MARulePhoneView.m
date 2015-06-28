@@ -46,6 +46,27 @@
     [_ruleCell setEnabled:YES];
 }
 
+- (void)dealloc;
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark -
+
+- (void)setEventList:(EventList *)eventList;
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EventListNotification_DidGenerateOutput object:nil];
+
+    _eventList = eventList;
+    if (_eventList != nil) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventListDidGenerateOutput:) name:EventListNotification_DidGenerateOutput object:_eventList];
+    }
+
+    [self setNeedsDisplay:YES];
+}
+
+#pragma mark -
+
 - (void)drawRect:(NSRect)rect;
 {
     CGFloat leftInset = 0.0;
@@ -115,6 +136,14 @@
 // Just for testing.
 - (void)mouseDown:(NSEvent *)theEvent;
 {
+    [self setNeedsDisplay:YES];
+}
+
+#pragma mark -
+
+- (void)eventListDidGenerateOutput:(NSNotification *)notification;
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self setNeedsDisplay:YES];
 }
 
