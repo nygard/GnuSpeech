@@ -33,8 +33,8 @@
 - (void)_commonInit_MARulePhoneView;
 {
     self.wantsLayer = YES;
-    self.layer.backgroundColor = [[NSColor redColor] colorWithAlphaComponent:0.2].CGColor;
-    self.layer.borderWidth = 1;
+    //self.layer.backgroundColor = [[NSColor redColor] colorWithAlphaComponent:0.2].CGColor;
+    //self.layer.borderWidth = 1;
 
     _scale = 0.5;
 
@@ -122,13 +122,22 @@
                 [[currentPhone name] drawAtPoint:NSMakePoint(currentX, bounds.size.height - 42.0) withAttributes:nil];
             }
         }
-
-//        [bezierPath moveToPoint:NSMakePoint(currentX + 0.5, bounds.size.height - (50.0 + 1.0 + (float)j * TRACKHEIGHT))];
-//        [bezierPath lineToPoint:NSMakePoint(currentX + 0.5, bounds.size.height - 50.0 - 1.0)];
     }
 
     [[NSColor lightGrayColor] set];
     [bezierPath stroke];
+
+    {
+        // Draw this last, so that vertical lines don't overlap.
+        NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
+        [bezierPath moveToPoint:CGPointMake(0,              0.5)];
+        [bezierPath lineToPoint:CGPointMake(NSMaxX(bounds), 0.5)];
+        [bezierPath moveToPoint:CGPointMake(0,              NSMaxY(bounds) - 0.5)];
+        [bezierPath lineToPoint:CGPointMake(NSMaxX(bounds), NSMaxY(bounds) - 0.5)];
+
+        [[NSColor blackColor] set];
+        [bezierPath stroke];
+    }
 }
 
 #pragma mark -
