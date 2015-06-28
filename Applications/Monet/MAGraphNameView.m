@@ -36,7 +36,7 @@
 {
     self.wantsLayer = YES;
     self.layer.backgroundColor = [[NSColor greenColor] colorWithAlphaComponent:0.2].CGColor;
-    self.layer.borderWidth = 1;
+    //self.layer.borderWidth = 1;
 
     _nameLabel = [[NSTextField alloc] initWithFrame:CGRectZero];
     _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
