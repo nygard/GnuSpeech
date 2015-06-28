@@ -41,7 +41,7 @@
     _ruleCell = [[NSTextFieldCell alloc] initTextCell:@""];
     [_ruleCell setFont:[NSFont labelFontOfSize:10.0]];
     [_ruleCell setAlignment:NSCenterTextAlignment];
-    [_ruleCell setBordered:YES];
+    [_ruleCell setBordered:NO];
     [_ruleCell setEnabled:YES];
 }
 
@@ -101,33 +101,57 @@
     NSRect bounds = NSIntegralRect([self bounds]);
     //NSLog(@"%s, bounds: %@", __PRETTY_FUNCTION__, NSStringFromRect(bounds));
 
-    NSFont *font = [NSFont systemFontOfSize:10];
-
-    [font set];
-    CGFloat currentX = 0;
-    CGFloat extraWidth = 0.0;
-
-    NSUInteger count = [self.eventList ruleCount];
-    //NSLog(@"count: %lu", count);
-    for (NSUInteger index = 0; index < count; index++) {
-        struct _rule *rule = [self.eventList getRuleAtIndex:index];
-
-        NSRect cellFrame;
-        cellFrame.origin.x = leftInset + currentX;
-        cellFrame.origin.y = bounds.size.height - 25.0;
-        cellFrame.size.height = 18.0;
-        cellFrame.size.width = rule->duration * _scale + extraWidth;
-        //NSLog(@"%3lu: %@", index, NSStringFromRect(cellFrame));
-
-        [_ruleCell setIntegerValue:rule->number];
-        [_ruleCell drawWithFrame:cellFrame inView:self];
-
-        extraWidth = 1.0;
-        currentX += cellFrame.size.width - extraWidth;
+    NSMutableArray *postureEvents = [[NSMutableArray alloc] init];
+    for (Event *event in self.eventList.events) {
+        if (event.isAtPosture) {
+            [postureEvents addObject:event];
+        }
     }
 
+    {
+        NSBezierPath *path = [[NSBezierPath alloc] init];
+        CGFloat top    = bounds.size.height - 7.0;
+        CGFloat bottom = bounds.size.height - 25.0;
+
+        [path moveToPoint:NSMakePoint(leftInset,                  top)];
+        [path lineToPoint:NSMakePoint(NSMaxX(self.bounds) - 15.0, top)];
+        [path moveToPoint:NSMakePoint(leftInset,                  bottom)];
+        [path lineToPoint:NSMakePoint(NSMaxX(self.bounds) - 15.0, bottom)];
+        [path moveToPoint:NSMakePoint(leftInset, top)];
+        [path lineToPoint:NSMakePoint(leftInset, bottom)];
+
+        NSUInteger count = [self.eventList ruleCount];
+        //NSLog(@"count: %lu", count);
+        for (NSUInteger index = 0; index < count; index++) {
+            struct _rule *rule = [self.eventList getRuleAtIndex:index];
+
+            NSParameterAssert(rule->firstPhone < [postureEvents count]);
+            NSParameterAssert(rule->lastPhone < [postureEvents count]);
+            Event *e1 = postureEvents[rule->firstPhone];
+            Event *e2 = postureEvents[rule->lastPhone];
+            CGFloat left  = leftInset + e1.time * _scale;
+            CGFloat right = leftInset + e2.time * _scale;
+            NSRect cellFrame;
+            cellFrame.origin.x = left;
+            cellFrame.origin.y = bounds.size.height - 25.0 - 3;
+            cellFrame.size.height = 18.0;
+            cellFrame.size.width = rint(right - left);
+            //NSLog(@"%3lu: %@", index, NSStringFromRect(cellFrame));
+
+            [_ruleCell setIntegerValue:rule->number];
+            [_ruleCell drawWithFrame:cellFrame inView:self];
+
+            [path moveToPoint:NSMakePoint(right, top)];
+            [path lineToPoint:NSMakePoint(right, bottom)];
+        }
+
+        [[NSColor blackColor] set];
+        [path stroke];
+    }
+
+    CGFloat currentX = 0;
+
     // Draw phones/postures along top
-    [font set];
     NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
 
