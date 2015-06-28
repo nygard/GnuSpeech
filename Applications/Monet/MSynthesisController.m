@@ -20,6 +20,7 @@
 #import "MAGraphView.h"
 #import "MAGraphNameView.h"
 #import "MARulePhoneView.h"
+#import "MAScrollView.h"
 
 #define MDK_DefaultUtterances          @"DefaultUtterances"
 
@@ -206,6 +207,8 @@
 
     // On 10.10.3 I'm getting notified immediately, so the call to -updateLeftScrollViewInset above isn't strictly necessary.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferredScrollerStyleDidChange:) name:NSPreferredScrollerStyleDidChangeNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollerVisibilityDidChange:) name:MAScrollViewNotification_DidChangeScrollerVisibility object:self.graphScrollView];
 }
 
 #pragma mark -
@@ -431,7 +434,7 @@
     [_eventList setDelegate:nil];
 	
     [self.synthesizer synthesize];
-	
+
     [_eventListView setEventList:_eventList];
     [_eventListView display]; // TODO (2004-03-17): It's not updating otherwise
 }
@@ -670,11 +673,23 @@
 /// This is necessary to keep the scrollers lined up properly with the synchronization.
 - (void)updateLeftScrollViewInset;
 {
+    //NSLog(@"has horizontal scroller? %d", self.graphScrollView.hasHorizontalScroller);
+    //NSLog(@"%s, horizontal scroller hidden? %d", __PRETTY_FUNCTION__, self.graphScrollView.horizontalScroller.hidden);
     if ([NSScroller preferredScrollerStyle] == NSScrollerStyleLegacy) {
-        NSScroller *scroller = self.graphScrollView.horizontalScroller;
-        CGFloat width = [NSScroller scrollerWidthForControlSize:scroller.controlSize scrollerStyle:scroller.scrollerStyle];
-        self.leftStackView.edgeInsets = NSEdgeInsetsMake(0, 0, width, 0);
-        self.rulePhoneView.rightEdgeInset = width;
+        if (!self.graphScrollView.horizontalScroller.hidden) {
+            NSScroller *scroller = self.graphScrollView.horizontalScroller;
+            CGFloat width = [NSScroller scrollerWidthForControlSize:scroller.controlSize scrollerStyle:scroller.scrollerStyle];
+            self.leftStackView.edgeInsets = NSEdgeInsetsMake(0, 0, width, 0);
+        } else {
+            self.leftStackView.edgeInsets = NSEdgeInsetsMake(0, 0, 0, 0);
+        }
+        if (!self.graphScrollView.verticalScroller.hidden) {
+            NSScroller *scroller = self.graphScrollView.verticalScroller;
+            CGFloat width = [NSScroller scrollerWidthForControlSize:scroller.controlSize scrollerStyle:scroller.scrollerStyle];
+            self.rulePhoneView.rightEdgeInset = width;
+        } else {
+            self.rulePhoneView.rightEdgeInset = 0;
+        }
     } else {
         self.leftStackView.edgeInsets = NSEdgeInsetsMake(0, 0, 0, 0);
         self.rulePhoneView.rightEdgeInset = 0;
@@ -720,6 +735,11 @@
     } else {
         self.mouseValueField.stringValue = @"---";
     }
+}
+
+- (void)scrollerVisibilityDidChange:(NSNotification *)notification;
+{
+    [self updateLeftScrollViewInset];
 }
 
 @end
