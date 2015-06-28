@@ -32,7 +32,8 @@
 - (void)_commonInit_MAGraphView;
 {
     self.wantsLayer = YES;
-    self.layer.backgroundColor = [[NSColor magentaColor] colorWithAlphaComponent:0.2].CGColor;
+    //self.layer.backgroundColor = [[NSColor magentaColor] colorWithAlphaComponent:0.2].CGColor;
+    self.layer.backgroundColor = [NSColor whiteColor].CGColor;
     self.layer.borderWidth = 1;
 
     _timeScale = 0.5;
