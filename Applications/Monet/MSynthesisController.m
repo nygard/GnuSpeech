@@ -198,6 +198,8 @@
     [self.graphStackView.enclosingScrollView addConstraint:c2];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewDidScroll:) name:NSScrollViewDidLiveScrollNotification object:self.graphScrollView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewDidScroll:) name:NSScrollViewDidLiveScrollNotification object:self.topScrollView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewDidScroll:) name:NSScrollViewDidLiveScrollNotification object:self.leftScrollView];
     // This doesn't work.  Nor does 0, 0.
 //    [self.graphScrollView scrollRectToVisible:CGRectMake(0, 2900, 10, 10)];
 
@@ -633,27 +635,28 @@
 
 - (void)scrollViewDidScroll:(NSNotification *)notification;
 {
-//    NSScrollView *scrollView = notification.object;
-//    NSLog(@"%s, object: %@, vis: %@", __PRETTY_FUNCTION__, notification.object, NSStringFromRect(self.graphScrollView.documentVisibleRect));
-//    NSLog(@"leftScrollView: %@", self.leftScrollView);
+    if (notification.object == self.graphScrollView) {
+        NSRect r1 = self.graphScrollView.documentVisibleRect;
+        NSRect r2 = self.leftScrollView.documentVisibleRect;
+        r2 = self.leftStackView.visibleRect;
 
-    NSRect r1 = self.graphScrollView.documentVisibleRect;
-    NSRect r2 = self.leftScrollView.documentVisibleRect;
-    r2 = self.leftStackView.visibleRect;
+        r2.origin.y = r1.origin.y;
+        [self.leftStackView scrollRectToVisible:r2];
 
-//    NSLog(@"r1: %@", NSStringFromRect(r1));
-//    NSLog(@"r2: %@", NSStringFromRect(r2));
-
-    r2.origin.y = r1.origin.y;
-//    NSLog(@"r2: %@", NSStringFromRect(r2));
-    [self.leftStackView scrollRectToVisible:r2];
-
-//    NSLog(@"topScrollView: %@", self.topScrollView);
-    NSRect r3 = self.topScrollView.documentVisibleRect;
-//    NSLog(@"r3: %@", NSStringFromRect(r3));
-    r3.origin.x = r1.origin.x;
-//    NSLog(@"r3: %@", NSStringFromRect(r3));
-    [self.rulePhoneView scrollRectToVisible:r3];
+        NSRect r3 = self.topScrollView.documentVisibleRect;
+        r3.origin.x = r1.origin.x;
+        [self.rulePhoneView scrollRectToVisible:r3];
+    } else if (notification.object == self.leftScrollView) {
+        NSRect r1 = self.leftScrollView.documentVisibleRect;
+        NSRect r2 = self.graphScrollView.documentVisibleRect;
+        r2.origin.y = r1.origin.y;
+        [self.graphStackView scrollRectToVisible:r2];
+    } else if (notification.object == self.topScrollView) {
+        NSRect r1 = self.topScrollView.documentVisibleRect;
+        NSRect r2 = self.graphScrollView.documentVisibleRect;
+        r2.origin.x = r1.origin.x;
+        [self.graphStackView scrollRectToVisible:r2];
+    }
 }
 
 #pragma mark -
