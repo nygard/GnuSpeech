@@ -200,6 +200,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollViewDidScroll:) name:NSScrollViewDidLiveScrollNotification object:self.graphScrollView];
     // This doesn't work.  Nor does 0, 0.
 //    [self.graphScrollView scrollRectToVisible:CGRectMake(0, 2900, 10, 10)];
+
+    [self updateLeftScrollViewInset];
+
+    // On 10.10.3 I'm getting notified immediately, so the call to -updateLeftScrollViewInset above isn't strictly necessary.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferredScrollerStyleDidChange:) name:NSPreferredScrollerStyleDidChangeNotification object:nil];
 }
 
 #pragma mark -
@@ -649,6 +654,28 @@
     r3.origin.x = r1.origin.x;
 //    NSLog(@"r3: %@", NSStringFromRect(r3));
     [self.rulePhoneView scrollRectToVisible:r3];
+}
+
+#pragma mark -
+
+
+- (void)preferredScrollerStyleDidChange:(NSNotification *)notification;
+{
+    [self updateLeftScrollViewInset];
+}
+
+/// Update the bottom inset to account for the horizontal scroller, since the origin is in the bottom left corner.
+///
+/// This is necessary to keep the scrollers lined up properly with the synchronization.
+- (void)updateLeftScrollViewInset;
+{
+    if ([NSScroller preferredScrollerStyle] == NSScrollerStyleLegacy) {
+        NSScroller *scroller = self.graphScrollView.horizontalScroller;
+        CGFloat width = [NSScroller scrollerWidthForControlSize:scroller.controlSize scrollerStyle:scroller.scrollerStyle];
+        self.leftStackView.edgeInsets = NSEdgeInsetsMake(0, 0, width, 0);
+    } else {
+        self.leftStackView.edgeInsets = NSEdgeInsetsMake(0, 0, 0, 0);
+    }
 }
 
 @end
