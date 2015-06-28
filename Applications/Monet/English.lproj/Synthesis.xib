@@ -19,6 +19,8 @@
                 <outlet property="graphStackView" destination="dfB-Rm-QRM" id="EfN-Km-dUs"/>
                 <outlet property="leftScrollView" destination="JIu-Bu-11q" id="mlM-To-zJN"/>
                 <outlet property="leftStackView" destination="EeE-Sx-UBN" id="grY-vA-oNO"/>
+                <outlet property="mouseTimeField" destination="23" id="XAY-7l-qPO"/>
+                <outlet property="mouseValueField" destination="27" id="Swi-qN-eQ8"/>
                 <outlet property="rulePhoneView" destination="wRi-Ti-tsn" id="Aqs-7c-T7m"/>
                 <outlet property="topScrollView" destination="K6M-nq-61I" id="NO6-ty-tt6"/>
                 <outlet property="window" destination="10" id="118"/>
@@ -193,7 +195,7 @@ DQ
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="7zm-UI-Ntg"/>
                         </constraints>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="236">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" drawsBackground="YES" id="236">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -204,7 +206,7 @@ DQ
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="Oiv-W9-7xU"/>
                         </constraints>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="238">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" drawsBackground="YES" id="238">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -237,7 +239,7 @@ DQ
                         </connections>
                     </slider>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5SL-RS-j1B">
-                        <rect key="frame" x="750" y="19.5" width="43" height="17"/>
+                        <rect key="frame" x="750" y="19" width="43" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Scale:" id="L3m-AQ-12N">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>

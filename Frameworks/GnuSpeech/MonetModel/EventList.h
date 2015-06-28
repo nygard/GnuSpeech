@@ -42,6 +42,7 @@ struct _rule {
 
 // Events
 - (NSArray *)events;
+- (double)valueAtTimeOffset:(double)time forEvent:(NSInteger)number;
 - (void)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value;
 
 // Other

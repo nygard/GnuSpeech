@@ -38,6 +38,8 @@
 @property (weak) IBOutlet NSScrollView *graphScrollView;
 @property (weak) IBOutlet NSStackView *graphStackView;
 
+@property (weak) IBOutlet NSTextField *mouseTimeField;
+@property (weak) IBOutlet NSTextField *mouseValueField;
 
 @property (readonly) EventList *eventList;
 @property (readonly) TRMSynthesizer *synthesizer;
@@ -57,9 +59,6 @@
     IBOutlet EventListView *_eventListView;
 	IBOutlet NSScrollView *_scrollView;
     IBOutlet NSButton *_parametersStore;
-
-	IBOutlet NSTextField *_mouseTimeField;
-    IBOutlet NSTextField *_mouseValueField;
 
     // Save panel accessory view
     IBOutlet NSView *_savePanelAccessoryView;
@@ -698,6 +697,26 @@
         if ([view respondsToSelector:@selector(setScale:)]) {
             [(MAGraphView *)view setScale:scale];
         }
+    }
+}
+
+- (void)updateGraphTracking:(NSDictionary *)userInfo;
+{
+    //NSLog(@"%s, userInfo: %@", __PRETTY_FUNCTION__, userInfo);
+
+    NSNumber *time = userInfo[@"time"];
+    if (time != nil) {
+        // TODO: Use formatter instead.
+        self.mouseTimeField.stringValue = [NSString stringWithFormat:@"%.0f", time.doubleValue];
+    } else {
+        self.mouseTimeField.stringValue = @"---";
+    }
+
+    NSNumber *value = userInfo[@"value"];
+    if (userInfo[@"value"] != nil) {
+        self.mouseValueField.stringValue = [NSString stringWithFormat:@"%.1f", value.doubleValue];
+    } else {
+        self.mouseValueField.stringValue = @"---";
     }
 }
 

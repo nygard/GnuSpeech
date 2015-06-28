@@ -452,7 +452,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     return _events;
 }
 
-/// Get the event a time "time".  Create and insert it into "events" array, if necessary.
+/// Get the event at time "time".  Create and insert it into "events" array, if necessary.
 /// Time is relative to zeroRef.
 - (Event *)eventAtTimeOffset:(double)time;
 {
@@ -494,6 +494,12 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     [_events insertObject:newEvent atIndex:i+1];
 
     return newEvent;
+}
+
+/// Return the interpolated value at the given time, or an exact value if it lies on an event.
+- (double)valueAtTimeOffset:(double)time forEvent:(NSInteger)number;
+{
+    return 0;
 }
 
 // Time relative to zeroRef

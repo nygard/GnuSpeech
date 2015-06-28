@@ -6,7 +6,14 @@
 #import <GnuSpeech/GnuSpeech.h>
 #import "MMDisplayParameter.h"
 
+@interface MAGraphView ()
+@property (strong) NSTrackingArea *trackingArea;
+@end
+
 @implementation MAGraphView
+{
+    CGFloat _leftInset;;
+}
 
 - (id)initWithFrame:(NSRect)frameRect;
 {
@@ -34,6 +41,10 @@
     //self.layer.borderWidth = 1;
 
     _scale = 0.5;
+    _leftInset = 5.0;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(frameDidChange:) name:NSViewFrameDidChangeNotification object:self];
+    self.postsFrameChangedNotifications = YES;
 }
 
 - (void)dealloc;
@@ -98,14 +109,24 @@
     return size;
 }
 
+- (void)frameDidChange:(NSNotification *)notification;
+{
+    //NSLog(@"[%p]  > %s", self, __PRETTY_FUNCTION__);
+    //NSLog(@"bounds now: %@", NSStringFromRect(self.bounds));
+    [self removeTrackingArea:self.trackingArea];
+    self.trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingMouseMoved|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil];
+    [self addTrackingArea:self.trackingArea];
+    //NSLog(@"[%p] <  %s", self, __PRETTY_FUNCTION__);
+}
+
 - (void)drawRect:(NSRect)rect;
 {
-    CGFloat leftInset = 5.0;
     NSRect bounds = self.bounds;
     CGFloat topInset = 2.0;
     CGFloat bottomInset = 2.0;
     CGFloat trackHeight = bounds.size.height - topInset - bottomInset;
 
+    //NSLog(@"[%p] bounds: %@", self, NSStringFromRect(bounds));
 
     NSUInteger parameterIndex = self.displayParameter.tag;
     double currentMin = self.displayParameter.parameter.minimumValue;
@@ -120,14 +141,14 @@
         [valuePath setLineDash:dash count:2 phase:0];
         for (Event *event in events) {
             if (event.isAtPosture) {
-                CGFloat x = leftInset + event.time * _scale;
+                CGFloat x = _leftInset + event.time * _scale;
                 [posturePath moveToPoint:CGPointMake(x, 0)];
                 [posturePath lineToPoint:CGPointMake(x, NSMaxY(bounds))];
             } else {
                 double value = [event getValueAtIndex:parameterIndex];
 
                 if (value != NaN) {
-                    CGFloat x = leftInset + event.time * _scale;
+                    CGFloat x = _leftInset + event.time * _scale;
                     [valuePath moveToPoint:CGPointMake(x, 0)];
                     [valuePath lineToPoint:CGPointMake(x, NSMaxY(bounds))];
                 }
@@ -145,7 +166,7 @@
 
             if (value != NaN) {
                 CGPoint p1;
-                p1.x = leftInset + event.time * _scale;
+                p1.x = _leftInset + event.time * _scale;
                 p1.y = rint(bottomInset + trackHeight * (value - currentMin) / (currentMax - currentMin));
                 [valuePath moveToPoint:p1];
                 [valuePath appendBezierPathWithArcWithCenter:p1 radius:2 startAngle:0 endAngle:360];
@@ -164,7 +185,7 @@
 
             if (value != NaN) {
                 CGPoint p1;
-                p1.x = leftInset + event.time * _scale;
+                p1.x = _leftInset + event.time * _scale;
                 p1.y = rint(bottomInset + trackHeight * (value - currentMin) / (currentMax - currentMin));
                 if (isFirstPoint) {
                     isFirstPoint = NO;
@@ -189,6 +210,29 @@
         [[NSColor blackColor] set];
         [bezierPath stroke];
     }
+}
+
+- (void)mouseMoved:(NSEvent *)event;
+{
+    NSPoint point = [self convertPoint:event.locationInWindow fromView:nil];
+    //NSLog(@"%s, point: %@", __PRETTY_FUNCTION__, NSStringFromPoint(point));
+
+    CGFloat time = (point.x - _leftInset) / _scale;
+
+    NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
+
+    if ((point.x >= _leftInset) && (point.x <= self.bounds.size.width)) {
+        userInfo[@"time"] = @(time);
+    }
+
+    //NSLog(@"tag: %ld", self.displayParameter.tag);
+
+    double value = [self.eventList valueAtTimeOffset:time forEvent:self.displayParameter.tag];
+    if (!isnan(value)) {
+        userInfo[@"value"] = @(value);
+    }
+
+    [NSApp sendAction:@selector(updateGraphTracking:) to:nil from:userInfo];
 }
 
 @end

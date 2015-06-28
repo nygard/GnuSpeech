@@ -10,3 +10,7 @@
 @property (nonatomic, strong) EventList *eventList;
 @property (nonatomic, assign) CGFloat scale;
 @end
+
+@protocol MAGraphViewTracking
+- (void)updateGraphTracking:(NSDictionary *)userInfo;
+@end
