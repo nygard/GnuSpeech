@@ -674,8 +674,10 @@
         NSScroller *scroller = self.graphScrollView.horizontalScroller;
         CGFloat width = [NSScroller scrollerWidthForControlSize:scroller.controlSize scrollerStyle:scroller.scrollerStyle];
         self.leftStackView.edgeInsets = NSEdgeInsetsMake(0, 0, width, 0);
+        self.rulePhoneView.rightEdgeInset = width;
     } else {
         self.leftStackView.edgeInsets = NSEdgeInsetsMake(0, 0, 0, 0);
+        self.rulePhoneView.rightEdgeInset = 0;
     }
 }
 

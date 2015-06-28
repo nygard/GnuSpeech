@@ -73,6 +73,13 @@
     [self setNeedsDisplay:YES];
 }
 
+- (void)setRightEdgeInset:(CGFloat)rightEdgeInset;
+{
+    _rightEdgeInset = rightEdgeInset;
+    [self invalidateIntrinsicContentSize];
+    [self setNeedsDisplay:YES];
+}
+
 #pragma mark -
 
 - (CGSize)intrinsicContentSize;
@@ -90,7 +97,7 @@
     CGFloat leftInset = 5.0;
     CGFloat rightInset = 15.0;
 
-    size.width = leftInset + lastEvent.time * _scale + rightInset;;
+    size.width = leftInset + lastEvent.time * _scale + rightInset + _rightEdgeInset;
     return size;
 }
 
@@ -114,12 +121,12 @@
         CGFloat top    = 19;
         CGFloat bottom = 1;
 
-        [path moveToPoint:NSMakePoint(leftInset,                  top)];
-        [path lineToPoint:NSMakePoint(NSMaxX(self.bounds) - 15.0, top)];
-        [path moveToPoint:NSMakePoint(leftInset,                  bottom)];
-        [path lineToPoint:NSMakePoint(NSMaxX(self.bounds) - 15.0, bottom)];
-        [path moveToPoint:NSMakePoint(leftInset, top)];
-        [path lineToPoint:NSMakePoint(leftInset, bottom)];
+        [path moveToPoint:NSMakePoint(leftInset,                                        top)];
+        [path lineToPoint:NSMakePoint(NSMaxX(self.bounds) - 15.0 - self.rightEdgeInset, top)];
+        [path moveToPoint:NSMakePoint(leftInset,                                        bottom)];
+        [path lineToPoint:NSMakePoint(NSMaxX(self.bounds) - 15.0 - self.rightEdgeInset, bottom)];
+        [path moveToPoint:NSMakePoint(leftInset,                                        top)];
+        [path lineToPoint:NSMakePoint(leftInset,                                        bottom)];
 
         NSUInteger count = [self.eventList ruleCount];
         //NSLog(@"count: %lu", count);
