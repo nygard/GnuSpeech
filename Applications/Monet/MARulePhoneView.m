@@ -61,16 +61,37 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventListDidGenerateOutput:) name:EventListNotification_DidGenerateOutput object:_eventList];
     }
 
+    [self invalidateIntrinsicContentSize];
     [self setNeedsDisplay:YES];
 }
 
 - (void)setScale:(CGFloat)scale;
 {
     _scale = scale;
+    [self invalidateIntrinsicContentSize];
     [self setNeedsDisplay:YES];
 }
 
 #pragma mark -
+
+- (CGSize)intrinsicContentSize;
+{
+    if (self.eventList == nil) {
+        return CGSizeMake(800, 50);
+    }
+
+    CGSize size = CGSizeMake(0, 50);
+    Event *lastEvent = self.eventList.events.lastObject;
+    if (lastEvent == nil) {
+        return CGSizeMake(800, 50);
+    }
+
+    CGFloat leftInset = 5.0;
+    CGFloat rightInset = 15.0;
+
+    size.width = leftInset + lastEvent.time * _scale + rightInset;;
+    return size;
+}
 
 - (void)drawRect:(NSRect)rect;
 {
@@ -142,15 +163,9 @@
 
 #pragma mark -
 
-- (CGSize)intrinsicContentSize;
-{
-    return CGSizeMake(2000, 50);
-}
-
-#pragma mark -
-
 - (void)eventListDidGenerateOutput:(NSNotification *)notification;
 {
+    [self invalidateIntrinsicContentSize];
     [self setNeedsDisplay:YES];
 }
 
