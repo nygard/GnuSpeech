@@ -40,6 +40,7 @@
 
     _nameLabel = [[NSTextField alloc] initWithFrame:CGRectZero];
     _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _nameLabel.alignment = NSCenterTextAlignment;
     _nameLabel.stringValue = @"fricBW\n(special)";
 //    _nameLabel.usesSingleLineMode = NO;
     [self addSubview:_nameLabel];
