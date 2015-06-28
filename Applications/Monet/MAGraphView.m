@@ -84,7 +84,6 @@
     CGFloat bottomInset = 2.0;
     CGFloat trackHeight = bounds.size.height - topInset - bottomInset;
 
-    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
 
     NSUInteger parameterIndex = self.displayParameter.tag;
     double currentMin = self.displayParameter.parameter.minimumValue;
@@ -92,25 +91,53 @@
 
     NSArray *events = self.eventList.events;
 
-    BOOL isFirstPoint = YES;
+    {
+        NSBezierPath *posturePath = [[NSBezierPath alloc] init];
+        NSBezierPath *valuePath = [[NSBezierPath alloc] init];
+        CGFloat dash[] = { 4.0, 8.0, };
+        [valuePath setLineDash:dash count:2 phase:0];
+        for (Event *event in events) {
+            if (event.isAtPosture) {
+                CGFloat x = event.time * _timeScale;
+                [posturePath moveToPoint:CGPointMake(x, 0)];
+                [posturePath lineToPoint:CGPointMake(x, NSMaxY(bounds))];
+            } else {
+                double value = [event getValueAtIndex:parameterIndex];
 
-    for (Event *currentEvent in events) {
-        double value = [currentEvent getValueAtIndex:parameterIndex];
-
-        if (value != NaN) {
-            CGPoint p1;
-            p1.x = currentEvent.time * _timeScale;
-            p1.y = rint(bottomInset + trackHeight * (value - currentMin) / (currentMax - currentMin));
-            if (isFirstPoint) {
-                isFirstPoint = NO;
-                [bezierPath moveToPoint:p1];
-            } else
-                [bezierPath lineToPoint:p1];
+                if (value != NaN) {
+                    CGFloat x = event.time * _timeScale;
+                    [valuePath moveToPoint:CGPointMake(x, 0)];
+                    [valuePath lineToPoint:CGPointMake(x, NSMaxY(bounds))];
+                }
+            }
         }
+        [[NSColor lightGrayColor] set];
+        [valuePath stroke];
+        [posturePath stroke];
     }
 
-    [[NSColor blackColor] set];
-    [bezierPath stroke];
+    {
+        NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
+        BOOL isFirstPoint = YES;
+
+        for (Event *event in events) {
+            double value = [event getValueAtIndex:parameterIndex];
+
+            if (value != NaN) {
+                CGPoint p1;
+                p1.x = event.time * _timeScale;
+                p1.y = rint(bottomInset + trackHeight * (value - currentMin) / (currentMax - currentMin));
+                if (isFirstPoint) {
+                    isFirstPoint = NO;
+                    [bezierPath moveToPoint:p1];
+                } else
+                    [bezierPath lineToPoint:p1];
+            }
+        }
+        
+        [[NSColor blackColor] set];
+        [bezierPath stroke];
+    }
 }
 
 @end
