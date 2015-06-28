@@ -3,8 +3,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class MMDisplayParameter;
+@class MMDisplayParameter, EventList;
 
 @interface MAGraphView : NSView
 @property (nonatomic, strong) MMDisplayParameter *displayParameter;
+@property (nonatomic, strong) EventList *eventList;
 @end

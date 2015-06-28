@@ -38,4 +38,16 @@
     return CGSizeMake(2000, 100);
 }
 
+- (void)setDisplayParameter:(MMDisplayParameter *)displayParameter;
+{
+    _displayParameter = displayParameter;
+    [self setNeedsDisplay:YES];
+}
+
+- (void)setEventList:(EventList *)eventList;
+{
+    _eventList = eventList;
+    [self setNeedsDisplay:YES];
+}
+
 @end

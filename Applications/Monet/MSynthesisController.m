@@ -247,6 +247,7 @@
         MAGraphView *gv1 = [[MAGraphView alloc] initWithFrame:CGRectMake(0, 0, 300, 100)];
         gv1.translatesAutoresizingMaskIntoConstraints = NO;
         gv1.displayParameter = displayParameter;
+        gv1.eventList = self.eventList;
         [self.graphStackView addView:gv1 inGravity:NSStackViewGravityTop];
 
         if (!displayParameter.shouldDisplay) {
