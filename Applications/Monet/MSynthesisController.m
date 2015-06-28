@@ -658,7 +658,6 @@
 
 #pragma mark -
 
-
 - (void)preferredScrollerStyleDidChange:(NSNotification *)notification;
 {
     [self updateLeftScrollViewInset];
@@ -684,6 +683,19 @@
 
     NSLog(@"scrollview horizontal constraints:\n%@", [self.leftScrollView constraintsAffectingLayoutForOrientation:NSLayoutConstraintOrientationHorizontal]);
     NSLog(@"stackview horizontal constraints:\n%@", [self.leftStackView constraintsAffectingLayoutForOrientation:NSLayoutConstraintOrientationHorizontal]);
+}
+
+- (IBAction)updateScale:(id)sender;
+{
+    double scale = [sender doubleValue];
+    self.rulePhoneView.scale = scale;
+
+    // TODO: (2015-06-27) Probably easier just to keep our own array of the MAGraphViews and iterate through that.
+    for (NSView *view in self.graphStackView.views) {
+        if ([view respondsToSelector:@selector(setScale:)]) {
+            [(MAGraphView *)view setScale:scale];
+        }
+    }
 }
 
 @end

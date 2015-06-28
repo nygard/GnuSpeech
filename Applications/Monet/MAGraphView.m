@@ -7,9 +7,6 @@
 #import "MMDisplayParameter.h"
 
 @implementation MAGraphView
-{
-    CGFloat _timeScale;
-}
 
 - (id)initWithFrame:(NSRect)frameRect;
 {
@@ -36,7 +33,7 @@
     self.layer.backgroundColor = [NSColor whiteColor].CGColor;
     //self.layer.borderWidth = 1;
 
-    _timeScale = 0.5;
+    _scale = 0.5;
 }
 
 - (void)dealloc;
@@ -66,6 +63,12 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventListDidGenerateOutput:) name:EventListNotification_DidGenerateOutput object:_eventList];
     }
 
+    [self setNeedsDisplay:YES];
+}
+
+- (void)setScale:(CGFloat)scale;
+{
+    _scale = scale;
     [self setNeedsDisplay:YES];
 }
 
@@ -100,14 +103,14 @@
         [valuePath setLineDash:dash count:2 phase:0];
         for (Event *event in events) {
             if (event.isAtPosture) {
-                CGFloat x = leftInset + event.time * _timeScale;
+                CGFloat x = leftInset + event.time * _scale;
                 [posturePath moveToPoint:CGPointMake(x, 0)];
                 [posturePath lineToPoint:CGPointMake(x, NSMaxY(bounds))];
             } else {
                 double value = [event getValueAtIndex:parameterIndex];
 
                 if (value != NaN) {
-                    CGFloat x = leftInset + event.time * _timeScale;
+                    CGFloat x = leftInset + event.time * _scale;
                     [valuePath moveToPoint:CGPointMake(x, 0)];
                     [valuePath lineToPoint:CGPointMake(x, NSMaxY(bounds))];
                 }
@@ -125,7 +128,7 @@
 
             if (value != NaN) {
                 CGPoint p1;
-                p1.x = leftInset + event.time * _timeScale;
+                p1.x = leftInset + event.time * _scale;
                 p1.y = rint(bottomInset + trackHeight * (value - currentMin) / (currentMax - currentMin));
                 [valuePath moveToPoint:p1];
                 [valuePath appendBezierPathWithArcWithCenter:p1 radius:2 startAngle:0 endAngle:360];
@@ -144,7 +147,7 @@
 
             if (value != NaN) {
                 CGPoint p1;
-                p1.x = leftInset + event.time * _timeScale;
+                p1.x = leftInset + event.time * _scale;
                 p1.y = rint(bottomInset + trackHeight * (value - currentMin) / (currentMax - currentMin));
                 if (isFirstPoint) {
                     isFirstPoint = NO;

@@ -9,7 +9,6 @@
 
 @implementation MARulePhoneView
 {
-    CGFloat _timeScale;
     NSTextFieldCell *_ruleCell;
 }
 
@@ -37,7 +36,7 @@
     self.layer.backgroundColor = [[NSColor redColor] colorWithAlphaComponent:0.2].CGColor;
     self.layer.borderWidth = 1;
 
-    _timeScale = 0.5;
+    _scale = 0.5;
 
     _ruleCell = [[NSTextFieldCell alloc] initTextCell:@""];
     [_ruleCell setFont:[NSFont labelFontOfSize:10.0]];
@@ -62,6 +61,12 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventListDidGenerateOutput:) name:EventListNotification_DidGenerateOutput object:_eventList];
     }
 
+    [self setNeedsDisplay:YES];
+}
+
+- (void)setScale:(CGFloat)scale;
+{
+    _scale = scale;
     [self setNeedsDisplay:YES];
 }
 
@@ -90,7 +95,7 @@
         cellFrame.origin.x = leftInset + currentX;
         cellFrame.origin.y = bounds.size.height - 25.0;
         cellFrame.size.height = 18.0;
-        cellFrame.size.width = rule->duration * _timeScale + extraWidth;
+        cellFrame.size.width = rule->duration * _scale + extraWidth;
         //NSLog(@"%3lu: %@", index, NSStringFromRect(cellFrame));
 
         [_ruleCell setIntegerValue:rule->number];
@@ -108,7 +113,7 @@
     NSUInteger phoneIndex = 0;
     NSArray *events = [_eventList events];
     for (NSUInteger index = 0; index < [events count]; index++) {
-        currentX = leftInset + [[events objectAtIndex:index] time] * _timeScale;
+        currentX = leftInset + [[events objectAtIndex:index] time] * _scale;
 
         if ([[events objectAtIndex:index] isAtPosture]) {
             MMPosture *currentPhone = [_eventList getPhoneAtIndex:phoneIndex++];

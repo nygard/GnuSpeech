@@ -231,7 +231,10 @@ DQ
                         <constraints>
                             <constraint firstAttribute="width" constant="110" id="myi-pb-0Ya"/>
                         </constraints>
-                        <sliderCell key="cell" state="on" alignment="left" minValue="0.20000000000000001" maxValue="10" doubleValue="0.5" tickMarkPosition="above" sliderType="linear" id="sTM-H7-dU5"/>
+                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="0.20000000000000001" maxValue="10" doubleValue="0.5" tickMarkPosition="above" sliderType="linear" id="sTM-H7-dU5"/>
+                        <connections>
+                            <action selector="updateScale:" target="-2" id="hxG-Sd-ib2"/>
+                        </connections>
                     </slider>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5SL-RS-j1B">
                         <rect key="frame" x="750" y="28" width="43" height="17"/>

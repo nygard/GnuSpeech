@@ -8,4 +8,5 @@
 @interface MAGraphView : NSView
 @property (nonatomic, strong) MMDisplayParameter *displayParameter;
 @property (nonatomic, strong) EventList *eventList;
+@property (nonatomic, assign) CGFloat scale;
 @end
