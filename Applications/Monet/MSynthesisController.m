@@ -169,7 +169,7 @@
     [_textStringTextField removeAllItems];
     [_textStringTextField addItemsWithObjectValues:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_DefaultUtterances]];
     [_textStringTextField selectItemAtIndex:0];
-	[_phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];	
+	[_phoneStringTextView setFont:[NSFont systemFontOfSize:13]];
 	[_phoneStringTextView setString:[_textToPhone phoneForText:[_textStringTextField stringValue]]];
 
     [self _updateDisplayParameters];
@@ -367,7 +367,7 @@
 	NSString *phoneString = [[_phoneStringTextView string] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	if (phoneString == NULL || [phoneString length] == 0) {
 		phoneString = [[_textToPhone phoneForText:[_textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-		[_phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];
+		[_phoneStringTextView setFont:[NSFont systemFontOfSize:13]];
 		[_phoneStringTextView setString:phoneString];
 		[_textStringTextField setTextColor:[NSColor blackColor]];
 	} else {
@@ -546,7 +546,7 @@
 	[_textStringTextField setTextColor:[NSColor blackColor]];
 
 	str = [[_textToPhone phoneForText:[_textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	[_phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];
+	[_phoneStringTextView setFont:[NSFont systemFontOfSize:13]];
 	[_phoneStringTextView setString:str];
 	[_phoneStringTextView setTextColor:[NSColor blackColor]];
 	
@@ -571,7 +571,7 @@
 {
 	NSString *phoneString = [_phoneStringTextView string];
 	if (phoneString == NULL || [phoneString length] == 0) {
-		[_phoneStringTextView setFont:[NSFont fontWithName:@"Lucida Grande" size:13]];
+		[_phoneStringTextView setFont:[NSFont systemFontOfSize:13]];
 		[_phoneStringTextView setString:phoneString];
 	}
 	[_phoneStringTextView setTextColor:[NSColor blackColor]];	
