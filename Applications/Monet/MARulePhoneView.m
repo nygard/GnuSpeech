@@ -185,8 +185,8 @@
         NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
 //        [bezierPath moveToPoint:CGPointMake(0,              0.5)];
 //        [bezierPath lineToPoint:CGPointMake(NSMaxX(bounds), 0.5)];
-        [bezierPath moveToPoint:CGPointMake(0,              NSMaxY(bounds) - 0.5)];
-        [bezierPath lineToPoint:CGPointMake(NSMaxX(bounds), NSMaxY(bounds) - 0.5)];
+//        [bezierPath moveToPoint:CGPointMake(0,              NSMaxY(bounds) - 0.5)];
+//        [bezierPath lineToPoint:CGPointMake(NSMaxX(bounds), NSMaxY(bounds) - 0.5)];
 
         [[NSColor blackColor] set];
         [bezierPath stroke];
