@@ -499,7 +499,37 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 /// Return the interpolated value at the given time, or an exact value if it lies on an event.
 - (double)valueAtTimeOffset:(double)time forEvent:(NSInteger)number;
 {
-    return 0;
+    //NSLog(@"%s, time: %f, event number: %ld", __PRETTY_FUNCTION__, time, number);
+    if (time < 0)
+        return NAN; // From math.h
+
+    // Not the most efficient, creating an array, but easiest to understand.
+
+    NSMutableArray *a1 = [[NSMutableArray alloc] init];
+
+    for (Event *event in self.events) {
+        double value = [event getValueAtIndex:number];
+        if (value != NaN) {
+            [a1 addObject:event];
+        }
+    }
+    // a1 now contains all Events that have a value for the even number we're interested in.
+    Event *previous;
+    for (Event *event in a1) {
+        if (time > event.time) {
+            previous = event;
+        } else if (time == event.time) {
+            return [event getValueAtIndex:number];
+        } else {
+            double value         = [event getValueAtIndex:number];
+            double previousValue = [previous getValueAtIndex:number];
+            double interpolated = previousValue + (value - previousValue) * (time - previous.time) / (event.time - previous.time);
+            //NSLog(@"previous: %lu - %f, this: %lu - %f, interpolated: %lu - %f", previous.time, previousValue, event.time, value, (unsigned long)time, interpolated);
+            return interpolated;
+        }
+    }
+
+    return NAN; // From math.h
 }
 
 // Time relative to zeroRef
