@@ -678,4 +678,12 @@
     }
 }
 
+- (IBAction)logHorizontalConstraints:(id)sender;
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+
+    NSLog(@"scrollview horizontal constraints:\n%@", [self.leftScrollView constraintsAffectingLayoutForOrientation:NSLayoutConstraintOrientationHorizontal]);
+    NSLog(@"stackview horizontal constraints:\n%@", [self.leftStackView constraintsAffectingLayoutForOrientation:NSLayoutConstraintOrientationHorizontal]);
+}
+
 @end
