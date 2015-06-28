@@ -85,7 +85,6 @@
     CGFloat trackHeight = bounds.size.height - topInset - bottomInset;
 
     NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
-    bezierPath.lineWidth = 2;
 
     NSUInteger parameterIndex = self.displayParameter.tag;
     double currentMin = self.displayParameter.parameter.minimumValue;
