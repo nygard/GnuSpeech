@@ -7,6 +7,9 @@
 #import "MMDisplayParameter.h"
 
 @implementation MAGraphView
+{
+    CGFloat _timeScale;
+}
 
 - (id)initWithFrame:(NSRect)frameRect;
 {
@@ -31,6 +34,8 @@
     self.wantsLayer = YES;
     self.layer.backgroundColor = [[NSColor magentaColor] colorWithAlphaComponent:0.2].CGColor;
     self.layer.borderWidth = 1;
+
+    _timeScale = 0.5;
 }
 
 - (void)dealloc;
@@ -67,7 +72,48 @@
 
 - (void)eventListDidGenerateOutput:(NSNotification *)notification;
 {
-    NSLog(@"%s, displayParameter: %@", __PRETTY_FUNCTION__, self.displayParameter);
+    [self setNeedsDisplay:YES];
+}
+
+#pragma mark -
+
+- (void)drawRect:(NSRect)rect;
+{
+    NSRect bounds = self.bounds;
+    CGFloat topInset = 2.0;
+    CGFloat bottomInset = 2.0;
+    CGFloat trackHeight = bounds.size.height - topInset - bottomInset;
+
+    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
+    bezierPath.lineWidth = 2;
+
+    NSUInteger parameterIndex = self.displayParameter.tag;
+    double currentMin = self.displayParameter.parameter.minimumValue;
+    double currentMax = self.displayParameter.parameter.maximumValue;
+
+    NSArray *events = self.eventList.events;
+
+    BOOL isFirstPoint = YES;
+
+    for (NSUInteger index = 0; index < [events count]; index++) {
+        Event *currentEvent = events[index];
+
+        double value = [currentEvent getValueAtIndex:parameterIndex];
+
+        if (value != NaN) {
+            CGPoint p1;
+            p1.x = currentEvent.time * _timeScale;
+            p1.y = rint(bottomInset + trackHeight * (value - currentMin) / (currentMax - currentMin));
+            if (isFirstPoint) {
+                isFirstPoint = NO;
+                [bezierPath moveToPoint:p1];
+            } else
+                [bezierPath lineToPoint:p1];
+        }
+    }
+
+    [[NSColor blackColor] set];
+    [bezierPath stroke];
 }
 
 @end

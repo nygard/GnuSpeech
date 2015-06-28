@@ -73,7 +73,7 @@
     [super drawRect:rect];
 
     NSRect bounds = NSIntegralRect([self bounds]);
-    NSLog(@"%s, bounds: %@", __PRETTY_FUNCTION__, NSStringFromRect(bounds));
+    //NSLog(@"%s, bounds: %@", __PRETTY_FUNCTION__, NSStringFromRect(bounds));
 
     NSFont *font = [NSFont systemFontOfSize:10];
 
@@ -82,7 +82,7 @@
     CGFloat extraWidth = 0.0;
 
     NSUInteger count = [self.eventList ruleCount];
-    NSLog(@"count: %lu", count);
+    //NSLog(@"count: %lu", count);
     for (NSUInteger index = 0; index < count; index++) {
         struct _rule *rule = [self.eventList getRuleAtIndex:index];
 
@@ -91,7 +91,7 @@
         cellFrame.origin.y = bounds.size.height - 25.0;
         cellFrame.size.height = 18.0;
         cellFrame.size.width = rule->duration * _timeScale + extraWidth;
-        NSLog(@"%3lu: %@", index, NSStringFromRect(cellFrame));
+        //NSLog(@"%3lu: %@", index, NSStringFromRect(cellFrame));
 
         [_ruleCell setIntegerValue:rule->number];
         [_ruleCell drawWithFrame:cellFrame inView:self];
@@ -133,17 +133,10 @@
     return CGSizeMake(800, 50);
 }
 
-// Just for testing.
-- (void)mouseDown:(NSEvent *)theEvent;
-{
-    [self setNeedsDisplay:YES];
-}
-
 #pragma mark -
 
 - (void)eventListDidGenerateOutput:(NSNotification *)notification;
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     [self setNeedsDisplay:YES];
 }
 

@@ -629,25 +629,25 @@
 - (void)scrollViewDidScroll:(NSNotification *)notification;
 {
 //    NSScrollView *scrollView = notification.object;
-    NSLog(@"%s, object: %@, vis: %@", __PRETTY_FUNCTION__, notification.object, NSStringFromRect(self.graphScrollView.documentVisibleRect));
-    NSLog(@"leftScrollView: %@", self.leftScrollView);
+//    NSLog(@"%s, object: %@, vis: %@", __PRETTY_FUNCTION__, notification.object, NSStringFromRect(self.graphScrollView.documentVisibleRect));
+//    NSLog(@"leftScrollView: %@", self.leftScrollView);
 
     NSRect r1 = self.graphScrollView.documentVisibleRect;
     NSRect r2 = self.leftScrollView.documentVisibleRect;
     r2 = self.leftStackView.visibleRect;
 
-    NSLog(@"r1: %@", NSStringFromRect(r1));
-    NSLog(@"r2: %@", NSStringFromRect(r2));
+//    NSLog(@"r1: %@", NSStringFromRect(r1));
+//    NSLog(@"r2: %@", NSStringFromRect(r2));
 
     r2.origin.y = r1.origin.y;
-    NSLog(@"r2: %@", NSStringFromRect(r2));
+//    NSLog(@"r2: %@", NSStringFromRect(r2));
     [self.leftStackView scrollRectToVisible:r2];
 
-    NSLog(@"topScrollView: %@", self.topScrollView);
+//    NSLog(@"topScrollView: %@", self.topScrollView);
     NSRect r3 = self.topScrollView.documentVisibleRect;
-    NSLog(@"r3: %@", NSStringFromRect(r3));
+//    NSLog(@"r3: %@", NSStringFromRect(r3));
     r3.origin.x = r1.origin.x;
-    NSLog(@"r3: %@", NSStringFromRect(r3));
+//    NSLog(@"r3: %@", NSStringFromRect(r3));
     [self.rulePhoneView scrollRectToVisible:r3];
 }
 
