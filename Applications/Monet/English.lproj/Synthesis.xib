@@ -189,7 +189,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="23">
-                        <rect key="frame" x="162" y="547" width="80" height="22"/>
+                        <rect key="frame" x="142" y="547" width="80" height="22"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="7zm-UI-Ntg"/>
                         </constraints>
@@ -200,7 +200,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="27">
-                        <rect key="frame" x="296" y="547" width="80" height="22"/>
+                        <rect key="frame" x="276" y="547" width="80" height="22"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="Oiv-W9-7xU"/>
                         </constraints>
@@ -211,7 +211,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="28">
-                        <rect key="frame" x="118" y="549" width="38" height="17"/>
+                        <rect key="frame" x="98" y="549" width="38" height="17"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Time:" id="239">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -219,7 +219,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="25">
-                        <rect key="frame" x="248" y="549" width="42" height="17"/>
+                        <rect key="frame" x="228" y="549" width="42" height="17"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Value:" id="237">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -242,7 +242,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JIu-Bu-11q">
-                        <rect key="frame" x="20" y="61" width="100" height="403"/>
+                        <rect key="frame" x="0.0" y="61" width="100" height="403"/>
                         <clipView key="contentView" id="ksa-ss-0gc">
                             <rect key="frame" x="1" y="1" width="166" height="79"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -275,7 +275,7 @@ DQ
                         </connections>
                     </button>
                     <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K6M-nq-61I">
-                        <rect key="frame" x="120" y="472" width="789" height="67"/>
+                        <rect key="frame" x="100" y="472" width="829" height="67"/>
                         <clipView key="contentView" id="hTL-Rc-blf">
                             <rect key="frame" x="1" y="1" width="166" height="79"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -299,7 +299,7 @@ DQ
                         </scroller>
                     </scrollView>
                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bI8-R1-JQg">
-                        <rect key="frame" x="120" y="61" width="789" height="403"/>
+                        <rect key="frame" x="100" y="61" width="829" height="403"/>
                         <clipView key="contentView" id="12E-CJ-Gvl">
                             <rect key="frame" x="1" y="1" width="166" height="79"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -328,7 +328,7 @@ DQ
                     <constraint firstAttribute="bottom" secondItem="217" secondAttribute="bottom" constant="20" symbolic="YES" id="3Iv-LG-kOe"/>
                     <constraint firstItem="310" firstAttribute="top" secondItem="312" secondAttribute="top" id="3pv-Lw-eta"/>
                     <constraint firstItem="23" firstAttribute="leading" secondItem="28" secondAttribute="trailing" constant="8" symbolic="YES" id="4g0-n0-yt8"/>
-                    <constraint firstItem="JIu-Bu-11q" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" symbolic="YES" id="4jQ-3d-dei"/>
+                    <constraint firstItem="JIu-Bu-11q" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="4jQ-3d-dei"/>
                     <constraint firstAttribute="bottom" secondItem="186" secondAttribute="bottom" constant="20" symbolic="YES" id="4mO-eb-xbJ"/>
                     <constraint firstItem="312" firstAttribute="top" secondItem="329" secondAttribute="bottom" constant="20" symbolic="YES" id="5HL-cP-f0N"/>
                     <constraint firstAttribute="trailing" secondItem="SLb-wE-mjW" secondAttribute="trailing" constant="20" symbolic="YES" id="7rM-gk-JPS"/>
@@ -337,7 +337,7 @@ DQ
                     <constraint firstAttribute="trailing" secondItem="312" secondAttribute="trailing" constant="20" symbolic="YES" id="DNQ-z0-3Yh"/>
                     <constraint firstItem="qei-eK-IZB" firstAttribute="top" secondItem="31" secondAttribute="bottom" constant="20" symbolic="YES" id="Dpt-bV-V8n"/>
                     <constraint firstItem="217" firstAttribute="leading" secondItem="186" secondAttribute="trailing" constant="12" symbolic="YES" id="Ft0-cb-XNt"/>
-                    <constraint firstAttribute="trailing" secondItem="bI8-R1-JQg" secondAttribute="trailing" constant="20" symbolic="YES" id="Jcv-AF-SLZ"/>
+                    <constraint firstAttribute="trailing" secondItem="bI8-R1-JQg" secondAttribute="trailing" id="Jcv-AF-SLZ"/>
                     <constraint firstItem="293" firstAttribute="baseline" secondItem="299" secondAttribute="baseline" id="K5T-2l-d2O"/>
                     <constraint firstItem="bI8-R1-JQg" firstAttribute="leading" secondItem="JIu-Bu-11q" secondAttribute="trailing" id="KKF-nS-sXG"/>
                     <constraint firstItem="299" firstAttribute="top" secondItem="6" secondAttribute="top" constant="20" symbolic="YES" id="Kpj-Hf-H4g"/>
