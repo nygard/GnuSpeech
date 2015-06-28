@@ -112,8 +112,25 @@
             }
         }
         [[NSColor lightGrayColor] set];
-        [valuePath stroke];
+//        [valuePath stroke];
         [posturePath stroke];
+    }
+
+    {
+        NSBezierPath *valuePath = [[NSBezierPath alloc] init];
+        for (Event *event in events) {
+            double value = [event getValueAtIndex:parameterIndex];
+
+            if (value != NaN) {
+                CGPoint p1;
+                p1.x = event.time * _timeScale;
+                p1.y = rint(bottomInset + trackHeight * (value - currentMin) / (currentMax - currentMin));
+                [valuePath moveToPoint:p1];
+                [valuePath appendBezierPathWithArcWithCenter:p1 radius:2 startAngle:0 endAngle:360];
+            }
+        }
+        [[NSColor blackColor] set];
+        [valuePath fill];
     }
 
     {
