@@ -12,6 +12,8 @@
 @property (readonly) MMParameter *parameter;
 
 @property (assign) BOOL isSpecial;
+
+/// This is the index into the Event array of values.  Event imposes some limitations on total count.
 @property (assign) NSUInteger tag;
 
 @property (nonatomic, assign) BOOL shouldDisplay;
