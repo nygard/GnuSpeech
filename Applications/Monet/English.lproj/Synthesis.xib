@@ -130,7 +130,7 @@ DQ
                                     <rect key="frame" x="0.0" y="0.0" width="663" height="68"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="805" height="68"/>
+                                    <size key="minSize" width="820" height="68"/>
                                     <size key="maxSize" width="1343" height="10000000"/>
                                     <attributedString key="textStorage">
                                         <fragment>
@@ -142,7 +142,7 @@ DQ
                                         </fragment>
                                     </attributedString>
                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="minSize" width="805" height="68"/>
+                                    <size key="minSize" width="820" height="68"/>
                                     <size key="maxSize" width="1343" height="10000000"/>
                                     <connections>
                                         <outlet property="delegate" destination="-2" id="337"/>
@@ -231,7 +231,7 @@ DQ
                         <constraints>
                             <constraint firstAttribute="width" constant="110" id="myi-pb-0Ya"/>
                         </constraints>
-                        <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="sTM-H7-dU5"/>
+                        <sliderCell key="cell" state="on" alignment="left" minValue="0.20000000000000001" maxValue="10" doubleValue="0.5" tickMarkPosition="above" sliderType="linear" id="sTM-H7-dU5"/>
                     </slider>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5SL-RS-j1B">
                         <rect key="frame" x="750" y="28" width="43" height="17"/>
