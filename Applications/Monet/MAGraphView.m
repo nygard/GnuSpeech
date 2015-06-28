@@ -114,7 +114,7 @@
     //NSLog(@"[%p]  > %s", self, __PRETTY_FUNCTION__);
     //NSLog(@"bounds now: %@", NSStringFromRect(self.bounds));
     [self removeTrackingArea:self.trackingArea];
-    self.trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingMouseMoved|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil];
+    self.trackingArea = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingMouseMoved|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect/*|NSTrackingCursorUpdate*/ owner:self userInfo:nil];
     [self addTrackingArea:self.trackingArea];
     //NSLog(@"[%p] <  %s", self, __PRETTY_FUNCTION__);
 }
@@ -233,6 +233,12 @@
     }
 
     [NSApp sendAction:@selector(updateGraphTracking:) to:nil from:userInfo];
+}
+
+- (void)cursorUpdate:(NSEvent *)event;
+{
+    //NSLog(@"%s", __PRETTY_FUNCTION__);
+    //[[NSCursor crosshairCursor] set];
 }
 
 @end
