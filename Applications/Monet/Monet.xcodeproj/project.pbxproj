@@ -35,7 +35,6 @@
 		01C55D570B7BCDB4009F6A92 /* MAIntonationScaleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D520B7BCDB4009F6A92 /* MAIntonationScaleView.m */; };
 		01C55D580B7BCDB4009F6A92 /* MAIntonationScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D540B7BCDB4009F6A92 /* MAIntonationScrollView.m */; };
 		01C55D590B7BCDB4009F6A92 /* MAIntonationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D560B7BCDB4009F6A92 /* MAIntonationView.m */; };
-		01C55D660B7BCDEE009F6A92 /* EventListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D5B0B7BCDEE009F6A92 /* EventListView.m */; };
 		01C55D670B7BCDEE009F6A92 /* MCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D5D0B7BCDEE009F6A92 /* MCommentCell.m */; };
 		01C55D680B7BCDEE009F6A92 /* MExtendedTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D5F0B7BCDEE009F6A92 /* MExtendedTableView.m */; };
 		01C55D690B7BCDEE009F6A92 /* MOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C55D610B7BCDEE009F6A92 /* MOutlineView.m */; };
@@ -122,8 +121,6 @@
 		01C55D540B7BCDB4009F6A92 /* MAIntonationScrollView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MAIntonationScrollView.m; sourceTree = "<group>"; };
 		01C55D550B7BCDB4009F6A92 /* MAIntonationView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MAIntonationView.h; sourceTree = "<group>"; };
 		01C55D560B7BCDB4009F6A92 /* MAIntonationView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MAIntonationView.m; sourceTree = "<group>"; };
-		01C55D5A0B7BCDEE009F6A92 /* EventListView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EventListView.h; sourceTree = "<group>"; };
-		01C55D5B0B7BCDEE009F6A92 /* EventListView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EventListView.m; sourceTree = "<group>"; };
 		01C55D5C0B7BCDEE009F6A92 /* MCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MCommentCell.h; sourceTree = "<group>"; };
 		01C55D5D0B7BCDEE009F6A92 /* MCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MCommentCell.m; sourceTree = "<group>"; };
 		01C55D5E0B7BCDEE009F6A92 /* MExtendedTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MExtendedTableView.h; sourceTree = "<group>"; };
@@ -399,8 +396,6 @@
 			isa = PBXGroup;
 			children = (
 				01C55D500B7BCD8B009F6A92 /* Intonation View */,
-				01C55D5A0B7BCDEE009F6A92 /* EventListView.h */,
-				01C55D5B0B7BCDEE009F6A92 /* EventListView.m */,
 				01C55D5C0B7BCDEE009F6A92 /* MCommentCell.h */,
 				01C55D5D0B7BCDEE009F6A92 /* MCommentCell.m */,
 				01C55D5E0B7BCDEE009F6A92 /* MExtendedTableView.h */,
@@ -691,7 +686,6 @@
 				01C55D580B7BCDB4009F6A92 /* MAIntonationScrollView.m in Sources */,
 				01C55D590B7BCDB4009F6A92 /* MAIntonationView.m in Sources */,
 				01061F9D1B328A0C00FBB2B4 /* MIntonationParameterEditor.m in Sources */,
-				01C55D660B7BCDEE009F6A92 /* EventListView.m in Sources */,
 				01C55D670B7BCDEE009F6A92 /* MCommentCell.m in Sources */,
 				01C55D680B7BCDEE009F6A92 /* MExtendedTableView.m in Sources */,
 				01C55D690B7BCDEE009F6A92 /* MOutlineView.m in Sources */,

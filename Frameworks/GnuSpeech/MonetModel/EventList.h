@@ -5,7 +5,7 @@
 
 @class Event, MMIntonationPoint, MModel, MMPosture, MMPostureRewriter, MMRule, MMDriftGenerator;
 
-// This is used by EventListView, IntonationView
+// This is used by MARulePhoneView, IntonationView
 struct _rule {
     NSUInteger number;
     NSUInteger firstPhone;

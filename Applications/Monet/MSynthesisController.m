@@ -8,7 +8,6 @@
 
 #import "NSNumberFormatter-Extensions.h"
 
-#import "EventListView.h"
 #import "MExtendedTableView.h"
 #import "MMDisplayParameter.h"
 
@@ -58,7 +57,6 @@
     // Synthesis window
 	IBOutlet NSComboBox *_textStringTextField;
 	IBOutlet NSTextView *_phoneStringTextView;
-    IBOutlet EventListView *_eventListView;
 	IBOutlet NSScrollView *_scrollView;
     IBOutlet NSButton *_parametersStore;
 
@@ -153,13 +151,6 @@
 
 - (void)windowDidLoad;
 {
-	// Added by dalmazio, April 11, 2009.
-	_eventListView = [[EventListView alloc] initWithFrame:[[_scrollView contentView] frame]];
-	[_eventListView setAutoresizingMask:[_scrollView autoresizingMask]];
-	[_eventListView setMouseTimeField:_mouseTimeField];
-	[_eventListView setMouseValueField:_mouseValueField];
-	[_scrollView setDocumentView:_eventListView];
-
     [_textStringTextField removeAllItems];
     [_textStringTextField addItemsWithObjectValues:[[NSUserDefaults standardUserDefaults] objectForKey:MDK_DefaultUtterances]];
     [_textStringTextField selectItemAtIndex:0];
@@ -268,7 +259,6 @@
         if ([displayParameter shouldDisplay])
             [array addObject:displayParameter];
     }
-    [_eventListView setDisplayParameters:array];
 
     for (NSView *view in self.leftStackView.views) {
         if ([view respondsToSelector:@selector(displayParameter)]) {
@@ -419,9 +409,6 @@
     }
 	
     [self.synthesizer synthesize];
-
-    [_eventListView setEventList:_eventList];
-    [_eventListView display]; // TODO (2004-03-17): It's not updating otherwise
 }
 
 - (IBAction)addTextString:(id)sender;
