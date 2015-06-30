@@ -479,28 +479,52 @@
     [self.synthesizer synthesize];
 
     // 3. Create the index.html xml tree
+    NSURL *templateURL = [[NSBundle mainBundle] URLForResource:@"graph-template" withExtension:@"html"];
+    NSLog(@"templateURL: %@", templateURL);
+    NSError *xmlError;
+    NSXMLDocument *doc = [[NSXMLDocument alloc] initWithContentsOfURL:templateURL options:0 error:&xmlError];
+    if (doc == nil) {
+        NSLog(@"xmlError: %@", xmlError);
+        return;
+    }
+
+    {
+        NSError *xpathError;
+        NSArray *timeGenText = [doc nodesForXPath:@"/html/body/p[@id='time-generated']/text()" error:&xpathError];
+        NSLog(@"timeGenText: %@", timeGenText);
+        NSLog(@"error: %@", xpathError);
+        NSXMLNode *generatedTextNode = [timeGenText lastObject];
+        if (generatedTextNode != nil) {
+            generatedTextNode.stringValue = [NSString stringWithFormat:@"Generated %@", [[NSCalendarDate calendarDate] description]];
+        }
+    }
+
+    NSError *xpathError;
+    NSArray *graphImagesElements = [doc nodesForXPath:@"/html/body/p[@id='graph-images']" error:&xpathError];
+    NSLog(@"graphImagesElements: %@", graphImagesElements);
+    NSLog(@"error: %@", xpathError);
+    NSXMLElement *graphImagesElement = [graphImagesElements lastObject];
+    if (graphImagesElement != nil) {
+        NSLog(@"graphImagesElement: %@", graphImagesElement);
+    }
+
+    NSLog(@"doc: %@", doc);
+
+
     // 4. Save series of images, and add reference to HTML as we go.  Going to say we only show the graphs the user has selected to display.
+//    [html appendFormat:@"      <img src='%@' alt='parameter graph %lu'/>\n", GSXMLAttributeString(filename1, YES), number];
+
     // 5. Save the HTML.
+    NSData *xmlData = [doc XMLDataWithOptions:NSXMLDocumentXHTMLKind];
+    NSError *indexError;
+    if (![xmlData writeToFile:[basePath stringByAppendingPathComponent:@"index.html"] options:0 error:&indexError]) {
+        NSLog(@"index error: %@", indexError);
+        return;
+    }
     // 6. Open the HTML. (LaunchServices)
+    system([[NSString stringWithFormat:@"open %@", [basePath stringByAppendingPathComponent:@"index.html"]] UTF8String]);
+
 #if 0
-    NSMutableString *html = [NSMutableString string];
-	
-    [html appendString:@"<?xml version='1.0' encoding='utf-8'?>\n"];
-    [html appendString:@"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"];
-    [html appendString:@"<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>\n"];
-    [html appendString:@"  <head>\n"];
-    [html appendString:@"    <title>Monet Parameter Graphs</title>\n"];
-    [html appendString:@"    <meta http-equiv='Content-type' content='text/html; charset=utf-8'/>\n"];
-    [html appendString:@"  </head>\n"];
-    [html appendString:@"  <body>\n"];
-    [html appendString:@"    <p>Parameter graphs for phone string:</p>\n"];
-    [html appendFormat:@"    <p>%@</p>\n", GSXMLCharacterData([_textStringTextField stringValue])];
-    [html appendString:@"    <p>[<a href='Monet.parameters'>Monet.parameters</a>] [<a href='output.au'>output.au</a>]</p>\n"];
-    [html appendString:@"    <p><object type='audio/basic' data='output.au'></object></p>\n"];
-    [html appendFormat:@"    <p>Generated %@</p>\n", GSXMLCharacterData([[NSCalendarDate calendarDate] description])];
-    [html appendString:@"    <p>\n"];
-
-
     NSDictionary *jpegProperties = @{
                                      NSImageCompressionFactor : @(0.95),
                                      };
@@ -536,17 +560,6 @@
 
         number++;
     }
-	
-    [html appendString:@"    </p>\n"];
-    [html appendString:@"  </body>\n"];
-    [html appendString:@"</html>\n"];
-	
-    [[html dataUsingEncoding:NSUTF8StringEncoding] writeToFile:[basePath stringByAppendingPathComponent:@"index.html"] atomically:YES];
-	
-
-    [self _updateDisplayedParameters];
-	
-    system([[NSString stringWithFormat:@"open %@", [basePath stringByAppendingPathComponent:@"index.html"]] UTF8String]);
 #endif
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
