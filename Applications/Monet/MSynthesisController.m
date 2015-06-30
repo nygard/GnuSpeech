@@ -432,6 +432,23 @@
     [_eventListView display]; // TODO (2004-03-17): It's not updating otherwise
 }
 
+- (IBAction)addTextString:(id)sender;
+{
+    NSString *str = [_textStringTextField stringValue];
+    [_textStringTextField removeItemWithObjectValue:str];
+    [_textStringTextField insertItemWithObjectValue:str atIndex:0];
+    [_textStringTextField setTextColor:[NSColor blackColor]];
+
+    str = [[_textToPhone phoneForText:[_textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    [_phoneStringTextView setFont:[NSFont systemFontOfSize:13]];
+    [_phoneStringTextView setString:str];
+    [_phoneStringTextView setTextColor:[NSColor blackColor]];
+
+    [[NSUserDefaults standardUserDefaults] setObject:[_textStringTextField objectValues] forKey:MDK_DefaultUtterances];
+}
+
+#pragma mark - Save Graph Images
+
 - (IBAction)generateGraphImages:(id)sender;
 {
     NSString *directory = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_GraphImagesDirectory];
@@ -533,21 +550,6 @@
     system([[NSString stringWithFormat:@"open %@", [basePath stringByAppendingPathComponent:@"index.html"]] UTF8String]);
 	
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
-}
-
-- (IBAction)addTextString:(id)sender;
-{
-    NSString *str = [_textStringTextField stringValue];
-    [_textStringTextField removeItemWithObjectValue:str];
-    [_textStringTextField insertItemWithObjectValue:str atIndex:0];
-	[_textStringTextField setTextColor:[NSColor blackColor]];
-
-	str = [[_textToPhone phoneForText:[_textStringTextField stringValue]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	[_phoneStringTextView setFont:[NSFont systemFontOfSize:13]];
-	[_phoneStringTextView setString:str];
-	[_phoneStringTextView setTextColor:[NSColor blackColor]];
-	
-    [[NSUserDefaults standardUserDefaults] setObject:[_textStringTextField objectValues] forKey:MDK_DefaultUtterances];
 }
 
 #pragma mark - NSComboBoxDelegate
