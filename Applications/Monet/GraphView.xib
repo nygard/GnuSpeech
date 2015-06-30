@@ -7,6 +7,9 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="MGraphViewController">
             <connections>
+                <outlet property="graphStackView" destination="2YB-Wg-127" id="am4-NP-Hfm"/>
+                <outlet property="nameStackView" destination="vx8-hJ-ANa" id="SOW-8S-ldy"/>
+                <outlet property="rulePhoneView" destination="XF6-Oe-3eD" id="E5V-VD-BjQ"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>

@@ -5,8 +5,14 @@
 
 #import <GnuSpeech/GnuSpeech.h>
 #import "MMDisplayParameter.h"
+#import "MARulePhoneView.h"
+#import "MAGraphNameView.h"
+#import "MAGraphView.h"
 
 @interface MGraphViewController ()
+@property (weak) IBOutlet NSStackView *nameStackView;
+@property (weak) IBOutlet NSStackView *graphStackView;
+@property (weak) IBOutlet MARulePhoneView *rulePhoneView;
 
 @end
 
