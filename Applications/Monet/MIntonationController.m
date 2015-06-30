@@ -186,7 +186,7 @@
     [savePanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
         if (result == NSFileHandlingPanelOKButton) {
             [[NSUserDefaults standardUserDefaults] setObject:[[savePanel directoryURL] path] forKey:MDK_IntonationContourDirectory];
-            [self.eventList writeXMLToFile:[[savePanel URL] path] comment:nil];
+            [self.eventList writeIntonationContourToXMLFile:[[savePanel URL] path] comment:nil];
         }
     }];
 }

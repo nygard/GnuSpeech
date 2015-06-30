@@ -1047,7 +1047,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     // TODO (2004-03-25): There used to be some silence padding here.
 
-    [self writeXMLToFile:@"/tmp/contour.xml" comment:nil];
+    [self writeIntonationContourToXMLFile:@"/tmp/contour.xml" comment:nil];
 }
 
 // 1. Calculate the rule symbols (Rule Duration, Beat, Mark 1, Mark 2, Mark 3), given tempos and phones.
@@ -1445,7 +1445,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 #pragma mark - Archiving - XML
 
-- (BOOL)writeXMLToFile:(NSString *)filename comment:(NSString *)comment;
+- (BOOL)writeIntonationContourToXMLFile:(NSString *)filename comment:(NSString *)comment;
 {
     NSMutableString *resultString = [[NSMutableString alloc] init];
     [resultString appendString:@"<?xml version='1.0' encoding='utf-8'?>\n"];

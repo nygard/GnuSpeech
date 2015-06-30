@@ -71,7 +71,7 @@ struct _rule {
 - (void)intonationPointDidChange:(MMIntonationPoint *)intonationPoint;
 
 // Archiving - XML
-- (BOOL)writeXMLToFile:(NSString *)filename comment:(NSString *)comment;
+- (BOOL)writeIntonationContourToXMLFile:(NSString *)filename comment:(NSString *)comment;
 
 - (BOOL)loadIntonationContourFromXMLFile:(NSString *)filename;
 - (void)loadStoredPhoneString:(NSString *)str;
