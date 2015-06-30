@@ -64,8 +64,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 @property (assign) double multiplier;
 
-@property (strong) STLogger *parameterLogger;
-
 @end
 
 #pragma mark -
@@ -916,15 +914,18 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 - (void)generateOutputForSynthesizer:(TRMSynthesizer *)synthesizer saveParametersToFilename:(NSString *)filename;
 {
-    self.parameterLogger = [[STLogger alloc] initWithOutputToPath:filename error:NULL];
-    [self.model.synthesisParameters logToLogger:self.parameterLogger];
+    STLogger *parameterLogger = [[STLogger alloc] initWithOutputToPath:filename error:NULL];
+    [self.model.synthesisParameters logToLogger:parameterLogger];
 
-    [self generateOutputForSynthesizer:synthesizer];
-
-    self.parameterLogger = nil;
+    [self generateOutputForSynthesizer:synthesizer parameterLogger:parameterLogger];
 }
 
 - (void)generateOutputForSynthesizer:(TRMSynthesizer *)synthesizer;
+{
+    [self generateOutputForSynthesizer:synthesizer parameterLogger:nil];
+}
+
+- (void)generateOutputForSynthesizer:(TRMSynthesizer *)synthesizer parameterLogger:(STLogger *)parameterLogger;
 {
     //NSLog(@"%s, self: %@", _cmd, self);
 
@@ -1028,7 +1029,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         outputValues.velum                    = table[15];
 
         [synthesizer addParameters:outputValues];
-        [self.parameterLogger log:@"%@", outputValues.valuesString];
+        [parameterLogger log:@"%@", outputValues.valuesString];
 
         for (NSUInteger j = 0; j < 32; j++) {
             if (currentDeltas[j]) // TODO (2012-04-23): Just add unconditionally
