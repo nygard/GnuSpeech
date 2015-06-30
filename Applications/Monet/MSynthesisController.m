@@ -469,7 +469,35 @@
 - (void)saveGraphImagesToPath:(NSString *)basePath;
 {
     NSLog(@" > %s", __PRETTY_FUNCTION__);
-	
+
+    // 1. Create directory as basePath.
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    NSError *error;
+    if (![fileManager createDirectoryAtPath:basePath withIntermediateDirectories:NO attributes:nil error:&error]) {
+        NSLog(@"Error: %@", error);
+        return;
+    }
+
+    // 2. Synthesize, saving sound to file under basePath.
+    self.synthesizer.fileType = 0;
+    self.synthesizer.filename = [basePath stringByAppendingPathComponent:@"output.au"];
+    self.synthesizer.shouldSaveToSoundFile = YES;
+    [self.synthesizer synthesize];
+
+    // 3. Copy /tmp/Monet.parameters.
+    // TODO: (2015-06-29) Would be better just to save it there directly during synthesis.
+    error = nil;
+    if (![fileManager copyItemAtPath:@"/tmp/Monet.parameters" toPath:[basePath stringByAppendingPathComponent:@"Monet.parameters"] error:&error]) {
+        NSLog(@"Error: %@", error);
+        return;
+    }
+
+    // 4. Create the index.html xml tree
+    // 5. Save series of images, and add reference to HTML as we go.  Going to say we only show the graphs the user has selected to display.
+    // 6. Save the HTML.
+    // 7. Open the HTML. (LaunchServices)
+#if 0
     NSMutableString *html = [NSMutableString string];
 	
     [html appendString:@"<?xml version='1.0' encoding='utf-8'?>\n"];
@@ -487,16 +515,6 @@
     [html appendFormat:@"    <p>Generated %@</p>\n", GSXMLCharacterData([[NSCalendarDate calendarDate] description])];
     [html appendString:@"    <p>\n"];
 
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-
-    NSError *error;
-    if (![fileManager createDirectoryAtPath:basePath withIntermediateDirectories:NO attributes:nil error:&error]) {
-        NSLog(@"Error: %@", error);
-    }
-    error = nil;
-    if (![fileManager copyItemAtPath:@"/tmp/Monet.parameters" toPath:[basePath stringByAppendingPathComponent:@"Monet.parameters"] error:&error]) {
-        NSLog(@"Error: %@", error);
-    }
 
     NSDictionary *jpegProperties = @{
                                      NSImageCompressionFactor : @(0.95),
@@ -540,15 +558,11 @@
 	
     [[html dataUsingEncoding:NSUTF8StringEncoding] writeToFile:[basePath stringByAppendingPathComponent:@"index.html"] atomically:YES];
 	
-    [self.synthesizer setFileType:0];
-    [self.synthesizer setFilename:[basePath stringByAppendingPathComponent:@"output.au"]];
-    [self.synthesizer setShouldSaveToSoundFile:YES];
-    [self.synthesizer synthesize];
-	
+
     [self _updateDisplayedParameters];
 	
     system([[NSString stringWithFormat:@"open %@", [basePath stringByAppendingPathComponent:@"index.html"]] UTF8String]);
-	
+#endif
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
