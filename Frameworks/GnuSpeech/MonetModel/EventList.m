@@ -26,6 +26,7 @@
 #import "MMToneGroup.h"
 #import "MMPhone.h"
 #import "MMSynthesisParameters.h"
+#import "TRMSynthesizer.h"
 
 #import "STLogger.h"
 
@@ -63,6 +64,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 @property (assign) double multiplier;
 
+@property (strong) STLogger *parameterLogger;
+
 @end
 
 #pragma mark -
@@ -98,8 +101,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     NSMutableArray *_intonationPoints; // Sorted by absolute time
     BOOL _intonationPointsNeedSorting;
 
-    __weak id <EventListDelegate> _delegate;
-
     MMDriftGenerator *_driftGenerator;
 }
 
@@ -133,8 +134,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
         _intonationPoints = [[NSMutableArray alloc] init];
         _intonationPointsNeedSorting = NO;
-
-        _delegate = nil;
 
         _driftGenerator = [[MMDriftGenerator alloc] init];
         [_driftGenerator configureWithDeviation:1 sampleRate:500 lowpassCutoff:1000];
@@ -915,14 +914,21 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidGenerateIntonationPoints object:self userInfo:nil];
 }
 
-// TODO (2012-04-24): Split out file output and delegate notification
-- (void)generateOutput;
+- (void)generateOutputForSynthesizer:(TRMSynthesizer *)synthesizer saveParametersToFilename:(NSString *)filename;
+{
+    self.parameterLogger = [[STLogger alloc] initWithOutputToPath:filename error:NULL];
+    [self.model.synthesisParameters logToLogger:self.parameterLogger];
+
+    [self generateOutputForSynthesizer:synthesizer];
+
+    self.parameterLogger = nil;
+}
+
+- (void)generateOutputForSynthesizer:(TRMSynthesizer *)synthesizer;
 {
     //NSLog(@"%s, self: %@", _cmd, self);
 
     NSParameterAssert(_model != nil);
-
-    [self.delegate eventListWillGenerateOutput:self];
     
     if ([_events count] == 0)
         return;
@@ -1021,7 +1027,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         outputValues.radius[7]                = table[14];
         outputValues.velum                    = table[15];
 
-        [self.delegate eventList:self generatedOutputValues:outputValues];
+        [synthesizer addParameters:outputValues];
+        [self.parameterLogger log:@"%@", outputValues.valuesString];
 
         for (NSUInteger j = 0; j < 32; j++) {
             if (currentDeltas[j]) // TODO (2012-04-23): Just add unconditionally
@@ -1238,8 +1245,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     [self setZeroRef:(int)(ruleSymbols.ruleDuration * self.multiplier) + _zeroRef];
     [self insertPostureEventAtTimeOffset:0.0];
-
-    [self.delegate eventListDidGenerateOutput:self];
 }
 
 #pragma mark - Debugging

@@ -14,7 +14,7 @@
 #define MDK_ShouldUseMicroIntonation  @"ShouldUseMicroIntonation"
 #define MDK_ShouldUseDrift            @"ShouldUseDrift"
 
-@interface PhoneToSpeech () <EventListDelegate>
+@interface PhoneToSpeech ()
 
 @property (nonatomic, strong) MModel *model;
 @property (readonly) EventList *eventList;
@@ -115,21 +115,6 @@
     self.eventList.delegate = nil;
 	
     [self.synthesizer synthesize];
-}
-
-#pragma mark - EventListDelegate
-
-- (void)eventListWillGenerateOutput:(EventList *)eventList;
-{
-}
-
-- (void)eventList:(EventList *)eventList generatedOutputValues:(TRMParameters *)outputValues;
-{
-    [self.synthesizer addParameters:outputValues];
-}
-
-- (void)eventListDidGenerateOutput:(EventList *)eventList;
-{
 }
 
 #pragma mark - Public API

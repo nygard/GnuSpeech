@@ -29,7 +29,7 @@
 #define MDK_SoundOutputDirectory       @"SoundOutputDirectory"
 #define MDK_IntonationContourDirectory @"IntonationContourDirectory"
 
-@interface MSynthesisController () <NSTableViewDataSource, NSComboBoxDelegate, NSTextViewDelegate, EventListDelegate, NSFileManagerDelegate>
+@interface MSynthesisController () <NSTableViewDataSource, NSComboBoxDelegate, NSTextViewDelegate, NSFileManagerDelegate>
 
 @property (weak) IBOutlet NSScrollView *leftScrollView;
 @property (weak) IBOutlet NSStackView *leftStackView;
@@ -411,10 +411,12 @@
 
     [self.synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
     [self.synthesizer removeAllParameters];
-    
-    [_eventList setDelegate:self];
-    [_eventList generateOutput];
-    [_eventList setDelegate:nil];
+
+    if ([_parametersStore state]) {
+        [_eventList generateOutputForSynthesizer:self.synthesizer saveParametersToFilename:@"/tmp/Monet.parameters"];
+    } else {
+        [_eventList generateOutputForSynthesizer:self.synthesizer];
+    }
 	
     [self.synthesizer synthesize];
 
@@ -579,41 +581,6 @@
 	}
 	[_phoneStringTextView setTextColor:[NSColor blackColor]];	
 	[_textStringTextField setTextColor:[NSColor redColor]];
-}
-
-#pragma mark - EventListDelegate
-
-- (void)eventListWillGenerateOutput:(EventList *)eventList;
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    // Open file and save initial parameters
-    if ([_parametersStore state]) {
-        NSError *error = nil;
-        STLogger *logger = [[STLogger alloc] initWithOutputToPath:@"/tmp/Monet.parameters" error:&error];
-        if (logger == nil) {
-            NSLog(@"Error logging to file: %@", error);
-        } else {
-            self.logger = logger;
-        }
-        
-        [self.model.synthesisParameters logToLogger:self.logger];
-    }
-}
-
-- (void)eventList:(EventList *)eventList generatedOutputValues:(TRMParameters *)outputValues;
-{
-    //NSLog(@"%s", __PRETTY_FUNCTION__);
-    [self.synthesizer addParameters:outputValues];
-
-    // Write values to file
-    [self.logger log:@"%@", outputValues.valuesString];
-}
-
-- (void)eventListDidGenerateOutput:(EventList *)eventList;
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    // Close file
-    self.logger = nil;
 }
 
 #pragma mark -
