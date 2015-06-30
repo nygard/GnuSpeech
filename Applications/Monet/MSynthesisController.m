@@ -459,23 +459,29 @@
     }
 
     // 2. Synthesize, saving sound to file under basePath.
+    MMIntonation *intonation = [[MMIntonation alloc] initFromUserDefaults];
+    [_eventList resetWithIntonation:intonation phoneString:[self getAndSyncPhoneString]];
+    {
+        // This is basically from -continueSynthesis
+        [_eventList applyIntonation];
+
+        self.eventTableController.eventList = _eventList;
+
+        [self.synthesizer setupSynthesisParameters:self.model.synthesisParameters];
+        [self.synthesizer removeAllParameters];
+
+        [_eventList generateOutputForSynthesizer:self.synthesizer saveParametersToFilename:[basePath stringByAppendingPathComponent:@"Monet.parameters"]];
+    }
+
     self.synthesizer.fileType = 0;
     self.synthesizer.filename = [basePath stringByAppendingPathComponent:@"output.au"];
     self.synthesizer.shouldSaveToSoundFile = YES;
     [self.synthesizer synthesize];
 
-    // 3. Copy /tmp/Monet.parameters.
-    // TODO: (2015-06-29) Would be better just to save it there directly during synthesis.
-    error = nil;
-    if (![fileManager copyItemAtPath:@"/tmp/Monet.parameters" toPath:[basePath stringByAppendingPathComponent:@"Monet.parameters"] error:&error]) {
-        NSLog(@"Error: %@", error);
-        return;
-    }
-
-    // 4. Create the index.html xml tree
-    // 5. Save series of images, and add reference to HTML as we go.  Going to say we only show the graphs the user has selected to display.
-    // 6. Save the HTML.
-    // 7. Open the HTML. (LaunchServices)
+    // 3. Create the index.html xml tree
+    // 4. Save series of images, and add reference to HTML as we go.  Going to say we only show the graphs the user has selected to display.
+    // 5. Save the HTML.
+    // 6. Open the HTML. (LaunchServices)
 #if 0
     NSMutableString *html = [NSMutableString string];
 	
