@@ -18,9 +18,42 @@
 
 @implementation MGraphViewController
 
+- (id)init;
+{
+    if ((self = [super initWithNibName:@"GraphView" bundle:nil])) {
+        _displayParameters = nil;
+        _eventList = nil;
+        _scale = 0.5;
+    }
+
+    return self;
+}
+
 - (void)viewDidLoad;
 {
     [super viewDidLoad];
+
+    // I'm going to be lazy, and say you need to set up displayParameters, eventList, and scale before the view is loaded.
+    // Although we might just want to reuse this view controller.
+    // This'll be a quick'n'dirty bit o' code.
+
+    self.rulePhoneView.scale = self.scale;
+    self.rulePhoneView.eventList = self.eventList;
+
+    for (MMDisplayParameter *displayParameter in self.displayParameters) {
+        MAGraphNameView *graphNameView = [[MAGraphNameView alloc] initWithFrame:CGRectZero];
+        graphNameView.translatesAutoresizingMaskIntoConstraints = NO;
+        graphNameView.displayParameter = displayParameter;
+        [self.nameStackView addView:graphNameView inGravity:NSStackViewGravityTop];
+
+
+        MAGraphView *gv1 = [[MAGraphView alloc] initWithFrame:CGRectMake(0, 0, 300, 100)];
+        gv1.translatesAutoresizingMaskIntoConstraints = NO;
+        gv1.displayParameter = displayParameter;
+        gv1.eventList = self.eventList;
+        gv1.scale = self.scale;
+        [self.graphStackView addView:gv1 inGravity:NSStackViewGravityTop];
+    }
 }
 
 @end

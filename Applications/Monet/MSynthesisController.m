@@ -481,7 +481,7 @@
 
     // 3. Create the index.html xml tree
     NSURL *templateURL = [[NSBundle mainBundle] URLForResource:@"graph-template" withExtension:@"html"];
-    NSLog(@"templateURL: %@", templateURL);
+//    NSLog(@"templateURL: %@", templateURL);
     NSError *xmlError;
     NSXMLDocument *doc = [[NSXMLDocument alloc] initWithContentsOfURL:templateURL options:0 error:&xmlError];
     if (doc == nil) {
@@ -492,8 +492,8 @@
     {
         NSError *xpathError;
         NSArray *timeGenText = [doc nodesForXPath:@"/html/body/p[@id='time-generated']/text()" error:&xpathError];
-        NSLog(@"timeGenText: %@", timeGenText);
-        NSLog(@"error: %@", xpathError);
+//        NSLog(@"timeGenText: %@", timeGenText);
+//        NSLog(@"error: %@", xpathError);
         NSXMLNode *generatedTextNode = [timeGenText lastObject];
         if (generatedTextNode != nil) {
             generatedTextNode.stringValue = [NSString stringWithFormat:@"Generated %@", [[NSCalendarDate calendarDate] description]];
@@ -502,18 +502,32 @@
 
     NSError *xpathError;
     NSArray *graphImagesElements = [doc nodesForXPath:@"/html/body/p[@id='graph-images']" error:&xpathError];
-    NSLog(@"graphImagesElements: %@", graphImagesElements);
-    NSLog(@"error: %@", xpathError);
+//    NSLog(@"graphImagesElements: %@", graphImagesElements);
+//    NSLog(@"error: %@", xpathError);
     NSXMLElement *graphImagesElement = [graphImagesElements lastObject];
     if (graphImagesElement != nil) {
-        NSLog(@"graphImagesElement: %@", graphImagesElement);
+        //NSLog(@"graphImagesElement: %@", graphImagesElement);
     }
-
-    NSLog(@"doc: %@", doc);
 
 
     // 4. Save series of images, and add reference to HTML as we go.  Going to say we only show the graphs the user has selected to display.
 //    [html appendFormat:@"      <img src='%@' alt='parameter graph %lu'/>\n", GSXMLAttributeString(filename1, YES), number];
+    {
+        MGraphViewController *controller = [[MGraphViewController alloc] init];
+        controller.displayParameters = @[ _displayParameters[0], _displayParameters[1], _displayParameters[2], _displayParameters[3] ];
+        controller.eventList = self.eventList;
+
+        NSWindow *window = [[NSWindow alloc] initWithContentRect:CGRectMake(0, 0, 1000, 500) styleMask:0 backing:NSBackingStoreNonretained defer:NO];
+        [window setContentView:controller.view];
+        [window layoutIfNeeded];
+
+//        [controller.view layout];
+
+        NSRect bounds = controller.view.bounds;
+        NSLog(@"view bounds: %@", NSStringFromRect(bounds));
+        NSData *pdfData = [controller.view dataWithPDFInsideRect:bounds];
+        [pdfData writeToFile:@"/tmp/graph1.pdf" atomically:YES];
+    }
 
     // 5. Save the HTML.
     NSData *xmlData = [doc XMLDataWithOptions:NSXMLDocumentXHTMLKind];
@@ -523,7 +537,7 @@
         return;
     }
     // 6. Open the HTML. (LaunchServices)
-    system([[NSString stringWithFormat:@"open %@", [basePath stringByAppendingPathComponent:@"index.html"]] UTF8String]);
+    //system([[NSString stringWithFormat:@"open %@", [basePath stringByAppendingPathComponent:@"index.html"]] UTF8String]);
 
 #if 0
     NSDictionary *jpegProperties = @{
