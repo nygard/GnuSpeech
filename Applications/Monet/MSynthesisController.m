@@ -312,7 +312,9 @@
 {
     NSLog(@" > %s", __PRETTY_FUNCTION__);
     [self.synthesizer setShouldSaveToSoundFile:NO];
-    [self synthesize];
+    MMIntonation *intonation = [[MMIntonation alloc] initFromUserDefaults];
+    [_eventList resetWithIntonation:intonation phoneString:[self getAndSyncPhoneString]];
+    [self continueSynthesis];
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
@@ -337,25 +339,19 @@
             self.synthesizer.shouldSaveToSoundFile = YES;
             self.synthesizer.fileType = [[_fileTypePopUpButton selectedItem] tag];
             self.synthesizer.filename = savePanel.URL.path;
-            [self synthesize];
+            MMIntonation *intonation = [[MMIntonation alloc] initFromUserDefaults];
+            [_eventList resetWithIntonation:intonation phoneString:[self getAndSyncPhoneString]];
+            [self continueSynthesis];
         }
     }];
 	
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
-- (void)synthesize;
+- (IBAction)synthesizeWithContour:(id)sender;
 {
-	NSString *phoneString = [self getAndSyncPhoneString];
-		
-    MMIntonation *intonation = [[MMIntonation alloc] initFromUserDefaults];
-    [self.eventList resetWithIntonation:intonation];
-
-    [_eventList parsePhoneString:phoneString]; // This creates the tone groups, feet.
-    [_eventList applyRhythm];
-    [_eventList applyRules]; // This applies the rules, adding events to the EventList.
-    [_eventList generateIntonationPoints];
-
+    [_eventList clearIntonationEvents];
+    [self.synthesizer setShouldSaveToSoundFile:NO];
     [self continueSynthesis];
 }
 
@@ -403,13 +399,6 @@
 	[_phoneStringTextView setString:phoneString];
 	[_textStringTextField setTextColor:[NSColor blackColor]];
 
-}
-
-- (IBAction)synthesizeWithContour:(id)sender;
-{
-    [_eventList clearIntonationEvents];
-    [self.synthesizer setShouldSaveToSoundFile:NO];
-    [self continueSynthesis];
 }
 
 - (void)continueSynthesis;

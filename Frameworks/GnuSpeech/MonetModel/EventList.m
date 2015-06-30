@@ -184,6 +184,16 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 #pragma mark -
 
+- (void)resetWithIntonation:(MMIntonation *)intonation phoneString:(NSString *)phoneString;
+{
+    [self resetWithIntonation:intonation];
+
+    [self parsePhoneString:phoneString]; // This creates the tone groups, feet.
+    [self applyRhythm];
+    [self applyRules]; // This applies the rules, adding events to the EventList.
+    [self generateIntonationPoints];
+}
+
 - (void)resetWithIntonation:(MMIntonation *)intonation;
 {
     // _model remains the same

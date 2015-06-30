@@ -26,6 +26,7 @@ struct _rule {
 
 @property (strong) MMIntonation *intonation;
 
+- (void)resetWithIntonation:(MMIntonation *)intonation phoneString:(NSString *)phoneString;
 - (void)resetWithIntonation:(MMIntonation *)intonation; // TODO (2012-04-26): See if we can't just do this when we apply intonation
 
 // Rules
