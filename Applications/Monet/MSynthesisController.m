@@ -21,6 +21,7 @@
 #import "MAGraphNameView.h"
 #import "MARulePhoneView.h"
 #import "MAScrollView.h"
+#import "MGraphViewController.h"
 
 #define MDK_DefaultUtterances          @"DefaultUtterances"
 

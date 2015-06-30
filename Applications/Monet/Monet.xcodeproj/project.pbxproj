@@ -20,6 +20,8 @@
 		015844831B3BAA3B00490599 /* DisplayParameters.xib in Resources */ = {isa = PBXBuildFile; fileRef = 015844811B3BAA3B00490599 /* DisplayParameters.xib */; };
 		015844861B3CE18E00490599 /* MAGraphNameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 015844851B3CE18E00490599 /* MAGraphNameView.m */; };
 		01AC5F471B424D3800CC6E51 /* graph-template.html in Resources */ = {isa = PBXBuildFile; fileRef = 01AC5F461B424D3800CC6E51 /* graph-template.html */; };
+		01AC5F4B1B429F6D00CC6E51 /* MGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AC5F491B429F6D00CC6E51 /* MGraphViewController.m */; };
+		01AC5F4C1B429F6D00CC6E51 /* GraphView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 01AC5F4A1B429F6D00CC6E51 /* GraphView.xib */; };
 		01C55C4B0B7BC7C6009F6A92 /* ReleaseNotes.html in Resources */ = {isa = PBXBuildFile; fileRef = 01C55C490B7BC7C6009F6A92 /* ReleaseNotes.html */; };
 		01C55C4D0B7BC7D8009F6A92 /* Default.mxml in Resources */ = {isa = PBXBuildFile; fileRef = 01C55C4C0B7BC7D8009F6A92 /* Default.mxml */; };
 		01C55C540B7BC82D009F6A92 /* CommentIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 01C55C4E0B7BC82D009F6A92 /* CommentIcon.tiff */; };
@@ -99,6 +101,9 @@
 		015844841B3CE18E00490599 /* MAGraphNameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAGraphNameView.h; sourceTree = "<group>"; };
 		015844851B3CE18E00490599 /* MAGraphNameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAGraphNameView.m; sourceTree = "<group>"; };
 		01AC5F461B424D3800CC6E51 /* graph-template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "graph-template.html"; sourceTree = "<group>"; };
+		01AC5F481B429F6D00CC6E51 /* MGraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGraphViewController.h; sourceTree = "<group>"; };
+		01AC5F491B429F6D00CC6E51 /* MGraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGraphViewController.m; sourceTree = "<group>"; };
+		01AC5F4A1B429F6D00CC6E51 /* GraphView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphView.xib; sourceTree = "<group>"; };
 		01C55C4A0B7BC7C6009F6A92 /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = English; path = English.lproj/ReleaseNotes.html; sourceTree = "<group>"; };
 		01C55C4C0B7BC7D8009F6A92 /* Default.mxml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Default.mxml; sourceTree = "<group>"; };
 		01C55C4E0B7BC82D009F6A92 /* CommentIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CommentIcon.tiff; sourceTree = "<group>"; };
@@ -353,6 +358,16 @@
 			name = "Transition Editor";
 			sourceTree = "<group>";
 		};
+		01AC5F4D1B429F7100CC6E51 /* Graph View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				01AC5F481B429F6D00CC6E51 /* MGraphViewController.h */,
+				01AC5F491B429F6D00CC6E51 /* MGraphViewController.m */,
+				01AC5F4A1B429F6D00CC6E51 /* GraphView.xib */,
+			);
+			name = "Graph View Controller";
+			sourceTree = "<group>";
+		};
 		01C55C5B0B7BC83B009F6A92 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -435,6 +450,7 @@
 				0161BEFA1544C41B00A1D178 /* Rule Tester */,
 				0161BEFB1544C42800A1D178 /* Special Transition Editor */,
 				0161BEFC1544C43A00A1D178 /* Synthesis */,
+				01AC5F4D1B429F7100CC6E51 /* Graph View Controller */,
 				0158447E1B3BA6C700490599 /* Display Parameters */,
 				01462C071B3513220029A6A2 /* Event Table */,
 				010751481B3659740029A4D5 /* Intonation */,
@@ -647,6 +663,7 @@
 				69CD4B580EDD165700481C86 /* Synthesis.xib in Resources */,
 				69CD4B5D0EDD166600481C86 /* SynthesisParameters.xib in Resources */,
 				69CD4B620EDD168000481C86 /* TransitionEditor.xib in Resources */,
+				01AC5F4C1B429F6D00CC6E51 /* GraphView.xib in Resources */,
 				696CE7B80F26DBD60014B94A /* Monet.icns in Resources */,
 				69454E080F8D4DB200EBA0DC /* ChangeLog.txt in Resources */,
 			);
@@ -705,6 +722,7 @@
 				01C55D8B0B7BCE53009F6A92 /* MReleaseNotesController.m in Sources */,
 				01C55D8C0B7BCE53009F6A92 /* MRuleManager.m in Sources */,
 				01C55D8D0B7BCE53009F6A92 /* MRuleTester.m in Sources */,
+				01AC5F4B1B429F6D00CC6E51 /* MGraphViewController.m in Sources */,
 				01C55D8E0B7BCE53009F6A92 /* MSpecialTransitionEditor.m in Sources */,
 				01C55D8F0B7BCE53009F6A92 /* MSynthesisController.m in Sources */,
 				01C55D900B7BCE53009F6A92 /* MSynthesisParameterEditor.m in Sources */,
