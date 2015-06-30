@@ -68,15 +68,8 @@
     MModel *_model;
     NSArray *_displayParameters;
     EventList *_eventList;
-    STLogger *_logger;
-
     TRMSynthesizer *_synthesizer;
-
 	MMTextToPhone *_textToPhone;
-
-    MEventTableController *_eventTableController;
-    MIntonationController *_intonationController;
-    MDisplayParametersController *_displayParametersController;
 }
 
 + (void)initialize;
