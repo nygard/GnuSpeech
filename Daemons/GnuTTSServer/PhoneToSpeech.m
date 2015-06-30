@@ -123,9 +123,9 @@
 {
 }
 
-- (void)eventList:(EventList *)eventList generatedOutputValues:(float *)valPtr valueCount:(NSUInteger)count;
+- (void)eventList:(EventList *)eventList generatedOutputValues:(TRMParameters *)outputValues;
 {
-    [self.synthesizer addParameters:valPtr];
+    [self.synthesizer addParameters:outputValues];
 }
 
 - (void)eventListDidGenerateOutput:(EventList *)eventList;

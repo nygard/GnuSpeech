@@ -16,7 +16,7 @@ struct _rule {
 
 @protocol EventListDelegate;
 
-
+@class TRMParameters;
 @class MMIntonation;
 
 @interface EventList : NSObject
@@ -85,7 +85,7 @@ struct _rule {
 
 @protocol EventListDelegate <NSObject>
 - (void)eventListWillGenerateOutput:(EventList *)eventList;
-- (void)eventList:(EventList *)eventList generatedOutputValues:(float *)valPtr valueCount:(NSUInteger)count;
+- (void)eventList:(EventList *)eventList generatedOutputValues:(TRMParameters *)outputValues;
 - (void)eventListDidGenerateOutput:(EventList *)eventList;
 @end
 

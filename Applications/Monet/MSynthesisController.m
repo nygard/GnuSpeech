@@ -3,6 +3,7 @@
 
 #import "MSynthesisController.h"
 
+#import <Tube/Tube.h>
 #import <GnuSpeech/GnuSpeech.h>
 
 #import "NSNumberFormatter-Extensions.h"
@@ -599,15 +600,13 @@
     }
 }
 
-- (void)eventList:(EventList *)eventList generatedOutputValues:(float *)valPtr valueCount:(NSUInteger)count;
+- (void)eventList:(EventList *)eventList generatedOutputValues:(TRMParameters *)outputValues;
 {
     //NSLog(@"%s", __PRETTY_FUNCTION__);
-    [self.synthesizer addParameters:valPtr];
+    [self.synthesizer addParameters:outputValues];
+
     // Write values to file
-    NSMutableArray *a1 = [NSMutableArray array];
-    for (NSUInteger index = 0; index < count; index++)
-        [a1 addObject:[NSString stringWithFormat:@"%.3f", valPtr[index]]];
-    [self.logger log:@"%@", [a1 componentsJoinedByString:@" "]];
+    [self.logger log:@"%@", outputValues.valuesString];
 }
 
 - (void)eventListDidGenerateOutput:(EventList *)eventList;

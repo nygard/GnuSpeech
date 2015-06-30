@@ -3,6 +3,7 @@
 
 #import "EventList.h"
 
+#import <Tube/Tube.h>
 #import "NSArray-Extensions.h"
 #import "NSCharacterSet-Extensions.h"
 #import "NSScanner-Extensions.h"
@@ -1002,7 +1003,25 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
         table[0] += self.model.synthesisParameters.pitch;
 
-        [self.delegate eventList:self generatedOutputValues:table valueCount:16];
+        TRMParameters *outputValues = [[TRMParameters alloc] init];
+        outputValues.glottalPitch             = table[0];
+        outputValues.glottalVolume            = table[1];
+        outputValues.aspirationVolume         = table[2];
+        outputValues.fricationVolume          = table[3];
+        outputValues.fricationPosition        = table[4];
+        outputValues.fricationCenterFrequency = table[5];
+        outputValues.fricationBandwidth       = table[6];
+        outputValues.radius[0]                = table[7];
+        outputValues.radius[1]                = table[8];
+        outputValues.radius[2]                = table[9];
+        outputValues.radius[3]                = table[10];
+        outputValues.radius[4]                = table[11];
+        outputValues.radius[5]                = table[12];
+        outputValues.radius[6]                = table[13];
+        outputValues.radius[7]                = table[14];
+        outputValues.velum                    = table[15];
+
+        [self.delegate eventList:self generatedOutputValues:outputValues];
 
         for (NSUInteger j = 0; j < 32; j++) {
             if (currentDeltas[j]) // TODO (2012-04-23): Just add unconditionally
