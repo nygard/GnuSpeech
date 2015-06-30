@@ -317,7 +317,7 @@ MMChannels MMChannelsFromString(NSString *string)
 - (void)logToLogger:(STLogger *)logger;
 {
     // Well, this isn't perfect, it wouldn't get the proper indentation and prefix from the logger.
-    [logger log:self.parameterString];
+    [logger log:@"%@", self.parameterString];
 }
 
 @end
