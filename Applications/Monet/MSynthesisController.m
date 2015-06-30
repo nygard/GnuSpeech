@@ -399,7 +399,7 @@
     //[eventList printDataStructures:@"Before synthesis"];
     self.eventTableController.eventList = _eventList;
 
-    [self.synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
+    [self.synthesizer setupSynthesisParameters:self.model.synthesisParameters]; // TODO (2004-08-22): This may overwrite the file type...
     [self.synthesizer removeAllParameters];
 
     if ([_parametersStore state]) {
