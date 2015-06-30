@@ -1178,13 +1178,9 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
             MMTransition *transition = parameterTransitions[transitionIndex];
             double maxValue = 0.0;
-            NSArray *points = transition.points;
-            NSUInteger pointCount = [points count];
 
             /* Apply lists to parameter */
-            for (NSUInteger pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-                MMPoint *currentPoint = points[pointIndex];
-
+            for (MMPoint *currentPoint in transition.points) {
                 if ([currentPoint isKindOfClass:[MMSlopeRatio class]]) {
                     if ([(MMPoint *)[[(MMSlopeRatio *)currentPoint points] objectAtIndex:0] type] != currentType) {
                         currentType = [(MMPoint *)[[(MMSlopeRatio *)currentPoint points] objectAtIndex:0] type];
@@ -1218,12 +1214,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         MMTransition *transition = [rule getSpecialProfile:parameterIndex];
         MMParameter *parameter = _model.parameters[parameterIndex];
         if (transition != nil) {
-            NSArray *points = transition.points;
-            NSUInteger pointCount = [points count];
-
-            for (NSUInteger pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-                MMPoint *currentPoint = points[pointIndex];
-
+            for (MMPoint *currentPoint in transition.points) {
                 double tempTime;
                 /* calculate time of event */
                 if (currentPoint.timeEquation == nil)
@@ -1379,8 +1370,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     NSUInteger count = [self.intonationPoints count]; // This makes sure they get sorted
     NSLog(@"Applying intonation, %lu points", count);
 
-    for (NSUInteger index = 0; index < count; index++) {
-        MMIntonationPoint *intonationPoint = _intonationPoints[index];
+    for (MMIntonationPoint *intonationPoint in self.intonationPoints) { // Use property notation to make sure the points get sorted.
         NSLog(@"Added Event at Time: %f withValue: %f", intonationPoint.absoluteTime, intonationPoint.semitone);
         [self insertEvent:32 atTimeOffset:intonationPoint.absoluteTime withValue:intonationPoint.semitone];
         [self insertEvent:33 atTimeOffset:intonationPoint.absoluteTime withValue:0.0];
