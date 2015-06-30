@@ -1046,8 +1046,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListNotification_DidGenerateOutput object:self userInfo:nil];
 
     // TODO (2004-03-25): There used to be some silence padding here.
-
-    [self writeIntonationContourToXMLFile:@"/tmp/contour.xml" comment:nil];
 }
 
 // 1. Calculate the rule symbols (Rule Duration, Beat, Mark 1, Mark 2, Mark 3), given tempos and phones.
