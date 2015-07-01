@@ -241,7 +241,7 @@
 
 #pragma mark - Sync messaging methods.
 
-- (id)sendSyncMessagesTo:destinationObject:(SEL)aSelector;
+- (id)sendSyncMessagesTo:(id)destinationObject selector:(SEL)aSelector;
 {
 	return nil;
 }
@@ -278,7 +278,7 @@
 
 #pragma mark - Real-time messaging methods.
 
-- (id)sendRealTimeMessagesTo:destinationObject:(SEL)aSelector;
+- (id)sendRealTimeMessagesTo:(id)destinationObject selector:(SEL)aSelector;
 {
 	return nil;
 }
@@ -305,12 +305,12 @@
 
 #pragma mark - Formerly hidden methods.
 
-- (const char *)pronunciation:(const char *)word:(in short *)dict:(int)password;
+- (const char *)pronunciation:(const char *)word dict:(in short *)dict password:(int)password;
 {
 	return NULL;
 }
 
-- (const char *)linePronunciation:(const char *)line:(int)password;
+- (const char *)linePronunciation:(const char *)line password:(int)password;
 {
 	return NULL;
 }
