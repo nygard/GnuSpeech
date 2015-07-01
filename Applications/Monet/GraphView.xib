@@ -19,14 +19,14 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="927" height="348"/>
+            <rect key="contentRect" x="196" y="240" width="927" height="358"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" id="se5-gp-TjO">
-                <rect key="frame" x="0.0" y="0.0" width="927" height="348"/>
+                <rect key="frame" x="0.0" y="0.0" width="927" height="358"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <customView horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="OMY-BV-b6x">
-                        <rect key="frame" x="0.0" y="0.0" width="927" height="348"/>
+                        <rect key="frame" x="0.0" y="10" width="917" height="348"/>
                         <subviews>
                             <stackView orientation="vertical" alignment="centerX" horizontalHuggingPriority="249" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="gd8-He-Hue">
                                 <rect key="frame" x="0.0" y="0.0" width="100" height="300"/>
@@ -35,10 +35,10 @@
                                 </constraints>
                             </stackView>
                             <stackView orientation="vertical" alignment="centerX" horizontalHuggingPriority="249" verticalHuggingPriority="249" placeholderIntrinsicWidth="400" placeholderIntrinsicHeight="300" translatesAutoresizingMaskIntoConstraints="NO" id="qVl-uc-09K">
-                                <rect key="frame" x="100" y="0.0" width="827" height="300"/>
+                                <rect key="frame" x="100" y="0.0" width="817" height="300"/>
                             </stackView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="qMx-1i-zz6" customClass="MARulePhoneView">
-                                <rect key="frame" x="100" y="308" width="827" height="40"/>
+                                <rect key="frame" x="100" y="308" width="817" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="EMQ-bl-gZf"/>
                                 </constraints>
@@ -83,8 +83,8 @@
                 <constraints>
                     <constraint firstItem="OMY-BV-b6x" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="DKn-09-Y7t"/>
                     <constraint firstItem="OMY-BV-b6x" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="DPQ-d2-AMF"/>
-                    <constraint firstAttribute="trailing" secondItem="OMY-BV-b6x" secondAttribute="trailing" id="Use-lY-0Cs"/>
-                    <constraint firstAttribute="bottom" secondItem="OMY-BV-b6x" secondAttribute="bottom" id="jWT-Nd-HUD"/>
+                    <constraint firstAttribute="trailing" secondItem="OMY-BV-b6x" secondAttribute="trailing" constant="10" id="Use-lY-0Cs"/>
+                    <constraint firstAttribute="bottom" secondItem="OMY-BV-b6x" secondAttribute="bottom" constant="10" id="jWT-Nd-HUD"/>
                 </constraints>
             </view>
             <connections>
