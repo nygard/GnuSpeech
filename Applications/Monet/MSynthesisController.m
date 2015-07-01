@@ -516,6 +516,10 @@
         MGraphViewController *controller = [[MGraphViewController alloc] init];
         controller.displayParameters = @[ _displayParameters[0], _displayParameters[1], _displayParameters[2], _displayParameters[3] ];
         controller.eventList = self.eventList;
+        NSMutableArray *a1 = [[NSMutableArray alloc] init];
+        for (MMDisplayParameter *displayParameter in controller.displayParameters) {
+            [a1 addObject:displayParameter.parameter.name];
+        }
 
         [controller.window layoutIfNeeded];
 
@@ -538,6 +542,7 @@
         [imgElement addAttribute:[NSXMLNode attributeWithName:@"src" stringValue:@"x.png"]];
         [imgElement addAttribute:[NSXMLNode attributeWithName:@"width" stringValue:[NSString stringWithFormat:@"%.0f", image.size.width]]];
         [imgElement addAttribute:[NSXMLNode attributeWithName:@"height" stringValue:[NSString stringWithFormat:@"%.0f", image.size.height]]];
+        [imgElement addAttribute:[NSXMLNode attributeWithName:@"alt" stringValue:[a1 componentsJoinedByString:@", "]]];
         [graphImagesElement addChild:imgElement];
     }
 
