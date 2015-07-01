@@ -7,7 +7,9 @@
 @class MMDisplayParameter;
 
 /// This is the view used to generate an image of several graphs.  This name is perhaps misleading.
-@interface MGraphViewController : NSViewController
+@interface MGraphViewController : NSWindowController
+
+@property (weak) IBOutlet NSView *view;
 
 @property (nonatomic, strong) NSArray *displayParameters;
 @property (nonatomic, strong) EventList *eventList;

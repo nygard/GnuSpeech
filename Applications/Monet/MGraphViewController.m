@@ -10,6 +10,7 @@
 #import "MAGraphView.h"
 
 @interface MGraphViewController ()
+
 @property (weak) IBOutlet NSStackView *nameStackView;
 @property (weak) IBOutlet NSStackView *graphStackView;
 @property (weak) IBOutlet MARulePhoneView *rulePhoneView;
@@ -20,7 +21,7 @@
 
 - (id)init;
 {
-    if ((self = [super initWithNibName:@"GraphView" bundle:nil])) {
+    if ((self = [super initWithWindowNibName:@"GraphView"])) {
         _displayParameters = nil;
         _eventList = nil;
         _scale = 0.5;
@@ -29,9 +30,9 @@
     return self;
 }
 
-- (void)viewDidLoad;
+- (void)windowDidLoad;
 {
-    [super viewDidLoad];
+    [super windowDidLoad];
 
     // I'm going to be lazy, and say you need to set up displayParameters, eventList, and scale before the view is loaded.
     // Although we might just want to reuse this view controller.

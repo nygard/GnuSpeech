@@ -517,13 +517,9 @@
         controller.displayParameters = @[ _displayParameters[0], _displayParameters[1], _displayParameters[2], _displayParameters[3] ];
         controller.eventList = self.eventList;
 
-        NSWindow *window = [[NSWindow alloc] initWithContentRect:CGRectZero styleMask:0 backing:NSBackingStoreNonretained defer:NO];
-        [window setContentView:controller.view];
-        [window layoutIfNeeded];
+        [controller.window layoutIfNeeded];
 
-        NSRect bounds = controller.view.bounds;
-
-        NSImage *image = [[NSImage alloc] initWithSize:bounds.size];
+        NSImage *image = [[NSImage alloc] initWithSize:controller.view.bounds.size];
         [image lockFocus];
         {
             CGContextRef context = [NSGraphicsContext currentContext].graphicsPort;
