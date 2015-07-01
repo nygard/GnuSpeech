@@ -57,7 +57,7 @@
     }
 
     self.view.wantsLayer = YES;
-    self.view.layer.backgroundColor = [[NSColor greenColor] colorWithAlphaComponent:0.2].CGColor;
+    self.view.layer.backgroundColor = [NSColor windowBackgroundColor].CGColor;
 }
 
 @end
