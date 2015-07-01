@@ -92,7 +92,7 @@
         [NSApp activateIgnoringOtherApps:YES];
     }
 
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Diphones" ofType:@"mxml"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"diphones" ofType:@"mxml"];
     [self _loadMonetXMLFile:path];
 }
 
