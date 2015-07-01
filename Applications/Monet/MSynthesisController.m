@@ -523,6 +523,7 @@
             MGraphViewController *controller = [[MGraphViewController alloc] init];
             controller.displayParameters = group;
             controller.eventList = self.eventList;
+            controller.scale = self.rulePhoneView.scale;
 
             NSMutableArray *parameterNames = [[NSMutableArray alloc] init];
             for (MMDisplayParameter *displayParameter in group) {
