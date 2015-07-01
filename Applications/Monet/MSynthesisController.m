@@ -556,7 +556,7 @@
     }
 
     // 5. Save the HTML.
-    NSData *xmlData = [doc XMLDataWithOptions:NSXMLDocumentXHTMLKind];
+    NSData *xmlData = [doc XMLDataWithOptions:NSXMLDocumentXHTMLKind|NSXMLNodePrettyPrint];
     NSError *indexError;
     if (![xmlData writeToFile:[basePath stringByAppendingPathComponent:@"index.html"] options:0 error:&indexError]) {
         NSLog(@"index error: %@", indexError);
