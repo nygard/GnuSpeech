@@ -446,6 +446,7 @@
     }];
 }
 
+// TODO: error handling is basically non-existant in this method.
 - (void)saveGraphImagesToPath:(NSString *)basePath;
 {
     NSLog(@" > %s", __PRETTY_FUNCTION__);
@@ -481,7 +482,6 @@
 
     // 3. Create the index.html xml tree
     NSURL *templateURL = [[NSBundle mainBundle] URLForResource:@"graph-template" withExtension:@"html"];
-//    NSLog(@"templateURL: %@", templateURL);
     NSError *xmlError;
     NSXMLDocument *doc = [[NSXMLDocument alloc] initWithContentsOfURL:templateURL options:0 error:&xmlError];
     if (doc == nil) {
@@ -492,8 +492,6 @@
     {
         NSError *xpathError;
         NSArray *timeGenText = [doc nodesForXPath:@"/html/body/p[@id='time-generated']/text()" error:&xpathError];
-//        NSLog(@"timeGenText: %@", timeGenText);
-//        NSLog(@"error: %@", xpathError);
         NSXMLNode *generatedTextNode = [timeGenText lastObject];
         if (generatedTextNode != nil) {
             generatedTextNode.stringValue = [NSString stringWithFormat:@"Generated %@", [[NSCalendarDate calendarDate] description]];
@@ -502,16 +500,9 @@
 
     NSError *xpathError;
     NSArray *graphImagesElements = [doc nodesForXPath:@"/html/body/p[@id='graph-images']" error:&xpathError];
-//    NSLog(@"graphImagesElements: %@", graphImagesElements);
-//    NSLog(@"error: %@", xpathError);
     NSXMLElement *graphImagesElement = [graphImagesElements lastObject];
-    if (graphImagesElement != nil) {
-        //NSLog(@"graphImagesElement: %@", graphImagesElement);
-    }
-
 
     // 4. Save series of images, and add reference to HTML as we go.  Going to say we only show the graphs the user has selected to display.
-//    [html appendFormat:@"      <img src='%@' alt='parameter graph %lu'/>\n", GSXMLAttributeString(filename1, YES), number];
     {
         NSMutableArray *groups = [[NSMutableArray alloc] init];
         NSMutableArray *current;
@@ -571,46 +562,10 @@
         NSLog(@"index error: %@", indexError);
         return;
     }
-    // 6. Open the HTML. (LaunchServices)
-    //system([[NSString stringWithFormat:@"open %@", [basePath stringByAppendingPathComponent:@"index.html"]] UTF8String]);
 
-#if 0
-    NSDictionary *jpegProperties = @{
-                                     NSImageCompressionFactor : @(0.95),
-                                     };
+    // 6. Open the HTML.
+    [[NSWorkspace sharedWorkspace] openFile:[basePath stringByAppendingPathComponent:@"index.html"]];
 
-    NSUInteger number = 1;
-
-    NSUInteger count = [_displayParameters count];
-    for (NSUInteger index = 0; index < count; index += 4) {
-        NSMutableArray *parms = [[NSMutableArray alloc] init];
-        for (NSUInteger offset = 0; offset < 4 && index + offset < count; offset++) {
-            [parms addObject:[_displayParameters objectAtIndex:index + offset]];
-        }
-        [_eventListView setDisplayParameters:parms];
-		
-        NSData *pdfData = [_eventListView dataWithPDFInsideRect:[_eventListView bounds]];
-        NSString *filename1 = [NSString stringWithFormat:@"graph-%lu.pdf", number];
-        [pdfData writeToFile:[basePath stringByAppendingPathComponent:filename1] atomically:YES];
-        [html appendFormat:@"      <img src='%@' alt='parameter graph %lu'/>\n", GSXMLAttributeString(filename1, YES), number];
-		
-        NSImage *image = [[NSImage alloc] initWithData:pdfData];
-        //NSLog(@"image: %@", image);
-		
-        // Generate TIFF data first, otherwise JPEG generation fails.
-        NSData *tiffData = [image TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0.95];
-		
-        NSBitmapImageRep *bitmapImageRep = [[NSBitmapImageRep alloc] initWithData:tiffData];
-        //NSLog(@"bitmapImageRep: %@, size: %@", bitmapImageRep, NSStringFromSize([bitmapImageRep size]));
-        //NSLog(@"bitsPerPixel: %d, samplesPerPixel: %d", [bitmapImageRep bitsPerPixel], [bitmapImageRep samplesPerPixel]);
-		
-        NSData *jpegData = [bitmapImageRep representationUsingType:NSJPEGFileType properties:jpegProperties];
-        NSString *filename2 = [NSString stringWithFormat:@"graph-%lu.jpg", number];
-        [jpegData writeToFile:[basePath stringByAppendingPathComponent:filename2] atomically:YES];
-
-        number++;
-    }
-#endif
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
