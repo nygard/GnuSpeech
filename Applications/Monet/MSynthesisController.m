@@ -517,16 +517,25 @@
         controller.displayParameters = @[ _displayParameters[0], _displayParameters[1], _displayParameters[2], _displayParameters[3] ];
         controller.eventList = self.eventList;
 
-        NSWindow *window = [[NSWindow alloc] initWithContentRect:CGRectMake(0, 0, 1000, 500) styleMask:0 backing:NSBackingStoreNonretained defer:NO];
+        NSWindow *window = [[NSWindow alloc] initWithContentRect:CGRectZero styleMask:0 backing:NSBackingStoreNonretained defer:NO];
         [window setContentView:controller.view];
         [window layoutIfNeeded];
 
-//        [controller.view layout];
-
         NSRect bounds = controller.view.bounds;
-        NSLog(@"view bounds: %@", NSStringFromRect(bounds));
-        NSData *pdfData = [controller.view dataWithPDFInsideRect:bounds];
-        [pdfData writeToFile:@"/tmp/graph1.pdf" atomically:YES];
+
+        NSImage *image = [[NSImage alloc] initWithSize:bounds.size];
+        [image lockFocus];
+        {
+            CGContextRef context = [NSGraphicsContext currentContext].graphicsPort;
+            [controller.view.layer renderInContext:context];
+        }
+        [image unlockFocus];
+
+        NSData *tiffData = [image TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0.95];
+
+        NSBitmapImageRep *bitmapImageRep = [[NSBitmapImageRep alloc] initWithData:tiffData];
+        NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
+        [PNGData writeToFile:@"/tmp/x.png" atomically:YES];
     }
 
     // 5. Save the HTML.
