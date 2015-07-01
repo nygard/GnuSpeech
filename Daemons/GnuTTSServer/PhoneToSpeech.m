@@ -20,9 +20,6 @@
 @property (readonly) EventList *eventList;
 @property (readonly) TRMSynthesizer *synthesizer;
 
-- (void)synthesize:(NSString *)phoneString;
-- (void)prepareForSynthesis;
-- (void)continueSynthesis;
 @end
 
 @implementation PhoneToSpeech
@@ -80,25 +77,12 @@
 
 - (void)synthesize:(NSString *)phoneString;
 {
-    [self prepareForSynthesis];
-	
-    [self.eventList parsePhoneString:phoneString];  // this creates the tone groups, feet, etc.
-    [self.eventList applyRhythm];
-    [self.eventList applyRules];                    // this applies the rules, adding events to the EventList
-    [self.eventList generateIntonationPoints];
-	
+    MMIntonation *intonation = [[MMIntonation alloc] init];
+    [self.eventList resetWithIntonation:intonation phoneString:phoneString];
+
     [self continueSynthesis];
 }
 
-- (void)prepareForSynthesis;
-{
-    [self.eventList setUp];
-	
-    MMIntonation *intonation = [[MMIntonation alloc] init];;
-    self.eventList.intonation = intonation;
-
-	[self.eventList.driftGenerator configureWithDeviation:intonation.driftDeviation sampleRate:500 lowpassCutoff:intonation.driftCutoff];
-}
 
 - (void)continueSynthesis;
 {
@@ -107,12 +91,10 @@
 
     [self.eventList applyIntonation];
 		
-    [self.synthesizer setupSynthesisParameters:[[self model] synthesisParameters]]; // TODO (2004-08-22): This may overwrite the file type...
+    [self.synthesizer setupSynthesisParameters:self.model.synthesisParameters]; // TODO (2004-08-22): This may overwrite the file type...
     [self.synthesizer removeAllParameters];
 	
-    self.eventList.delegate = self;
-    [self.eventList generateOutput];
-    self.eventList.delegate = nil;
+    [self.eventList generateOutputForSynthesizer:self.synthesizer];
 	
     [self.synthesizer synthesize];
 }
