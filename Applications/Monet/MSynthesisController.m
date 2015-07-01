@@ -614,8 +614,7 @@
 {
     if (notification.object == self.graphScrollView) {
         NSRect r1 = self.graphScrollView.documentVisibleRect;
-        NSRect r2 = self.leftScrollView.documentVisibleRect;
-        r2 = self.leftStackView.visibleRect;
+        NSRect r2 = self.leftStackView.visibleRect;
 
         r2.origin.y = r1.origin.y;
         [self.leftStackView scrollRectToVisible:r2];
