@@ -81,12 +81,12 @@ static const int maxSectionDiam = 147; // This depends on the size in the IB win
 }
 
 
-- (void)controlTextDidEndEditing:(NSNotification *)aNotification;
+- (void)controlTextDidEndEditing:(NSNotification *)notification;
 {
 	int tag;
-	tag = [[aNotification object] tag];
+	tag = [[notification object] tag];
 	NSLog(@" Tag value is %d", tag);
-	sectionParameter = [[aNotification object] floatValue];
+	sectionParameter = [[notification object] floatValue];
 	[self setSection:(double)sectionParameter:(int)tag:(BOOL) 1]; // Let setSection know that this is an interface driven change
 }
 

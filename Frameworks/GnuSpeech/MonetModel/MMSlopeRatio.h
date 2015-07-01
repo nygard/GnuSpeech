@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class MMPoint, MMSlope, MMFRuleSymbols, EventList, MModel;
+@class MMPoint, MMSlope, MMFRuleSymbols, EventList, MModel, MMParameter;
 
 @interface MMSlopeRatio : NSObject
 
@@ -25,7 +25,7 @@
 
 // Used by ???
 - (double)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag
-                                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
+                                  baseline:(double)baseline delta:(double)delta parameter:(MMParameter *)parameter
                          andAddToEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 
 - (double)totalSlopeUnits;

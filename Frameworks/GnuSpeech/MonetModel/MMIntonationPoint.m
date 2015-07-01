@@ -184,13 +184,13 @@
     self.ruleIndex = self.ruleIndex - 1;
 }
 
-- (NSComparisonResult)compareByAscendingAbsoluteTime:(MMIntonationPoint *)otherIntonationPoint;
+- (NSComparisonResult)compareByAscendingAbsoluteTime:(MMIntonationPoint *)other;
 {
-    double thisTime = [self absoluteTime];
-    double otherTime = [otherIntonationPoint absoluteTime];
+    double thisTime  = self.absoluteTime;
+    double otherTime = other.absoluteTime;
 
-    if (thisTime < otherTime)      return NSOrderedAscending;
-    else if (thisTime > otherTime) return NSOrderedDescending;
+    if (thisTime < otherTime) return NSOrderedAscending;
+    if (thisTime > otherTime) return NSOrderedDescending;
 
     return NSOrderedSame;
 }

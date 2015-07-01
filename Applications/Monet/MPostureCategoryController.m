@@ -191,7 +191,7 @@
         MMPosture *posture;
 
         posture = [[[self model] postures] objectAtIndex:row];
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"name" isEqual:identifier]) {
             return [posture name];
         } else {
             return [NSNumber numberWithBool:[posture isMemberOfCategoryNamed:identifier]];
@@ -217,7 +217,7 @@
     count = [postures count];
     for (index = 0; index < count; index++) {
         posture = [postures objectAtIndex:index];
-        if ([[posture name] hasPrefix:characters] == YES) {
+        if ([[posture name] hasPrefix:characters]) {
             [_postureCategoryTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
             [_postureCategoryTableView scrollRowToVisible:index];
             return NO;

@@ -10,6 +10,7 @@
 #import "GSXMLFunctions.h"
 #import "MMEquation.h"
 #import "MMTransition.h"
+#import "MMParameter.h"
 
 #import "MModel.h"
 
@@ -113,10 +114,8 @@
     [displayList addObject:self];
 }
 
-
-// TODO (2004-08-12): Pass in parameter instead of min, max, and index.
 - (double)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag
-                                  baseline:(double)baseline delta:(double)delta min:(double)min max:(double)max
+                                  baseline:(double)baseline delta:(double)delta parameter:(MMParameter *)parameter
                          andAddToEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 {
     double time, returnValue;
@@ -132,10 +131,10 @@
 
     //NSLog(@"Inserting event %d atTime %f  withValue %f", index, time, returnValue);
 
-    if (returnValue < min)
-        returnValue = min;
-    else if (returnValue > max)
-        returnValue = max;
+    if (returnValue < parameter.minimumValue)
+        returnValue = parameter.minimumValue;
+    if (returnValue > parameter.maximumValue)
+        returnValue = parameter.maximumValue;
 
     if (!_isPhantom)
         [eventList insertEvent:index atTimeOffset:time withValue:returnValue];
@@ -153,7 +152,7 @@
         [resultString appendFormat:@" time-expression=\"%@\"", GSXMLAttributeString([_timeEquation name], NO)];
     }
 
-    if (_isPhantom == YES)
+    if (_isPhantom)
         [resultString appendFormat:@" is-phantom=\"%@\"", GSXMLBoolAttributeString(_isPhantom)];
 
     [resultString appendString:@"/>\n"];

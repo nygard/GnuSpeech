@@ -1,16 +1,9 @@
 //  This file is part of Gnuspeech, an extensible, text-to-speech package, based on real-time, articulatory, speech-synthesis-by-rules. 
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
-#import "MMIntonationParameters.h"
+#import "MMIntonation.h"
 
-@implementation MMIntonationParameters
-{
-    float _notionalPitch;
-    float _pretonicRange;
-    float _pretonicLift;
-    float _tonicRange;
-    float _tonicMovement; // TODO (2004-03-30): Apparently not used.
-}
+@implementation MMIntonation
 
 - (id)init;
 {
@@ -20,6 +13,17 @@
         _pretonicLift  = -2;
         _tonicRange    = -10;
         _tonicMovement = -6;
+
+        _shouldUseMacroIntonation = YES;
+        _shouldUseMicroIntonation = YES;
+        _shouldUseSmoothIntonation = YES;
+
+        _shouldUseDrift = YES;
+        _driftDeviation = 1.0;
+        _driftCutoff = 4;
+
+        _tempo = 1.0;
+        _radiusMultiply = 1.0;
     }
     
     return self;

@@ -368,11 +368,11 @@
     if (tableView == _categoryTableView) {
         MMCategory *category = [[[self model] categories] objectAtIndex:row];
 
-        if ([@"hasComment" isEqual:identifier] == YES) {
+        if ([@"hasComment" isEqual:identifier]) {
             return [NSNumber numberWithBool:[category hasComment]];
-        } else if ([@"isUsed" isEqual:identifier] == YES) {
+        } else if ([@"isUsed" isEqual:identifier]) {
             return [NSNumber numberWithBool:[[self model] isCategoryUsed:category]];
-        } else if ([@"name" isEqual:identifier] == YES) {
+        } else if ([@"name" isEqual:identifier]) {
             return [category name];
         }
     } else if (tableView == _parameterTableView || tableView == _metaParameterTableView) {
@@ -384,29 +384,29 @@
         else
             parameter = [[[self model] metaParameters] objectAtIndex:row];
 
-        if ([@"hasComment" isEqual:identifier] == YES) {
+        if ([@"hasComment" isEqual:identifier]) {
             return [NSNumber numberWithBool:[parameter hasComment]];
-        } else if ([@"name" isEqual:identifier] == YES) {
+        } else if ([@"name" isEqual:identifier]) {
             return [parameter name];
-        } else if ([@"minimum" isEqual:identifier] == YES) {
+        } else if ([@"minimum" isEqual:identifier]) {
             return [NSNumber numberWithDouble:[parameter minimumValue]];
-        } else if ([@"maximum" isEqual:identifier] == YES) {
+        } else if ([@"maximum" isEqual:identifier]) {
             return [NSNumber numberWithDouble:[parameter maximumValue]];
-        } else if ([@"default" isEqual:identifier] == YES) {
+        } else if ([@"default" isEqual:identifier]) {
             return [NSNumber numberWithDouble:[parameter defaultValue]];
         }
     } else if (tableView == _symbolTableView) {
         MMSymbol *symbol = [[[self model] symbols] objectAtIndex:row];
 
-        if ([@"hasComment" isEqual:identifier] == YES) {
+        if ([@"hasComment" isEqual:identifier]) {
             return [NSNumber numberWithBool:[symbol hasComment]];
-        } else if ([@"name" isEqual:identifier] == YES) {
+        } else if ([@"name" isEqual:identifier]) {
             return [symbol name];
-        } else if ([@"minimum" isEqual:identifier] == YES) {
+        } else if ([@"minimum" isEqual:identifier]) {
             return [NSNumber numberWithDouble:[symbol minimumValue]];
-        } else if ([@"maximum" isEqual:identifier] == YES) {
+        } else if ([@"maximum" isEqual:identifier]) {
             return [NSNumber numberWithDouble:[symbol maximumValue]];
-        } else if ([@"default" isEqual:identifier] == YES) {
+        } else if ([@"default" isEqual:identifier]) {
             return [NSNumber numberWithDouble:[symbol defaultValue]];
         }
     }
@@ -423,7 +423,7 @@
     if (tableView == _categoryTableView) {
         MMCategory *category = [[[self model] categories] objectAtIndex:row];
 
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"name" isEqual:identifier]) {
             // TODO (2004-03-19): Ensure unique name
             [category setName:object];
         }
@@ -435,30 +435,30 @@
         else
             parameter = [[[self model] metaParameters] objectAtIndex:row];
 
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"name" isEqual:identifier]) {
             // TODO (2004-03-19): Ensure unique name
             [parameter setName:object];
-        } else if ([@"minimum" isEqual:identifier] == YES) {
+        } else if ([@"minimum" isEqual:identifier]) {
             // TODO (2004-03-19): Make sure current values are still in range
             [parameter setMinimumValue:[object doubleValue]];
-        } else if ([@"maximum" isEqual:identifier] == YES) {
+        } else if ([@"maximum" isEqual:identifier]) {
             [parameter setMaximumValue:[object doubleValue]];
-        } else if ([@"default" isEqual:identifier] == YES) {
+        } else if ([@"default" isEqual:identifier]) {
             // TODO (2004-03-19): Propagate changes to default
             [parameter setDefaultValue:[object doubleValue]];
         }
     } else if (tableView == _symbolTableView) {
         MMSymbol *symbol = [[[self model] symbols] objectAtIndex:row];
 
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"name" isEqual:identifier]) {
             // TODO (2004-03-19): Ensure unique name
             [symbol setName:object];
-        } else if ([@"minimum" isEqual:identifier] == YES) {
+        } else if ([@"minimum" isEqual:identifier]) {
             // TODO (2004-03-19): Make sure current values are still in range
             [symbol setMinimumValue:[object doubleValue]];
-        } else if ([@"maximum" isEqual:identifier] == YES) {
+        } else if ([@"maximum" isEqual:identifier]) {
             [symbol setMaximumValue:[object doubleValue]];
-        } else if ([@"default" isEqual:identifier] == YES) {
+        } else if ([@"default" isEqual:identifier]) {
             // TODO (2004-03-19): Propagate changes to default
             [symbol setDefaultValue:[object doubleValue]];
         }
@@ -488,7 +488,7 @@
 {
     NSTextView *textView = [notification object];
     // NSTextMovement is a key in the user info
-    //NSLog(@"[aNotification userInfo]: %@", [aNotification userInfo]);
+    //NSLog(@"[notification userInfo]: %@", [notification userInfo]);
 
     NSString *newComment = [[textView string] copy];
     //NSLog(@"(1) newComment: %@", newComment);

@@ -124,7 +124,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 
     [_ruleCommentTextView setFieldEditor:YES];
 
-    [_ruleTableView registerForDraggedTypes:[NSArray arrayWithObject:MRMLocalRuleDragPasteboardType]];
+    [_ruleTableView registerForDraggedTypes:@[ MRMLocalRuleDragPasteboardType ]];
 
     [self updateViews];
     [self expandOutlines];
@@ -411,17 +411,17 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         MMRule *rule;
 
         rule = [[_model rules] objectAtIndex:row];
-        if ([@"hasComment" isEqual:identifier] == YES) {
+        if ([@"hasComment" isEqual:identifier]) {
             return [NSNumber numberWithBool:[rule hasComment]];
-        } else if ([@"number" isEqual:identifier] == YES) {
+        } else if ([@"number" isEqual:identifier]) {
             return [NSString stringWithFormat:@"%lu.", row + 1];
-        } else if ([@"rule" isEqual:identifier] == YES) {
+        } else if ([@"rule" isEqual:identifier]) {
             return [rule ruleString];
-        } else if ([@"numberOfTokensConsumed" isEqual:identifier] == YES) {
+        } else if ([@"numberOfTokensConsumed" isEqual:identifier]) {
             return [NSNumber numberWithInteger:[rule numberExpressions]];
         }
     } else if (tableView == _symbolTableView) {
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"name" isEqual:identifier]) {
             switch (row) {
               case 0: return @"Rule Duration";
               case 1: return @"Beat";
@@ -429,16 +429,16 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
               case 3: return @"Mark 2";
               case 4: return @"Mark 3";
             }
-        } else if ([@"equation" isEqual:identifier] == YES) {
+        } else if ([@"equation" isEqual:identifier]) {
             return [[[[self selectedRule] symbolEquations] objectAtIndex:row] equationPath];
         }
     } else if (tableView == _parameterTableView || tableView == _specialParameterTableView) {
         MMParameter *parameter;
 
         parameter = [[[self model] parameters] objectAtIndex:row];
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"name" isEqual:identifier]) {
             return [parameter name];
-        } else if ([@"transition" isEqual:identifier] == YES) {
+        } else if ([@"transition" isEqual:identifier]) {
             if (tableView == _parameterTableView)
                 return [[[[self selectedRule] parameterTransitions] objectAtIndex:row] transitionPath];
             else if (tableView == _specialParameterTableView)
@@ -448,9 +448,9 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         MMParameter *parameter;
 
         parameter = [[[self model] metaParameters] objectAtIndex:row];
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"name" isEqual:identifier]) {
             return [parameter name];
-        } else if ([@"transition" isEqual:identifier] == YES) {
+        } else if ([@"transition" isEqual:identifier]) {
             return [[[[self selectedRule] metaParameterTransitions] objectAtIndex:row] transitionPath];
         }
     }
@@ -493,7 +493,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (BOOL)tableView:(NSTableView *)tableView writeRows:(NSArray *)rows toPasteboard:(NSPasteboard *)pboard;
 {
     if (tableView == _ruleTableView) {
-        [pboard declareTypes:[NSArray arrayWithObject:MRMLocalRuleDragPasteboardType] owner:nil];
+        [pboard declareTypes:@[ MRMLocalRuleDragPasteboardType ] owner:nil];
         [pboard setPropertyList:rows forType:MRMLocalRuleDragPasteboardType];
         return YES;
     }
@@ -504,7 +504,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 - (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)op;
 {
     if (tableView == _ruleTableView) {
-        //NSString *availableType = [[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:MRMLocalRuleDragPasteboardType]];
+        //NSString *availableType = [[info draggingPasteboard] availableTypeFromArray:@[ MRMLocalRuleDragPasteboardType ]];
         //NSLog(@"availableType: %@", availableType);
 
         if (op == NSTableViewDropOn)
@@ -526,7 +526,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         MMRule *aRule;
 
         pasteboard = [info draggingPasteboard];
-        availableType = [pasteboard availableTypeFromArray:[NSArray arrayWithObject:MRMLocalRuleDragPasteboardType]];
+        availableType = [pasteboard availableTypeFromArray:@[ MRMLocalRuleDragPasteboardType ]];
         //NSLog(@"availableType: %@", availableType);
 
         if (availableType == nil)
@@ -685,15 +685,15 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
     //NSLog(@"identifier: %@, item: %p, item class: %@", identifier, item, NSStringFromClass([item class]));
 
     if (outlineView == _symbolEquationOutlineView) {
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"name" isEqual:identifier]) {
             return [item name];
         }
     } else if (outlineView == _parameterTransitionOutlineView || outlineView == _metaParameterTransitionOutlineView) {
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"name" isEqual:identifier]) {
             return [item name];
         }
     } else if (outlineView == _specialParameterTransitionOutlineView) {
-        if ([@"name" isEqual:identifier] == YES) {
+        if ([@"name" isEqual:identifier]) {
             return [item name];
         }
     }
@@ -765,7 +765,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
 {
     NSTextView *textView = [notification object];
     // NSTextMovement is a key in the user info
-    //NSLog(@"[aNotification userInfo]: %@", [aNotification userInfo]);
+    //NSLog(@"[notification userInfo]: %@", [notification userInfo]);
 
     NSString *newStringValue = [[textView string] copy];
 

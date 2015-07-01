@@ -29,7 +29,7 @@
 }
 
 - (void)mouseDragged:(NSEvent *)event;
-- (void)controlTextDidEndEditing:(NSNotification *) aNotification;
+- (void)controlTextDidEndEditing:(NSNotification *)notification;
 - (void)setValue:(float)value;
 - (float)getValue;
 - (void)setSection:(double)value:(int)tag:(BOOL)state;

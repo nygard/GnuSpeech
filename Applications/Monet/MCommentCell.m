@@ -19,7 +19,7 @@ static NSImage *_commentIcon = nil;
 - (void)setObjectValue:(id)newObjectValue;
 {
     if ([newObjectValue isKindOfClass:[NSNumber class]]) {
-        if ([newObjectValue boolValue] == YES)
+        if ([newObjectValue boolValue])
             [super setObjectValue:_commentIcon];
         else
             [super setObjectValue:nil];

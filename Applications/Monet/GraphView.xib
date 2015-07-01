@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="MGraphViewController">
+            <connections>
+                <outlet property="graphStackView" destination="qVl-uc-09K" id="eRY-zW-qr1"/>
+                <outlet property="nameStackView" destination="gd8-He-Hue" id="NUi-vx-V1M"/>
+                <outlet property="rulePhoneView" destination="qMx-1i-zz6" id="wlb-Wb-O7o"/>
+                <outlet property="view" destination="se5-gp-TjO" id="zCV-lG-wsw"/>
+                <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="F0z-JX-Cv5">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="927" height="358"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <view key="contentView" id="se5-gp-TjO">
+                <rect key="frame" x="0.0" y="0.0" width="927" height="358"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <customView horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="OMY-BV-b6x">
+                        <rect key="frame" x="0.0" y="10" width="917" height="348"/>
+                        <subviews>
+                            <stackView orientation="vertical" alignment="centerX" horizontalHuggingPriority="249" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="gd8-He-Hue">
+                                <rect key="frame" x="0.0" y="0.0" width="100" height="300"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="J1h-nC-hof"/>
+                                </constraints>
+                            </stackView>
+                            <stackView orientation="vertical" alignment="centerX" horizontalHuggingPriority="249" verticalHuggingPriority="249" placeholderIntrinsicWidth="400" placeholderIntrinsicHeight="300" translatesAutoresizingMaskIntoConstraints="NO" id="qVl-uc-09K">
+                                <rect key="frame" x="100" y="0.0" width="817" height="300"/>
+                            </stackView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="qMx-1i-zz6" customClass="MARulePhoneView">
+                                <rect key="frame" x="100" y="308" width="817" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="EMQ-bl-gZf"/>
+                                </constraints>
+                            </customView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TkT-B6-BA7">
+                                <rect key="frame" x="18" y="331" width="76" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Postures" id="ET0-iL-O4u">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Nvl-Gl-8tB">
+                                <rect key="frame" x="18" y="308" width="76" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Rules" id="nPW-3A-y8l">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="qVl-uc-09K" secondAttribute="trailing" id="5a7-7o-3Zq"/>
+                            <constraint firstItem="qMx-1i-zz6" firstAttribute="leading" secondItem="TkT-B6-BA7" secondAttribute="trailing" constant="8" symbolic="YES" id="7IE-d0-HB4"/>
+                            <constraint firstItem="qMx-1i-zz6" firstAttribute="top" secondItem="OMY-BV-b6x" secondAttribute="top" id="Iw2-gK-lSq"/>
+                            <constraint firstItem="qVl-uc-09K" firstAttribute="leading" secondItem="qMx-1i-zz6" secondAttribute="leading" id="Jp3-Db-y3c"/>
+                            <constraint firstItem="qVl-uc-09K" firstAttribute="top" secondItem="qMx-1i-zz6" secondAttribute="bottom" constant="8" symbolic="YES" id="PIq-hR-Dh2"/>
+                            <constraint firstItem="qVl-uc-09K" firstAttribute="leading" secondItem="gd8-He-Hue" secondAttribute="trailing" id="V85-Vt-EYB"/>
+                            <constraint firstAttribute="bottom" secondItem="qVl-uc-09K" secondAttribute="bottom" id="Xdm-pU-RXN"/>
+                            <constraint firstItem="Nvl-Gl-8tB" firstAttribute="bottom" secondItem="qMx-1i-zz6" secondAttribute="bottom" id="cmp-Sn-c6q"/>
+                            <constraint firstAttribute="bottom" secondItem="gd8-He-Hue" secondAttribute="bottom" id="dTJ-w3-dLv"/>
+                            <constraint firstItem="TkT-B6-BA7" firstAttribute="top" secondItem="qMx-1i-zz6" secondAttribute="top" id="dUL-Be-zba"/>
+                            <constraint firstItem="TkT-B6-BA7" firstAttribute="leading" secondItem="OMY-BV-b6x" secondAttribute="leading" constant="20" symbolic="YES" id="faf-DL-IPO"/>
+                            <constraint firstItem="qMx-1i-zz6" firstAttribute="leading" secondItem="Nvl-Gl-8tB" secondAttribute="trailing" constant="8" symbolic="YES" id="fc8-18-jsE"/>
+                            <constraint firstItem="gd8-He-Hue" firstAttribute="top" secondItem="qVl-uc-09K" secondAttribute="top" id="ipR-bY-7as"/>
+                            <constraint firstItem="Nvl-Gl-8tB" firstAttribute="leading" secondItem="OMY-BV-b6x" secondAttribute="leading" constant="20" symbolic="YES" id="qfF-nv-CG5"/>
+                            <constraint firstItem="gd8-He-Hue" firstAttribute="leading" secondItem="OMY-BV-b6x" secondAttribute="leading" id="sTQ-gT-bpP"/>
+                            <constraint firstAttribute="trailing" secondItem="qMx-1i-zz6" secondAttribute="trailing" id="wRQ-7y-AxY"/>
+                        </constraints>
+                    </customView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="OMY-BV-b6x" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="DKn-09-Y7t"/>
+                    <constraint firstItem="OMY-BV-b6x" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" id="DPQ-d2-AMF"/>
+                    <constraint firstAttribute="trailing" secondItem="OMY-BV-b6x" secondAttribute="trailing" constant="10" id="Use-lY-0Cs"/>
+                    <constraint firstAttribute="bottom" secondItem="OMY-BV-b6x" secondAttribute="bottom" constant="10" id="jWT-Nd-HUD"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
+            </connections>
+            <point key="canvasLocation" x="513.5" y="419"/>
+        </window>
+    </objects>
+</document>

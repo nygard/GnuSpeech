@@ -3,12 +3,19 @@
 
 #import <Foundation/Foundation.h>
 
+#include <math.h>
+
+// 2015-06-20: <http://www.gnu.org/software/libc/manual/html_node/Infinity-and-NaN.html> Indicates this would be +infinity, not NaN.
 #define NaN (1.0/0.0)
 
 @interface Event : NSObject
 
-@property (assign) NSUInteger time;
-@property (assign) BOOL flag;
+- (id)initWithTime:(NSUInteger)time;
+
+@property (readonly) NSUInteger time;
+
+/// If YES, this event represents an exact posture.
+@property (assign) BOOL isAtPosture;
 
 - (double)getValueAtIndex:(NSUInteger)index;
 - (void)setValue:(double)value atIndex:(NSUInteger)index;

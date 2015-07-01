@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01061FA21B329D4200FBB2B4 /* MMIntonation.h in Headers */ = {isa = PBXBuildFile; fileRef = 01061FA01B329D4200FBB2B4 /* MMIntonation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01061FA31B329D4200FBB2B4 /* MMIntonation.m in Sources */ = {isa = PBXBuildFile; fileRef = 01061FA11B329D4200FBB2B4 /* MMIntonation.m */; };
 		010DE7331545598D005E337E /* MMToneGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 010DE7311545598D005E337E /* MMToneGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		010DE7341545598D005E337E /* MMToneGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE7321545598D005E337E /* MMToneGroup.m */; };
 		010DE75A15463851005E337E /* MMFRuleSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE75915463851005E337E /* MMFRuleSymbols.m */; };
@@ -89,8 +91,6 @@
 		01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01ACA5E01544A80A00278339 /* MMGroupedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 01ACA5DE1544A80700278339 /* MMGroupedObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01ACA5E11544A80A00278339 /* MMGroupedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 01ACA5DF1544A80800278339 /* MMGroupedObject.m */; };
-		01B4561115452BE400D00A1A /* MMIntonationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 01B4560F15452BE400D00A1A /* MMIntonationParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		01B4561215452BE400D00A1A /* MMIntonationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 01B4561015452BE400D00A1A /* MMIntonationParameters.m */; };
 		01E6107C1996A566009CDE09 /* MMPhone.h in Headers */ = {isa = PBXBuildFile; fileRef = 01E6107A1996A566009CDE09 /* MMPhone.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01E6107D1996A566009CDE09 /* MMPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 01E6107B1996A566009CDE09 /* MMPhone.m */; };
 		01F470A915408B7800A604B8 /* Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01F470A815408B7800A604B8 /* Tube.framework */; };
@@ -186,6 +186,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		01061FA01B329D4200FBB2B4 /* MMIntonation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMIntonation.h; path = MonetModel/MMIntonation.h; sourceTree = "<group>"; };
+		01061FA11B329D4200FBB2B4 /* MMIntonation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMIntonation.m; path = MonetModel/MMIntonation.m; sourceTree = "<group>"; };
 		010DE7311545598D005E337E /* MMToneGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMToneGroup.h; path = MonetModel/MMToneGroup.h; sourceTree = "<group>"; };
 		010DE7321545598D005E337E /* MMToneGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMToneGroup.m; path = MonetModel/MMToneGroup.m; sourceTree = "<group>"; };
 		010DE75915463851005E337E /* MMFRuleSymbols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFRuleSymbols.m; sourceTree = "<group>"; };
@@ -270,8 +272,6 @@
 		01ACA5DE1544A80700278339 /* MMGroupedObject.h */ = {isa = PBXFileReference; fileEncoding = 30; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = MMGroupedObject.h; path = MonetModel/MMGroupedObject.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		01ACA5DF1544A80800278339 /* MMGroupedObject.m */ = {isa = PBXFileReference; fileEncoding = 30; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; name = MMGroupedObject.m; path = MonetModel/MMGroupedObject.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
 		01AE22D7154109B200AC1015 /* GnuSpeechServerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GnuSpeechServerProtocol.h; sourceTree = "<group>"; };
-		01B4560F15452BE400D00A1A /* MMIntonationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMIntonationParameters.h; path = MonetModel/MMIntonationParameters.h; sourceTree = "<group>"; };
-		01B4561015452BE400D00A1A /* MMIntonationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMIntonationParameters.m; path = MonetModel/MMIntonationParameters.m; sourceTree = "<group>"; };
 		01E6107A1996A566009CDE09 /* MMPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMPhone.h; path = MonetModel/MMPhone.h; sourceTree = "<group>"; };
 		01E6107B1996A566009CDE09 /* MMPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMPhone.m; path = MonetModel/MMPhone.m; sourceTree = "<group>"; };
 		01F470A815408B7800A604B8 /* Tube.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Tube.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/GnuSpeech-asltgrlxcnhnopcwrardgfljqcve/Build/Products/Debug/Tube.framework"; sourceTree = "<group>"; };
@@ -460,8 +460,8 @@
 				014185291542B0F1001AE3B5 /* Input data from XML file */,
 				0155E4120B7BE8F9008D8879 /* Event.h */,
 				0155E4130B7BE8F9008D8879 /* Event.m */,
-				01B4560F15452BE400D00A1A /* MMIntonationParameters.h */,
-				01B4561015452BE400D00A1A /* MMIntonationParameters.m */,
+				01061FA01B329D4200FBB2B4 /* MMIntonation.h */,
+				01061FA11B329D4200FBB2B4 /* MMIntonation.m */,
 				0155E4140B7BE8F9008D8879 /* EventList.h */,
 				0155E4150B7BE8F9008D8879 /* EventList.m */,
 				010DE7311545598D005E337E /* MMToneGroup.h */,
@@ -755,7 +755,6 @@
 			files = (
 				015E9CD2154932E200E6974F /* STLogger.h in Headers */,
 				010DE7331545598D005E337E /* MMToneGroup.h in Headers */,
-				01B4561115452BE400D00A1A /* MMIntonationParameters.h in Headers */,
 				01ACA5E01544A80A00278339 /* MMGroupedObject.h in Headers */,
 				012D53B50B7FF9DC001B50FC /* TTSParserOld.h in Headers */,
 				012D53B40B7FF9DC001B50FC /* TTSNumberPronunciations.h in Headers */,
@@ -841,6 +840,7 @@
 				69E228680FB13394001B3C04 /* vowel_before.h in Headers */,
 				0157785815410A48008C2ECF /* GnuSpeechServerProtocol.h in Headers */,
 				01E6107C1996A566009CDE09 /* MMPhone.h in Headers */,
+				01061FA21B329D4200FBB2B4 /* MMIntonation.h in Headers */,
 				0165043D1543B42700D64E98 /* MMDriftGenerator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -873,7 +873,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0630;
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "GnuSpeech" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -950,6 +950,7 @@
 				69300A3F0FAB841E0041EBFB /* TTSParser.m in Sources */,
 				694157980FAB8D66009D4192 /* GSParser.m in Sources */,
 				6951479F0FB0D73000B6DDD6 /* MMBooleanExpression.m in Sources */,
+				01061FA31B329D4200FBB2B4 /* MMIntonation.m in Sources */,
 				695147A10FB0D73000B6DDD6 /* MMBooleanNode.m in Sources */,
 				695147A30FB0D73000B6DDD6 /* MMBooleanParser.m in Sources */,
 				695147A60FB0D73000B6DDD6 /* MMBooleanTerminal.m in Sources */,
@@ -987,7 +988,6 @@
 				69E228690FB13394001B3C04 /* word_to_patphone.c in Sources */,
 				0165043E1543B42700D64E98 /* MMDriftGenerator.m in Sources */,
 				01ACA5E11544A80A00278339 /* MMGroupedObject.m in Sources */,
-				01B4561215452BE400D00A1A /* MMIntonationParameters.m in Sources */,
 				010DE7341545598D005E337E /* MMToneGroup.m in Sources */,
 				010DE75A15463851005E337E /* MMFRuleSymbols.m in Sources */,
 				015E9CD3154932E200E6974F /* STLogger.m in Sources */,
@@ -1069,6 +1069,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1078,7 +1079,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -1104,6 +1105,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INPUT_FILETYPE = sourcecode.c.objc;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1112,7 +1114,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				SDKROOT = macosx;
 			};
 			name = Release;

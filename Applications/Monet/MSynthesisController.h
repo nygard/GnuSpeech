@@ -3,7 +3,7 @@
 
 #import "MWindowController.h"
 
-@class MMIntonationPoint, MModel;
+@class MModel;
 
 @interface MSynthesisController : MWindowController
 
@@ -14,43 +14,18 @@
 - (NSUndoManager *)undoManager;
 
 - (IBAction)showIntonationWindow:(id)sender;
-- (IBAction)showIntonationParameterWindow:(id)sender;
 
-- (IBAction)synthesizeWithSoftware:(id)sender;
+- (IBAction)synthesize:(id)sender;
 - (IBAction)synthesizeToFile:(id)sender;
 - (IBAction)fileTypeDidChange:(id)sender;
 - (IBAction)parseText:(id)sender;
 
 - (IBAction)synthesizeWithContour:(id)sender;
-- (IBAction)generateContour:(id)sender;
 
 - (IBAction)generateGraphImages:(id)sender;
 
 - (IBAction)addTextString:(id)sender;
 
-// Intonation Point details
-- (MMIntonationPoint *)selectedIntonationPoint;
-- (IBAction)setSemitone:(id)sender;
-- (IBAction)setHertz:(id)sender;
-- (IBAction)setSlope:(id)sender;
-- (IBAction)setBeatOffset:(id)sender;
-
-- (IBAction)openIntonationContour:(id)sender;
-- (IBAction)saveIntonationContour:(id)sender;
-
-- (IBAction)runPageLayout:(id)sender;
-- (IBAction)printDocument:(id)sender;
-
-// MExtendedTableView delegate
-- (BOOL)control:(NSControl *)control shouldProcessCharacters:(NSString *)characters;
-
-// MAIntonationView delegate
-- (void)intonationViewSelectionDidChange:(NSNotification *)notification;
-
-// Intonation Parameters
-- (IBAction)updateSmoothIntonation:(id)sender;
-- (IBAction)updateMacroIntonation:(id)sender;
-- (IBAction)updateMicroIntonation:(id)sender;
-- (IBAction)updateDrift:(id)sender;
+- (void)updateGraphTracking:(NSDictionary *)userInfo;
 
 @end

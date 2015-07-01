@@ -266,7 +266,7 @@ static NSDictionary *_specialAcronyms = nil;
                     switch (previousState) {
                         case TTS_STATE_WORD:
                             if ([self shiftSilence]) {
-                            } else if (nextState != TTS_STATE_END && [nextWord startsWithLetter] == YES) {
+                            } else if (nextState != TTS_STATE_END && [nextWord startsWithLetter]) {
                                 [resultString appendString:TTS_UTTERANCE_BOUNDARY];
                                 [resultString appendString:@" "];
                                 if ([currentWord isEqualToString:@","]) {
@@ -382,7 +382,7 @@ static NSDictionary *_specialAcronyms = nil;
     
     // Strip of possessive if word ends with 's
     BOOL isPossessive = [word hasSuffix:@"'s"];
-    if (isPossessive == YES)
+    if (isPossessive)
         word = [word substringToIndex:[word length] - 2];
     
     if ([word length] == 1 && [word startsWithLetter]) {
@@ -446,7 +446,7 @@ static NSDictionary *_specialAcronyms = nil;
     }
     //[resultString appendString:pronunciation];
 
-    if (isPossessive == YES) {
+    if (isPossessive) {
         if ([lastPhoneme isEqualToString:@"f"]
             || [lastPhoneme isEqualToString:@"k"]
             || [lastPhoneme isEqualToString:@"p"]
@@ -469,7 +469,7 @@ static NSDictionary *_specialAcronyms = nil;
     [resultString appendString:@" "];
 
     // If tonic, convert last foot marker to tonic marker
-    if (isTonic == YES && lastFootBegin != NSNotFound) {
+    if (isTonic && lastFootBegin != NSNotFound) {
         [resultString replaceCharactersInRange:NSMakeRange(lastFootBegin, 2) withString:TTS_TONIC_BEGIN];
     }
 }

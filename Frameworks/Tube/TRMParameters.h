@@ -16,4 +16,6 @@
 @property (nonatomic, readonly) double *radius;
 @property (assign) double velum;
 
+@property (nonatomic, readonly) NSString *valuesString;
+
 @end

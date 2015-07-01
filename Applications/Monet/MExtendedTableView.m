@@ -49,7 +49,7 @@
     [_combinedCharacters appendString:[event characters]];
 
     if ([[self delegate] respondsToSelector:@selector(control:shouldProcessCharacters:)] == NO ||
-        [(MExtendedTableView *)[self delegate] control:self shouldProcessCharacters:_combinedCharacters] == YES) {
+        [(MExtendedTableView *)[self delegate] control:self shouldProcessCharacters:_combinedCharacters]) {
         [super keyDown:event];
         [_combinedCharacters setString:@""];
     }

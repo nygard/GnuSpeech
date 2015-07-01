@@ -53,7 +53,7 @@
 - (const char *)dictionaryVersion;
 
 // Sync messaging methods
-- (id)sendSyncMessagesTo:destinationObject:(SEL)aSelector;
+- (id)sendSyncMessagesTo:(id)destinationObject selector:(SEL)aSelector;
 - (id)syncMessagesDestination;
 - (SEL)syncMessagesSelector;
 - (int)setSyncRate:(int)rate;
@@ -62,14 +62,14 @@
 - (BOOL)syncMessages;
 
 // Real-time messaging methods
-- (id)sendRealTimeMessagesTo:destinationObject:(SEL)aSelector;
+- (id)sendRealTimeMessagesTo:(id)destinationObject selector:(SEL)aSelector;
 - (id)realTimeMessagesDestination;
 - (SEL)realTimeMessagesSelector;
 - (id)setRealTimeMessages:(BOOL)flag;
 - (BOOL)realTimeMessages;
 
 // Formerly hidden methods
-- (const char *)pronunciation:(const char *)word:(in short *)dict:(int)password;
-- (const char *)linePronunciation:(const char *)line:(int)password;
+- (const char *)pronunciation:(const char *)word dict:(in short *)dict password:(int)password;
+- (const char *)linePronunciation:(const char *)line password:(int)password;
 
 @end

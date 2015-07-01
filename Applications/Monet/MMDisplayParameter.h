@@ -12,12 +12,17 @@
 @property (readonly) MMParameter *parameter;
 
 @property (assign) BOOL isSpecial;
+
+/// This is the index into the Event array of values.  Event imposes some limitations on total count.
 @property (assign) NSUInteger tag;
 
-@property (assign) BOOL shouldDisplay;
+@property (nonatomic, assign) BOOL shouldDisplay;
 - (void)toggleShouldDisplay;
 
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) NSString *label;
 
 @end
+
+extern NSString *MMDisplayParameterNotification_DidChange;
+extern NSString *MMDisplayParameterUserInfoKey_DisplayParameter;

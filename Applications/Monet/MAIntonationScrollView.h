@@ -3,18 +3,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class MAIntonationScaleView;
-
 @interface MAIntonationScrollView : NSScrollView
-
-- (id)initWithFrame:(NSRect)frameRect;
-
-- (void)awakeFromNib;
-- (void)addScaleView;
-
-- (void)tile;
-
-- (NSView *)scaleView;
 
 - (NSSize)printableSize;
 

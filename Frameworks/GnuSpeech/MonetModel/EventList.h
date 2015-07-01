@@ -5,7 +5,7 @@
 
 @class Event, MMIntonationPoint, MModel, MMPosture, MMPostureRewriter, MMRule, MMDriftGenerator;
 
-// This is used by EventListView, IntonationView
+// This is used by MARulePhoneView, IntonationView
 struct _rule {
     NSUInteger number;
     NSUInteger firstPhone;
@@ -14,28 +14,17 @@ struct _rule {
     double beat; // absolute time of beat, in milliseconds
 };
 
-@protocol EventListDelegate;
-
-
-@class MMIntonationParameters;
+@class TRMParameters, TRMSynthesizer;
+@class MMIntonation;
 
 @interface EventList : NSObject
 
 @property (nonatomic, strong) MModel *model;
-@property (weak) id <EventListDelegate> delegate;
 
-@property (assign) BOOL shouldUseMacroIntonation;
-@property (assign) BOOL shouldUseMicroIntonation;
-@property (assign) BOOL shouldUseDrift;
-@property (assign) BOOL shouldUseSmoothIntonation;
+@property (strong) MMIntonation *intonation;
 
-@property (assign) double radiusMultiply;
-@property (assign) double pitchMean;
-@property (assign) double globalTempo;
-
-@property (readonly) MMIntonationParameters *intonationParameters;
-
-- (void)setUp; // TODO (2012-04-26): See if we can't just do this when we apply intonation
+- (void)resetWithIntonation:(MMIntonation *)intonation phoneString:(NSString *)phoneString;
+- (void)resetWithIntonation:(MMIntonation *)intonation; // TODO (2012-04-26): See if we can't just do this when we apply intonation
 
 // Rules
 - (struct _rule *)getRuleAtIndex:(NSUInteger)ruleIndex;
@@ -51,14 +40,16 @@ struct _rule {
 
 // Events
 - (NSArray *)events;
-- (Event *)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value;
+- (double)valueAtTimeOffset:(double)time forEvent:(NSInteger)number;
+- (void)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value;
 
 // Other
 - (void)parsePhoneString:(NSString *)str;
 - (void)applyRhythm;
 - (void)applyRules;
 - (void)generateIntonationPoints;
-- (void)generateOutput;
+- (void)generateOutputForSynthesizer:(TRMSynthesizer *)synthesizer saveParametersToFilename:(NSString *)filename;
+- (void)generateOutputForSynthesizer:(TRMSynthesizer *)synthesizer;
 
 // Debugging
 - (void)printDataStructures:(NSString *)comment;
@@ -79,7 +70,7 @@ struct _rule {
 - (void)intonationPointDidChange:(MMIntonationPoint *)intonationPoint;
 
 // Archiving - XML
-- (BOOL)writeXMLToFile:(NSString *)filename comment:(NSString *)comment;
+- (BOOL)writeIntonationContourToXMLFile:(NSString *)filename comment:(NSString *)comment;
 
 - (BOOL)loadIntonationContourFromXMLFile:(NSString *)filename;
 - (void)loadStoredPhoneString:(NSString *)str;
@@ -90,11 +81,7 @@ struct _rule {
 
 #pragma mark -
 
-@protocol EventListDelegate <NSObject>
-- (void)eventListWillGenerateOutput:(EventList *)eventList;
-- (void)eventList:(EventList *)eventList generatedOutputValues:(float *)valPtr valueCount:(NSUInteger)count;
-- (void)eventListDidGenerateOutput:(EventList *)eventList;
-@end
-
 extern NSString *EventListDidChangeIntonationPoints;
+extern NSString *EventListDidGenerateIntonationPoints;
+extern NSString *EventListNotification_DidGenerateOutput;
 

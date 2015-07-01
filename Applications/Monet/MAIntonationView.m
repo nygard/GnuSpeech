@@ -243,10 +243,10 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     [self drawPostureLabels];
     [self drawIntonationPoints];
 
-    if (_flags.shouldDrawSmoothPoints == YES && _flags.mouseBeingDragged == NO)
+    if (_flags.shouldDrawSmoothPoints && _flags.mouseBeingDragged == NO)
         [self drawSmoothPoints];
 
-    if (_flags.shouldDrawSelection == YES) {
+    if (_flags.shouldDrawSelection) {
         NSRect selectionRect;
 
         selectionRect = [self rectFormedByPoint:_selectionPoint1 andPoint:_selectionPoint2];
@@ -397,7 +397,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     for (index = 0; index < count; index++) {
         currentX = ((float)[[events objectAtIndex:index] time] / _timeScale);
 
-        if ([[events objectAtIndex:index] flag]) {
+        if ([[events objectAtIndex:index] isAtPosture]) {
             currentPosture = [_eventList getPhoneAtIndex:postureIndex++];
             if (currentPosture != nil) {
                 //NSLog(@"[currentPosture name]: %@", [currentPosture name]);
@@ -790,7 +790,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 //        return;
 
     [self autoscroll:event];
-    if (_flags.shouldDrawSelection == YES) {
+    if (_flags.shouldDrawSelection) {
         hitPoint = [self convertPoint:[event locationInWindow] fromView:nil];
         //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
         _selectionPoint2 = hitPoint;
@@ -839,7 +839,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         currentPoint.y = rint(([currentIntonationPoint semitone] + ZERO_SECTION) * [self sectionHeight]) + 0.5;
 
         //NSLog(@"%2d: currentPoint: %@", index, NSStringFromPoint(currentPoint));
-        if (NSPointInRect(currentPoint, selectionRect) == YES) {
+        if (NSPointInRect(currentPoint, selectionRect)) {
             [_selectedPoints addObject:currentIntonationPoint];
         }
     }
@@ -983,13 +983,11 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)_selectionDidChange;
 {
-    NSNotification *aNotification;
+    NSNotification *notification = [NSNotification notificationWithName:MAIntonationViewSelectionDidChangeNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 
-    aNotification = [NSNotification notificationWithName:MAIntonationViewSelectionDidChangeNotification object:self];
-    [[NSNotificationCenter defaultCenter] postNotification:aNotification];
-
-    if ([[self delegate] respondsToSelector:@selector(intonationViewSelectionDidChange:)] == YES)
-        [[self delegate] intonationViewSelectionDidChange:aNotification];
+    if ([[self delegate] respondsToSelector:@selector(intonationViewSelectionDidChange:)])
+        [[self delegate] intonationViewSelectionDidChange:notification];
 
     [self setNeedsDisplay:YES];
 }

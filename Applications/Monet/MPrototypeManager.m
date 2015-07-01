@@ -169,7 +169,7 @@
         NSString *comment;
 
         selectedEquationOrGroup = [_equationOutlineView itemAtRow:[_equationOutlineView selectedRow]];
-        if ([selectedEquationOrGroup isKindOfClass:[NSString class]] == YES) {
+        if ([selectedEquationOrGroup isKindOfClass:[NSString class]]) {
             [_equationTextView setEditable:NO];
             [_equationTextView setString:@""];
             [_equationCommentTextView setEditable:NO];
@@ -187,7 +187,7 @@
             [_removeEquationButtonCell setEnabled:YES];
         }
 
-        if ([selectedEquationOrGroup isKindOfClass:[MMEquation class]] == YES) {
+        if ([selectedEquationOrGroup isKindOfClass:[MMEquation class]]) {
             NSString *expressionString;
 
             [_equationTextView setEditable:YES];
@@ -219,7 +219,7 @@
         NSString *comment;
 
         selectedTransitionOrGroup = [_transitionOutlineView itemAtRow:[_transitionOutlineView selectedRow]];
-        if ([selectedTransitionOrGroup isKindOfClass:[NSString class]] == YES) {
+        if ([selectedTransitionOrGroup isKindOfClass:[NSString class]]) {
             [_transitionCommentTextView setEditable:NO];
             [_transitionCommentTextView setString:@""];
             [_addTransitionButtonCell setEnabled:NO];
@@ -252,7 +252,7 @@
         NSString *comment;
 
         selectedSpecialTransitionOrGroup = [_specialTransitionOutlineView itemAtRow:[_specialTransitionOutlineView selectedRow]];
-        if ([selectedSpecialTransitionOrGroup isKindOfClass:[NSString class]] == YES) {
+        if ([selectedSpecialTransitionOrGroup isKindOfClass:[NSString class]]) {
             [_specialTransitionCommentTextView setEditable:NO];
             [_specialTransitionCommentTextView setString:@""];
             [_addSpecialTransitionButtonCell setEnabled:NO];
@@ -320,9 +320,9 @@
     MMGroup *targetGroup;
 
     selectedItem = [_equationOutlineView selectedItem];
-    if ([selectedItem isKindOfClass:[MMGroup class]] == YES) {
+    if ([selectedItem isKindOfClass:[MMGroup class]]) {
         targetGroup = selectedItem;
-    } else if ([selectedItem isKindOfClass:[MMEquation class]] == YES) {
+    } else if ([selectedItem isKindOfClass:[MMEquation class]]) {
         targetGroup = [selectedItem group];
     } else
         targetGroup = nil;
@@ -403,9 +403,9 @@
     MMGroup *targetGroup;
 
     selectedItem = [_transitionOutlineView selectedItem];
-    if ([selectedItem isKindOfClass:[MMGroup class]] == YES) {
+    if ([selectedItem isKindOfClass:[MMGroup class]]) {
         targetGroup = selectedItem;
-    } else if ([selectedItem isKindOfClass:[MMTransition class]] == YES) {
+    } else if ([selectedItem isKindOfClass:[MMTransition class]]) {
         targetGroup = [selectedItem group];
     } else
         targetGroup = nil;
@@ -467,9 +467,9 @@
     MMGroup *targetGroup;
 
     selectedItem = [_specialTransitionOutlineView selectedItem];
-    if ([selectedItem isKindOfClass:[MMGroup class]] == YES) {
+    if ([selectedItem isKindOfClass:[MMGroup class]]) {
         targetGroup = selectedItem;
-    } else if ([selectedItem isKindOfClass:[MMTransition class]] == YES) {
+    } else if ([selectedItem isKindOfClass:[MMTransition class]]) {
         targetGroup = [selectedItem group];
     } else
         targetGroup = nil;
@@ -546,7 +546,7 @@
     if (outlineView == _equationOutlineView) {
         if (item == nil)
             return [[_model equationGroups] objectAtIndex:index];
-        else if ([item isKindOfClass:[MMEquation class]] == YES)
+        else if ([item isKindOfClass:[MMEquation class]])
             return [[self usageOfEquation:item] objectAtIndex:index];
         else {
             MMGroup *group = item;
@@ -555,7 +555,7 @@
     } else if (outlineView == _transitionOutlineView) {
         if (item == nil)
             return [[_model transitionGroups] objectAtIndex:index];
-        else if ([item isKindOfClass:[MMTransition class]] == YES)
+        else if ([item isKindOfClass:[MMTransition class]])
             return [[self usageOfTransition:item] objectAtIndex:index];
         else {
             MMGroup *group = item;
@@ -564,7 +564,7 @@
     } else if (outlineView == _specialTransitionOutlineView) {
         if (item == nil)
             return [[_model specialTransitionGroups] objectAtIndex:index];
-        else if ([item isKindOfClass:[MMTransition class]] == YES)
+        else if ([item isKindOfClass:[MMTransition class]])
             return [[self usageOfTransition:item] objectAtIndex:index];
         else {
             MMGroup *group = item;
@@ -596,45 +596,45 @@
     //NSLog(@"identifier: %@, item: %p, item class: %@", identifier, item, NSStringFromClass([item class]));
 
     if (outlineView == _equationOutlineView) {
-        if ([item isKindOfClass:[NSString class]] == YES) {
-            if ([@"name" isEqual:identifier] == YES)
+        if ([item isKindOfClass:[NSString class]]) {
+            if ([@"name" isEqual:identifier])
                 return item;
 
             return nil;
-        } else if ([@"name" isEqual:identifier] == YES) {
+        } else if ([@"name" isEqual:identifier]) {
             return [item name];
-        } else if ([@"hasComment" isEqual:identifier] == YES) {
+        } else if ([@"hasComment" isEqual:identifier]) {
             return [NSNumber numberWithBool:[item hasComment]];
-        } else if ([@"isUsed" isEqual:identifier] == YES) {
-            if ([item isKindOfClass:[MMEquation class]] == YES)
+        } else if ([@"isUsed" isEqual:identifier]) {
+            if ([item isKindOfClass:[MMEquation class]])
                 return [NSNumber numberWithBool:[self isEquationUsed:item]];
         }
     } else if (outlineView == _transitionOutlineView) {
-        if ([item isKindOfClass:[NSString class]] == YES) {
-            if ([@"name" isEqual:identifier] == YES)
+        if ([item isKindOfClass:[NSString class]]) {
+            if ([@"name" isEqual:identifier])
                 return item;
 
             return nil;
-        } else if ([@"name" isEqual:identifier] == YES) {
+        } else if ([@"name" isEqual:identifier]) {
             return [item name];
-        } else if ([@"hasComment" isEqual:identifier] == YES) {
+        } else if ([@"hasComment" isEqual:identifier]) {
             return [NSNumber numberWithBool:[item hasComment]];
-        } else if ([@"isUsed" isEqual:identifier] == YES) {
-            if ([item isKindOfClass:[MMTransition class]] == YES)
+        } else if ([@"isUsed" isEqual:identifier]) {
+            if ([item isKindOfClass:[MMTransition class]])
                 return [NSNumber numberWithBool:[self isTransitionUsed:item]];
         }
     } else if (outlineView == _specialTransitionOutlineView) {
-        if ([item isKindOfClass:[NSString class]] == YES) {
-            if ([@"name" isEqual:identifier] == YES)
+        if ([item isKindOfClass:[NSString class]]) {
+            if ([@"name" isEqual:identifier])
                 return item;
 
             return nil;
-        } else if ([@"name" isEqual:identifier] == YES) {
+        } else if ([@"name" isEqual:identifier]) {
             return [item name];
-        } else if ([@"hasComment" isEqual:identifier] == YES) {
+        } else if ([@"hasComment" isEqual:identifier]) {
             return [NSNumber numberWithBool:[item hasComment]];
-        } else if ([@"isUsed" isEqual:identifier] == YES) {
-            if ([item isKindOfClass:[MMTransition class]] == YES)
+        } else if ([@"isUsed" isEqual:identifier]) {
+            if ([item isKindOfClass:[MMTransition class]])
                 return [NSNumber numberWithBool:[self isTransitionUsed:item]];
         }
     }
@@ -654,15 +654,15 @@
     identifier = [tableColumn identifier];
 
     if (outlineView == _equationOutlineView) {
-        if ([@"isUsed" isEqual:identifier] == YES) {
-            if ([item isKindOfClass:[MMEquation class]] == YES)
+        if ([@"isUsed" isEqual:identifier]) {
+            if ([item isKindOfClass:[MMEquation class]])
                 [cell setTransparent:NO];
             else
                 [cell setTransparent:YES];
         }
     } else if (outlineView == _transitionOutlineView || outlineView == _specialTransitionOutlineView) {
-        if ([@"isUsed" isEqual:identifier] == YES) {
-            if ([item isKindOfClass:[MMTransition class]] == YES)
+        if ([@"isUsed" isEqual:identifier]) {
+            if ([item isKindOfClass:[MMTransition class]])
                 [cell setTransparent:NO];
             else
                 [cell setTransparent:YES];
@@ -675,13 +675,13 @@
     id identifier = [tableColumn identifier];
 
     if (outlineView == _equationOutlineView) {
-        if ([@"name" isEqual:identifier] == YES) {
-            if ([item respondsToSelector:@selector(setName:)] == YES)
+        if ([@"name" isEqual:identifier]) {
+            if ([item respondsToSelector:@selector(setName:)])
                 [(MMEquation *)item setName:object];
         }
     } else if (outlineView == _transitionOutlineView || outlineView == _specialTransitionOutlineView) {
-        if ([@"name" isEqual:identifier] == YES) {
-            if ([item respondsToSelector:@selector(setName:)] == YES)
+        if ([@"name" isEqual:identifier]) {
+            if ([item respondsToSelector:@selector(setName:)])
                 [(MMTransition *)item setName:object];
         }
     }
@@ -711,7 +711,7 @@
 {
     // This is just a crummy hack.  We really need notification when things that use equations change, so we can recache.
     if (outlineView == _equationOutlineView) {
-        if ([item isKindOfClass:[MMEquation class]] == YES) {
+        if ([item isKindOfClass:[MMEquation class]]) {
             NSArray *usage;
 
             usage = [self usageOfEquation:item recache:YES];
@@ -730,7 +730,7 @@
 {
     NSTextView *textView = [notification object];
     // NSTextMovement is a key in the user info
-    //NSLog(@"[aNotification userInfo]: %@", [aNotification userInfo]);
+    //NSLog(@"[notification userInfo]: %@", [notification userInfo]);
 
     if (textView == _equationTextView) {
         [self setEquation:nil];
@@ -748,20 +748,20 @@
 
         if (textView == _equationCommentTextView) {
             selectedItem = [_equationOutlineView selectedItem];
-            if ([selectedItem respondsToSelector:@selector(setComment:)] == YES) {
+            if ([selectedItem respondsToSelector:@selector(setComment:)]) {
                 [selectedItem setComment:newStringValue];
                 // TODO (2004-03-18): Bleck.  Need notification from model that things have changed.
                 [_equationOutlineView reloadItem:selectedItem]; // To show note icon
             }
         } else if (textView == _transitionCommentTextView) {
             selectedItem = [_transitionOutlineView selectedItem];
-            if ([selectedItem respondsToSelector:@selector(setComment:)] == YES) {
+            if ([selectedItem respondsToSelector:@selector(setComment:)]) {
                 [selectedItem setComment:newStringValue];
                 [_transitionOutlineView reloadItem:selectedItem]; // To show note icon
             }
         } else if (textView == _specialTransitionCommentTextView) {
             selectedItem = [_specialTransitionOutlineView selectedItem];
-            if ([selectedItem respondsToSelector:@selector(setComment:)] == YES) {
+            if ([selectedItem respondsToSelector:@selector(setComment:)]) {
                 [selectedItem setComment:newStringValue];
                 [_specialTransitionOutlineView reloadItem:selectedItem]; // To show note icon
             }
@@ -787,7 +787,7 @@
     NSArray *usage;
 
     key = [equation equationPath];
-    if (shouldRecache == YES)
+    if (shouldRecache)
         [_cachedEquationUsage removeObjectForKey:key];
 
     usage = [_cachedEquationUsage objectForKey:key];
@@ -823,7 +823,7 @@
     NSArray *usage;
 
     key = [transition transitionPath];
-    if (shouldRecache == YES)
+    if (shouldRecache)
         [_cachedTransitionUsage removeObjectForKey:key];
 
     usage = [_cachedTransitionUsage objectForKey:key];

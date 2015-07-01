@@ -11,6 +11,7 @@
 #import "MMPoint.h"
 #import "MMEquation.h"
 #import "MMSlope.h"
+#import "MMParameter.h"
 
 #import "EventList.h"
 
@@ -199,7 +200,7 @@
 #pragma mark - Used by ???
 
 - (double)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag
-                                  baseline:(double)baseline delta:(double)parameterDelta min:(double)min max:(double)max
+                                  baseline:(double)baseline delta:(double)parameterDelta parameter:(MMParameter *)parameter
                          andAddToEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 {
     double returnValue = 0.0;
@@ -252,7 +253,7 @@
     for (i = 0; i < [_points count]; i++) {
         MMPoint *point = _points[i];
         returnValue = [point calculatePointsWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:newCacheTag
-                                                     baseline:baseline delta:parameterDelta min:min max:max
+                                                     baseline:baseline delta:parameterDelta parameter:parameter
                                             andAddToEventList:eventList atIndex:index];
      }
 

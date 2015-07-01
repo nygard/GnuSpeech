@@ -132,9 +132,9 @@ typedef enum : NSInteger {
 {
     NSString *firstPart, *secondPart;
 
-    if ([self.scanner scanCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:&firstPart] == YES) {
+    if ([self.scanner scanCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:&firstPart]) {
         if ([self.scanner scanString:@"." intoString:NULL]) {
-            if ([self.scanner scanCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:&secondPart] == YES) {
+            if ([self.scanner scanCharactersFromSet:[NSCharacterSet decimalDigitCharacterSet] intoString:&secondPart]) {
                 [self setSymbolString:[NSString stringWithFormat:@"%@.%@", firstPart, secondPart]];
                 return YES;
             }

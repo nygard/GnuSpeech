@@ -15,15 +15,15 @@ NSString *GSXMLEscapeGeneralEntities(NSString *string, GSXMLEntityMask entityMas
     [scanner setCharactersToBeSkipped:nil]; // Keep whitespace
     do {
         NSString *str;
-        if ([scanner scanUpToCharactersFromSet:generalXMLEntityCharacterSet intoString:&str] == YES)
+        if ([scanner scanUpToCharactersFromSet:generalXMLEntityCharacterSet intoString:&str])
             [result appendString:str];
 
-        if ([scanner scanCharacterFromSet:generalXMLEntityCharacterSet intoString:&str] == YES) {
-            if ((entityMask & GSXMLEntityMask_Ampersand)        && [str isEqual:@"&"] == YES)  [result appendString:@"&amp;"];
-            else if ((entityMask & GSXMLEntityMask_LessThan)    && [str isEqual:@"<"] == YES)  [result appendString:@"&lt;"];
-            else if ((entityMask & GSXMLEntityMask_GreaterThan) && [str isEqual:@">"] == YES)  [result appendString:@"&gt;"];
-            else if ((entityMask & GSXMLEntityMask_SingleQuote) && [str isEqual:@"'"] == YES)  [result appendString:@"&apos;"];
-            else if ((entityMask & GSXMLEntityMask_DoubleQuote) && [str isEqual:@"\""] == YES) [result appendString:@"&quot;"];
+        if ([scanner scanCharacterFromSet:generalXMLEntityCharacterSet intoString:&str]) {
+            if ((entityMask & GSXMLEntityMask_Ampersand)        && [str isEqual:@"&"])  [result appendString:@"&amp;"];
+            else if ((entityMask & GSXMLEntityMask_LessThan)    && [str isEqual:@"<"])  [result appendString:@"&lt;"];
+            else if ((entityMask & GSXMLEntityMask_GreaterThan) && [str isEqual:@">"])  [result appendString:@"&gt;"];
+            else if ((entityMask & GSXMLEntityMask_SingleQuote) && [str isEqual:@"'"])  [result appendString:@"&apos;"];
+            else if ((entityMask & GSXMLEntityMask_DoubleQuote) && [str isEqual:@"\""]) [result appendString:@"&quot;"];
             else
                 [result appendString:str];
         }

@@ -48,7 +48,7 @@ BOOL begin;
 	downArrow = [NSBezierPath bezierPath];
 	NSRect bounds = [self bounds];
 	fricationView = bounds;
-	if (begin == YES) {
+	if (begin) {
 		fricationPosition = (fricationView.origin.x + fricationView.size.width - TOP_ARROW/2);
 		//NSLog(@"fricationPosition is %f", fricationPosition);
 		scale = (fricationView.size.width - TOP_ARROW)/(POS_UNITS - 1);

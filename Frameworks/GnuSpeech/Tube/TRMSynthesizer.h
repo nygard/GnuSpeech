@@ -3,13 +3,14 @@
 
 #import <Foundation/Foundation.h>
 
+@class TRMParameters;
 @class MMSynthesisParameters;
 
 @interface TRMSynthesizer : NSObject
 
 - (void)setupSynthesisParameters:(MMSynthesisParameters *)synthesisParameters;
 - (void)removeAllParameters;
-- (void)addParameters:(float *)values;
+- (void)addParameters:(TRMParameters *)parameters;
 
 @property (assign) BOOL shouldSaveToSoundFile;
 @property (strong) NSString *filename;

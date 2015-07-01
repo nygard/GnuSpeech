@@ -192,7 +192,7 @@ static const char **fileTypes = (const char *[]){"preditor",
 
 - (unsigned)count;
 {
-    return [dictionary count];
+    return (unsigned)[dictionary count];
 }
 
 
@@ -229,7 +229,7 @@ char *getNameWithoutExtensionOfFile(char *fileName)
 //    NXHashState     state;
 //    int             i =0;
 //
-//    if (has_changed == YES){
+//    if (has_changed){
 //		has_changed = NO;
 //		state = NXInitHashState(hashTable);
 //
