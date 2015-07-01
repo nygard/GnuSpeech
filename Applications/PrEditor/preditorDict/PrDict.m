@@ -192,7 +192,7 @@ static const char **fileTypes = (const char *[]){"preditor",
 
 - (unsigned)count;
 {
-    return [dictionary count];
+    return (unsigned)[dictionary count];
 }
 
 
