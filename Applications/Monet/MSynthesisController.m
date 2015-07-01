@@ -532,6 +532,13 @@
         NSBitmapImageRep *bitmapImageRep = [[NSBitmapImageRep alloc] initWithData:tiffData];
         NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
         [PNGData writeToFile:@"/tmp/x.png" atomically:YES];
+        [PNGData writeToFile:[basePath stringByAppendingPathComponent:@"x.png"] atomically:YES];
+
+        NSXMLElement *imgElement = [[NSXMLElement alloc] initWithName:@"img"];
+        [imgElement addAttribute:[NSXMLNode attributeWithName:@"src" stringValue:@"x.png"]];
+        [imgElement addAttribute:[NSXMLNode attributeWithName:@"width" stringValue:[NSString stringWithFormat:@"%.0f", image.size.width]]];
+        [imgElement addAttribute:[NSXMLNode attributeWithName:@"height" stringValue:[NSString stringWithFormat:@"%.0f", image.size.height]]];
+        [graphImagesElement addChild:imgElement];
     }
 
     // 5. Save the HTML.
