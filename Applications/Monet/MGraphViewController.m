@@ -54,6 +54,9 @@
         gv1.scale = self.scale;
         [self.graphStackView addView:gv1 inGravity:NSStackViewGravityTop];
     }
+
+    self.view.wantsLayer = YES;
+    self.view.layer.backgroundColor = [[NSColor greenColor] colorWithAlphaComponent:0.2].CGColor;
 }
 
 @end
