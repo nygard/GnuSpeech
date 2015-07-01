@@ -105,6 +105,11 @@
 
 #pragma mark -
 
++ (BOOL)requiresConstraintBasedLayout;
+{
+    return YES;
+}
+
 - (CGSize)intrinsicContentSize;
 {
     return CGSizeMake(100, 100);

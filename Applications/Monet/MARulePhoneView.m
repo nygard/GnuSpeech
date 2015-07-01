@@ -82,6 +82,11 @@
 
 #pragma mark -
 
++ (BOOL)requiresConstraintBasedLayout;
+{
+    return YES;
+}
+
 - (CGSize)intrinsicContentSize;
 {
     if (self.eventList == nil) {
