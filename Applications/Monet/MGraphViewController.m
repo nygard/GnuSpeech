@@ -58,6 +58,9 @@
 
     self.view.wantsLayer = YES;
     self.view.layer.backgroundColor = [NSColor windowBackgroundColor].CGColor;
+
+    // Set a small content size, so window increases in size to fit.  Window won't shrink to fit the content.
+    self.window.contentSize = CGSizeMake(100, 100);
 }
 
 @end
