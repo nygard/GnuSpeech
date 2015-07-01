@@ -513,37 +513,55 @@
     // 4. Save series of images, and add reference to HTML as we go.  Going to say we only show the graphs the user has selected to display.
 //    [html appendFormat:@"      <img src='%@' alt='parameter graph %lu'/>\n", GSXMLAttributeString(filename1, YES), number];
     {
-        MGraphViewController *controller = [[MGraphViewController alloc] init];
-        controller.displayParameters = @[ _displayParameters[0], _displayParameters[1], _displayParameters[2], _displayParameters[3] ];
-        controller.eventList = self.eventList;
-        NSMutableArray *a1 = [[NSMutableArray alloc] init];
-        for (MMDisplayParameter *displayParameter in controller.displayParameters) {
-            [a1 addObject:displayParameter.parameter.name];
+        NSMutableArray *groups = [[NSMutableArray alloc] init];
+        NSMutableArray *current;
+        for (MMDisplayParameter *displayParameter in _displayParameters) {
+            if (current == nil) current = [[NSMutableArray alloc] init];
+            if (displayParameter.shouldDisplay)
+                [current addObject:displayParameter];
+            if ([current count] == 4) {
+                [groups addObject:current];
+                current = nil;
+            }
         }
+        if (current != nil)
+            [groups addObject:current];
 
-        [controller.window layoutIfNeeded];
+        NSUInteger index = 1;
+        for (NSArray *group in groups) {
+            MGraphViewController *controller = [[MGraphViewController alloc] init];
+            controller.displayParameters = group;
+            controller.eventList = self.eventList;
 
-        NSImage *image = [[NSImage alloc] initWithSize:controller.view.bounds.size];
-        [image lockFocus];
-        {
-            CGContextRef context = [NSGraphicsContext currentContext].graphicsPort;
-            [controller.view.layer renderInContext:context];
+            NSMutableArray *parameterNames = [[NSMutableArray alloc] init];
+            for (MMDisplayParameter *displayParameter in group) {
+                [parameterNames addObject:displayParameter.parameter.name];
+            }
+
+            [controller.window layoutIfNeeded];
+
+            NSImage *image = [[NSImage alloc] initWithSize:controller.view.bounds.size];
+            [image lockFocus];
+            {
+                CGContextRef context = [NSGraphicsContext currentContext].graphicsPort;
+                [controller.view.layer renderInContext:context];
+            }
+            [image unlockFocus];
+
+            NSData *tiffData = [image TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0.95];
+
+            NSBitmapImageRep *bitmapImageRep = [[NSBitmapImageRep alloc] initWithData:tiffData];
+            NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
+            NSString *graphFilename = [NSString stringWithFormat:@"graph-%lu.png", index++];
+            [PNGData writeToFile:[basePath stringByAppendingPathComponent:graphFilename] atomically:YES];
+
+            NSXMLElement *imgElement = [[NSXMLElement alloc] initWithName:@"img"];
+            [imgElement addAttribute:[NSXMLNode attributeWithName:@"src"    stringValue:graphFilename]];
+            [imgElement addAttribute:[NSXMLNode attributeWithName:@"width"  stringValue:[NSString stringWithFormat:@"%.0f", image.size.width]]];
+            [imgElement addAttribute:[NSXMLNode attributeWithName:@"height" stringValue:[NSString stringWithFormat:@"%.0f", image.size.height]]];
+            [imgElement addAttribute:[NSXMLNode attributeWithName:@"alt"    stringValue:[parameterNames componentsJoinedByString:@", "]]];
+            [graphImagesElement addChild:imgElement];
         }
-        [image unlockFocus];
-
-        NSData *tiffData = [image TIFFRepresentationUsingCompression:NSTIFFCompressionLZW factor:0.95];
-
-        NSBitmapImageRep *bitmapImageRep = [[NSBitmapImageRep alloc] initWithData:tiffData];
-        NSData *PNGData = [bitmapImageRep representationUsingType:NSPNGFileType properties:nil];
-        [PNGData writeToFile:@"/tmp/x.png" atomically:YES];
-        [PNGData writeToFile:[basePath stringByAppendingPathComponent:@"x.png"] atomically:YES];
-
-        NSXMLElement *imgElement = [[NSXMLElement alloc] initWithName:@"img"];
-        [imgElement addAttribute:[NSXMLNode attributeWithName:@"src" stringValue:@"x.png"]];
-        [imgElement addAttribute:[NSXMLNode attributeWithName:@"width" stringValue:[NSString stringWithFormat:@"%.0f", image.size.width]]];
-        [imgElement addAttribute:[NSXMLNode attributeWithName:@"height" stringValue:[NSString stringWithFormat:@"%.0f", image.size.height]]];
-        [imgElement addAttribute:[NSXMLNode attributeWithName:@"alt" stringValue:[a1 componentsJoinedByString:@", "]]];
-        [graphImagesElement addChild:imgElement];
     }
 
     // 5. Save the HTML.
