@@ -737,6 +737,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 }
 
 // Adjust the tempos of each of the feet.  They start out at 1.0.
+// Calculate Rhythm including regression.
 - (void)applyRhythm;
 {
     for (NSUInteger i = 0; i < _footCount; i++) {
@@ -814,8 +815,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 //    if (currentPhone)
 //        [self generateIntonationPoints];
 
-    Event *lastEvent = [_events lastObject];
-    lastEvent.isAtPosture = YES;
+//    Event *lastEvent = [_events lastObject];
+//    lastEvent.isAtPosture = YES;
 
     [self printDataStructures:@"Applied rules"];
 
