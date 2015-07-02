@@ -4,13 +4,18 @@
 #import <Cocoa/Cocoa.h>
 
 @class MMDisplayParameter, EventList;
+@protocol MAGraphViewDelegate;
 
 @interface MAGraphView : NSView
 @property (nonatomic, strong) MMDisplayParameter *displayParameter;
 @property (nonatomic, strong) EventList *eventList;
 @property (nonatomic, assign) CGFloat scale;
+@property (nonatomic, assign) CGFloat selectedXPosition;
+@property (weak) id <MAGraphViewDelegate> delegate;
 @end
 
-@protocol MAGraphViewTracking
-- (void)updateGraphTracking:(NSDictionary *)userInfo;
+@protocol MAGraphViewDelegate
+- (void)graphView:(MAGraphView *)graphView didSelectXPosition:(CGFloat)xPosition;
+- (void)graphView:(MAGraphView *)graphView trackingTime:(NSNumber *)time value:(NSNumber *)value;
 @end
+

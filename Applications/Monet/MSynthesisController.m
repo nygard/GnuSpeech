@@ -29,7 +29,7 @@
 #define MDK_SoundOutputDirectory       @"SoundOutputDirectory"
 #define MDK_IntonationContourDirectory @"IntonationContourDirectory"
 
-@interface MSynthesisController () <NSTableViewDataSource, NSComboBoxDelegate, NSTextViewDelegate, NSFileManagerDelegate>
+@interface MSynthesisController () <NSTableViewDataSource, NSComboBoxDelegate, NSTextViewDelegate, NSFileManagerDelegate, MAGraphViewDelegate>
 
 @property (weak) IBOutlet NSScrollView *leftScrollView;
 @property (weak) IBOutlet NSStackView *leftStackView;
@@ -49,6 +49,9 @@
 @property (strong) MEventTableController *eventTableController;
 @property (strong) MIntonationController *intonationController;
 @property (strong) MDisplayParametersController *displayParametersController;
+
+@property (strong) NSArray *graphNameViews;
+@property (strong) NSArray *graphViews;
 @end
 
 #pragma mark -
@@ -232,24 +235,33 @@
         [self.leftStackView removeView:view];
     }
 
+    NSMutableArray *graphNameViews = [[NSMutableArray alloc] init];
+    NSMutableArray *graphViews = [[NSMutableArray alloc] init];
+
     for (MMDisplayParameter *displayParameter in _displayParameters) {
         MAGraphNameView *graphNameView = [[MAGraphNameView alloc] initWithFrame:CGRectZero];
         graphNameView.translatesAutoresizingMaskIntoConstraints = NO;
         graphNameView.displayParameter = displayParameter;
         [self.leftStackView addView:graphNameView inGravity:NSStackViewGravityTop];
+        [graphNameViews addObject:graphNameView];
 
 
         MAGraphView *gv1 = [[MAGraphView alloc] initWithFrame:CGRectMake(0, 0, 300, 100)];
         gv1.translatesAutoresizingMaskIntoConstraints = NO;
         gv1.displayParameter = displayParameter;
         gv1.eventList = self.eventList;
+        gv1.delegate = self;
         [self.graphStackView addView:gv1 inGravity:NSStackViewGravityTop];
+        [graphViews addObject:gv1];
 
         if (!displayParameter.shouldDisplay) {
             [self.leftStackView  setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:graphNameView];
             [self.graphStackView setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:gv1];
         }
     }
+
+    self.graphNameViews = [graphNameViews copy];
+    self.graphViews     = [graphViews copy];
 }
 
 - (void)_updateDisplayedParameters;
@@ -261,27 +273,21 @@
             [array addObject:displayParameter];
     }
 
-    for (NSView *view in self.leftStackView.views) {
-        if ([view respondsToSelector:@selector(displayParameter)]) {
-            MAGraphNameView *graphNameView = (MAGraphNameView *)view;
-            MMDisplayParameter *displayParameter = graphNameView.displayParameter;
-            if ([displayParameter shouldDisplay]) {
-                [self.leftStackView setVisibilityPriority:NSStackViewVisibilityPriorityMustHold forView:graphNameView];
-            } else {
-                [self.leftStackView setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:graphNameView];
-            }
+    for (MAGraphNameView *graphNameView in self.graphNameViews) {
+        MMDisplayParameter *displayParameter = graphNameView.displayParameter;
+        if ([displayParameter shouldDisplay]) {
+            [self.leftStackView setVisibilityPriority:NSStackViewVisibilityPriorityMustHold forView:graphNameView];
+        } else {
+            [self.leftStackView setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:graphNameView];
         }
     }
 
-    for (NSView *view in self.graphStackView.views) {
-        if ([view respondsToSelector:@selector(displayParameter)]) {
-            MAGraphView *graphView = (MAGraphView *)view;
-            MMDisplayParameter *displayParameter = graphView.displayParameter;
-            if ([displayParameter shouldDisplay]) {
-                [self.graphStackView setVisibilityPriority:NSStackViewVisibilityPriorityMustHold forView:graphView];
-            } else {
-                [self.graphStackView setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:graphView];
-            }
+    for (MAGraphView *graphView in self.graphViews) {
+        MMDisplayParameter *displayParameter = graphView.displayParameter;
+        if ([displayParameter shouldDisplay]) {
+            [self.graphStackView setVisibilityPriority:NSStackViewVisibilityPriorityMustHold forView:graphView];
+        } else {
+            [self.graphStackView setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:graphView];
         }
     }
 }
@@ -684,19 +690,47 @@
     double scale = [sender doubleValue];
     self.rulePhoneView.scale = scale;
 
-    // TODO: (2015-06-27) Probably easier just to keep our own array of the MAGraphViews and iterate through that.
-    for (NSView *view in self.graphStackView.views) {
-        if ([view respondsToSelector:@selector(setScale:)]) {
-            [(MAGraphView *)view setScale:scale];
-        }
+    for (MAGraphView *graphView in self.graphViews) {
+        graphView.scale = scale;
     }
 }
 
-- (void)updateGraphTracking:(NSDictionary *)userInfo;
-{
-    //NSLog(@"%s, userInfo: %@", __PRETTY_FUNCTION__, userInfo);
+//- (void)updateGraphTracking:(NSDictionary *)userInfo;
+//{
+//    //NSLog(@"%s, userInfo: %@", __PRETTY_FUNCTION__, userInfo);
+//
+//    NSNumber *time = userInfo[@"time"];
+//    if (time != nil) {
+//        // TODO: Use formatter instead.
+//        self.mouseTimeField.stringValue = [NSString stringWithFormat:@"%.0f", time.doubleValue];
+//    } else {
+//        self.mouseTimeField.stringValue = @"---";
+//    }
+//
+//    NSNumber *value = userInfo[@"value"];
+//    if (userInfo[@"value"] != nil) {
+//        self.mouseValueField.stringValue = [NSString stringWithFormat:@"%.1f", value.doubleValue];
+//    } else {
+//        self.mouseValueField.stringValue = @"---";
+//    }
+//}
 
-    NSNumber *time = userInfo[@"time"];
+- (void)scrollerVisibilityDidChange:(NSNotification *)notification;
+{
+    [self updateLeftScrollViewInset];
+}
+
+#pragma mark - MAGraphViewDelegate
+
+- (void)graphView:(MAGraphView *)graphView didSelectXPosition:(CGFloat)xPosition;
+{
+    for (MAGraphView *graphView in self.graphViews) {
+        graphView.selectedXPosition = xPosition;
+    }
+}
+
+- (void)graphView:(MAGraphView *)graphView trackingTime:(NSNumber *)time value:(NSNumber *)value;
+{
     if (time != nil) {
         // TODO: Use formatter instead.
         self.mouseTimeField.stringValue = [NSString stringWithFormat:@"%.0f", time.doubleValue];
@@ -704,17 +738,11 @@
         self.mouseTimeField.stringValue = @"---";
     }
 
-    NSNumber *value = userInfo[@"value"];
-    if (userInfo[@"value"] != nil) {
+    if (value != nil) {
         self.mouseValueField.stringValue = [NSString stringWithFormat:@"%.1f", value.doubleValue];
     } else {
         self.mouseValueField.stringValue = @"---";
     }
-}
-
-- (void)scrollerVisibilityDidChange:(NSNotification *)notification;
-{
-    [self updateLeftScrollViewInset];
 }
 
 @end

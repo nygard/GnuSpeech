@@ -43,6 +43,8 @@
     _scale = 0.5;
     _leftInset = 5.0;
 
+    _selectedXPosition = -1;
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(frameDidChange:) name:NSViewFrameDidChangeNotification object:self];
     self.postsFrameChangedNotifications = YES;
 }
@@ -77,6 +79,12 @@
 {
     _scale = scale;
     [self invalidateIntrinsicContentSize];
+    [self setNeedsDisplay:YES];
+}
+
+- (void)setSelectedXPosition:(CGFloat)selectedXPosition;
+{
+    _selectedXPosition = selectedXPosition;
     [self setNeedsDisplay:YES];
 }
 
@@ -204,6 +212,15 @@
         [bezierPath stroke];
     }
 
+    if (self.selectedXPosition >= 0) {
+        NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
+        [bezierPath moveToPoint:CGPointMake(self.selectedXPosition, 0.5)];
+        [bezierPath lineToPoint:CGPointMake(self.selectedXPosition, NSMaxY(bounds) - 0.5)];
+
+        [[[NSColor greenColor] colorWithAlphaComponent:0.8] set];
+        [bezierPath stroke];
+    }
+
     {
         // Draw this last, so that vertical lines don't overlap.
         NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
@@ -217,32 +234,58 @@
     }
 }
 
+#pragma mark -
+
+- (void)mouseDown:(NSEvent *)event;
+{
+    NSPoint point = [self convertPoint:event.locationInWindow fromView:nil];
+    self.selectedXPosition = point.x;
+
+    [self.delegate graphView:self didSelectXPosition:self.selectedXPosition];
+    [self updateTrackingAtPoint:point];
+}
+
+- (void)mouseDragged:(NSEvent *)event;
+{
+    NSPoint point = [self convertPoint:event.locationInWindow fromView:nil];
+    self.selectedXPosition = point.x;
+
+    [self.delegate graphView:self didSelectXPosition:self.selectedXPosition];
+    [self updateTrackingAtPoint:point];
+}
+
 - (void)mouseMoved:(NSEvent *)event;
 {
     NSPoint point = [self convertPoint:event.locationInWindow fromView:nil];
     //NSLog(@"%s, point: %@", __PRETTY_FUNCTION__, NSStringFromPoint(point));
 
-    CGFloat time = (point.x - _leftInset) / _scale;
+    [self updateTrackingAtPoint:point];
+}
 
-    NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] init];
+/// Point is in local coordinates already.
+- (void)updateTrackingAtPoint:(NSPoint)point;
+{
+    NSNumber *timeNumber, *valueNumber;
+
+    double time = (point.x - _leftInset) / _scale;
 
     if ((point.x >= _leftInset) && (point.x <= self.bounds.size.width)) {
-        userInfo[@"time"] = @(time);
+        timeNumber = @(time);
     }
 
     //NSLog(@"tag: %ld", self.displayParameter.tag);
 
     double value = [self.eventList valueAtTimeOffset:time forEvent:self.displayParameter.tag];
     if (!isnan(value)) {
-        userInfo[@"value"] = @(value);
+        valueNumber = @(value);
     }
 
-    [NSApp sendAction:@selector(updateGraphTracking:) to:nil from:userInfo];
+    [self.delegate graphView:self trackingTime:timeNumber value:valueNumber];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent;
 {
-    [NSApp sendAction:@selector(updateGraphTracking:) to:nil from:nil];
+    [self.delegate graphView:self trackingTime:nil value:nil];
 }
 
 - (void)cursorUpdate:(NSEvent *)event;

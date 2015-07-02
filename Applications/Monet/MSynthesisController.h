@@ -26,6 +26,4 @@
 
 - (IBAction)addTextString:(id)sender;
 
-- (void)updateGraphTracking:(NSDictionary *)userInfo;
-
 @end
