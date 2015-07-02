@@ -28,6 +28,7 @@
 #define MDK_GraphImagesDirectory       @"GraphImagesDirectory"
 #define MDK_SoundOutputDirectory       @"SoundOutputDirectory"
 #define MDK_IntonationContourDirectory @"IntonationContourDirectory"
+#define MDK_DisplayedGraphNames        @"DisplayedGraphNames"
 
 @interface MSynthesisController () <NSTableViewDataSource, NSComboBoxDelegate, NSTextViewDelegate, NSFileManagerDelegate, MAGraphViewDelegate>
 
@@ -206,6 +207,8 @@
 {
     NSInteger currentTag = 0;
 
+    NSArray *defaultDisplayedNames = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_DisplayedGraphNames];
+
     NSMutableArray *displayParameters = [[NSMutableArray alloc] init];
 
     NSArray *parameters = self.model.parameters;
@@ -215,6 +218,13 @@
 		
         MMDisplayParameter *displayParameter = [[MMDisplayParameter alloc] initWithParameter:currentParameter];
         displayParameter.tag = currentTag++;
+
+        if (defaultDisplayedNames == nil || [defaultDisplayedNames containsObject:displayParameter.name]) {
+            displayParameter.shouldDisplay = YES;
+        } else {
+            displayParameter.shouldDisplay = NO;
+        }
+
         [displayParameters addObject:displayParameter];
     }
 	
@@ -224,6 +234,13 @@
         MMDisplayParameter *displayParameter = [[MMDisplayParameter alloc] initWithParameter:currentParameter];
         displayParameter.isSpecial = YES;
         displayParameter.tag = currentTag++;
+
+        if (defaultDisplayedNames == nil || [defaultDisplayedNames containsObject:displayParameter.name]) {
+            displayParameter.shouldDisplay = YES;
+        } else {
+            displayParameter.shouldDisplay = NO;
+        }
+
         [displayParameters addObject:displayParameter];
     }
 
@@ -290,6 +307,18 @@
             [self.graphStackView setVisibilityPriority:NSStackViewVisibilityPriorityNotVisible forView:graphView];
         }
     }
+}
+
+- (void)_saveDisplayedParameterPreferences;
+{
+    NSMutableArray *names = [[NSMutableArray alloc] init];
+    for (MMDisplayParameter *displayParameter in _displayParameters) {
+        if (displayParameter.shouldDisplay) {
+            [names addObject:displayParameter.name];
+        }
+    }
+
+    [[NSUserDefaults standardUserDefaults] setObject:names forKey:MDK_DisplayedGraphNames];
 }
 
 - (IBAction)showEventTable:(id)sender;
@@ -615,6 +644,7 @@
 - (void)displayParameterDidChange:(NSNotification *)notification;
 {
     [self _updateDisplayedParameters];
+    [self _saveDisplayedParameterPreferences];
 }
 
 - (void)scrollViewDidScroll:(NSNotification *)notification;
