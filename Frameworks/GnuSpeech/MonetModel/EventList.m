@@ -984,6 +984,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             currentDeltas[32] = ((temp - currentValues[32]) / (double) ([_events[j] time])) * millisecondsPerInterval;
         else
             currentDeltas[32] = 0;
+
+        currentValues[32] = -20.0;
     }
 
 //    NSLog(@"Starting Values:");
@@ -1070,6 +1072,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             }
             if (self.intonation.shouldUseSmoothIntonation) {
                 if ([_events[i-1] getValueAtIndex:33] != NaN) {
+                    currentValues[32] = [_events[i-1] getValueAtIndex:32];
                     currentDeltas[32] = 0.0;
                     currentDeltas[33] = [_events[i-1] getValueAtIndex:33];
                     currentDeltas[34] = [_events[i-1] getValueAtIndex:34];
