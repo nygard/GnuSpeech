@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <development version="5000" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
     </dependencies>
@@ -21,6 +22,8 @@
                 <outlet property="mouseTimeField" destination="23" id="XAY-7l-qPO"/>
                 <outlet property="mouseValueField" destination="27" id="Swi-qN-eQ8"/>
                 <outlet property="rulePhoneView" destination="wRi-Ti-tsn" id="Aqs-7c-T7m"/>
+                <outlet property="scaleSlider" destination="iOQ-2y-Maq" id="sAc-8Y-2Lk"/>
+                <outlet property="scaleTextField" destination="uWi-ip-i9S" id="Kzz-oH-z01"/>
                 <outlet property="topScrollView" destination="K6M-nq-61I" id="NO6-ty-tt6"/>
                 <outlet property="window" destination="10" id="118"/>
             </connections>
@@ -228,9 +231,9 @@ DQ
                         </textFieldCell>
                     </textField>
                     <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iOQ-2y-Maq">
-                        <rect key="frame" x="797" y="18" width="114" height="20"/>
+                        <rect key="frame" x="669" y="18" width="204" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="110" id="myi-pb-0Ya"/>
+                            <constraint firstAttribute="width" constant="200" id="myi-pb-0Ya"/>
                         </constraints>
                         <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="0.20000000000000001" maxValue="10" doubleValue="0.5" tickMarkPosition="above" sliderType="linear" id="sTM-H7-dU5"/>
                         <connections>
@@ -238,7 +241,7 @@ DQ
                         </connections>
                     </slider>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5SL-RS-j1B">
-                        <rect key="frame" x="750" y="19.5" width="43" height="17"/>
+                        <rect key="frame" x="622" y="19.5" width="43" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Scale:" id="L3m-AQ-12N">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -343,6 +346,17 @@ DQ
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uWi-ip-i9S">
+                        <rect key="frame" x="877" y="19.5" width="34" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="xXR-YY-vap"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="10.0" id="Qx2-5a-XXk">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
                 <constraints>
                     <constraint firstItem="28" firstAttribute="baseline" secondItem="23" secondAttribute="baseline" id="0YB-WU-dzG"/>
@@ -357,6 +371,7 @@ DQ
                     <constraint firstItem="312" firstAttribute="top" secondItem="329" secondAttribute="bottom" constant="20" symbolic="YES" id="5HL-cP-f0N"/>
                     <constraint firstItem="K6M-nq-61I" firstAttribute="leading" secondItem="cPA-qI-Ppe" secondAttribute="trailing" constant="8" symbolic="YES" id="60D-ta-XFq"/>
                     <constraint firstAttribute="trailing" secondItem="SLb-wE-mjW" secondAttribute="trailing" constant="20" symbolic="YES" id="7rM-gk-JPS"/>
+                    <constraint firstItem="uWi-ip-i9S" firstAttribute="top" relation="greaterThanOrEqual" secondItem="ewU-kR-DtG" secondAttribute="bottom" constant="8" symbolic="YES" id="AFj-UV-lol"/>
                     <constraint firstItem="qei-eK-IZB" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="BE6-do-FmP"/>
                     <constraint firstItem="25" firstAttribute="leading" secondItem="23" secondAttribute="trailing" constant="20" id="Bpo-Cw-2Je"/>
                     <constraint firstItem="cPA-qI-Ppe" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" symbolic="YES" id="Brs-MH-I8o"/>
@@ -370,8 +385,10 @@ DQ
                     <constraint firstItem="299" firstAttribute="top" secondItem="6" secondAttribute="top" constant="20" symbolic="YES" id="Kpj-Hf-H4g"/>
                     <constraint firstItem="299" firstAttribute="leading" secondItem="293" secondAttribute="trailing" constant="8" symbolic="YES" id="Lt6-Ge-lgA"/>
                     <constraint firstItem="K6M-nq-61I" firstAttribute="top" secondItem="SLb-wE-mjW" secondAttribute="bottom" constant="20" symbolic="YES" id="MRz-55-0oM"/>
+                    <constraint firstItem="5SL-RS-j1B" firstAttribute="baseline" secondItem="uWi-ip-i9S" secondAttribute="baseline" id="PUa-Xe-XZE"/>
                     <constraint firstItem="31" firstAttribute="top" secondItem="312" secondAttribute="bottom" constant="20" symbolic="YES" id="PVB-vF-lpm"/>
                     <constraint firstItem="iOQ-2y-Maq" firstAttribute="leading" secondItem="5SL-RS-j1B" secondAttribute="trailing" constant="8" symbolic="YES" id="Q22-DG-tQp"/>
+                    <constraint firstAttribute="trailing" secondItem="uWi-ip-i9S" secondAttribute="trailing" constant="20" symbolic="YES" id="QGy-91-mfK"/>
                     <constraint firstItem="K6M-nq-61I" firstAttribute="leading" secondItem="AGg-6s-4Si" secondAttribute="trailing" constant="8" symbolic="YES" id="QQt-SE-OVd"/>
                     <constraint firstItem="JIu-Bu-11q" firstAttribute="bottom" secondItem="bI8-R1-JQg" secondAttribute="bottom" id="RLm-aZ-emc"/>
                     <constraint firstItem="31" firstAttribute="leading" secondItem="26" secondAttribute="trailing" constant="12" symbolic="YES" id="Sml-gr-hx6"/>
@@ -384,6 +401,7 @@ DQ
                     <constraint firstItem="329" firstAttribute="top" secondItem="6" secondAttribute="top" constant="20" symbolic="YES" id="WKD-U9-8ps"/>
                     <constraint firstItem="310" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" symbolic="YES" id="YEx-eM-k7R"/>
                     <constraint firstItem="cPA-qI-Ppe" firstAttribute="top" secondItem="K6M-nq-61I" secondAttribute="top" id="Ztp-pQ-7pL"/>
+                    <constraint firstItem="uWi-ip-i9S" firstAttribute="leading" secondItem="iOQ-2y-Maq" secondAttribute="trailing" constant="8" symbolic="YES" id="a3C-5N-tfm"/>
                     <constraint firstItem="5SL-RS-j1B" firstAttribute="centerY" secondItem="iOQ-2y-Maq" secondAttribute="centerY" id="aU4-E2-0rK"/>
                     <constraint firstItem="qei-eK-IZB" firstAttribute="top" secondItem="24" secondAttribute="bottom" constant="8" symbolic="YES" id="abN-Dd-CHc"/>
                     <constraint firstItem="312" firstAttribute="leading" secondItem="310" secondAttribute="trailing" constant="8" symbolic="YES" id="cCc-Xv-v2q"/>
@@ -395,7 +413,6 @@ DQ
                     <constraint firstItem="JIu-Bu-11q" firstAttribute="top" secondItem="bI8-R1-JQg" secondAttribute="top" id="pTS-PB-yB8"/>
                     <constraint firstItem="293" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" symbolic="YES" id="qMu-qJ-ZNP"/>
                     <constraint firstItem="28" firstAttribute="leading" secondItem="bI8-R1-JQg" secondAttribute="leading" id="s7h-AL-lO3"/>
-                    <constraint firstAttribute="trailing" secondItem="iOQ-2y-Maq" secondAttribute="trailing" constant="20" symbolic="YES" id="sir-5G-uhv"/>
                     <constraint firstItem="ewU-kR-DtG" firstAttribute="top" secondItem="bI8-R1-JQg" secondAttribute="bottom" constant="8" id="suy-qx-Z2F"/>
                     <constraint firstItem="299" firstAttribute="leading" secondItem="312" secondAttribute="leading" id="tM9-CX-ZDg"/>
                     <constraint firstItem="24" firstAttribute="leading" secondItem="6" secondAttribute="leading" constant="20" symbolic="YES" id="tiV-rq-SEP"/>

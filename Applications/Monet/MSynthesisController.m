@@ -44,6 +44,10 @@
 @property (weak) IBOutlet NSTextField *mouseTimeField;
 @property (weak) IBOutlet NSTextField *mouseValueField;
 
+@property (weak) IBOutlet NSSlider *scaleSlider;
+@property (weak) IBOutlet NSTextField *scaleTextField;
+
+
 @property (readonly) EventList *eventList;
 @property (readonly) TRMSynthesizer *synthesizer;
 @property (strong) STLogger *logger;
@@ -194,6 +198,11 @@
 //    [self.graphScrollView scrollRectToVisible:CGRectMake(0, 2900, 10, 10)];
 
     [self updateLeftScrollViewInset];
+
+    CGFloat scale = 0.5;
+    self.scaleSlider.floatValue = scale;
+    self.scaleTextField.stringValue = [NSString stringWithFormat:@"%.1f", scale];
+
 
     // On 10.10.3 I'm getting notified immediately, so the call to -updateLeftScrollViewInset above isn't strictly necessary.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferredScrollerStyleDidChange:) name:NSPreferredScrollerStyleDidChangeNotification object:nil];
@@ -719,6 +728,7 @@
 {
     double scale = [sender doubleValue];
     self.rulePhoneView.scale = scale;
+    self.scaleTextField.stringValue = [NSString stringWithFormat:@"%.1f", scale];
 
     for (MAGraphView *graphView in self.graphViews) {
         graphView.scale = scale;
