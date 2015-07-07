@@ -5,12 +5,6 @@
 
 @interface MMIntonation : MMObject
 
-@property (assign) float notionalPitch;
-@property (assign) float pretonicRange;
-@property (assign) float pretonicLift;
-@property (assign) float tonicRange;
-@property (assign) float tonicMovement; // TODO (2004-03-30): Apparently not used.
-
 @property (assign) BOOL shouldUseMacroIntonation;
 @property (assign) BOOL shouldUseMicroIntonation;
 @property (assign) BOOL shouldUseSmoothIntonation;

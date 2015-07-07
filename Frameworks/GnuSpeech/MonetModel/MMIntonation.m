@@ -3,6 +3,15 @@
 
 #import "MMIntonation.h"
 
+@interface MMIntonation ()
+@property (assign) float notionalPitch;
+@property (assign) float pretonicRange;
+@property (assign) float pretonicLift;
+@property (assign) float tonicRange;
+@property (assign) float tonicMovement; // TODO (2004-03-30): Apparently not used.
+
+@end
+
 @implementation MMIntonation
 
 - (id)init;

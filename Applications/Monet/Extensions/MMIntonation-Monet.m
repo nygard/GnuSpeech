@@ -50,11 +50,11 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
     if ((self = [super init])) {
-        self.notionalPitch = [defaults floatForKey:MDK_NotionalPitch];
-        self.pretonicRange = [defaults floatForKey:MDK_PretonicRange];
-        self.pretonicLift  = [defaults floatForKey:MDK_PretonicLift];
-        self.tonicRange    = [defaults floatForKey:MDK_TonicRange];
-        self.tonicMovement = [defaults floatForKey:MDK_TonicMovement];
+//        self.notionalPitch = [defaults floatForKey:MDK_NotionalPitch];
+//        self.pretonicRange = [defaults floatForKey:MDK_PretonicRange];
+//        self.pretonicLift  = [defaults floatForKey:MDK_PretonicLift];
+//        self.tonicRange    = [defaults floatForKey:MDK_TonicRange];
+//        self.tonicMovement = [defaults floatForKey:MDK_TonicMovement];
 
         self.shouldUseMacroIntonation  = [defaults boolForKey:MDK_ShouldUseMacroIntonation];
         self.shouldUseMicroIntonation  = [defaults boolForKey:MDK_ShouldUseMicroIntonation];
@@ -75,11 +75,11 @@
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    [defaults setFloat:self.notionalPitch            forKey:MDK_NotionalPitch];
-    [defaults setFloat:self.pretonicRange            forKey:MDK_PretonicRange];
-    [defaults setFloat:self.pretonicLift             forKey:MDK_PretonicLift];
-    [defaults setFloat:self.tonicRange               forKey:MDK_TonicRange];
-    [defaults setFloat:self.tonicMovement            forKey:MDK_TonicMovement];
+//    [defaults setFloat:self.notionalPitch            forKey:MDK_NotionalPitch];
+//    [defaults setFloat:self.pretonicRange            forKey:MDK_PretonicRange];
+//    [defaults setFloat:self.pretonicLift             forKey:MDK_PretonicLift];
+//    [defaults setFloat:self.tonicRange               forKey:MDK_TonicRange];
+//    [defaults setFloat:self.tonicMovement            forKey:MDK_TonicMovement];
 
     [defaults setBool:self.shouldUseMacroIntonation  forKey:MDK_ShouldUseMacroIntonation];
     [defaults setBool:self.shouldUseMicroIntonation  forKey:MDK_ShouldUseMicroIntonation];
