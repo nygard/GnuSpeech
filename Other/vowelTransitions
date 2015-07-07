@@ -1,0 +1,35 @@
+#===========================================================================
+#	Author: Craig Taube-Schock
+#	File: Vowel-transitions
+#	Purpose: This file specifies what action is to be taken given a 
+#		particular v-v transition.  
+#
+#	Entries:
+#		0 - do nothing
+#		1 - insert a glottal stop
+#		2 - insert an "r"
+#
+#	NOTE: This file has been made obscure deliberately so as to prevent
+#		people from modifiying it.  If you feel you need to change this
+#		file, please contact me at:
+#
+#			schock@trillium.ab.ca
+#
+#Note that "uh" should be a row of twos, but is temporarily set to ones
+#until "the" before vowels is handled more consistently. The difference
+#between 1 & 2 is also closely tied in with improved rhythm. (drh: 95-08-05)
+#
+aa 1 1 1 1 1 1 1 1 1 1 1 1 1
+ah 1 1 1 1 1 1 1 1 1 1 1 1 1
+a  1 1 1 1 1 1 1 1 1 1 1 1 1
+e  1 1 1 1 1 1 1 1 1 1 1 1 1
+i  0 0 0 0 0 0 0 0 0 0 0 0 0
+o  1 1 1 1 1 1 1 1 1 1 1 1 1
+uh 1 1 1 1 1 1 1 1 1 1 1 1 1
+u  0 0 0 0 0 0 0 1 0 0 0 0 0
+ar 2 2 2 2 2 2 2 2 2 2 2 2 2
+aw 2 2 2 2 2 2 2 2 2 2 2 2 2
+ee 0 0 0 0 0 0 0 0 0 0 0 0 0
+er 2 2 2 2 2 2 2 2 2 2 2 2 2
+uu 0 0 0 0 0 0 0 0 0 0 0 0 1
+
