@@ -471,16 +471,21 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 - (void)drawIntonationPoints;
 {
     NSPoint graphOrigin = [self graphOrigin];
+    BOOL isFirstPoint = YES;
 
     NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
-    [bezierPath moveToPoint:graphOrigin];
 
     for (MMIntonationPoint *intonationPoint in [_eventList intonationPoints]) {
         NSPoint currentPoint;
         currentPoint.x = [self scaleXPosition:[intonationPoint absoluteTime]];
         currentPoint.y = rint(graphOrigin.y + ([intonationPoint semitone] + ZERO_SECTION) * [self sectionHeight]) + 0.5;
-        [bezierPath lineToPoint:currentPoint];
+        if (isFirstPoint) {
+            isFirstPoint = NO;
+            [bezierPath moveToPoint:currentPoint];
+        } else {
+            [bezierPath lineToPoint:currentPoint];
+        }
 
         [NSBezierPath drawCircleMarkerAtPoint:currentPoint];
     }
