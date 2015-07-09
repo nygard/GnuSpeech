@@ -3,6 +3,8 @@
 
 #import "MMObject.h"
 
+@class MMIntonationParameters, MMToneGroup;
+
 @interface MMIntonation : MMObject
 
 @property (assign) BOOL shouldUseMacroIntonation;
@@ -17,5 +19,7 @@
 
 /// Affects hard coded parameters 7 and 8 (r1 and r2).
 @property (assign) double radiusMultiply;
+
+- (MMIntonationParameters *)intonationParametersForToneGroup:(MMToneGroup *)toneGroup;
 
 @end

@@ -837,7 +837,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     [self removeAllIntonationPoints];
 //    [self addIntonationPoint:-20.0 offsetTime:0.0 slope:0.0 ruleIndex:0];
 
-    MMIntonationParameters *intonationParameters = [[MMIntonationParameters alloc] init]; // TODO: do the randomization thing.
+    MMIntonationParameters *intonationParameters;
 
     for (MMToneGroup *toneGroup in self.toneGroups) {
         NSUInteger firstFoot = toneGroup.startFootIndex;
@@ -851,10 +851,13 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
         // Missing stuff here.
         {
+            toneGroup.intonationParameters = [self.intonation intonationParametersForToneGroup:toneGroup];
+            intonationParameters = toneGroup.intonationParameters;
         }
 
         // TODO: (2015-07-07) Pretty sure this should be intonationParameters.pretonicPitchRange instead.
-        double pretonicDelta = (intonationParameters.notionalPitch) / (endTime - startTime); // TODO: This doesn't look right to me...
+//        double pretonicDelta = (intonationParameters.notionalPitch) / (endTime - startTime); // TODO: This doesn't look right to me...
+        double pretonicDelta = (intonationParameters.pretonicPitchRange) / (endTime - startTime);
         //NSLog(@"Pretonic Delta = %f time = %f", pretonicDelta, (endTime - startTime));
 
         /* Set up intonation boundary variables */
@@ -917,6 +920,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
                 newIntonationPoint.offsetTime = offsetTime;
                 newIntonationPoint.slope      = randomSlope;
                 newIntonationPoint.ruleIndex  = ruleIndex;
+                NSLog(@"tonic intonation point 1: %@", newIntonationPoint);
                 [self addIntonationPoint:newIntonationPoint];
 
                 phoneIndex = _feet[j].endPhoneIndex;
@@ -927,6 +931,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
                 newIntonationPoint.offsetTime = 0.0;
                 newIntonationPoint.slope      = 0.0;
                 newIntonationPoint.ruleIndex  = ruleIndex;
+                NSLog(@"tonic intonation point 2: %@", newIntonationPoint);
                 [self addIntonationPoint:newIntonationPoint];
             }
 
@@ -942,6 +947,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     newIntonationPoint.ruleIndex  = _currentRule - 1;
     [self addIntonationPoint:newIntonationPoint];
 #endif
+
+    NSLog(@"intonationPoints:\n%@", self.intonationPoints);
 
     //[self printDataStructures:@"After applyIntonation generateEvents"];
 

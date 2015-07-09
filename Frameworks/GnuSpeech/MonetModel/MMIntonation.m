@@ -3,26 +3,13 @@
 
 #import "MMIntonation.h"
 
-@interface MMIntonation ()
-@property (assign) float notionalPitch;
-@property (assign) float pretonicRange;
-@property (assign) float pretonicLift;
-@property (assign) float tonicRange;
-@property (assign) float tonicMovement; // TODO (2004-03-30): Apparently not used.
-
-@end
+#import "MMIntonationParameters.h"
 
 @implementation MMIntonation
 
 - (id)init;
 {
     if ((self = [super init])) {
-        _notionalPitch = -1;
-        _pretonicRange = 2;
-        _pretonicLift  = -2;
-        _tonicRange    = -10;
-        _tonicMovement = -6;
-
         _shouldUseMacroIntonation = YES;
         _shouldUseMicroIntonation = YES;
         _shouldUseSmoothIntonation = YES;
@@ -36,6 +23,12 @@
     }
     
     return self;
+}
+
+- (MMIntonationParameters *)intonationParametersForToneGroup:(MMToneGroup *)toneGroup;
+{
+    MMIntonationParameters *intonationParameters = [[MMIntonationParameters alloc] init]; // TODO: do the randomization thing.
+    return intonationParameters;
 }
 
 @end
