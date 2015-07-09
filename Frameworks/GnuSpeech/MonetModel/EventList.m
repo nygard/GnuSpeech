@@ -100,6 +100,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     NSMutableArray *_intonationPoints; // Sorted by absolute time
     BOOL _intonationPointsNeedSorting;
 
+    // The only place this is used is in -generateOutput.  The only reason for keeping this here is so that the memory doesn't get reset each time.
     MMDriftGenerator *_driftGenerator;
 }
 
@@ -230,10 +231,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     // And now the stuff that used to be in -prepareForSynthesis
 
     self.intonation = intonation;
-
-    NSLog(@"%s, drift deviation: %f, cutoff: %f", __PRETTY_FUNCTION__, intonation.driftDeviation, intonation.driftCutoff);
-    [self.driftGenerator configureWithDeviation:intonation.driftDeviation sampleRate:500 lowpassCutoff:intonation.driftCutoff];
-    //[self.driftGenerator setupWithDeviation:0.5 sampleRate:250 lowpassCutoff:0.5];
 }
 
 - (void)setFullTimeScale;
@@ -969,6 +966,12 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     
     if ([_events count] == 0)
         return;
+
+    if (self.intonation.shouldUseDrift) {
+        NSLog(@"%s, drift deviation: %f, cutoff: %f", __PRETTY_FUNCTION__, self.intonation.driftDeviation, self.intonation.driftCutoff);
+        [self.driftGenerator configureWithDeviation:self.intonation.driftDeviation sampleRate:500 lowpassCutoff:self.intonation.driftCutoff];
+        //[self.driftGenerator setupWithDeviation:0.5 sampleRate:250 lowpassCutoff:0.5];
+    }
 
     double controlRate = 250.0;
     double millisecondsPerInterval = 1000.0 / controlRate;
