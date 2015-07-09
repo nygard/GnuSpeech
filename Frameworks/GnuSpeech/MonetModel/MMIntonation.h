@@ -12,7 +12,7 @@
 @property (assign) BOOL shouldUseSmoothIntonation;
 
 @property (assign) BOOL shouldUseDrift;
-@property (assign) float driftDeviation; // Standard devications
+@property (assign) float driftDeviation; // Standard deviations
 @property (assign) float driftCutoff; // Hz
 
 @property (assign) double tempo;
