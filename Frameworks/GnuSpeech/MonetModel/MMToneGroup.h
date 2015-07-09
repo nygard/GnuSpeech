@@ -25,3 +25,4 @@ typedef enum : NSUInteger {
 @end
 
 NSString *MMToneGroupTypeName(MMToneGroupType toneGroupType);
+MMToneGroupType MMToneGroupTypeFromString(NSString *str);

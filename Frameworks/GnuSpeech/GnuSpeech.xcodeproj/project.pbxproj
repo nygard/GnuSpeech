@@ -89,6 +89,7 @@
 		0165043E1543B42700D64E98 /* MMDriftGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0165043C1543B42700D64E98 /* MMDriftGenerator.m */; };
 		01658B491B4BC7C300D2C0B7 /* MMIntonationParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 01658B471B4BC7C300D2C0B7 /* MMIntonationParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01658B4A1B4BC7C300D2C0B7 /* MMIntonationParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 01658B481B4BC7C300D2C0B7 /* MMIntonationParameters.m */; };
+		01658B4C1B4E389F00D2C0B7 /* intonation.xml in Resources */ = {isa = PBXBuildFile; fileRef = 01658B4B1B4E389F00D2C0B7 /* intonation.xml */; };
 		019745A5153F8A2100695CD7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 019745A4153F8A2100695CD7 /* AVFoundation.framework */; };
 		01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */ = {isa = PBXBuildFile; fileRef = 01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		01ACA5E01544A80A00278339 /* MMGroupedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 01ACA5DE1544A80700278339 /* MMGroupedObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -271,6 +272,7 @@
 		0165043C1543B42700D64E98 /* MMDriftGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMDriftGenerator.m; path = MonetModel/MMDriftGenerator.m; sourceTree = "<group>"; };
 		01658B471B4BC7C300D2C0B7 /* MMIntonationParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMIntonationParameters.h; path = MonetModel/MMIntonationParameters.h; sourceTree = "<group>"; };
 		01658B481B4BC7C300D2C0B7 /* MMIntonationParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMIntonationParameters.m; path = MonetModel/MMIntonationParameters.m; sourceTree = "<group>"; };
+		01658B4B1B4E389F00D2C0B7 /* intonation.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = intonation.xml; sourceTree = "<group>"; };
 		019745A4153F8A2100695CD7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = /System/Library/Frameworks/AVFoundation.framework; sourceTree = "<absolute>"; };
 		01AC65F90B7BF9B4008E4B93 /* GnuSpeech.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GnuSpeech.h; sourceTree = "<group>"; };
 		01ACA5DE1544A80700278339 /* MMGroupedObject.h */ = {isa = PBXFileReference; fileEncoding = 30; indentWidth = 4; lastKnownFileType = sourcecode.c.h; name = MMGroupedObject.h; path = MonetModel/MMGroupedObject.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
@@ -560,6 +562,7 @@
 		089C1665FE841158C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				01658B4B1B4E389F00D2C0B7 /* intonation.xml */,
 				697930D20F91906B00E6B2EC /* ChangeLog.txt */,
 				8DC2EF5A0486A6940098B216 /* Info.plist */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
@@ -904,6 +907,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01658B4C1B4E389F00D2C0B7 /* intonation.xml in Resources */,
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 				012D53BA0B7FFB34001B50FC /* 2.0eMainDictionary.dict in Resources */,
 				012D53BB0B7FFB34001B50FC /* SpecialAcronyms.plist in Resources */,

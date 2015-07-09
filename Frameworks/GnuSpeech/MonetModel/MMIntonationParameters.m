@@ -19,6 +19,15 @@
     return self;
 }
 
+#pragma mark - Debugging
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@: %p> notionalPitch: %10f, pretonicPitchRange: %10f, pretonicPerturbationRange: %10f, tonicPitchRange: %10f, tonicPerturbationRange: %10f",
+            NSStringFromClass([self class]), self,
+            self.notionalPitch, self.pretonicPitchRange, self.pretonicPerturbationRange, self.tonicPitchRange, self.tonicPerturbationRange];
+}
+
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone;

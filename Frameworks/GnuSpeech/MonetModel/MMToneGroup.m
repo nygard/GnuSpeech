@@ -21,3 +21,15 @@ NSString *MMToneGroupTypeName(MMToneGroupType type)
     
     return nil;
 }
+
+MMToneGroupType MMToneGroupTypeFromString(NSString *str)
+{
+    if ([str isEqualToString:@"Statement"])    return MMToneGroupType_Statement;
+    if ([str isEqualToString:@"Exclamation"])  return MMToneGroupType_Exclamation;
+    if ([str isEqualToString:@"Question"])     return MMToneGroupType_Question;
+    if ([str isEqualToString:@"Continuation"]) return MMToneGroupType_Continuation;
+    if ([str isEqualToString:@"Semicolon"])    return MMToneGroupType_Semicolon;
+
+    NSCParameterAssert(NO); // TODO: (2015-07-08) failing like this is pretty rude.  Make this more forgiving.
+    return 0;
+}

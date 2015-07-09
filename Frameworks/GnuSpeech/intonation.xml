@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<intonation>
+  <tone-groups>
+    <tone-group name="Statement">
+      <intonation-parameters notional-pitch="2.0"  pretonic-pitch-range="-2.0" pretonic-perturbation-range="4.0" tonic-pitch-range="-8.0" tonic-perturbation-range="4.0"/>
+      <intonation-parameters notional-pitch="-3.0" pretonic-pitch-range="3.0"  pretonic-perturbation-range="4.0" tonic-pitch-range="-8.0" tonic-perturbation-range="4.0"/>
+      <intonation-parameters notional-pitch="1.0"  pretonic-pitch-range="-2.0" pretonic-perturbation-range="4.0" tonic-pitch-range="-7.0" tonic-perturbation-range="4.0"/>
+    </tone-group>
+    <tone-group name="Exclamation">
+      <intonation-parameters notional-pitch="-2.0" pretonic-pitch-range="1.0"  pretonic-perturbation-range="4.0" tonic-pitch-range="4.0"  tonic-perturbation-range="4.0"/>
+      <intonation-parameters notional-pitch="-2.0" pretonic-pitch-range="1.0"  pretonic-perturbation-range="4.0" tonic-pitch-range="3.0"  tonic-perturbation-range="4.0"/>
+      <intonation-parameters notional-pitch="-3.0" pretonic-pitch-range="4.0"  pretonic-perturbation-range="4.0" tonic-pitch-range="3.0"  tonic-perturbation-range="4.0"/>
+      <intonation-parameters notional-pitch="0.0"  pretonic-pitch-range="0.0"  pretonic-perturbation-range="4.0" tonic-pitch-range="4.0"  tonic-perturbation-range="4.0"/>
+      <intonation-parameters notional-pitch="1.0"  pretonic-pitch-range="-4.0" pretonic-perturbation-range="4.0" tonic-pitch-range="5.0"  tonic-perturbation-range="4.0"/>
+      <intonation-parameters notional-pitch="2.0"  pretonic-pitch-range="-4.0" pretonic-perturbation-range="4.0" tonic-pitch-range="6.0"  tonic-perturbation-range="4.0"/>
+      <intonation-parameters notional-pitch="2.0"  pretonic-pitch-range="-3.0" pretonic-perturbation-range="4.0" tonic-pitch-range="5.0"  tonic-perturbation-range="4.0"/>
+      <intonation-parameters notional-pitch="0.0"  pretonic-pitch-range="0.0"  pretonic-perturbation-range="4.0" tonic-pitch-range="5.0"  tonic-perturbation-range="4.0"/>
+    </tone-group>
+    <tone-group name="Question">
+      <intonation-parameters notional-pitch="-3.0" pretonic-pitch-range="1.0"  pretonic-perturbation-range="4.0" tonic-pitch-range="2.0"  tonic-perturbation-range="4.0"/>
+      <intonation-parameters notional-pitch="-2.0" pretonic-pitch-range="1.0"  pretonic-perturbation-range="4.0" tonic-pitch-range="2.0"  tonic-perturbation-range="4.0"/>
+      <intonation-parameters notional-pitch="0.0"  pretonic-pitch-range="-2.0" pretonic-perturbation-range="4.0" tonic-pitch-range="2.0"  tonic-perturbation-range="4.0"/>
+      <intonation-parameters notional-pitch="0.0"  pretonic-pitch-range="1.0"  pretonic-perturbation-range="4.0" tonic-pitch-range="2.0"  tonic-perturbation-range="4.0"/>
+      <intonation-parameters notional-pitch="0.5"  pretonic-pitch-range="-3.0" pretonic-perturbation-range="4.0" tonic-pitch-range="4.0"  tonic-perturbation-range="4.0"/>
+      <intonation-parameters notional-pitch="0.0"  pretonic-pitch-range="-2.0" pretonic-perturbation-range="4.0" tonic-pitch-range="4.0"  tonic-perturbation-range="4.0"/>
+      <intonation-parameters notional-pitch="-1.0" pretonic-pitch-range="0.0"  pretonic-perturbation-range="4.0" tonic-pitch-range="2.0"  tonic-perturbation-range="4.0"/>
+      <intonation-parameters notional-pitch="0.0"  pretonic-pitch-range="0.0"  pretonic-perturbation-range="4.0" tonic-pitch-range="4.0"  tonic-perturbation-range="4.0"/>
+    </tone-group>
+    <tone-group name="Continuation">
+      <intonation-parameters notional-pitch="0.0"  pretonic-pitch-range="0.0"  pretonic-perturbation-range="4.0" tonic-pitch-range="-4.0" tonic-perturbation-range="4.0"/>
+    </tone-group>
+    <tone-group name="Semicolon">
+      <intonation-parameters notional-pitch="0.0"  pretonic-pitch-range="0.0"  pretonic-perturbation-range="4.0" tonic-pitch-range="-4.0" tonic-perturbation-range="4.0"/>
+    </tone-group>
+  </tone-groups>
+</intonation>
