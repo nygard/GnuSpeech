@@ -878,7 +878,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
                 double randomSemitone;
                 double randomSlope;
 
-                if (1/*calc_info.random*/) {
+                if (self.intonation.shouldRandomizeIntonation) {
                     // randomSemitone is in range of +/- 1/2 of pretonicRange
                     // Monet was param[2], Monet.realtime was param[3].  Which should it be?
                     randomSemitone = ((double)random() / (double)0x7fffffff) * (double)intonationParameters.pretonicPerturbationRange - intonationParameters.pretonicPerturbationRange / 2.0;
@@ -907,7 +907,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
                 double randomSlope = (toneGroup.type = MMToneGroupType_Continuation) ? 0.01 : 0.02;
 
                 NSUInteger ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
-                if (1/*calc_info.random*/) {
+                if (self.intonation.shouldRandomizeIntonation) {
                     randomSemitone  = ((double)random() / (double)0x7fffffff) * (double)intonationParameters.tonicPerturbationRange - intonationParameters.tonicPerturbationRange / 2.0;
                     randomSlope    += ((double)random() / (double)0x7fffffff) * 0.03;
                 } else {

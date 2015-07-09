@@ -78,20 +78,34 @@ static NSDictionary *toneGroupIntonationParameterArrays;
 
         _tempo = 1.0;
         _radiusMultiply = 1.0;
+
+        _shouldRandomizeIntonation = YES;
     }
     
     return self;
 }
+
+#pragma mark - Debugging
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@: %p> shouldRandomizeIntonation: %d",
+            NSStringFromClass([self class]), self,
+            self.shouldRandomizeIntonation];
+}
+
+#pragma mark -
 
 - (MMIntonationParameters *)intonationParametersForToneGroup:(MMToneGroup *)toneGroup;
 {
     NSArray *array = toneGroupIntonationParameterArrays[ MMToneGroupTypeName(toneGroup.type) ];
     NSParameterAssert(array != nil);
     NSParameterAssert([array count] > 0);
-    if ([array count] == 1) {
+    if ([array count] == 1 || !self.shouldRandomizeIntonation) {
         return array[0];
     }
 
+    NSLog(@"randomizing within tone group");
     NSUInteger index = random() % [array count];
     return array[index];
 }

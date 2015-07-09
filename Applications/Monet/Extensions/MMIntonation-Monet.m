@@ -49,7 +49,7 @@
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    if ((self = [super init])) {
+    if ((self = [self init])) {
 //        self.notionalPitch = [defaults floatForKey:MDK_NotionalPitch];
 //        self.pretonicRange = [defaults floatForKey:MDK_PretonicRange];
 //        self.pretonicLift  = [defaults floatForKey:MDK_PretonicLift];

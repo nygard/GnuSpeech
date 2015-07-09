@@ -20,6 +20,10 @@
 /// Affects hard coded parameters 7 and 8 (r1 and r2).
 @property (assign) double radiusMultiply;
 
+/// If YES, randomly select one of the sets of intonation parameters for a tone group, and adds random semitone/slope to the intonation.
+/// If NO, then choose the first set of intonation parameters, which are supposed to be "neutral".
+@property (assign) BOOL shouldRandomizeIntonation;
+
 - (MMIntonationParameters *)intonationParametersForToneGroup:(MMToneGroup *)toneGroup;
 
 @end
