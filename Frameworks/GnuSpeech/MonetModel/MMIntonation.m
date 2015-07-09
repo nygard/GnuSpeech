@@ -130,8 +130,16 @@ static NSDictionary *toneGroupIntonationParameterArrays;
 
 - (MMIntonationParameters *)intonationParametersForToneGroup:(MMToneGroup *)toneGroup;
 {
-    MMIntonationParameters *intonationParameters = [[MMIntonationParameters alloc] init]; // TODO: do the randomization thing.
-    return intonationParameters;
+    // TODO: (2015-07-08) Keying by the name might make debugging the dictionary easier.
+    NSArray *array = toneGroupIntonationParameterArrays[ @(toneGroup.type) ];
+    NSParameterAssert(array != nil);
+    NSParameterAssert([array count] > 0);
+    if ([array count] == 1) {
+        return array[0];
+    }
+
+    NSUInteger index = random() % [array count];
+    return array[index];
 }
 
 @end
