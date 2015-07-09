@@ -6,55 +6,6 @@
 #import "MMIntonationParameters.h"
 #import "MMToneGroup.h"
 
-// A: Unused
-// B: Notional pitch
-// C: Pitch range of pre-tonic
-// D: Pre-tonic target perturbation range.  ie 4 st = +/- 2 st
-// E: Unused
-// F: Tonic range.
-// G: Tonic perturbation range.
-// H: Unused
-// I: Unused
-// J: Unused
-//
-//
-//
-// TG 3 -- 0
-// BBBB CCCC DDD FFFF GGG
-//  2.0 -2.0 4.0 -8.0 4.0
-// -3.0  3.0 4.0 -8.0 4.0
-//  1.0 -2.0 4.0 -7.0 4.0
-//
-// TG 8 -- 1
-// BBBB CCCC DDD FFFF GGG
-// -2.0  1.0 4.0 4.0 4.0
-// -2.0  1.0 4.0 3.0 4.0
-// -3.0  4.0 4.0 3.0 4.0
-//  0.0  0.0 4.0 4.0 4.0
-//  1.0 -4.0 4.0 5.0 4.0
-//  2.0 -4.0 4.0 6.0 4.0
-//  2.0 -3.0 4.0 5.0 4.0
-//  0.0  0.0 4.0 5.0 4.0
-//
-// TG 8 -- 2
-// BBBB CCCC DDD FFFF GGG
-// -3.0  1.0 4.0 2.0 4.0
-// -2.0  1.0 4.0 2.0 4.0
-//  0.0 -2.0 4.0 2.0 4.0
-//  0.0  1.0 4.0 2.0 4.0
-//  0.5 -3.0 4.0 4.0 4.0
-//  0.0 -2.0 4.0 4.0 4.0
-// -1.0  0.0 4.0 2.0 4.0
-//  0.0  0.0 4.0 4.0 4.0
-//
-// TG 1 -- 3
-// BBBB CCCC DDD FFFF GGG
-//  0.0  0.0 4.0 -4.0 4.0
-//
-// TG 1 -- 4
-// BBBB CCCC DDD FFFF GGG
-//  0.0  0.0 4.0 -4.0 4.0
-
 static NSDictionary *toneGroupIntonationParameterArrays;
 
 @implementation MMIntonation
@@ -108,7 +59,7 @@ static NSDictionary *toneGroupIntonationParameterArrays;
                 }
 
                 toneGroupIntonationParameterArrays = [toneGroupIntonationParametersByType copy];
-                NSLog(@"toneGroupIntonationParameterArrays:\n%@", toneGroupIntonationParameterArrays);
+                //NSLog(@"toneGroupIntonationParameterArrays:\n%@", toneGroupIntonationParameterArrays);
             }
         }
     }
