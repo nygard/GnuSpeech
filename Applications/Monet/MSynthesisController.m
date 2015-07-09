@@ -78,6 +78,8 @@
     EventList *_eventList;
     TRMSynthesizer *_synthesizer;
 	MMTextToPhone *_textToPhone;
+
+    BOOL _isUpdatingDisplayParameters;
 }
 
 + (void)initialize;
@@ -214,6 +216,7 @@
 
 - (void)_updateDisplayParameters;
 {
+    _isUpdatingDisplayParameters = YES;
     NSInteger currentTag = 0;
 
     NSArray *defaultDisplayedNames = [[NSUserDefaults standardUserDefaults] objectForKey:MDK_DisplayedGraphNames];
@@ -288,10 +291,14 @@
 
     self.graphNameViews = [graphNameViews copy];
     self.graphViews     = [graphViews copy];
+
+    _isUpdatingDisplayParameters = NO;
 }
 
 - (void)_updateDisplayedParameters;
 {
+    if (_isUpdatingDisplayParameters) return;
+    
     NSMutableArray *array = [[NSMutableArray alloc] init];
 
     for (MMDisplayParameter *displayParameter in _displayParameters) {
