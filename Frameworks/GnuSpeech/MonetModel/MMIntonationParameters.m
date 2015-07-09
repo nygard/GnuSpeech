@@ -19,4 +19,18 @@
     return self;
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone;
+{
+    MMIntonationParameters *copy = [[MMIntonationParameters alloc] init];
+    copy.notionalPitch             = self.notionalPitch;
+    copy.pretonicPitchRange        = self.pretonicPitchRange;
+    copy.pretonicPerturbationRange = self.pretonicPerturbationRange;
+    copy.tonicPitchRange           = self.tonicPitchRange;
+    copy.tonicPerturbationRange    = self.tonicPerturbationRange;
+
+    return copy;
+}
+
 @end

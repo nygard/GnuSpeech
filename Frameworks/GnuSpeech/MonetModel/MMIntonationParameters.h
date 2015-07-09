@@ -2,7 +2,7 @@
 //  Copyright 1991-2012 David R. Hill, Leonard Manzara, Craig Schock
 
 /// This represents the intonation parameters that vary by tone group.
-@interface MMIntonationParameters : NSObject
+@interface MMIntonationParameters : NSObject <NSCopying>
 
 @property (assign) float notionalPitch;
 
