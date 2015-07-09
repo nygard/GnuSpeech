@@ -1,0 +1,71 @@
+# This is a comment.
+#
+#	Intonation control file.
+# 	Author: Craig Taube-Schock
+#	Copyright 1992-1995, Trillium Sound Research Inc.
+
+#
+# Random.  Random pitch target perturbation.
+#  value defined in semitones.
+#
+RANDOM 3.0
+
+# Tone Groups.  Tone groups are defined as:
+# TG # (Number of entries in the tone group)
+# A   B      C     D      E      F      G      H      I      J
+# ...
+#
+# NOTE: 
+#(March 27, 1995)  The intonation system has changed considerably
+#since version 1.0.  Parameters no longer follow the format as described
+#in:
+#	Taube-Schock, Craig, "Synthesizing Intonation for Computer Speech
+#		Output", 1994.
+#
+# Contact Trillium if you need more information.
+#
+# A: Unused
+# B: Notional pitch
+# C: Pitch range of pre-tonic
+# D: Pre-tonic target perturbation range.  ie 4 st = +/- 2 st
+# E: Unused
+# F: Tonic range.
+# G: Tonic perturbation range. 
+# H: Unused
+# I: Unused
+# J: Unused
+#
+#
+
+TG 3
+0.0 2.0 -2.0 4.0 0.0 -8.0 4.0 0.0 0.33 0.5
+0.0 -3.0 3.0 4.0 0.0 -8.0 4.0 0.0 0.33 0.5
+0.0 1.0 -2.0 4.0 0.0 -7.0 4.0 0.0 0.33 0.5
+
+TG 8
+0.0 -2.0 1.0 4.0 0.0 4.0 4.0 0.0 0.33 0.5
+0.0 -2.0 1.0 4.0 0.0 3.0 4.0 0.0 0.33 0.5
+0.0 -3.0 4.0 4.0 0.0 3.0 4.0 0.0 0.33 0.5
+0.0 0.0 0.0 4.0 0.0 4.0 4.0 0.0 0.33 0.5
+0.0 1.0 -4.0 4.0 0.0 5.0 4.0 0.0 0.33 0.5
+0.0 2.0 -4.0 4.0 0.0 6.0 4.0 0.0 0.33 0.5
+0.0 2.0 -3.0 4.0 0.0 5.0 4.0 0.0 0.33 0.5
+0.0 0.0 0.0 4.0 0.0 5.0 4.0 0.0 0.33 0.5
+
+TG 8
+0.0 -3.0 1.0 4.0 0.0 2.0 4.0 0.0 0.33 0.5
+0.0 -2.0 1.0 4.0 0.0 2.0 4.0 0.0 0.33 0.5
+0.0 0.0 -2.0 4.0 0.0 2.0 4.0 0.0 0.33 0.5
+0.0 0.0 1.0 4.0 0.0 2.0 4.0 0.0 0.33 0.5
+0.0 0.5 -3.0 4.0 0.0 4.0 4.0 0.0 0.33 0.5
+0.0 0.0 -2.0 4.0 0.0 4.0 4.0 0.0 0.33 0.5
+0.0 -1.0 0.0 4.0 0.0 2.0 4.0 0.0 0.33 0.5
+0.0 0.0 0.0 4.0 0.0 4.0 4.0 0.0 0.33 0.5
+
+TG 1
+0.0 0.0 0.0 4.0 0.0 -4.0 4.0 0.0 0.33 0.5
+
+TG 1
+0.0 0.0 0.0 4.0 0.0 -4.0 4.0 0.0 0.33 0.5
+
+END

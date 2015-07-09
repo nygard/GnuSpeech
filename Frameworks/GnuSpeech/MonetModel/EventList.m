@@ -14,6 +14,7 @@
 #import "MMFRuleSymbols.h"
 #import "MMIntonationPoint.h"
 #import "MMIntonation.h"
+#import "MMIntonationParameters.h"
 #import "MModel.h"
 #import "MMParameter.h"
 #import "MMPoint.h"
@@ -737,12 +738,13 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 }
 
 // Adjust the tempos of each of the feet.  They start out at 1.0.
+// Calculate Rhythm including regression.
 - (void)applyRhythm;
 {
     for (NSUInteger i = 0; i < _footCount; i++) {
         double footTempo;
 
-        // TODO (2012-04-23): What does "rus" mean?
+        // 2015-07-09: I think "rus" stands for Rhythm Units.
         NSUInteger rus = _feet[i].endPhoneIndex - _feet[i].startPhoneIndex + 1;
 
         /* Apply rhythm model */
@@ -814,8 +816,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 //    if (currentPhone)
 //        [self generateIntonationPoints];
 
-    Event *lastEvent = [_events lastObject];
-    lastEvent.isAtPosture = YES;
+//    Event *lastEvent = [_events lastObject];
+//    lastEvent.isAtPosture = YES;
 
     [self printDataStructures:@"Applied rules"];
 
@@ -823,6 +825,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 }
 
 // Use a 0.0 offset time for the first intonation point in each tone group, -40.0 for the rest.
+// Seems based on the first part of Monet.realtime applyIntonation.
 - (void)generateIntonationPoints;
 {
     double offsetTime = 0.0;
@@ -834,6 +837,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     [self removeAllIntonationPoints];
 //    [self addIntonationPoint:-20.0 offsetTime:0.0 slope:0.0 ruleIndex:0];
 
+    MMIntonationParameters *intonationParameters;
+
     for (MMToneGroup *toneGroup in self.toneGroups) {
         NSUInteger firstFoot = toneGroup.startFootIndex;
         NSUInteger endFoot   = toneGroup.endFootIndex;
@@ -844,7 +849,15 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         double startTime = startPhone.onset;
         double endTime   = endPhone.onset;
 
-        double pretonicDelta = (_intonation.pretonicRange) / (endTime - startTime);
+        // Missing stuff here.
+        {
+            toneGroup.intonationParameters = [self.intonation intonationParametersForToneGroup:toneGroup];
+            intonationParameters = toneGroup.intonationParameters;
+        }
+
+        // TODO: (2015-07-07) Pretty sure this should be intonationParameters.pretonicPitchRange instead.
+//        double pretonicDelta = (intonationParameters.notionalPitch) / (endTime - startTime); // TODO: This doesn't look right to me...
+        double pretonicDelta = (intonationParameters.pretonicPitchRange) / (endTime - startTime);
         //NSLog(@"Pretonic Delta = %f time = %f", pretonicDelta, (endTime - startTime));
 
         /* Set up intonation boundary variables */
@@ -859,18 +872,29 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
                 }
             }
 
-            if (!_feet[j].marked) {
+            if (!_feet[j].marked) { // Pretonic
                 NSUInteger ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
 
-                // randomSemitone is in range of +/- 1/2 of pretonicLift
-                double randomSemitone = ((double)random() / (double)0x7fffffff) * (double)_intonation.pretonicLift - _intonation.pretonicLift / 2.0;
-                // Slopes from 0.02 to 0.035
-                double randomSlope = ((double)random() / (double)0x7fffffff) * 0.015 + 0.02;
+                double randomSemitone;
+                double randomSlope;
+
+                if (self.intonation.shouldRandomizeIntonation) {
+                    // randomSemitone is in range of +/- 1/2 of pretonicRange
+                    // Monet was param[2], Monet.realtime was param[3].  Which should it be?
+                    randomSemitone = ((double)random() / RAND_MAX) * (double)intonationParameters.pretonicPerturbationRange - intonationParameters.pretonicPerturbationRange / 2.0;
+
+                    // Slopes from 0.01 to 0.025
+                    randomSlope = ((double)random() / RAND_MAX) * 0.015 + 0.01;
+                } else {
+                    randomSemitone = 0;
+                    randomSlope = 0.02;
+                }
+
 
                 MMIntonationPoint *newIntonationPoint = [[MMIntonationPoint alloc] init];
                 // TODO (2004-08-19): But this will generate extra change notifications.  Try setting the event list for the intonation point in -addIntonationPoint:.
                 MMPhone *phone = _phones[phoneIndex];
-                newIntonationPoint.semitone   = ((phone.onset-startTime) * pretonicDelta) + _intonation.notionalPitch + randomSemitone;
+                newIntonationPoint.semitone   = ((phone.onset-startTime) * pretonicDelta) + intonationParameters.notionalPitch + randomSemitone;
                 newIntonationPoint.offsetTime = offsetTime;
                 newIntonationPoint.slope      = randomSlope;
                 newIntonationPoint.ruleIndex  = ruleIndex;
@@ -878,14 +902,21 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 //                NSLog(@"Calculated Delta = %f  time = %f", ((phones[phoneIndex].onset-startTime)*pretonicDelta),
 //                       (phones[phoneIndex].onset-startTime));
-            } else { /* Tonic */
-                NSUInteger ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
+            } else { // Tonic
+                double randomSemitone;
+                double randomSlope = (toneGroup.type = MMToneGroupType_Continuation) ? 0.01 : 0.02;
 
-                // Slopes from 0.02 to 0.05
-                double randomSlope = ((double)random() / (double)0x7fffffff) * 0.03 + 0.02;
+                NSUInteger ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
+                if (self.intonation.shouldRandomizeIntonation) {
+                    randomSemitone  = ((double)random() / RAND_MAX) * (double)intonationParameters.tonicPerturbationRange - intonationParameters.tonicPerturbationRange / 2.0;
+                    randomSlope    += ((double)random() / RAND_MAX) * 0.03;
+                } else {
+                    randomSemitone = 0;
+                    randomSlope += 0.03;
+                }
 
                 MMIntonationPoint *newIntonationPoint = [[MMIntonationPoint alloc] init];
-                newIntonationPoint.semitone   = _intonation.pretonicRange + _intonation.notionalPitch;
+                newIntonationPoint.semitone   = intonationParameters.pretonicPitchRange + intonationParameters.notionalPitch + randomSemitone;
                 newIntonationPoint.offsetTime = offsetTime;
                 newIntonationPoint.slope      = randomSlope;
                 newIntonationPoint.ruleIndex  = ruleIndex;
@@ -895,7 +926,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
                 ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
 
                 newIntonationPoint = [[MMIntonationPoint alloc] init];
-                newIntonationPoint.semitone   = _intonation.pretonicRange + _intonation.notionalPitch + _intonation.tonicRange;
+                newIntonationPoint.semitone   = intonationParameters.pretonicPitchRange + intonationParameters.notionalPitch + intonationParameters.tonicPitchRange;
                 newIntonationPoint.offsetTime = 0.0;
                 newIntonationPoint.slope      = 0.0;
                 newIntonationPoint.ruleIndex  = ruleIndex;
@@ -905,6 +936,15 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             offsetTime = -40.0;
         }
     }
+#if 0
+    // 2015-07-09: Adding this intonation point causes the synthesizer to crash.  Somehow the glottalPitch is becoming NaN.
+    MMIntonationPoint *newIntonationPoint = [[MMIntonationPoint alloc] init];
+    newIntonationPoint.semitone   = intonationParameters.pretonicPitchRange + intonationParameters.notionalPitch + intonationParameters.tonicPitchRange;
+    newIntonationPoint.offsetTime = 0.0;
+    newIntonationPoint.slope      = 0.0;
+    newIntonationPoint.ruleIndex  = _currentRule - 1;
+    [self addIntonationPoint:newIntonationPoint];
+#endif
 
     //[self printDataStructures:@"After applyIntonation generateEvents"];
 
@@ -984,6 +1024,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             currentDeltas[32] = ((temp - currentValues[32]) / (double) ([_events[j] time])) * millisecondsPerInterval;
         else
             currentDeltas[32] = 0;
+
+        currentValues[32] = -20.0;
     }
 
 //    NSLog(@"Starting Values:");
@@ -1070,6 +1112,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             }
             if (self.intonation.shouldUseSmoothIntonation) {
                 if ([_events[i-1] getValueAtIndex:33] != NaN) {
+                    currentValues[32] = [_events[i-1] getValueAtIndex:32];
                     currentDeltas[32] = 0.0;
                     currentDeltas[33] = [_events[i-1] getValueAtIndex:33];
                     currentDeltas[34] = [_events[i-1] getValueAtIndex:34];
@@ -1257,24 +1300,24 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     //NSLog(@"toneGroupCount: %d", toneGroupCount);
     [self.toneGroups enumerateObjectsUsingBlock:^(MMToneGroup *toneGroup, NSUInteger toneGroupIndex, BOOL *stop1){
-        [logger log:@"Tone Group %lu, type: %@", toneGroupIndex, MMToneGroupTypeName(toneGroup.type)];
+        [logger log:@"toneGroup[%lu], type: %@", toneGroupIndex, MMToneGroupTypeName(toneGroup.type)];
 
         //NSLog(@"tg (%d -- %d)", toneGroups[toneGroupIndex].startFoot, toneGroups[toneGroupIndex].endFoot);
         for (NSUInteger footIndex = toneGroup.startFootIndex; footIndex <= toneGroup.endFootIndex; footIndex++) {
-            [logger log:@"  Foot %lu  tempo: %.3f, marked: %lu, last: %lu, onset1: %.3f, onset2: %.3f  (%ld -- %ld)", footIndex, _feet[footIndex].tempo,
+            [logger log:@"  foot[%lu]  tempo: %.3f, marked: %lu, last: %lu, onset1: %.3f, onset2: %.3f  (%ld -- %ld)", footIndex, _feet[footIndex].tempo,
              _feet[footIndex].marked, _feet[footIndex].last, _feet[footIndex].onset1, _feet[footIndex].onset2, _feet[footIndex].startPhoneIndex, _feet[footIndex].endPhoneIndex];
 
             //NSLog(@"Foot (%d -- %d)", feet[footIndex].start, feet[footIndex].end);
             for (NSUInteger postureIndex = _feet[footIndex].startPhoneIndex; postureIndex <= _feet[footIndex].endPhoneIndex; postureIndex++) {
                 MMPhone *phone = _phones[postureIndex];
                 if (_rules[ruleIndex].firstPhone == postureIndex) {
-                    [logger log:@"    Posture %2lu  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2lu, duration: %7.2f, beat: %7.2f",
+                    [logger log:@"    posture[%2lu]  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2lu, duration: %7.2f, beat: %7.2f",
                      postureIndex, phone.tempo, phone.syllable, phone.onset,
                      phone.ruleTempo, [[phone.posture name] leftJustifiedStringPaddedToLength:18],
                      _rules[ruleIndex].number, _rules[ruleIndex].duration, _rules[ruleIndex].beat];
                     ruleIndex++;
                 } else {
-                    [logger log:@"    Posture %2lu  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@",
+                    [logger log:@"    posture[%2lu]  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@",
                      postureIndex, phone.tempo, phone.syllable, phone.onset,
                      phone.ruleTempo, [phone.posture name]];
                 }
@@ -1360,6 +1403,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 // This just add values for the semitone (event 32) for each of the intonation points, clearing the slope, 3rd, and 4th derivatives.
 // Values with a semitone of -20 are added at the start and end (but their slopes, etc., aren't reset to 0.).
+// This is derived from -[IntonationView applyIntonation] from old source.
 - (void)_applyFlatIntonation;
 {
     NSLog(@" > %s", __PRETTY_FUNCTION__);
@@ -1383,6 +1427,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
+// This was derived from -[IntonationView applyIntonationSmooth] from old source.
+// Was same as Monet.realtime, except for that first intonation point.
 - (void)_applySmoothIntonation;
 {
     //NSLog(@" > %s", _cmd);
@@ -1391,13 +1437,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     if ([_intonationPoints count] == 0)
         return;
-
-    MMIntonationPoint *firstIntonationPoint = [[MMIntonationPoint alloc] init];
-    [firstIntonationPoint setSemitone:[self.intonationPoints[0] semitone]]; // Make sure it's sorted
-    [firstIntonationPoint setSlope:0.0];
-    [firstIntonationPoint setRuleIndex:0];
-    [firstIntonationPoint setOffsetTime:0];
-    [self addIntonationPoint:firstIntonationPoint];
 
     NSUInteger count = [self.intonationPoints count]; // Again, make sure it gets sorted since we just added a point.
 
@@ -1443,8 +1482,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         //NSLog(@"index: %d, inserting event 35: %7.3f", index, yTemp);
         [self insertEvent:35 atTimeOffset:point1.absoluteTime withValue:yTemp];
     }
-
-    [self removeIntonationPoint:firstIntonationPoint];
 
     //NSLog(@"<  %s", _cmd);
 }

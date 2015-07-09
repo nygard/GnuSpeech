@@ -21,6 +21,7 @@
 #import <GnuSpeech/MMGroup.h>
 #import <GnuSpeech/MMGroupedObject.h>
 #import <GnuSpeech/MMIntonation.h>
+#import <GnuSpeech/MMIntonationParameters.h>
 #import <GnuSpeech/MMIntonationPoint.h>
 #import <GnuSpeech/MMNamedObject.h>
 #import <GnuSpeech/MMObject.h>

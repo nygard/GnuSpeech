@@ -212,14 +212,10 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)resizeWidth;
 {
-    NSScrollView *enclosingScrollView;
-
-    enclosingScrollView = [self enclosingScrollView];
+    NSScrollView *enclosingScrollView = [self enclosingScrollView];
     if (enclosingScrollView != nil) {
-        NSRect documentVisibleRect, bounds;
-
-        documentVisibleRect = [enclosingScrollView documentVisibleRect];
-        bounds = [self bounds];
+        NSRect documentVisibleRect = [enclosingScrollView documentVisibleRect];
+        NSRect bounds = [self bounds];
 
         bounds.size.width = [self minimumWidth];
         if (bounds.size.width < documentVisibleRect.size.width)
@@ -247,9 +243,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         [self drawSmoothPoints];
 
     if (_flags.shouldDrawSelection) {
-        NSRect selectionRect;
-
-        selectionRect = [self rectFormedByPoint:_selectionPoint1 andPoint:_selectionPoint2];
+        NSRect selectionRect = [self rectFormedByPoint:_selectionPoint1 andPoint:_selectionPoint2];
         selectionRect.origin.x += 0.5;
         selectionRect.origin.y += 0.5;
 
@@ -262,18 +256,12 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)drawGrid;
 {
-    NSBezierPath *bezierPath;
-    NSRect bounds;
-    NSPoint graphOrigin;
-    CGFloat sectionHeight;
-    NSUInteger index;
-
-    bounds = NSIntegralRect([self bounds]);
-    graphOrigin = [self graphOrigin];
-    sectionHeight = [self sectionHeight];
+    NSRect bounds = NSIntegralRect([self bounds]);
+    NSPoint graphOrigin = [self graphOrigin];
+    CGFloat sectionHeight = [self sectionHeight];
 
     // Draw border around graph
-    bezierPath = [[NSBezierPath alloc] init];
+    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:2];
     //[bezierPath appendBezierPathWithRect:NSMakeRect(graphOrigin.x, graphOrigin.y, bounds.size.width - 2, SECTION_COUNT * sectionHeight)];
     [bezierPath appendBezierPathWithRect:NSMakeRect(graphOrigin.x - 2, graphOrigin.y, bounds.size.width, SECTION_COUNT * sectionHeight)];
@@ -284,15 +272,15 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     // Draw semitone grid markers
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
-    for (index = 0; index < SECTION_COUNT; index++) {
-        NSPoint aPoint;
+    for (NSUInteger index = 0; index < SECTION_COUNT; index++) {
+        NSPoint point;
 
-        aPoint.x = 0.0;
-        aPoint.y = rint(graphOrigin.y + index * sectionHeight) + 0.5;
-        [bezierPath moveToPoint:aPoint];
+        point.x = 0.0;
+        point.y = rint(graphOrigin.y + index * sectionHeight) + 0.5;
+        [bezierPath moveToPoint:point];
 
-        aPoint.x = bounds.size.width - 2;
-        [bezierPath lineToPoint:aPoint];
+        point.x = bounds.size.width - 2;
+        [bezierPath lineToPoint:point];
     }
 
     [[NSColor lightGrayColor] set];
@@ -302,14 +290,14 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
     {
-        NSPoint aPoint;
+        NSPoint point;
 
-        aPoint.x = 0.0;
-        aPoint.y = rint(graphOrigin.y + ZERO_SECTION * sectionHeight) + 0.5;
-        [bezierPath moveToPoint:aPoint];
+        point.x = 0.0;
+        point.y = rint(graphOrigin.y + ZERO_SECTION * sectionHeight) + 0.5;
+        [bezierPath moveToPoint:point];
 
-        aPoint.x = bounds.size.width - 2;
-        [bezierPath lineToPoint:aPoint];
+        point.x = bounds.size.width - 2;
+        [bezierPath lineToPoint:point];
     }
 
     [[NSColor blackColor] set];
@@ -318,30 +306,25 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)drawHorizontalScale;
 {
-    NSPoint graphOrigin;
-    NSRect bounds, rect;
-    NSBezierPath *bezierPath;
-    NSPoint point;
-    CGFloat time;
-    NSRect cellFrame;
+    NSRect bounds = NSIntegralRect([self bounds]);
+    NSRect rect = bounds;
 
-    bounds = NSIntegralRect([self bounds]);
-    rect = bounds;
-
-    graphOrigin = [self graphOrigin];
+    NSPoint graphOrigin = [self graphOrigin];
     rect.origin = graphOrigin;
     rect.origin.y -= BOTTOM_MARGIN;
     rect.size.height = BOTTOM_MARGIN;
 
+    NSRect cellFrame;
     cellFrame.origin.x = 0.0;
     cellFrame.origin.y = graphOrigin.y - 10.0 - 12.0;
     cellFrame.size.width = 100.0;
     cellFrame.size.height = 12.0;
 
+    NSPoint point;
     point.x = 0.0;
-    time = 0.0;
+    CGFloat time = 0.0;
 
-    bezierPath = [[NSBezierPath alloc] init];
+    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
 
     while (point.x < NSMaxX(bounds)) {
         point.x = [self scaleXPosition:time] + 0.5;
@@ -360,8 +343,9 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
                 cellFrame.origin.x = NSMaxX(bounds) - cellFrame.size.width;
             [_labelTextFieldCell drawWithFrame:cellFrame inView:self];
 
-        } else
+        } else {
             point.y -= 5;
+        }
         [bezierPath lineToPoint:point];
 
         time += 10.0;
@@ -380,29 +364,23 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 // TODO (2004-08-16): Need right margin so that the last posture is visible.
 - (void)drawPostureLabels;
 {
-    NSUInteger count, index;
-    MMPosture *currentPosture;
-    NSRect bounds;
-    CGFloat currentX;
     NSUInteger postureIndex = 0;
-    NSArray *events;
 
-    bounds = NSIntegralRect([self bounds]);
+    NSRect bounds = NSIntegralRect([self bounds]);
 
     [[NSColor blackColor] set];
     [_timesFont set];
 
-    events = [_eventList events];
-    count = [events count];
-    for (index = 0; index < count; index++) {
-        currentX = ((float)[[events objectAtIndex:index] time] / _timeScale);
+    NSArray *events = [_eventList events];
+    for (Event *event in events) {
+        CGFloat currentX = event.time / _timeScale;
 
-        if ([[events objectAtIndex:index] isAtPosture]) {
-            currentPosture = [_eventList getPhoneAtIndex:postureIndex++];
+        if (event.isAtPosture) {
+            MMPosture *currentPosture = [_eventList getPhoneAtIndex:postureIndex++];
             if (currentPosture != nil) {
                 //NSLog(@"[currentPosture name]: %@", [currentPosture name]);
                 [[NSColor blackColor] set];
-                [[currentPosture name] drawAtPoint:NSMakePoint(currentX, bounds.size.height - POSTURE_Y_OFFSET) withAttributes:nil];
+                [currentPosture.name drawAtPoint:NSMakePoint(currentX, bounds.size.height - POSTURE_Y_OFFSET) withAttributes:nil];
                 //[postureTextFieldCell setStringValue:[currentPosture name]];
             }
         }
@@ -412,32 +390,22 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 // Put Rules on top
 - (void)drawRules;
 {
-    NSBezierPath *bezierPath;
-    CGFloat currentX, extraWidth;
-    NSUInteger count, index;
-    NSRect bounds;
-    NSPoint graphOrigin;
-    CGFloat sectionHeight;
-    struct _rule *rule;
-
-    bounds = NSIntegralRect([self bounds]);
-    graphOrigin = [self graphOrigin];
-    sectionHeight = [self sectionHeight];
+    NSRect bounds = NSIntegralRect([self bounds]);
+    NSPoint graphOrigin = [self graphOrigin];
+    CGFloat sectionHeight = [self sectionHeight];
 
     [[NSColor blackColor] set];
 
-    bezierPath = [[NSBezierPath alloc] init];
+    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
-    currentX = 0.0;
-    extraWidth = 0.0;
+    CGFloat currentX = 0.0;
+    CGFloat extraWidth = 0.0;
 
-    count = [_eventList ruleCount];
-    for (index = 0; index < count; index++) {
-        NSPoint aPoint;
+    NSUInteger count = [_eventList ruleCount];
+    for (NSUInteger index = 0; index < count; index++) {
+        struct _rule *rule = [_eventList getRuleAtIndex:index];
+
         NSRect ruleFrame;
-
-        rule = [_eventList getRuleAtIndex:index];
-
         ruleFrame.origin.x = currentX;
         ruleFrame.origin.y = bounds.size.height - RULE_Y_OFFSET;
         ruleFrame.size.height = RULE_HEIGHT;
@@ -452,12 +420,13 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         [_ruleIndexTextFieldCell setIntegerValue:rule->number];
         [_ruleIndexTextFieldCell drawWithFrame:ruleFrame inView:self];
 
-        aPoint.x = [self scaleXPosition:rule->beat] + 0.5;
-        aPoint.y = graphOrigin.y + SECTION_COUNT * sectionHeight - 1.0;
-        [bezierPath moveToPoint:aPoint];
+        NSPoint point;
+        point.x = [self scaleXPosition:rule->beat] + 0.5;
+        point.y = graphOrigin.y + SECTION_COUNT * sectionHeight - 1.0;
+        [bezierPath moveToPoint:point];
 
-        aPoint.y = graphOrigin.y;
-        [bezierPath lineToPoint:aPoint];
+        point.y = graphOrigin.y;
+        [bezierPath lineToPoint:point];
 
         extraWidth = 1.0;
         currentX += ruleFrame.size.width - extraWidth;
@@ -474,25 +443,19 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)drawRuleBackground;
 {
-    CGFloat extraWidth;
-    NSUInteger count, index;
+    NSPoint graphOrigin = [self graphOrigin];
+    CGFloat sectionHeight = [self sectionHeight];
+
     NSRect ruleFrame;
-    NSPoint graphOrigin;
-    CGFloat sectionHeight;
-    struct _rule *rule;
-
-    graphOrigin = [self graphOrigin];
-    sectionHeight = [self sectionHeight];
-
     ruleFrame.origin.y = graphOrigin.y;
     ruleFrame.size.height = SECTION_COUNT * sectionHeight;
 
     ruleFrame.origin.x = 0.0;
-    extraWidth = 0.0;
+    CGFloat extraWidth = 0.0;
 
-    count = [_eventList ruleCount];
-    for (index = 0; index < count; index++) {
-        rule = [_eventList getRuleAtIndex:index];
+    NSUInteger count = [_eventList ruleCount];
+    for (NSUInteger index = 0; index < count; index++) {
+        struct _rule *rule = [_eventList getRuleAtIndex:index];
 
         ruleFrame.size.width = [self scaleWidth:rule->duration] + extraWidth;
         if ((index % 2) == 1) {
@@ -507,39 +470,34 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)drawIntonationPoints;
 {
-    NSBezierPath *bezierPath;
-    NSUInteger count, index;
-    NSPoint currentPoint;
-    NSPoint graphOrigin;
-    NSArray *intonationPoints = [_eventList intonationPoints];
-    MMIntonationPoint *currentIntonationPoint;
+    NSPoint graphOrigin = [self graphOrigin];
+    BOOL isFirstPoint = YES;
 
-    graphOrigin = [self graphOrigin];
-
-    [[NSColor blackColor] set];
-
-    bezierPath = [[NSBezierPath alloc] init];
+    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
-    [bezierPath moveToPoint:graphOrigin];
 
-    count = [intonationPoints count];
-    for (index = 0; index < count; index++) {
-        currentIntonationPoint = [intonationPoints objectAtIndex:index];
-        currentPoint.x = [self scaleXPosition:[currentIntonationPoint absoluteTime]];
-        currentPoint.y = rint(graphOrigin.y + ([currentIntonationPoint semitone] + ZERO_SECTION) * [self sectionHeight]) + 0.5;
-        [bezierPath lineToPoint:currentPoint];
+    for (MMIntonationPoint *intonationPoint in [_eventList intonationPoints]) {
+        NSPoint currentPoint;
+        currentPoint.x = [self scaleXPosition:[intonationPoint absoluteTime]];
+        currentPoint.y = rint(graphOrigin.y + ([intonationPoint semitone] + ZERO_SECTION) * [self sectionHeight]) + 0.5;
+        if (isFirstPoint) {
+            isFirstPoint = NO;
+            [bezierPath moveToPoint:currentPoint];
+        } else {
+            [bezierPath lineToPoint:currentPoint];
+        }
 
         [NSBezierPath drawCircleMarkerAtPoint:currentPoint];
     }
+    [[NSColor blackColor] set];
     [bezierPath stroke];
 
     [[NSColor blueColor] set];
 
-    count = [_selectedPoints count];
-    for (index = 0; index < count; index++) {
-        currentIntonationPoint = [_selectedPoints objectAtIndex:index];
-        currentPoint.x = [self scaleXPosition:[currentIntonationPoint absoluteTime]];
-        currentPoint.y = rint(graphOrigin.y + ([currentIntonationPoint semitone] + ZERO_SECTION) * [self sectionHeight]) + 0.5;
+    for (MMIntonationPoint *intonationPoint in _selectedPoints) {
+        NSPoint currentPoint;
+        currentPoint.x = [self scaleXPosition:[intonationPoint absoluteTime]];
+        currentPoint.y = rint(graphOrigin.y + ([intonationPoint semitone] + ZERO_SECTION) * [self sectionHeight]) + 0.5;
         [NSBezierPath highlightMarkerAtPoint:currentPoint];
     }
 }
@@ -547,66 +505,57 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 // TODO (2004-03-15): See if we can just use the code from -applyIntonationSmooth instead.
 - (void)drawSmoothPoints;
 {
-    double a, b, c, d;
-    double x1, y1, m1, x12, x13;
-    double x2, y2, m2, x22, x23;
-    double denominator;
-    double x, y;
-    NSUInteger i, j;
-    id point1, point2;
-    NSBezierPath *bezierPath;
     NSArray *intonationPoints = [_eventList intonationPoints];
-    NSPoint graphOrigin;
-    NSPoint aPoint;
 
     if ([intonationPoints count] < 2)
         return;
 
-    graphOrigin = [self graphOrigin];
+    NSPoint graphOrigin = [self graphOrigin];
 
-    for (j = 0; j < [intonationPoints count] - 1; j++) {
-        point1 = [intonationPoints objectAtIndex:j];
-        point2 = [intonationPoints objectAtIndex:j + 1];
+    for (NSUInteger j = 0; j < [intonationPoints count] - 1; j++) {
+        MMIntonationPoint *point1 = [intonationPoints objectAtIndex:j];
+        MMIntonationPoint *point2 = [intonationPoints objectAtIndex:j + 1];
 
-        x1 = [point1 absoluteTime];
-        y1 = [point1 semitone] + ZERO_SECTION;
-        m1 = [point1 slope];
+        double x1 = [point1 absoluteTime];
+        double y1 = [point1 semitone] + ZERO_SECTION;
+        double m1 = [point1 slope];
 
-        x2 = [point2 absoluteTime];
-        y2 = [point2 semitone] + ZERO_SECTION;
-        m2 = [point2 slope];
+        double x2 = [point2 absoluteTime];
+        double y2 = [point2 semitone] + ZERO_SECTION;
+        double m2 = [point2 slope];
 
-        x12 = x1*x1;
-        x13 = x12*x1;
+        double x12 = x1*x1;
+        double x13 = x12*x1;
 
-        x22 = x2*x2;
-        x23 = x22*x2;
+        double x22 = x2*x2;
+        double x23 = x22*x2;
 
-        denominator = (x2 - x1);
+        double denominator = (x2 - x1);
         denominator = denominator * denominator * denominator;
 
-        d = ( -(y2*x13) + 3*y2*x12*x2 + m2*x13*x2 + m1*x12*x22 - m2*x12*x22 - 3*x1*y1*x22 - m1*x1*x23 + y1*x23) / denominator;
-        c = ( -(m2*x13) - 6*y2*x1*x2 - 2*m1*x12*x2 - m2*x12*x2 + 6*x1*y1*x2 + m1*x1*x22 + 2*m2*x1*x22 + m1*x23) / denominator;
-        b = ( 3*y2*x1 + m1*x12 + 2*m2*x12 - 3*x1*y1 + 3*x2*y2 + m1*x1*x2 - m2*x1*x2 - 3*y1*x2 - 2*m1*x22 - m2*x22) / denominator;
-        a = ( -2*y2 - m1*x1 - m2*x1 + 2*y1 + m1*x2 + m2*x2) / denominator;
+        double d = ( -(y2*x13) + 3*y2*x12*x2 + m2*x13*x2 + m1*x12*x22 - m2*x12*x22 - 3*x1*y1*x22 - m1*x1*x23 + y1*x23)    / denominator;
+        double c = ( -(m2*x13) - 6*y2*x1*x2 - 2*m1*x12*x2 - m2*x12*x2 + 6*x1*y1*x2 + m1*x1*x22 + 2*m2*x1*x22 + m1*x23)    / denominator;
+        double b = ( 3*y2*x1 + m1*x12 + 2*m2*x12 - 3*x1*y1 + 3*x2*y2 + m1*x1*x2 - m2*x1*x2 - 3*y1*x2 - 2*m1*x22 - m2*x22) / denominator;
+        double a = ( -2*y2 - m1*x1 - m2*x1 + 2*y1 + m1*x2 + m2*x2)                                                        / denominator;
 
         //NSLog(@"\n===\n x1 = %f y1 = %f m1 = %f", x1, y1, m1);
         //NSLog(@"x2 = %f y2 = %f m2 = %f", x2, y2, m2);
         //NSLog(@"a = %f b = %f c = %f d = %f", a, b, c, d);
 
         // The curve looks better (darker) without adding the extra 0.5 to the y positions.
-        aPoint.x = [self scaleXPosition:x1];
-        aPoint.y = graphOrigin.y + y1 * [self sectionHeight];
+        NSPoint point;
+        point.x = [self scaleXPosition:x1];
+        point.y = graphOrigin.y + y1 * [self sectionHeight];
 
-        bezierPath = [[NSBezierPath alloc] init];
-        [bezierPath moveToPoint:aPoint];
-        for (i = (int)x1; i <= (int)x2; i++) {
-            x = (double)i;
-            y = x*x*x*a + x*x*b + x*c + d;
+        NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
+        [bezierPath moveToPoint:point];
+        for (NSUInteger i = (int)x1; i <= (int)x2; i++) {
+            double x = i;
+            double y = x*x*x*a + x*x*b + x*c + d;
 
-            aPoint.x = [self scaleXPosition:i];
-            aPoint.y = graphOrigin.y + y * [self sectionHeight];
-            [bezierPath lineToPoint:aPoint];
+            point.x = [self scaleXPosition:i];
+            point.y = graphOrigin.y + y * [self sectionHeight];
+            [bezierPath lineToPoint:point];
         }
 
         [[NSColor blackColor] set];
@@ -650,92 +599,85 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)keyDown:(NSEvent *)event;
 {
-    NSString *characters;
-    NSUInteger index, length;
-    unichar ch;
+    NSUInteger ruleCount = [_eventList ruleCount];
 
-    NSUInteger ruleCount;
-
-    ruleCount = [_eventList ruleCount];
-
-    characters = [event characters];
-    length = [characters length];
-    for (index = 0; index < length; index++) {
-        NSUInteger pointCount, pointIndex;
-
-        pointCount = [_selectedPoints count];
-
-        ch = [characters characterAtIndex:index];
+    NSString *characters = [event characters];
+    NSUInteger length = [characters length];
+    for (NSUInteger index = 0; index < length; index++) {
+        unichar ch = [characters characterAtIndex:index];
         //NSLog(@"index: %d, character: %@", index, [characters substringWithRange:NSMakeRange(index, 1)]);
 
         switch (ch) {
-          case NSDeleteFunctionKey:
-          case NSDeleteCharacter:
-              //NSLog(@"delete");
-              [self delete:nil];
-              break;
+            case NSDeleteFunctionKey:
+            case NSDeleteCharacter:
+                //NSLog(@"delete");
+                [self delete:nil];
+                break;
 
-          case NSLeftArrowFunctionKey:
-              //NSLog(@"left arrow");
-              for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-                  if ([[_selectedPoints objectAtIndex:pointIndex] ruleIndex] - 1 < 0) {
-                      NSBeep();
-                      return;
-                  }
-              }
+            case NSLeftArrowFunctionKey:
+                //NSLog(@"left arrow");
+                for (MMIntonationPoint *intonationPoint in _selectedPoints) {
+                    if (intonationPoint.ruleIndex - 1 < 0) {
+                        NSBeep();
+                        return;
+                    }
+                }
 
-              for (pointIndex = 0; pointIndex < pointCount; pointIndex++)
-                  [[_selectedPoints objectAtIndex:pointIndex] decrementRuleIndex];
-              break;
+                for (MMIntonationPoint *intonationPoint in _selectedPoints) {
+                    [intonationPoint decrementRuleIndex];
+                }
+                break;
 
-          case NSRightArrowFunctionKey:
-              //NSLog(@"right arrow");
-              for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-                  if ([[_selectedPoints objectAtIndex:pointIndex] ruleIndex] + 1 >= ruleCount) {
-                      NSBeep();
-                      return;
-                  }
-              }
+            case NSRightArrowFunctionKey:
+                //NSLog(@"right arrow");
+                for (MMIntonationPoint *intonationPoint in _selectedPoints) {
+                    if (intonationPoint.ruleIndex + 1 >= ruleCount) {
+                        NSBeep();
+                        return;
+                    }
+                }
 
-              for (pointIndex = 0; pointIndex < pointCount; pointIndex++)
-                  [[_selectedPoints objectAtIndex:pointIndex] incrementRuleIndex];
-              break;
+                for (MMIntonationPoint *intonationPoint in _selectedPoints) {
+                    [intonationPoint incrementRuleIndex];
+                }
+                break;
 
-          case NSUpArrowFunctionKey:
-              //NSLog(@"up arrow");
-              for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-                  if ([[_selectedPoints objectAtIndex:pointIndex] semitone] + 1.0 > 10.0) {
-                      NSBeep();
-                      return;
-                  }
-              }
+            case NSUpArrowFunctionKey:
+                //NSLog(@"up arrow");
+                for (MMIntonationPoint *intonationPoint in _selectedPoints) {
+                    if (intonationPoint.semitone + 1.0 > 10.0) {
+                        NSBeep();
+                        return;
+                    }
+                }
 
-              for (pointIndex = 0; pointIndex < pointCount; pointIndex++)
-                  [[_selectedPoints objectAtIndex:pointIndex] incrementSemitone];
-              break;
+                for (MMIntonationPoint *intonationPoint in _selectedPoints) {
+                    [intonationPoint incrementSemitone];
+                }
+                break;
 
-          case NSDownArrowFunctionKey:
-              //NSLog(@"down arrow");
-              for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-                  if ([[_selectedPoints objectAtIndex:pointIndex] semitone] - 1.0 < -20.0) {
-                      NSBeep();
-                      return;
-                  }
-              }
+            case NSDownArrowFunctionKey:
+                //NSLog(@"down arrow");
+                for (MMIntonationPoint *intonationPoint in _selectedPoints) {
+                    if (intonationPoint.semitone - 1.0 < -20.0) {
+                        NSBeep();
+                        return;
+                    }
+                }
 
-              for (pointIndex = 0; pointIndex < pointCount; pointIndex++)
-                  [[_selectedPoints objectAtIndex:pointIndex] decrementSemitone];
-              break;
+                for (MMIntonationPoint *intonationPoint in _selectedPoints) {
+                    [intonationPoint decrementSemitone];
+                }
+                break;
 
-          default:
-              NSLog(@"index: %lu, character: %@ (%d)", index, [characters substringWithRange:NSMakeRange(index, 1)], [characters characterAtIndex:index]);
+            default:
+                NSLog(@"index: %lu, character: %@ (%d)", index, [characters substringWithRange:NSMakeRange(index, 1)], [characters characterAtIndex:index]);
         }
     }
 }
 
 - (void)mouseDown:(NSEvent *)event;
 {
-    NSPoint hitPoint;
 #if 0
     if ([self isEnabled] == NO) {
         [super mouseDown:mouseEvent];
@@ -745,7 +687,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     // Force this to be first responder, since nothing else seems to work!
     [[self window] makeFirstResponder:self];
 
-    hitPoint = [self convertPoint:[event locationInWindow] fromView:nil];
+    NSPoint hitPoint = [self convertPoint:[event locationInWindow] fromView:nil];
     //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
 
     [self setShouldDrawSelection:NO];
@@ -754,15 +696,13 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     if ([event clickCount] == 1) {
         if ([event modifierFlags] & NSAlternateKeyMask) {
-            MMIntonationPoint *newIntonationPoint;
-            CGFloat absoluteTime;
+            CGFloat absoluteTime = [self convertXPositionToTime:hitPoint.x];
+
             NSUInteger ruleIndex;
             double offsetTime;
-
-            absoluteTime = [self convertXPositionToTime:hitPoint.x];
             [_eventList getRuleIndex:&ruleIndex offsetTime:&offsetTime forAbsoluteTime:absoluteTime];
 
-            newIntonationPoint = [[MMIntonationPoint alloc] init];
+            MMIntonationPoint *newIntonationPoint = [[MMIntonationPoint alloc] init];
             [newIntonationPoint setSemitone:[self convertYPositionToSemitone:hitPoint.y]];
             [newIntonationPoint setRuleIndex:ruleIndex];
             [newIntonationPoint setOffsetTime:offsetTime];
@@ -782,8 +722,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)mouseDragged:(NSEvent *)event;
 {
-    NSPoint hitPoint;
-
     //NSLog(@" > %s", _cmd);
 
 //    if ([self isEnabled] == NO)
@@ -791,7 +729,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     [self autoscroll:event];
     if (_flags.shouldDrawSelection) {
-        hitPoint = [self convertPoint:[event locationInWindow] fromView:nil];
+        NSPoint hitPoint = [self convertPoint:[event locationInWindow] fromView:nil];
         //NSLog(@"hitPoint: %@", NSStringFromPoint(hitPoint));
         _selectionPoint2 = hitPoint;
         [self setNeedsDisplay:YES];
@@ -809,32 +747,23 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)selectGraphPointsBetweenPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 {
-    NSPoint graphOrigin;
-    NSRect selectionRect;
-    NSUInteger count, index;
     //float timeScale;
-    NSArray *intonationPoints;
 
     [_selectedPoints removeAllObjects];
 
     //NSLog(@"%s, cacheTag: %d", _cmd, cacheTag);
-    graphOrigin = [self graphOrigin];
+    NSPoint graphOrigin = [self graphOrigin];
     //timeScale = [self timeScale];
 
-    selectionRect = [self rectFormedByPoint:point1 andPoint:point2];
+    NSRect selectionRect = [self rectFormedByPoint:point1 andPoint:point2];
     selectionRect.origin.x -= graphOrigin.x;
     selectionRect.origin.y -= graphOrigin.y;
 
     //NSLog(@"%s, selectionRect: %@", _cmd, NSStringFromRect(selectionRect));
 
-    intonationPoints = [_eventList intonationPoints];
-    count = [intonationPoints count];
     //NSLog(@"%d display points", count);
-    for (index = 0; index < count; index++) {
-        MMIntonationPoint *currentIntonationPoint;
+    for (MMIntonationPoint *currentIntonationPoint in [_eventList intonationPoints]) {
         NSPoint currentPoint;
-
-        currentIntonationPoint = [intonationPoints objectAtIndex:index];
         currentPoint.x = [self scaleXPosition:[currentIntonationPoint absoluteTime]];
         currentPoint.y = rint(([currentIntonationPoint semitone] + ZERO_SECTION) * [self sectionHeight]) + 0.5;
 
@@ -858,11 +787,9 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (IBAction)delete:(id)sender;
 {
-    NSArray *points;
-
     // We need to be careful that intermediate notifications don't change the selectedPoints array here.
 
-    points = [[NSArray alloc] initWithArray:_selectedPoints];
+    NSArray *points = [[NSArray alloc] initWithArray:_selectedPoints];
     [self deselectAllPoints];
     [_eventList removeIntonationPointsFromArray:points];
 }
@@ -996,11 +923,8 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (CGFloat)sectionHeight;
 {
-    NSRect bounds;
-    CGFloat sectionHeight;
-
-    bounds = [self bounds];
-    sectionHeight = (bounds.size.height - TOP_MARGIN - BOTTOM_MARGIN) / SECTION_COUNT;
+    NSRect bounds = [self bounds];
+    CGFloat sectionHeight = (bounds.size.height - TOP_MARGIN - BOTTOM_MARGIN) / SECTION_COUNT;
 
     return sectionHeight;
 }
@@ -1034,7 +958,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 - (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
 {
     CGFloat minx, miny, maxx, maxy;
-    NSRect rect;
 
     if (point1.x < point2.x) {
         minx = point1.x;
@@ -1052,6 +975,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         maxy = point1.y;
     }
 
+    NSRect rect;
     rect.origin.x = minx;
     rect.origin.y = miny;
     rect.size.width = maxx - minx;
@@ -1062,9 +986,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (CGFloat)convertYPositionToSemitone:(CGFloat)yPosition;
 {
-    NSPoint graphOrigin;
-
-    graphOrigin = [self graphOrigin];
+    NSPoint graphOrigin = [self graphOrigin];
 
     return ((yPosition - graphOrigin.y) / [self sectionHeight]) - ZERO_SECTION;
 }
@@ -1082,11 +1004,9 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)removeOldSelectedPoints;
 {
-    NSInteger count, index;
-
     // This is another case where count cannot be unsigned.
-    count = [_selectedPoints count];
-    for (index = count - 1; index >= 0; index--) {
+    NSInteger count = [_selectedPoints count];
+    for (NSInteger index = count - 1; index >= 0; index--) {
         if ([[_selectedPoints objectAtIndex:index] eventList] == nil)
             [_selectedPoints removeObjectAtIndex:index];
     }

@@ -3,12 +3,9 @@
 
 #import "MMToneGroup.h"
 
+#import "MMIntonationParameters.h"
+
 @implementation MMToneGroup
-{
-    NSUInteger _startFootIndex;
-    NSUInteger _endFootIndex;
-    MMToneGroupType _type;
-}
 
 @end
 
@@ -20,7 +17,19 @@ NSString *MMToneGroupTypeName(MMToneGroupType type)
         case MMToneGroupType_Question:     return @"Question";
         case MMToneGroupType_Continuation: return @"Continuation";
         case MMToneGroupType_Semicolon:    return @"Semicolon";
+        case MMToneGroupType_Unknown:      return @"Unknown";
     }
     
     return nil;
+}
+
+MMToneGroupType MMToneGroupTypeFromString(NSString *str)
+{
+    if ([str isEqualToString:@"Statement"])    return MMToneGroupType_Statement;
+    if ([str isEqualToString:@"Exclamation"])  return MMToneGroupType_Exclamation;
+    if ([str isEqualToString:@"Question"])     return MMToneGroupType_Question;
+    if ([str isEqualToString:@"Continuation"]) return MMToneGroupType_Continuation;
+    if ([str isEqualToString:@"Semicolon"])    return MMToneGroupType_Semicolon;
+
+    return MMToneGroupType_Unknown;
 }

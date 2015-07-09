@@ -60,6 +60,7 @@
     self.beatOffsetTextField.formatter   = defaultNumberFormatter;
     self.absoluteTimeTextField.formatter = defaultNumberFormatter;
 
+    [self.intonationView setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
     [self.intonationView setDelegate:self];
     [self.intonationView setEventList:self.eventList];
 
