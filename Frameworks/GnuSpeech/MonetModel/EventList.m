@@ -1297,24 +1297,24 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     //NSLog(@"toneGroupCount: %d", toneGroupCount);
     [self.toneGroups enumerateObjectsUsingBlock:^(MMToneGroup *toneGroup, NSUInteger toneGroupIndex, BOOL *stop1){
-        [logger log:@"Tone Group %lu, type: %@", toneGroupIndex, MMToneGroupTypeName(toneGroup.type)];
+        [logger log:@"toneGroup[%lu], type: %@", toneGroupIndex, MMToneGroupTypeName(toneGroup.type)];
 
         //NSLog(@"tg (%d -- %d)", toneGroups[toneGroupIndex].startFoot, toneGroups[toneGroupIndex].endFoot);
         for (NSUInteger footIndex = toneGroup.startFootIndex; footIndex <= toneGroup.endFootIndex; footIndex++) {
-            [logger log:@"  Foot %lu  tempo: %.3f, marked: %lu, last: %lu, onset1: %.3f, onset2: %.3f  (%ld -- %ld)", footIndex, _feet[footIndex].tempo,
+            [logger log:@"  foot[%lu]  tempo: %.3f, marked: %lu, last: %lu, onset1: %.3f, onset2: %.3f  (%ld -- %ld)", footIndex, _feet[footIndex].tempo,
              _feet[footIndex].marked, _feet[footIndex].last, _feet[footIndex].onset1, _feet[footIndex].onset2, _feet[footIndex].startPhoneIndex, _feet[footIndex].endPhoneIndex];
 
             //NSLog(@"Foot (%d -- %d)", feet[footIndex].start, feet[footIndex].end);
             for (NSUInteger postureIndex = _feet[footIndex].startPhoneIndex; postureIndex <= _feet[footIndex].endPhoneIndex; postureIndex++) {
                 MMPhone *phone = _phones[postureIndex];
                 if (_rules[ruleIndex].firstPhone == postureIndex) {
-                    [logger log:@"    Posture %2lu  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2lu, duration: %7.2f, beat: %7.2f",
+                    [logger log:@"    posture[%2lu]  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2lu, duration: %7.2f, beat: %7.2f",
                      postureIndex, phone.tempo, phone.syllable, phone.onset,
                      phone.ruleTempo, [[phone.posture name] leftJustifiedStringPaddedToLength:18],
                      _rules[ruleIndex].number, _rules[ruleIndex].duration, _rules[ruleIndex].beat];
                     ruleIndex++;
                 } else {
-                    [logger log:@"    Posture %2lu  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@",
+                    [logger log:@"    posture[%2lu]  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@",
                      postureIndex, phone.tempo, phone.syllable, phone.onset,
                      phone.ruleTempo, [phone.posture name]];
                 }
