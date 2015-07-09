@@ -920,7 +920,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
                 newIntonationPoint.offsetTime = offsetTime;
                 newIntonationPoint.slope      = randomSlope;
                 newIntonationPoint.ruleIndex  = ruleIndex;
-                NSLog(@"tonic intonation point 1: %@", newIntonationPoint);
                 [self addIntonationPoint:newIntonationPoint];
 
                 phoneIndex = _feet[j].endPhoneIndex;
@@ -931,7 +930,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
                 newIntonationPoint.offsetTime = 0.0;
                 newIntonationPoint.slope      = 0.0;
                 newIntonationPoint.ruleIndex  = ruleIndex;
-                NSLog(@"tonic intonation point 2: %@", newIntonationPoint);
                 [self addIntonationPoint:newIntonationPoint];
             }
 
@@ -939,7 +937,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         }
     }
 #if 0
-    // TODO: (2015-07-07) Something is wrong, probably with the _currentRule - 1 -- this crashes the synthesizer.
+    // 2015-07-09: Adding this intonation point causes the synthesizer to crash.  Somehow the glottalPitch is becoming NaN.
     MMIntonationPoint *newIntonationPoint = [[MMIntonationPoint alloc] init];
     newIntonationPoint.semitone   = intonationParameters.pretonicPitchRange + intonationParameters.notionalPitch + intonationParameters.tonicPitchRange;
     newIntonationPoint.offsetTime = 0.0;
@@ -947,8 +945,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     newIntonationPoint.ruleIndex  = _currentRule - 1;
     [self addIntonationPoint:newIntonationPoint];
 #endif
-
-    NSLog(@"intonationPoints:\n%@", self.intonationPoints);
 
     //[self printDataStructures:@"After applyIntonation generateEvents"];
 
