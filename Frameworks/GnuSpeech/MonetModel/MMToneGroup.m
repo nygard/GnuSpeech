@@ -3,12 +3,9 @@
 
 #import "MMToneGroup.h"
 
+#import "MMIntonationParameters.h"
+
 @implementation MMToneGroup
-{
-    NSUInteger _startFootIndex;
-    NSUInteger _endFootIndex;
-    MMToneGroupType _type;
-}
 
 @end
 

@@ -3,6 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class MMIntonationParameters;
+
 typedef enum : NSUInteger {
     MMToneGroupType_Statement    = 0,
     MMToneGroupType_Exclamation  = 1,
@@ -16,6 +18,9 @@ typedef enum : NSUInteger {
 @property (assign) NSUInteger startFootIndex;
 @property (assign) NSUInteger endFootIndex;
 @property (assign) MMToneGroupType type;
+
+/// Stores the particular set of intonation parameters used when the intonation points were generated.
+@property (strong) MMIntonationParameters *intonationParameters;
 
 @end
 
