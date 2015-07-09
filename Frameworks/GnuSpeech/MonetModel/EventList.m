@@ -881,10 +881,10 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
                 if (self.intonation.shouldRandomizeIntonation) {
                     // randomSemitone is in range of +/- 1/2 of pretonicRange
                     // Monet was param[2], Monet.realtime was param[3].  Which should it be?
-                    randomSemitone = ((double)random() / (double)0x7fffffff) * (double)intonationParameters.pretonicPerturbationRange - intonationParameters.pretonicPerturbationRange / 2.0;
+                    randomSemitone = ((double)random() / RAND_MAX) * (double)intonationParameters.pretonicPerturbationRange - intonationParameters.pretonicPerturbationRange / 2.0;
 
                     // Slopes from 0.01 to 0.025
-                    randomSlope = ((double)random() / (double)0x7fffffff) * 0.015 + 0.01;
+                    randomSlope = ((double)random() / RAND_MAX) * 0.015 + 0.01;
                 } else {
                     randomSemitone = 0;
                     randomSlope = 0.02;
@@ -908,8 +908,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
                 NSUInteger ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
                 if (self.intonation.shouldRandomizeIntonation) {
-                    randomSemitone  = ((double)random() / (double)0x7fffffff) * (double)intonationParameters.tonicPerturbationRange - intonationParameters.tonicPerturbationRange / 2.0;
-                    randomSlope    += ((double)random() / (double)0x7fffffff) * 0.03;
+                    randomSemitone  = ((double)random() / RAND_MAX) * (double)intonationParameters.tonicPerturbationRange - intonationParameters.tonicPerturbationRange / 2.0;
+                    randomSlope    += ((double)random() / RAND_MAX) * 0.03;
                 } else {
                     randomSemitone = 0;
                     randomSlope += 0.03;
