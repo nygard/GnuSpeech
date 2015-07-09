@@ -89,6 +89,7 @@ static NSDictionary *toneGroupIntonationParameterArrays;
                         } else {
                             for (NSXMLElement *intonationParametersElement in intonationParameterElements) {
                                 MMIntonationParameters *intonationParameters = [[MMIntonationParameters alloc] init];
+                                // TODO: (2015-07-08) Make sure all five attributes are there first.
                                 intonationParameters.notionalPitch             = [intonationParametersElement attributeForName:@"notional-pitch"].stringValue.floatValue;
                                 intonationParameters.pretonicPitchRange        = [intonationParametersElement attributeForName:@"pretonic-pitch-range"].stringValue.floatValue;
                                 intonationParameters.pretonicPerturbationRange = [intonationParametersElement attributeForName:@"pretonic-perturbation-range"].stringValue.floatValue;
@@ -98,11 +99,14 @@ static NSDictionary *toneGroupIntonationParameterArrays;
                             }
                         }
 
-                        toneGroupIntonationParametersByType[ @(MMToneGroupTypeFromString(nameAttribute.stringValue)) ] = [parameters copy];
+                        if (MMToneGroupTypeFromString(nameAttribute.stringValue) != MMToneGroupType_Unknown) {
+                            toneGroupIntonationParametersByType[ nameAttribute.stringValue ] = [parameters copy];
+                        } else {
+                            NSLog(@"Error: Unknown tone group type: %@", nameAttribute.stringValue);
+                        }
                     }
                 }
 
-//                NSLog(@"toneGroupIntonationParametersByType:\n%@", toneGroupIntonationParametersByType);
                 toneGroupIntonationParameterArrays = [toneGroupIntonationParametersByType copy];
                 NSLog(@"toneGroupIntonationParameterArrays:\n%@", toneGroupIntonationParameterArrays);
             }
@@ -130,8 +134,7 @@ static NSDictionary *toneGroupIntonationParameterArrays;
 
 - (MMIntonationParameters *)intonationParametersForToneGroup:(MMToneGroup *)toneGroup;
 {
-    // TODO: (2015-07-08) Keying by the name might make debugging the dictionary easier.
-    NSArray *array = toneGroupIntonationParameterArrays[ @(toneGroup.type) ];
+    NSArray *array = toneGroupIntonationParameterArrays[ MMToneGroupTypeName(toneGroup.type) ];
     NSParameterAssert(array != nil);
     NSParameterAssert([array count] > 0);
     if ([array count] == 1) {

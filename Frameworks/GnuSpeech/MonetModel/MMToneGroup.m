@@ -17,6 +17,7 @@ NSString *MMToneGroupTypeName(MMToneGroupType type)
         case MMToneGroupType_Question:     return @"Question";
         case MMToneGroupType_Continuation: return @"Continuation";
         case MMToneGroupType_Semicolon:    return @"Semicolon";
+        case MMToneGroupType_Unknown:      return @"Unknown";
     }
     
     return nil;
@@ -30,6 +31,5 @@ MMToneGroupType MMToneGroupTypeFromString(NSString *str)
     if ([str isEqualToString:@"Continuation"]) return MMToneGroupType_Continuation;
     if ([str isEqualToString:@"Semicolon"])    return MMToneGroupType_Semicolon;
 
-    NSCParameterAssert(NO); // TODO: (2015-07-08) failing like this is pretty rude.  Make this more forgiving.
-    return 0;
+    return MMToneGroupType_Unknown;
 }

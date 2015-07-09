@@ -6,6 +6,7 @@
 @class MMIntonationParameters;
 
 typedef enum : NSUInteger {
+    MMToneGroupType_Unknown      = -1,
     MMToneGroupType_Statement    = 0,
     MMToneGroupType_Exclamation  = 1,
     MMToneGroupType_Question     = 2,
