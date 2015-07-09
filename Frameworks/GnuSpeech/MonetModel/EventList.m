@@ -546,11 +546,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 {
     Event *event = [self eventAtTimeOffset:time];
     if (number >= 0) {
-        // TODO (2012-04-23): This appears to be another hard-coded setting.  7 and 8 seems to be... parameters r1 and r2
-        if ((number >= 7) && (number <= 8))
-            [event setValue:value*self.intonation.radiusMultiply atIndex:number];
-        else
-            [event setValue:value atIndex:number];
+        [event setValue:value atIndex:number];
     }
 }
 

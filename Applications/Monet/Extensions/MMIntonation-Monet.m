@@ -3,12 +3,6 @@
 
 #import "MMIntonation-Monet.h"
 
-#define MDK_NotionalPitch              @"NotionalPitch"
-#define MDK_PretonicRange              @"PretonicRange"
-#define MDK_PretonicLift               @"PretonicLift"
-#define MDK_TonicRange                 @"TonicRange"
-#define MDK_TonicMovement              @"TonicMovement"
-
 #define MDK_ShouldUseMacroIntonation   @"ShouldUseMacroIntonation"
 #define MDK_ShouldUseMicroIntonation   @"ShouldUseMicroIntonation"
 
@@ -24,12 +18,6 @@
 + (void)setupUserDefaults;
 {
     NSDictionary *defaults = @{
-                               MDK_NotionalPitch             : @-1,
-                               MDK_PretonicRange             : @2,
-                               MDK_PretonicLift              : @-2,
-                               MDK_TonicRange                : @-10,
-                               MDK_TonicMovement             : @-6,
-
                                MDK_ShouldUseSmoothIntonation : @YES,
                                MDK_ShouldUseMacroIntonation  : @YES,
                                MDK_ShouldUseMicroIntonation  : @YES,
@@ -50,12 +38,6 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
     if ((self = [self init])) {
-//        self.notionalPitch = [defaults floatForKey:MDK_NotionalPitch];
-//        self.pretonicRange = [defaults floatForKey:MDK_PretonicRange];
-//        self.pretonicLift  = [defaults floatForKey:MDK_PretonicLift];
-//        self.tonicRange    = [defaults floatForKey:MDK_TonicRange];
-//        self.tonicMovement = [defaults floatForKey:MDK_TonicMovement];
-
         self.shouldUseMacroIntonation  = [defaults boolForKey:MDK_ShouldUseMacroIntonation];
         self.shouldUseMicroIntonation  = [defaults boolForKey:MDK_ShouldUseMicroIntonation];
         self.shouldUseSmoothIntonation = [defaults boolForKey:MDK_ShouldUseSmoothIntonation];
@@ -65,7 +47,6 @@
         self.driftCutoff    = [defaults floatForKey:MDK_DriftCutoff];
 
         self.tempo          = [defaults doubleForKey:MDK_Tempo];
-        self.radiusMultiply = [defaults doubleForKey:MDK_RadiusMultiply];
     }
 
     return self;
@@ -74,12 +55,6 @@
 - (void)saveToUserDefaults;
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-
-//    [defaults setFloat:self.notionalPitch            forKey:MDK_NotionalPitch];
-//    [defaults setFloat:self.pretonicRange            forKey:MDK_PretonicRange];
-//    [defaults setFloat:self.pretonicLift             forKey:MDK_PretonicLift];
-//    [defaults setFloat:self.tonicRange               forKey:MDK_TonicRange];
-//    [defaults setFloat:self.tonicMovement            forKey:MDK_TonicMovement];
 
     [defaults setBool:self.shouldUseMacroIntonation  forKey:MDK_ShouldUseMacroIntonation];
     [defaults setBool:self.shouldUseMicroIntonation  forKey:MDK_ShouldUseMicroIntonation];
@@ -90,7 +65,6 @@
     [defaults setFloat:self.driftCutoff              forKey:MDK_DriftCutoff];
 
     [defaults setDouble:self.tempo                   forKey:MDK_Tempo];
-    [defaults setDouble:self.radiusMultiply          forKey:MDK_RadiusMultiply];
 }
 
 @end
