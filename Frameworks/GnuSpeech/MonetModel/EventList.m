@@ -744,7 +744,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     for (NSUInteger i = 0; i < _footCount; i++) {
         double footTempo;
 
-        // TODO (2012-04-23): What does "rus" mean?
+        // 2015-07-09: I think "rus" stands for Rhythm Units.
         NSUInteger rus = _feet[i].endPhoneIndex - _feet[i].startPhoneIndex + 1;
 
         /* Apply rhythm model */
