@@ -86,18 +86,6 @@
 
 #pragma mark -
 
-- (double)multiplyValueByFactor:(double)factor;
-{
-    _value *= factor;
-    return _value;
-}
-
-- (double)addValue:(double)newValue;
-{
-    _value += newValue;
-    return _value;
-}
-
 - (double)cachedTime;
 {
     if (_timeEquation != nil)

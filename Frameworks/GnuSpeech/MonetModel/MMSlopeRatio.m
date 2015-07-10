@@ -190,8 +190,9 @@
 
     temp = startValue;
     for (NSUInteger i = 1; i < [_points count]-1; i++) {
-        [_points[i] multiplyValueByFactor:factor];
-        temp = [_points[i] addValue:temp];
+        MMPoint *point = _points[i];
+        point.value = point.value * factor + temp;
+        temp = point.value;
     }
 }
 
@@ -244,8 +245,9 @@
     temp = startValue;
 
     for (i = 1; i < [_points count]-1; i++) {
-        [_points[i] multiplyValueByFactor:factor];
-        temp = [_points[i] addValue:temp];
+        MMPoint *point = _points[i];
+        point.value = point.value * factor + temp;
+        temp = point.value;
     }
 
     for (i = 0; i < [_points count]; i++) {
