@@ -254,28 +254,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     [self.feet addObject:foot];
 }
 
-- (void)setCurrentFootMarked;
-{
-    if ([self.feet count] == 0) {
-        NSLog(@"%s, footCount == 0", __PRETTY_FUNCTION__);
-        return;
-    }
-
-    MMFoot *foot = [self.feet lastObject];
-    foot.isTonic = YES;
-}
-
-- (void)setCurrentFootLast;
-{
-    if ([self.feet count] == 0) {
-        NSLog(@"%s, footCount == 0", __PRETTY_FUNCTION__);
-        return;
-    }
-
-    MMFoot *foot = [self.feet lastObject];
-    foot.isLast = YES;
-}
-
 - (void)setCurrentFootTempo:(double)tempo;
 {
     if ([self.feet count] == 0) {
@@ -559,8 +537,10 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             {
                 //NSLog(@"New foot");
                 [self newFoot];
-                if (lastFoot)
-                    [self setCurrentFootLast];
+                if (lastFoot) {
+                    MMFoot *foot = [self.feet lastObject];
+                    foot.isLast = YES;
+                }
                 footTempo = 1.0;
                 lastFoot = 0;
                 markedFoot = 0;
@@ -569,9 +549,11 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             {
                 //NSLog(@"New Marked foot");
                 [self newFoot];
-                [self setCurrentFootMarked];
-                if (lastFoot)
-                    [self setCurrentFootLast];
+                MMFoot *foot = [self.feet lastObject];
+                foot.isTonic = YES;
+                if (lastFoot) {
+                    foot.isLast = YES;
+                }
 
                 footTempo = 1.0;
                 lastFoot = 0;
