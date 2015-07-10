@@ -5,4 +5,17 @@
 
 @implementation MMFoot
 
+- (id)init;
+{
+    if ((self = [super init])) {
+        _tempo           = 1.0;
+        _startPhoneIndex = 0;
+        _endPhoneIndex   = 0;
+        _isMarked        = NO;
+        _isLast          = NO;
+    }
+
+    return self;
+}
+
 @end

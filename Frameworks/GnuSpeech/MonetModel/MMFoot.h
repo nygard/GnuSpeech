@@ -6,8 +6,8 @@
 @interface MMFoot : NSObject
 
 @property (assign) double tempo;
-@property (assign) NSUInteger startPhoneIndex; // index into phones
-@property (assign) NSUInteger endPhoneIndex;   // index into phones
+@property (assign) NSInteger startPhoneIndex; // index into phones
+@property (assign) NSInteger endPhoneIndex;   // index into phones
 @property (assign) BOOL isMarked;              // isTonic
 @property (assign) BOOL isLast;                // Is this the last foot of (the tone group?)
 
