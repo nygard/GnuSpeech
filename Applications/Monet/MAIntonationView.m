@@ -377,6 +377,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
         if (event.isAtPosture) {
             MMPosture *currentPosture = [_eventList getPhoneAtIndex:postureIndex++];
+            NSParameterAssert(event.posture == currentPosture);
             if (currentPosture != nil) {
                 //NSLog(@"[currentPosture name]: %@", [currentPosture name]);
                 [[NSColor blackColor] set];

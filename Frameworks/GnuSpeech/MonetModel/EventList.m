@@ -472,17 +472,19 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 }
 
 /// This represents the time exactly on a posture, not interpolated between them.
-- (void)insertPostureEventAtTimeOffset:(double)time;
+- (void)insertEventAtTimeOffset:(double)time posture:(MMPosture *)posture;
 {
     Event *event = [self eventAtTimeOffset:time];
     event.isAtPosture = YES;
+    event.posture = posture;
 }
 
-- (void)finalEvent:(NSUInteger)number withValue:(double)value;
+- (void)finalEvent:(NSUInteger)number withValue:(double)value posture:(MMPosture *)posture;
 {
     Event *lastEvent = [_events lastObject];
     [lastEvent setValue:value atIndex:number];
     lastEvent.isAtPosture = YES;
+    lastEvent.posture = posture;
 }
 
 #pragma mark - Tone groups
@@ -753,6 +755,22 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             ruleValues.matchedPhonesDescription = [a1 componentsJoinedByString:@" > "];
 
             index += [matchedRule numberExpressions] - 1;
+        }
+
+        // 2015-07-09: There are a couple places where I'm not sure of the correct posture.  So, for now, just set all the postures after the rules have been applied.
+        {
+            NSUInteger postureIndex = 0;
+            for (Event *event in self.events) {
+                if (event.isAtPosture) {
+                    if (postureIndex < [_phones count]) {
+                        MMPhone *phone = _phones[postureIndex];
+                        event.posture = phone.posture;
+                        postureIndex++;
+                    } else {
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -1103,24 +1121,41 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     // This creates events (if necessary) at the posture times, and sets the "flag" on them to indicate this is for a posture.
     switch (type) {
             // Note: Tetraphone case should execute all of the below, Triphone case the last two.
-        case MMPhoneType_Tetraphone: {
+        case MMPhoneType_Tetraphone:
+        {
             MMPhone *phonePlus3 = _phones[phoneIndex+3];
-            phonePlus3.onset = (double)_zeroRef + ruleSymbols.beat;
-            [self insertPostureEventAtTimeOffset:ruleSymbols.mark2];
-            // Fall through
-        }
-        case MMPhoneType_Triphone: {
             MMPhone *phonePlus2 = _phones[phoneIndex+2];
+            MMPhone *phonePlus1 = _phones[phoneIndex+1];
+
+            phonePlus3.onset = (double)_zeroRef + ruleSymbols.beat;
+            [self insertEventAtTimeOffset:ruleSymbols.mark2 posture:phonePlus2.posture];
+
             phonePlus2.onset = (double)_zeroRef + ruleSymbols.beat;
-            [self insertPostureEventAtTimeOffset:ruleSymbols.mark1];
-            // Fall through
+            [self insertEventAtTimeOffset:ruleSymbols.mark1 posture:phonePlus1.posture];
+
+            phonePlus1.onset = (double)_zeroRef + ruleSymbols.beat;
+            [self insertEventAtTimeOffset:0.0 posture:phone.posture];
+            break;
         }
-        case MMPhoneType_Diphone: {
+        case MMPhoneType_Triphone:
+        {
+            MMPhone *phonePlus2 = _phones[phoneIndex+2];
+            MMPhone *phonePlus1 = _phones[phoneIndex+1];
+
+            phonePlus2.onset = (double)_zeroRef + ruleSymbols.beat;
+            [self insertEventAtTimeOffset:ruleSymbols.mark1 posture:phonePlus1.posture];
+
+            phonePlus1.onset = (double)_zeroRef + ruleSymbols.beat;
+            [self insertEventAtTimeOffset:0.0 posture:phone.posture];
+            break;
+        }
+        case MMPhoneType_Diphone:
+        {
             MMPhone *phonePlus1 = _phones[phoneIndex+1];
             phonePlus1.onset = (double)_zeroRef + ruleSymbols.beat;
-            [self insertPostureEventAtTimeOffset:0.0];
-        }
+            [self insertEventAtTimeOffset:0.0 posture:phone.posture];
             break;
+        }
     }
 
     NSArray *parameterTransitions = [rule parameterTransitions];
@@ -1222,7 +1257,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     }
 
     [self setZeroRef:(int)(ruleSymbols.ruleDuration * self.multiplier) + _zeroRef];
-    [self insertPostureEventAtTimeOffset:0.0];
+    [self insertEventAtTimeOffset:0.0 posture:nil]; // TODO: (2015-07-09) What posture is it?
 }
 
 #pragma mark - Debugging
@@ -1366,7 +1401,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         [self insertEvent:35 atTimeOffset:intonationPoint.absoluteTime withValue:0.0];
     }
 
-    [self finalEvent:32 withValue:-20.0];
+    [self finalEvent:32 withValue:-20.0 posture:nil]; // TODO: (2015-07-09) What posture?
 
     NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }

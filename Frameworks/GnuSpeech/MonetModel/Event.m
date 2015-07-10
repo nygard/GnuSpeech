@@ -3,6 +3,8 @@
 
 #import "Event.h"
 
+#import "MMPosture.h"
+
 #define MAX_VALUES 36
 
 @implementation Event

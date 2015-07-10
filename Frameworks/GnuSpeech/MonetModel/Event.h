@@ -8,6 +8,8 @@
 // 2015-06-20: <http://www.gnu.org/software/libc/manual/html_node/Infinity-and-NaN.html> Indicates this would be +infinity, not NaN.
 #define NaN (1.0/0.0)
 
+@class MMPosture;
+
 @interface Event : NSObject
 
 - (id)initWithTime:(NSUInteger)time;
@@ -16,6 +18,7 @@
 
 /// If YES, this event represents an exact posture.
 @property (assign) BOOL isAtPosture;
+@property (strong) MMPosture *posture;
 
 - (double)getValueAtIndex:(NSUInteger)index;
 - (void)setValue:(double)value atIndex:(NSUInteger)index;
