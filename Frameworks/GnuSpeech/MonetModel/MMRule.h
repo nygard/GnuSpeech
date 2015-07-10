@@ -49,7 +49,7 @@
 - (MMTransition *)getSpecialProfile:(NSUInteger)index;
 - (void)setSpecialProfile:(NSUInteger)index to:(MMTransition *)special;
 
-- (BOOL)usesCategory:(MMCategory *)aCategory;
+- (BOOL)usesCategory:(MMCategory *)category;
 - (BOOL)usesEquation:(MMEquation *)equation;
 - (BOOL)usesTransition:(MMTransition *)transition;
 

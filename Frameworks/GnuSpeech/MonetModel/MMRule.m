@@ -451,11 +451,11 @@
     _specialProfiles[index] = special;
 }
 
-- (BOOL)usesCategory:(MMCategory *)aCategory;
+- (BOOL)usesCategory:(MMCategory *)category;
 {
     NSUInteger count = [self expressionCount];
     for (NSUInteger index = 0; index < count; index++) {
-        if ([_expressions[index] usesCategory:aCategory])
+        if ([_expressions[index] usesCategory:category])
             return YES;
     }
 
