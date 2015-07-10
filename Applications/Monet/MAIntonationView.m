@@ -364,8 +364,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 // TODO (2004-08-16): Need right margin so that the last posture is visible.
 - (void)drawPostureLabels;
 {
-    NSUInteger postureIndex = 0;
-
     NSRect bounds = NSIntegralRect([self bounds]);
 
     [[NSColor blackColor] set];
@@ -376,13 +374,9 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         CGFloat currentX = event.time / _timeScale;
 
         if (event.isAtPosture) {
-            MMPosture *currentPosture = [_eventList getPhoneAtIndex:postureIndex++];
-            NSParameterAssert(event.posture == currentPosture);
-            if (currentPosture != nil) {
-                //NSLog(@"[currentPosture name]: %@", [currentPosture name]);
+            if (event.posture != nil) {
                 [[NSColor blackColor] set];
-                [currentPosture.name drawAtPoint:NSMakePoint(currentX, bounds.size.height - POSTURE_Y_OFFSET) withAttributes:nil];
-                //[postureTextFieldCell setStringValue:[currentPosture name]];
+                [event.posture.name drawAtPoint:NSMakePoint(currentX, bounds.size.height - POSTURE_Y_OFFSET) withAttributes:nil];
             }
         }
     }

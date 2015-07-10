@@ -165,16 +165,15 @@
     NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
 
-    NSUInteger phoneIndex = 0;
     NSArray *events = [_eventList events];
     for (NSUInteger index = 0; index < [events count]; index++) {
         currentX = leftInset + [[events objectAtIndex:index] time] * _scale;
 
-        if ([[events objectAtIndex:index] isAtPosture]) {
-            MMPosture *currentPhone = [_eventList getPhoneAtIndex:phoneIndex++];
-            if (currentPhone) {
+        Event *event = events[index];
+        if (event.isAtPosture) {
+            if (event.posture) {
                 [[NSColor blackColor] set];
-                [[currentPhone name] drawAtPoint:NSMakePoint(currentX, 20) withAttributes:nil];
+                [event.posture.name drawAtPoint:NSMakePoint(currentX, 20) withAttributes:nil];
             }
         }
     }

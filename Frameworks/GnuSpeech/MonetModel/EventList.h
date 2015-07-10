@@ -26,7 +26,6 @@
 - (void)getRuleIndex:(NSUInteger *)ruleIndexPtr offsetTime:(double *)offsetTimePtr forAbsoluteTime:(double)absoluteTime;
 
 // Postures
-- (MMPosture *)getPhoneAtIndex:(NSUInteger)phoneIndex;
 - (void)newPhoneWithObject:(MMPosture *)object;
 - (void)replaceCurrentPhoneWith:(MMPosture *)object;
 
