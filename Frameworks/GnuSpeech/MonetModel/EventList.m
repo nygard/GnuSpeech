@@ -21,6 +21,7 @@
 #import "MMPosture.h"
 #import "MMPostureRewriter.h"
 #import "MMRule.h"
+#import "MMRuleValues.h"
 #import "MMSlopeRatio.h"
 #import "MMTarget.h"
 #import "MMTransition.h"
@@ -35,6 +36,15 @@
 #define MAXFEET		    110
 
 #define MAXRULES	    (MAXPHONES-1)
+
+// This is used by MARulePhoneView, IntonationView
+struct _rule {
+    NSUInteger number;
+    NSUInteger firstPhone;
+    NSUInteger lastPhone;
+    double duration;
+    double beat; // absolute time of beat, in milliseconds
+};
 
 struct _foot {
     double onset1;
@@ -240,6 +250,22 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 }
 
 #pragma mark - Rules
+
+- (MMRuleValues *)ruleValuesAtIndex:(NSUInteger)index;
+{
+    struct _rule *rule = [self getRuleAtIndex:index];
+
+    if (rule == NULL)
+        return nil;
+
+    MMRuleValues *ruleValues = [[MMRuleValues alloc] init];
+    ruleValues.number     = rule->number;
+    ruleValues.firstPhone = rule->firstPhone;
+    ruleValues.lastPhone  = rule->lastPhone;
+    ruleValues.duration   = rule->duration;
+    ruleValues.beat       = rule->beat;
+    return ruleValues;
+}
 
 - (struct _rule *)getRuleAtIndex:(NSUInteger)ruleIndex;
 {

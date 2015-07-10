@@ -12,7 +12,7 @@
 		010DE7331545598D005E337E /* MMToneGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 010DE7311545598D005E337E /* MMToneGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		010DE7341545598D005E337E /* MMToneGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE7321545598D005E337E /* MMToneGroup.m */; };
 		010DE75A15463851005E337E /* MMFRuleSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE75915463851005E337E /* MMFRuleSymbols.m */; };
-		0123C8C61B4F6F790022CA81 /* MMRuleValues.h in Headers */ = {isa = PBXBuildFile; fileRef = 0123C8C41B4F6F790022CA81 /* MMRuleValues.h */; };
+		0123C8C61B4F6F790022CA81 /* MMRuleValues.h in Headers */ = {isa = PBXBuildFile; fileRef = 0123C8C41B4F6F790022CA81 /* MMRuleValues.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0123C8C71B4F6F790022CA81 /* MMRuleValues.m in Sources */ = {isa = PBXBuildFile; fileRef = 0123C8C51B4F6F790022CA81 /* MMRuleValues.m */; };
 		012D53AC0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		012D53AD0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53A20B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m */; };
@@ -805,7 +805,6 @@
 				012D53AC0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h in Headers */,
 				0155E4440B7BE8FA008D8879 /* EventList.h in Headers */,
 				0155E4420B7BE8FA008D8879 /* Event.h in Headers */,
-				0123C8C61B4F6F790022CA81 /* MMRuleValues.h in Headers */,
 				01AC65FA0B7BF9B4008E4B93 /* GnuSpeech.h in Headers */,
 				69B1086D0EDD307400DEF197 /* TRMData.h in Headers */,
 				69300A3E0FAB841E0041EBFB /* TTSParser.h in Headers */,
@@ -859,6 +858,7 @@
 				01061FA21B329D4200FBB2B4 /* MMIntonation.h in Headers */,
 				01658B491B4BC7C300D2C0B7 /* MMIntonationParameters.h in Headers */,
 				0165043D1543B42700D64E98 /* MMDriftGenerator.h in Headers */,
+				0123C8C61B4F6F790022CA81 /* MMRuleValues.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

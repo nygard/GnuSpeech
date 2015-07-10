@@ -5,17 +5,8 @@
 
 @class Event, MMIntonationPoint, MModel, MMPosture, MMPostureRewriter, MMRule, MMDriftGenerator;
 
-// This is used by MARulePhoneView, IntonationView
-struct _rule {
-    NSUInteger number;
-    NSUInteger firstPhone;
-    NSUInteger lastPhone;
-    double duration;
-    double beat; // absolute time of beat, in milliseconds
-};
-
 @class TRMParameters, TRMSynthesizer;
-@class MMIntonation;
+@class MMIntonation, MMRuleValues;
 
 @interface EventList : NSObject
 
@@ -27,7 +18,8 @@ struct _rule {
 - (void)resetWithIntonation:(MMIntonation *)intonation; // TODO (2012-04-26): See if we can't just do this when we apply intonation
 
 // Rules
-- (struct _rule *)getRuleAtIndex:(NSUInteger)ruleIndex;
+- (MMRuleValues *)ruleValuesAtIndex:(NSUInteger)index;
+
 - (NSString *)ruleDescriptionAtIndex:(NSUInteger)ruleIndex;
 - (double)getBeatAtIndex:(NSUInteger)ruleIndex;
 - (NSUInteger)ruleCount;

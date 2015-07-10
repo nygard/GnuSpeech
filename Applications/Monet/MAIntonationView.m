@@ -403,25 +403,25 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     NSUInteger count = [_eventList ruleCount];
     for (NSUInteger index = 0; index < count; index++) {
-        struct _rule *rule = [_eventList getRuleAtIndex:index];
+        MMRuleValues *ruleValues = [_eventList ruleValuesAtIndex:index];
 
         NSRect ruleFrame;
         ruleFrame.origin.x = currentX;
         ruleFrame.origin.y = bounds.size.height - RULE_Y_OFFSET;
         ruleFrame.size.height = RULE_HEIGHT;
-        ruleFrame.size.width = [self scaleWidth:rule->duration] + extraWidth;
+        ruleFrame.size.width = [self scaleWidth:ruleValues.duration] + extraWidth;
         NSFrameRect(ruleFrame);
 
         ruleFrame.size.height = 15.0;
-        [_ruleDurationTextFieldCell setDoubleValue:rule->duration];
+        [_ruleDurationTextFieldCell setDoubleValue:ruleValues.duration];
         [_ruleDurationTextFieldCell drawWithFrame:ruleFrame inView:self];
 
         ruleFrame.size.height += 12.0;
-        [_ruleIndexTextFieldCell setIntegerValue:rule->number];
+        [_ruleIndexTextFieldCell setIntegerValue:ruleValues.number];
         [_ruleIndexTextFieldCell drawWithFrame:ruleFrame inView:self];
 
         NSPoint point;
-        point.x = [self scaleXPosition:rule->beat] + 0.5;
+        point.x = [self scaleXPosition:ruleValues.beat] + 0.5;
         point.y = graphOrigin.y + SECTION_COUNT * sectionHeight - 1.0;
         [bezierPath moveToPoint:point];
 
@@ -455,9 +455,9 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     NSUInteger count = [_eventList ruleCount];
     for (NSUInteger index = 0; index < count; index++) {
-        struct _rule *rule = [_eventList getRuleAtIndex:index];
+        MMRuleValues *ruleValues = [_eventList ruleValuesAtIndex:index];
 
-        ruleFrame.size.width = [self scaleWidth:rule->duration] + extraWidth;
+        ruleFrame.size.width = [self scaleWidth:ruleValues.duration] + extraWidth;
         if ((index % 2) == 1) {
             [[NSColor lighterGrayColor] set];
             NSRectFill(ruleFrame);
@@ -809,7 +809,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     NSPoint mouseDownLocation = [theEvent locationInWindow];
     NSEvent *newEvent;
     NSUInteger i, ruleIndex = 0;
-    struct _rule *rule;
     MMIntonationPoint *iPoint;
     id tempPoint;
 
