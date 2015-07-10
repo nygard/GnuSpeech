@@ -18,15 +18,15 @@
 - (void)removeMetaParameterAtIndex:(NSUInteger)index;
 
 
-- (void)addStoredParameterTransition:(MMTransition *)aTransition;
+- (void)addStoredParameterTransition:(MMTransition *)transition;
 - (void)addParameterTransitionsFromReferenceDictionary:(NSDictionary *)dict;
 
-- (void)addStoredMetaParameterTransition:(MMTransition *)aTransition;
+- (void)addStoredMetaParameterTransition:(MMTransition *)transition;
 - (void)addMetaParameterTransitionsFromReferenceDictionary:(NSDictionary *)dict;
 
 - (void)addSpecialProfilesFromReferenceDictionary:(NSDictionary *)dict;
 
-- (void)addStoredSymbolEquation:(MMEquation *)anEquation;
+- (void)addStoredSymbolEquation:(MMEquation *)equation;
 - (void)addSymbolEquationsFromReferenceDictionary:(NSDictionary *)dict;
 
 
@@ -35,7 +35,7 @@
 - (MMBooleanNode *)getExpressionNumber:(NSUInteger)index;
 
 - (void)addBooleanExpression:(MMBooleanNode *)newExpression;
-- (void)addBooleanExpressionString:(NSString *)aString;
+- (void)addBooleanExpressionString:(NSString *)string;
 
 - (BOOL)matchRule:(NSArray *)categories;
 
@@ -50,8 +50,8 @@
 - (void)setSpecialProfile:(NSUInteger)index to:(MMTransition *)special;
 
 - (BOOL)usesCategory:(MMCategory *)aCategory;
-- (BOOL)usesEquation:(MMEquation *)anEquation;
-- (BOOL)usesTransition:(MMTransition *)aTransition;
+- (BOOL)usesEquation:(MMEquation *)equation;
+- (BOOL)usesTransition:(MMTransition *)transition;
 
 - (NSString *)ruleString;
 
