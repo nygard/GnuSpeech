@@ -163,12 +163,8 @@
 - (void)setDefaults;
 {
     NSUInteger numPhones = [self expressionCount];
-    id tempEntry = nil;
     MMEquation *anEquation, *defaultOnset, *defaultDuration;
-    NSArray *aParameterList;
-    NSUInteger i;
 
-    /* Empty out the lists */
     [_parameterTransitions removeAllObjects];
     [_metaParameterTransitions removeAllObjects];
     [_symbolEquations removeAllObjects];
@@ -176,31 +172,17 @@
     if ((numPhones < 2) || (numPhones > 4))
         return;
 
-    switch (numPhones) {
-        case 2:
-            tempEntry = [self.model findTransitionWithName:@"Diphone" inGroupWithName:@"Defaults"];
-            break;
-        case 3:
-            tempEntry = [self.model findTransitionWithName:@"Triphone" inGroupWithName:@"Defaults"];
-            break;
-        case 4:
-            tempEntry = [self.model findTransitionWithName:@"Tetraphone" inGroupWithName:@"Defaults"];
-            break;
-    }
+    MMTransition *defaultTransition = [self.model defaultTransitionForPhoneCount:numPhones];
 
-    if (tempEntry == nil) {
-        NSLog(@"CANNOT find temp entry");
-    }
-
-    aParameterList = [self.model parameters];
-    for (i = 0; i < [aParameterList count]; i++) {
-        [_parameterTransitions addObject:tempEntry];
-    }
-
-    /* Alloc lists to point to prototype transition specifiers */
-    aParameterList = [self.model metaParameters];
-    for (i = 0; i < [aParameterList count]; i++) {
-        [_metaParameterTransitions addObject:tempEntry];
+    if (defaultTransition == nil) {
+        NSLog(@"Error: CANNOT find default transition");
+    } else {
+        [self.model.parameters enumerateObjectsUsingBlock:^(MMParameter *parameter, NSUInteger index, BOOL *stop) {
+            [_parameterTransitions addObject:defaultTransition];
+        }];
+        [self.model.metaParameters enumerateObjectsUsingBlock:^(MMParameter *parameter, NSUInteger index, BOOL *stop) {
+            [_metaParameterTransitions addObject:defaultTransition];
+        }];
     }
 
     switch (numPhones) {

@@ -523,6 +523,18 @@
     return nil;
 }
 
+// TODO: (2015-07-10) These defaults should be promoted to expicit, require transitions in the model.
+- (MMTransition *)defaultTransitionForPhoneCount:(NSUInteger)count;
+{
+    switch (count) {
+        case 2: return [self findTransitionWithName:@"Diphone"    inGroupWithName:@"Defaults"];
+        case 3: return [self findTransitionWithName:@"Triphone"   inGroupWithName:@"Defaults"];
+        case 4: return [self findTransitionWithName:@"Tetraphone" inGroupWithName:@"Defaults"];
+    }
+
+    return nil;
+}
+
 - (MMEquation *)findEquationWithName:(NSString *)equationName inGroupWithName:(NSString *)groupName;
 {
     for (MMGroup *group in self.equationGroups) {
