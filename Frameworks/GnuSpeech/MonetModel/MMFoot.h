@@ -9,6 +9,6 @@
 @property (assign) NSInteger startPhoneIndex; // index into phones
 @property (assign) NSInteger endPhoneIndex;   // index into phones
 @property (assign) BOOL isTonic;
-@property (assign) BOOL isLast;                // Is this the last foot of (the tone group?)
+@property (assign) BOOL isLast;               // Is this the last foot of (the tone group?)
 
 @end
