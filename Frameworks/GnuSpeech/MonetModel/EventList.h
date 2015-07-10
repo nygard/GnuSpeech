@@ -30,7 +30,7 @@
 - (void)replaceCurrentPhoneWith:(MMPosture *)object;
 
 // Events
-- (NSArray *)events;
+@property (nonatomic, readonly) NSArray *events;
 - (double)valueAtTimeOffset:(double)time forEvent:(NSInteger)number;
 - (void)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value;
 

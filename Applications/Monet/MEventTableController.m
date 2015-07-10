@@ -114,7 +114,7 @@
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
     if (tableView == self.eventTableView)
-        return [[_eventList events] count] * 2;
+        return [self.eventList.events count] * 2;
 
     return 0;
 }
@@ -126,9 +126,11 @@
     if (tableView == self.eventTableView) {
         NSInteger eventNumber = row / 2;
         if ([@"time" isEqual:identifier]) {
-            return [NSNumber numberWithInteger:[[self.eventList.events objectAtIndex:eventNumber] time]];
+            Event *event = self.eventList.events[eventNumber];
+            return @(event.time);
         } else if ([@"isAtPosture" isEqual:identifier]) {
-            return [NSNumber numberWithBool:[self.eventList.events[eventNumber] isAtPosture]];
+            Event *event = self.eventList.events[eventNumber];
+            return @(event.isAtPosture);
         } else {
             NSInteger rowOffset = row % 2;
             NSInteger index = [identifier intValue] + rowOffset * 16;

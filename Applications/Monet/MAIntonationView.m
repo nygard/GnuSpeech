@@ -188,13 +188,12 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 {
     CGFloat minimumWidth;
 
-    if ([[_eventList events] count] == 0) {
+    if ([_eventList.events count] == 0) {
         minimumWidth = 0.0;
     } else {
-        Event *lastEvent;
-        lastEvent = [[_eventList events] lastObject];
+        Event *lastEvent = [_eventList.events lastObject];
 
-        minimumWidth = [self scaleWidth:[lastEvent time]] + RIGHT_MARGIN;
+        minimumWidth = [self scaleWidth:lastEvent.time] + RIGHT_MARGIN;
     }
 
     // Make sure that we at least show something.

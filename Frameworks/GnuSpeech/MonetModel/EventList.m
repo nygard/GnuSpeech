@@ -45,6 +45,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 @property (readonly) NSMutableArray *toneGroups;
 @property (readonly) NSMutableArray *feet;
 @property (readonly) NSMutableArray *phones;
+@property (readonly) NSMutableArray *mutableEvents;
 
 /// This is stored when -parsePhoneString: is called, so that it can be saved with the intonation contour.
 @property (strong) NSString *phoneString;
@@ -70,8 +71,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     double _multiplier; // Move... somewhere else.
 
-    NSMutableArray *_events;
-
     NSMutableArray *_intonationPoints; // Sorted by absolute time
     BOOL _intonationPointsNeedSorting;
 
@@ -95,11 +94,11 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
         _intonation = [[MMIntonation alloc] init];
 
-        _phones       = [[NSMutableArray alloc] init];
-        _feet         = [[NSMutableArray alloc] init];
-        _toneGroups   = [[NSMutableArray alloc] init];
-        _appliedRules = [[NSMutableArray alloc] init];
-        _events       = [[NSMutableArray alloc] init];
+        _phones        = [[NSMutableArray alloc] init];
+        _feet          = [[NSMutableArray alloc] init];
+        _toneGroups    = [[NSMutableArray alloc] init];
+        _appliedRules  = [[NSMutableArray alloc] init];
+        _mutableEvents = [[NSMutableArray alloc] init];
 
         _intonationPoints = [[NSMutableArray alloc] init];
         _intonationPointsNeedSorting = NO;
@@ -141,7 +140,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     _zeroRef = newValue;
     _zeroIndex = 0;
     
-    [_events enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(Event *event, NSUInteger index, BOOL *stop){
+    [_mutableEvents enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(Event *event, NSUInteger index, BOOL *stop){
         if (event.time < newValue) {
             _zeroIndex = index;
             *stop = YES;
@@ -182,7 +181,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     [self.toneGroups removeAllObjects];
     [self.appliedRules removeAllObjects];
-    [_events removeAllObjects];
+    [self.mutableEvents removeAllObjects];
     [self removeAllIntonationPoints];
 
     // _delegate remains unchanged
@@ -199,7 +198,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 {
     _zeroRef = 0;
     _zeroIndex = 0;
-    _duration = [[_events lastObject] time] + 100;
+    _duration = [[_mutableEvents lastObject] time] + 100;
 }
 
 #pragma mark - Rules
@@ -333,7 +332,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 - (NSArray *)events;
 {
-    return _events;
+    return [_mutableEvents copy];
 }
 
 /// Get the event at time "time".  Create and insert it into "events" array, if necessary.
@@ -352,30 +351,30 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     tempTime = tempTime - (tempTime % _timeQuantization);
 
     // If there are no events yet, we can just add it.
-    if ([_events count] == 0) {
+    if ([_mutableEvents count] == 0) {
         newEvent = [[Event alloc] initWithTime:tempTime];
-        [_events addObject:newEvent];
+        [_mutableEvents addObject:newEvent];
         return newEvent;
     }
 
     // Otherwise we need to search through the events to find the correct place to insert it.
     NSInteger i;
-    for (i = [_events count] - 1; i >= _zeroIndex; i--) {
+    for (i = [_mutableEvents count] - 1; i >= _zeroIndex; i--) {
         // If there is an Event at exactly this time, we can use that event.
-        if ([[_events objectAtIndex:i] time] == tempTime)
-            return [_events objectAtIndex:i];
+        if ([_mutableEvents[i] time] == tempTime)
+            return _mutableEvents[i];
 
         // Otherwise we'll need to create an Event at that time and insert it in the proper place.
-        if ([[_events objectAtIndex:i] time] < tempTime) {
+        if ([_mutableEvents[i] time] < tempTime) {
             newEvent = [[Event alloc] initWithTime:tempTime];
-            [_events insertObject:newEvent atIndex:i+1];
+            [_mutableEvents insertObject:newEvent atIndex:i+1];
             return newEvent;
         }
     }
 
     // In this case the event should come at the end of the list.
     newEvent = [[Event alloc] initWithTime:tempTime];
-    [_events insertObject:newEvent atIndex:i+1];
+    [_mutableEvents insertObject:newEvent atIndex:i+1];
 
     return newEvent;
 }
@@ -435,7 +434,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 - (void)finalEvent:(NSUInteger)number withValue:(double)value posture:(MMPosture *)posture;
 {
-    Event *lastEvent = [_events lastObject];
+    Event *lastEvent = [_mutableEvents lastObject];
     [lastEvent setValue:value atIndex:number];
     lastEvent.isAtPosture = YES;
     lastEvent.posture = posture;
@@ -753,7 +752,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     _zeroRef = 0;
     _zeroIndex = 0;
-    _duration = [[_events lastObject] time] + 100;
+    _duration = [[_mutableEvents lastObject] time] + 100;
 
     [self removeAllIntonationPoints];
 //    [self addIntonationPoint:-20.0 offsetTime:0.0 slope:0.0 ruleIndex:0];
@@ -896,7 +895,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     NSParameterAssert(_model != nil);
     
-    if ([_events count] == 0)
+    if ([_mutableEvents count] == 0)
         return;
 
     if (self.intonation.shouldUseDrift) {
@@ -918,11 +917,11 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     double temp;
     for (NSUInteger i = 0; i < 16; i++) {
         NSUInteger j = 1;
-        while ( ( temp = [_events[j] getValueAtIndex:i]) == NaN)
+        while ( ( temp = [_mutableEvents[j] getValueAtIndex:i]) == NaN)
             j++;
 
-        currentValues[i] = [_events[0] getValueAtIndex:i];
-        currentDeltas[i] = ((temp - currentValues[i]) / (double) ([_events[j] time])) * millisecondsPerInterval;
+        currentValues[i] = [_mutableEvents[0] getValueAtIndex:i];
+        currentDeltas[i] = ((temp - currentValues[i]) / (double) ([_mutableEvents[j] time])) * millisecondsPerInterval;
     }
 
     // Not sure what the next 16+4 values are
@@ -932,27 +931,27 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     if (self.intonation.shouldUseSmoothIntonation) {
         // Find the first value for "32", and use that as the current value[32], no delta
         NSUInteger j = 0;
-        while ( (temp = [_events[j] getValueAtIndex:32]) == NaN) {
+        while ( (temp = [_mutableEvents[j] getValueAtIndex:32]) == NaN) {
             j++;
-            if (j >= [_events count])
+            if (j >= [_mutableEvents count])
                 break;
         }
 
-        currentValues[32] = [_events[j] getValueAtIndex:32];
+        currentValues[32] = [_mutableEvents[j] getValueAtIndex:32];
         currentDeltas[32] = 0.0;
         //NSLog(@"Smooth intonation: %f %f j = %d", currentValues[32], currentDeltas[32], j);
     } else {
         // Find the first value for "32" (skipping the very first value).  Use the very first entry as the current value, and calculate delta from the other one
         NSUInteger j = 1;
-        while ( (temp = [_events[j] getValueAtIndex:32]) == NaN) {
+        while ( (temp = [_mutableEvents[j] getValueAtIndex:32]) == NaN) {
             j++;
-            if (j >= [_events count])
+            if (j >= [_mutableEvents count])
                 break;
         }
 
-        currentValues[32] = [_events[0] getValueAtIndex:32];
-        if (j < [_events count])
-            currentDeltas[32] = ((temp - currentValues[32]) / (double) ([_events[j] time])) * millisecondsPerInterval;
+        currentValues[32] = [_mutableEvents[0] getValueAtIndex:32];
+        if (j < [_mutableEvents count])
+            currentDeltas[32] = ((temp - currentValues[32]) / (double) ([_mutableEvents[j] time])) * millisecondsPerInterval;
         else
             currentDeltas[32] = 0;
 
@@ -965,10 +964,10 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     NSUInteger i = 1;
     currentTime_ms = 0;
-    NSUInteger nextTime = [_events[1] time];
+    NSUInteger nextTime = [_mutableEvents[1] time];
     float table[16];
 
-    while (i < [_events count]) {
+    while (i < [_mutableEvents count]) {
         for (NSUInteger j = 0; j < 16; j++) {
             table[j] = (float)currentValues[j] + (float)currentValues[j+16];
         }
@@ -1020,15 +1019,15 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
         if (currentTime_ms >= nextTime) {
             i++;
-            if (i == [_events count])
+            if (i == [_mutableEvents count])
                 break;
 
-            nextTime = [_events[i] time];
+            nextTime = [_mutableEvents[i] time];
             for (NSUInteger j = 0; j < 33; j++) {
-                if ([_events[i-1] getValueAtIndex:j] != NaN) {
+                if ([_mutableEvents[i-1] getValueAtIndex:j] != NaN) {
                     NSUInteger k = i;
-                    while ((temp = [_events[k] getValueAtIndex:j]) == NaN) {
-                        if (k >= [_events count] - 1) {
+                    while ((temp = [_mutableEvents[k] getValueAtIndex:j]) == NaN) {
+                        if (k >= [_mutableEvents count] - 1) {
                             currentDeltas[j] = 0.0;
                             break;
                         }
@@ -1037,17 +1036,17 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
                     if (temp != NaN) {
                         currentDeltas[j] = (temp - currentValues[j]) /
-                            (double) ([_events[k] time] - currentTime_ms) * millisecondsPerInterval;
+                            (double) ([_mutableEvents[k] time] - currentTime_ms) * millisecondsPerInterval;
                     }
                 }
             }
             if (self.intonation.shouldUseSmoothIntonation) {
-                if ([_events[i-1] getValueAtIndex:33] != NaN) {
-                    currentValues[32] = [_events[i-1] getValueAtIndex:32];
+                if ([_mutableEvents[i-1] getValueAtIndex:33] != NaN) {
+                    currentValues[32] = [_mutableEvents[i-1] getValueAtIndex:32];
                     currentDeltas[32] = 0.0;
-                    currentDeltas[33] = [_events[i-1] getValueAtIndex:33];
-                    currentDeltas[34] = [_events[i-1] getValueAtIndex:34];
-                    currentDeltas[35] = [_events[i-1] getValueAtIndex:35];
+                    currentDeltas[33] = [_mutableEvents[i-1] getValueAtIndex:33];
+                    currentDeltas[34] = [_mutableEvents[i-1] getValueAtIndex:34];
+                    currentDeltas[35] = [_mutableEvents[i-1] getValueAtIndex:35];
                 }
             }
         }
@@ -1439,7 +1438,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 // So that we can reapply the current intonation to the events.
 - (void)clearIntonationEvents;
 {
-    for (Event *event in _events) {
+    for (Event *event in _mutableEvents) {
         [event setValue:NaN atIndex:32];
         [event setValue:NaN atIndex:33];
         [event setValue:NaN atIndex:34];
