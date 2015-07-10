@@ -118,22 +118,22 @@
     }
 
     while ([_slopes count] < ([_points count] - 1)) {
-        MMSlope *newSlope;
-
-        newSlope = [[MMSlope alloc] init];
-        [newSlope setSlope:1.0];
+        MMSlope *newSlope = [[MMSlope alloc] init];
+        newSlope.slope = 1.0;
         [_slopes addObject:newSlope];
     }
 }
 
 - (double)startTime;
 {
-    return [(MMPoint *)[_points objectAtIndex:0] cachedTime];
+    MMPoint *point = _points[0];
+    return point.cachedTime;
 }
 
 - (double)endTime;
 {
-    return [(MMPoint *)[_points lastObject] cachedTime];
+    MMPoint *point = [_points lastObject];
+    return point.cachedTime;
 }
 
 #pragma mark - Used by TransitionView
@@ -145,38 +145,35 @@
 
 - (void)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag andAddToDisplay:(NSMutableArray *)displayList;
 {
-    NSUInteger i, numSlopes;
-    double temp = 0.0, temp1 = 0.0, intervalTime = 0.0, sum = 0.0, factor = 0.0;
-    double baseTime = 0.0, endTime = 0.0, totalTime = 0.0, delta = 0.0;
-    double startValue;
-    MMPoint *currentPoint;
-
     /* Calculate the times for all points */
     //NSLog(@"%s, count: %d", _cmd, [points count]);
-    for (i = 0; i < [_points count]; i++) {
-        currentPoint = [_points objectAtIndex:i];
-        [[currentPoint timeEquation] evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:newCacheTag];
+    for (MMPoint *point in _points) {
+        [point.timeEquation evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:newCacheTag];
         //NSLog(@"\t%d: expr %@ = %g", i, [[[currentPoint expression] expression] expressionString], dummy);
         //NSLog(@"point value: %g, expression value: %g", [currentPoint value], [[currentPoint expression] cacheValue]);
 
-        [displayList addObject:currentPoint];
+        [displayList addObject:point];
     }
 
-    baseTime = [[_points objectAtIndex:0] cachedTime];
-    endTime = [[_points lastObject] cachedTime];
+    MMPoint *firstPoint = _points[0];
+    MMPoint *lastPoint  = [_points lastObject];
 
-    startValue = [(MMPoint *)[_points objectAtIndex:0] value];
-    delta = [(MMPoint *)[_points lastObject] value] - startValue;
+    double baseTime = firstPoint.cachedTime;
+    double endTime  = lastPoint.cachedTime;;
 
-    temp = [self totalSlopeUnits];
-    totalTime = endTime - baseTime;
+    double startValue = firstPoint.value;
+    double delta      = lastPoint.value - startValue;
 
-    numSlopes = [_slopes count];
-    for (i = 1; i < numSlopes+1; i++) {
-        temp1 = [[_slopes objectAtIndex:i-1] slope] / temp;	/* Calculate normal slope */
+    double temp = [self totalSlopeUnits];
+    double totalTime = endTime - baseTime;
+
+    double sum = 0.0;
+    NSUInteger numSlopes = [_slopes count];
+    for (NSUInteger i = 1; i < numSlopes+1; i++) {
+        double temp1 = [_slopes[i-1] slope] / temp;	/* Calculate normal slope */
 
         /* Calculate time interval */
-        intervalTime = [[_points objectAtIndex:i] cachedTime] - [[_points objectAtIndex:i-1] cachedTime];
+        double intervalTime = [_points[i] cachedTime] - [_points[i-1] cachedTime];
 
         /* Apply interval percentage to slope */
         temp1 = temp1 * (intervalTime / totalTime);
@@ -186,14 +183,15 @@
         sum += temp1;
 
         if (i < numSlopes)
-            [(MMPoint *)[_points objectAtIndex:i] setValue:temp1];
+            [(MMPoint *)_points[i] setValue:temp1];
     }
-    factor = delta / sum;
+
+    double factor = delta / sum;
 
     temp = startValue;
-    for (i = 1; i < [_points count]-1; i++) {
-        [[_points objectAtIndex:i] multiplyValueByFactor:factor];
-        temp = [[_points objectAtIndex:i] addValue:temp];
+    for (NSUInteger i = 1; i < [_points count]-1; i++) {
+        [_points[i] multiplyValueByFactor:factor];
+        temp = [_points[i] addValue:temp];
     }
 }
 
@@ -212,14 +210,14 @@
 
     /* Calculate the times for all points */
     for (i = 0; i < [_points count]; i++) {
-        currentPoint = [_points objectAtIndex:i];
+        currentPoint = _points[i];
         [[currentPoint timeEquation] evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:newCacheTag];
     }
 
-    baseTime = [[_points objectAtIndex:0] cachedTime];
+    baseTime = [_points[0] cachedTime];
     endTime = [[_points lastObject] cachedTime];
 
-    startValue = [(MMPoint *)[_points objectAtIndex:0] value];
+    startValue = [(MMPoint *)_points[0] value];
     delta = [(MMPoint *)[_points lastObject] value] - startValue;
 
     temp = [self totalSlopeUnits];
@@ -227,10 +225,10 @@
 
     numSlopes = [_slopes count];
     for (i = 1; i < numSlopes+1; i++) {
-        temp1 = [[_slopes objectAtIndex:i-1] slope] / temp;	/* Calculate normal slope */
+        temp1 = [_slopes[i-1] slope] / temp;	/* Calculate normal slope */
 
         /* Calculate time interval */
-        intervalTime = [[_points objectAtIndex:i] cachedTime] - [[_points objectAtIndex:i-1] cachedTime];
+        intervalTime = [_points[i] cachedTime] - [_points[i-1] cachedTime];
 
         /* Apply interval percentage to slope */
         temp1 = temp1 * (intervalTime / totalTime);
@@ -240,14 +238,14 @@
         sum += temp1;
 
         if (i < numSlopes)
-            [(MMPoint *)[_points objectAtIndex:i] setValue:temp1];
+            [(MMPoint *)_points[i] setValue:temp1];
     }
     factor = delta / sum;
     temp = startValue;
 
     for (i = 1; i < [_points count]-1; i++) {
-        [[_points objectAtIndex:i] multiplyValueByFactor:factor];
-        temp = [[_points objectAtIndex:i] addValue:temp];
+        [_points[i] multiplyValueByFactor:factor];
+        temp = [_points[i] addValue:temp];
     }
 
     for (i = 0; i < [_points count]; i++) {
@@ -265,7 +263,7 @@
     double temp = 0.0;
 
     for (NSUInteger i = 0; i < [_slopes count]; i++)
-        temp += [[_slopes objectAtIndex:i] slope];
+        temp += [_slopes[i] slope];
 
     return temp;
 }
@@ -274,9 +272,9 @@
 {
     //NSLog(@"DisplaySlopesInList: Count = %d", count);
     for (NSUInteger index = 0; index < [_slopes count]; index++) {
-        double tempTime = ([[_points objectAtIndex:index] cachedTime] + [[_points objectAtIndex:index+1] cachedTime]) / 2.0;
-        MMSlope *currentSlope = [_slopes objectAtIndex:index];
-        [currentSlope setDisplayTime:tempTime];
+        double tempTime = ([_points[index] cachedTime] + [_points[index+1] cachedTime]) / 2.0;
+        MMSlope *currentSlope = _slopes[index];
+        currentSlope.displayTime = tempTime;
         //NSLog(@"TempTime = %f", tempTime);
         [displaySlopes addObject:currentSlope];
     }
