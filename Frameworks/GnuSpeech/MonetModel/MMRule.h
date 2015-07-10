@@ -31,7 +31,7 @@
 
 
 - (void)setExpression:(MMBooleanNode *)newExpression number:(NSUInteger)index;
-- (NSUInteger)numberExpressions;
+- (NSUInteger)expressionCount;
 - (MMBooleanNode *)getExpressionNumber:(NSUInteger)index;
 
 - (void)addBooleanExpression:(MMBooleanNode *)newExpression;

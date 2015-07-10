@@ -705,7 +705,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             }
             appliedRule.matchedPhonesDescription = [a1 componentsJoinedByString:@" > "];
 
-            index += [matchedRule numberExpressions] - 1;
+            index += [matchedRule expressionCount] - 1;
         }
 
         // 2015-07-09: There are a couple places where I'm not sure of the correct posture.  So, for now, just set all the postures after the rules have been applied.
@@ -1065,7 +1065,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     self.multiplier = 1.0 / (double)(phone.ruleTempo);
     //NSLog(@"multiplier after: %f", multiplier);
 
-    NSUInteger type = [rule numberExpressions];
+    NSUInteger type = [rule expressionCount];
     [self setDuration:(int)(ruleSymbols.ruleDuration * self.multiplier)];
 
     ruleValues.firstPhone = phoneIndex;

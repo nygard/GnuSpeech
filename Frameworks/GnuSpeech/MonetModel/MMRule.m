@@ -162,7 +162,7 @@
 
 - (void)setDefaults;
 {
-    NSUInteger numPhones = [self numberExpressions];
+    NSUInteger numPhones = [self expressionCount];
     id tempEntry = nil;
     MMEquation *anEquation, *defaultOnset, *defaultDuration;
     NSArray *aParameterList;
@@ -267,7 +267,7 @@
 {
     MMTransition *transition = nil;
 
-    switch ([self numberExpressions]) {
+    switch ([self expressionCount]) {
         case 2:
             transition = [self.model findTransitionWithName:@"Diphone" inGroupWithName:@"Defaults"];
             break;
@@ -288,7 +288,7 @@
 {
     MMTransition *transition = nil;
 
-    switch ([self numberExpressions]) {
+    switch ([self expressionCount]) {
         case 2:
             transition = [self.model findTransitionWithName:@"Diphone" inGroupWithName:@"Defaults"];
             break;
@@ -424,15 +424,13 @@
     _expressions[index] = newExpression;
 }
 
-- (NSUInteger)numberExpressions;
+- (NSUInteger)expressionCount;
 {
-    NSUInteger index;
-    
-    for (index = 0; index < 4; index++)
+    for (NSUInteger index = 0; index < 4; index++)
         if (_expressions[index] == nil)
             return index;
 
-    return index;
+    return 4;
 }
 
 - (MMBooleanNode *)getExpressionNumber:(NSUInteger)index;
@@ -469,7 +467,7 @@
 
 - (BOOL)matchRule:(NSArray *)categories;
 {
-    for (NSUInteger index = 0; index < [self numberExpressions]; index++) {
+    for (NSUInteger index = 0; index < [self expressionCount]; index++) {
         if (![_expressions[index] evaluateWithCategories:[categories objectAtIndex:index]])
             return NO;
     }
@@ -527,10 +525,8 @@
 
 - (BOOL)usesCategory:(MMCategory *)aCategory;
 {
-    NSUInteger count, index;
-
-    count = [self numberExpressions];
-    for (index = 0; index < count; index++) {
+    NSUInteger count = [self expressionCount];
+    for (NSUInteger index = 0; index < count; index++) {
         if ([_expressions[index] usesCategory:aCategory])
             return YES;
     }
@@ -756,14 +752,14 @@
 
 - (void)setRuleExpression1:(MMBooleanNode *)exp1 exp2:(MMBooleanNode *)exp2 exp3:(MMBooleanNode *)exp3 exp4:(MMBooleanNode *)exp4;
 {
-    NSUInteger oldExpressionCount = [self numberExpressions];
+    NSUInteger oldExpressionCount = [self expressionCount];
 
     [self setExpression:exp1 number:0];
     [self setExpression:exp2 number:1];
     [self setExpression:exp3 number:2];
     [self setExpression:exp4 number:3];
 
-    if (oldExpressionCount != [self numberExpressions])
+    if (oldExpressionCount != [self expressionCount])
         [self setDefaults];
 }
 

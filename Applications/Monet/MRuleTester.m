@@ -150,7 +150,7 @@
 
         str = [NSString stringWithFormat:@"%lu. %@", ruleIndex + 1, [rule ruleString]];
         [_ruleOutputTextField setStringValue:str];
-        [_consumedTokensTextField setIntegerValue:[rule numberExpressions] - 1];
+        [_consumedTokensTextField setIntegerValue:[rule expressionCount] - 1];
 
         [rule evaluateSymbolEquationsWithPhonesInArray:testPhones ruleSymbols:ruleSymbols withCacheTag:[[self model] nextCacheTag]];
 

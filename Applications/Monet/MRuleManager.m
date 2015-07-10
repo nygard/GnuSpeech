@@ -391,7 +391,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         if ([self selectedRule] == nil)
             return 2;
 
-        return 2 + [[self selectedRule] numberExpressions] - 1;
+        return 2 + [[self selectedRule] expressionCount] - 1;
     }
 
     if (tableView == _parameterTableView || tableView == _specialParameterTableView)
@@ -418,7 +418,7 @@ static NSString *MRMLocalRuleDragPasteboardType = @"MRMLocalRuleDragPasteboardTy
         } else if ([@"rule" isEqual:identifier]) {
             return [rule ruleString];
         } else if ([@"numberOfTokensConsumed" isEqual:identifier]) {
-            return [NSNumber numberWithInteger:[rule numberExpressions]];
+            return [NSNumber numberWithInteger:[rule expressionCount]];
         }
     } else if (tableView == _symbolTableView) {
         if ([@"name" isEqual:identifier]) {

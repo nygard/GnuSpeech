@@ -624,7 +624,7 @@
     __block NSUInteger matchingIndex = 0;
     
     [self.rules enumerateObjectsUsingBlock:^(MMRule *rule, NSUInteger index, BOOL *stop){
-        if ([rule numberExpressions] <= [categoryLists count])
+        if ([rule expressionCount] <= [categoryLists count])
             if ([rule matchRule:categoryLists]) {
                 matchingRule = rule;
                 matchingIndex = index;
