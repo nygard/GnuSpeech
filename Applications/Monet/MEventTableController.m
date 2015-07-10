@@ -136,7 +136,7 @@
             NSInteger index = [identifier intValue] + rowOffset * 16;
             if (rowOffset == 0 || index < 32) {
                 double value = [self.eventList.events[eventNumber] getValueAtIndex:index];
-                if (value == NaN) return nil;
+                if (isnan(value)) return nil;
                 return [NSNumber numberWithDouble:value];
             }
         }

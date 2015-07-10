@@ -5,9 +5,6 @@
 
 #include <math.h>
 
-// 2015-06-20: <http://www.gnu.org/software/libc/manual/html_node/Infinity-and-NaN.html> Indicates this would be +infinity, not NaN.
-#define NaN (1.0/0.0)
-
 @class MMPosture;
 
 @interface Event : NSObject

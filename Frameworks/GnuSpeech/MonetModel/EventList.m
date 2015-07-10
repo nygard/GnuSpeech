@@ -392,7 +392,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     for (Event *event in self.events) {
         double value = [event getValueAtIndex:number];
-        if (value != NaN) {
+        if (!isnan(value)) {
             [a1 addObject:event];
         }
     }
@@ -917,7 +917,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     double temp;
     for (NSUInteger i = 0; i < 16; i++) {
         NSUInteger j = 1;
-        while ( ( temp = [_mutableEvents[j] getValueAtIndex:i]) == NaN)
+        while ( isnan( temp = [_mutableEvents[j] getValueAtIndex:i]) )
             j++;
 
         currentValues[i] = [_mutableEvents[0] getValueAtIndex:i];
@@ -931,7 +931,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     if (self.intonation.shouldUseSmoothIntonation) {
         // Find the first value for "32", and use that as the current value[32], no delta
         NSUInteger j = 0;
-        while ( (temp = [_mutableEvents[j] getValueAtIndex:32]) == NaN) {
+        while ( isnan(temp = [_mutableEvents[j] getValueAtIndex:32]) ) {
             j++;
             if (j >= [_mutableEvents count])
                 break;
@@ -943,7 +943,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     } else {
         // Find the first value for "32" (skipping the very first value).  Use the very first entry as the current value, and calculate delta from the other one
         NSUInteger j = 1;
-        while ( (temp = [_mutableEvents[j] getValueAtIndex:32]) == NaN) {
+        while ( isnan(temp = [_mutableEvents[j] getValueAtIndex:32]) ) {
             j++;
             if (j >= [_mutableEvents count])
                 break;
@@ -1024,9 +1024,9 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
             nextTime = [_mutableEvents[i] time];
             for (NSUInteger j = 0; j < 33; j++) {
-                if ([_mutableEvents[i-1] getValueAtIndex:j] != NaN) {
+                if (!isnan([_mutableEvents[i-1] getValueAtIndex:j])) {
                     NSUInteger k = i;
-                    while ((temp = [_mutableEvents[k] getValueAtIndex:j]) == NaN) {
+                    while ( isnan(temp = [_mutableEvents[k] getValueAtIndex:j]) ) {
                         if (k >= [_mutableEvents count] - 1) {
                             currentDeltas[j] = 0.0;
                             break;
@@ -1034,14 +1034,14 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
                         k++;
                     }
 
-                    if (temp != NaN) {
+                    if (!isnan(temp)) {
                         currentDeltas[j] = (temp - currentValues[j]) /
                             (double) ([_mutableEvents[k] time] - currentTime_ms) * millisecondsPerInterval;
                     }
                 }
             }
             if (self.intonation.shouldUseSmoothIntonation) {
-                if ([_mutableEvents[i-1] getValueAtIndex:33] != NaN) {
+                if (!isnan([_mutableEvents[i-1] getValueAtIndex:33])) {
                     currentValues[32] = [_mutableEvents[i-1] getValueAtIndex:32];
                     currentDeltas[32] = 0.0;
                     currentDeltas[33] = [_mutableEvents[i-1] getValueAtIndex:33];
@@ -1439,10 +1439,10 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 - (void)clearIntonationEvents;
 {
     for (Event *event in _mutableEvents) {
-        [event setValue:NaN atIndex:32];
-        [event setValue:NaN atIndex:33];
-        [event setValue:NaN atIndex:34];
-        [event setValue:NaN atIndex:35];
+        [event setValue:NAN atIndex:32];
+        [event setValue:NAN atIndex:33];
+        [event setValue:NAN atIndex:34];
+        [event setValue:NAN atIndex:35];
     }
 }
 

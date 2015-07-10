@@ -160,7 +160,7 @@
             } else {
                 double value = [event getValueAtIndex:parameterIndex];
 
-                if (value != NaN) {
+                if (!isnan(value)) {
                     CGFloat x = _leftInset + event.time * _scale;
                     [valuePath moveToPoint:CGPointMake(x, 0)];
                     [valuePath lineToPoint:CGPointMake(x, NSMaxY(bounds))];
@@ -177,7 +177,7 @@
         for (Event *event in events) {
             double value = [event getValueAtIndex:parameterIndex];
 
-            if (value != NaN) {
+            if (!isnan(value)) {
                 CGPoint p1;
                 p1.x = _leftInset + event.time * _scale;
                 p1.y = rint(bottomInset + trackHeight * (value - currentMin) / (currentMax - currentMin));
@@ -196,7 +196,7 @@
         for (Event *event in events) {
             double value = [event getValueAtIndex:parameterIndex];
 
-            if (value != NaN) {
+            if (!isnan(value)) {
                 CGPoint p1;
                 p1.x = _leftInset + event.time * _scale;
                 p1.y = rint(bottomInset + trackHeight * (value - currentMin) / (currentMax - currentMin));

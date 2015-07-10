@@ -21,7 +21,7 @@
         _isAtPosture = NO;
 
         for (NSUInteger index = 0; index < MAX_VALUES; index++)
-            _value[index] = NaN;
+            _value[index] = NAN;
     }
     
     //NSLog(@"%@", self);
