@@ -65,7 +65,6 @@
 #import "abbreviations.h"
 #import "streams.h"
 #import "TTS_types.h"
-#import "diphone_module.h"
 
 #import <ctype.h>
 #import <stdio.h>
@@ -214,6 +213,14 @@ static void insert_chunk_marker(NXStream *stream, long insert_point, char tg_typ
 static void check_tonic(NXStream *stream, long start_pos, long end_pos);
 
 
+/// Returns a 1 if the phone is valid (exists in the currently initialized database), 0 otherwise.
+
+static int validPhone(char *phone)
+{
+    // This is used in raw mode, turned on with %rb.
+    // TODO: (2014-08-11) This needs to look up the phone in the Monet data.  Previously it was using the unitialized Degas function, but the app crashed before it even got that far.
+    return 1;
+}
 
 
 /******************************************************************************
