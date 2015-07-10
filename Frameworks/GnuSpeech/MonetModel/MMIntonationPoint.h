@@ -38,6 +38,7 @@
 @end
 
 @protocol MMIntonationPointChanges
+- (void)intonationPointDidChange:(MMIntonationPoint *)intonationPoint;
 - (void)intonationPointTimeDidChange:(MMIntonationPoint *)intonationPoint;
 @end
 

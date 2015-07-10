@@ -57,8 +57,6 @@
 
 - (void)clearIntonationEvents;
 
-- (void)intonationPointDidChange:(MMIntonationPoint *)intonationPoint;
-
 // Archiving - XML
 - (BOOL)writeIntonationContourToXMLFile:(NSString *)filename comment:(NSString *)comment;
 
