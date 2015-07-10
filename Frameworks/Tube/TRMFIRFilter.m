@@ -39,9 +39,16 @@ static void rationalApproximation(double number, int32_t *order, int32_t *numera
     if ((self = [super init])) {
         int32_t numberCoefficients;
         double coefficient[COEFFICIENT_LIMIT+1];
+
+        // 2015-07-10: This is just to silence a static analyzer warning.  It doesn't understand that the coefficients are initialized by maximallyFlat().
+        for (NSUInteger index = 0; index < COEFFICIENT_LIMIT+1; index++) {
+            coefficient[index] = 0;
+        }
         
         // Determine ideal low pass filter coefficients
-        maximallyFlat(beta, gamma, &numberCoefficients, coefficient);
+        if (maximallyFlat(beta, gamma, &numberCoefficients, coefficient) != 0) {
+            return nil;
+        }
         
         // Trim low-value coefficients
         trim(cutoff, &numberCoefficients, coefficient);
@@ -63,6 +70,8 @@ static void rationalApproximation(double number, int32_t *order, int32_t *numera
             return nil;
         }
         
+        NSParameterAssert(numberCoefficients >= 0);
+
         // Initialize the coefficients
         int32_t increment = -1;
         int32_t pointer = numberCoefficients;
