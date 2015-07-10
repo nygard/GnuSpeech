@@ -162,13 +162,11 @@
 
 - (void)setDefaults;
 {
-    NSUInteger numPhones = [self expressionCount];
-    MMEquation *anEquation, *defaultOnset, *defaultDuration;
-
     [_parameterTransitions removeAllObjects];
     [_metaParameterTransitions removeAllObjects];
     [_symbolEquations removeAllObjects];
 
+    NSUInteger numPhones = [self expressionCount];
     if ((numPhones < 2) || (numPhones > 4))
         return;
 
@@ -187,103 +185,75 @@
 
     switch (numPhones) {
         case 2:
-            defaultDuration = [self.model findEquationWithName:@"DiphoneDefault" inGroupWithName:@"DefaultDurations" ];
-            if (defaultDuration == nil)
-                break;
+        {
+            MMEquation *defaultDuration = [self.model findEquationWithName:@"DiphoneDefault" inGroupWithName:@"DefaultDurations" ];
+            if (defaultDuration == nil) break;
             [_symbolEquations addObject:defaultDuration];
             
-            defaultOnset = [self.model findEquationWithName:@"diBeat" inGroupWithName:@"SymbolDefaults"];
-            if (defaultOnset == nil)
-                break;
+            MMEquation *defaultOnset = [self.model findEquationWithName:@"diBeat" inGroupWithName:@"SymbolDefaults"];
+            if (defaultOnset == nil) break;
             [_symbolEquations addObject:defaultOnset];
             
-            [_symbolEquations addObject:defaultDuration]; /* Make the mark1 value == duration */
+            [_symbolEquations addObject:defaultDuration]; // Make the mark1 value == duration
             break;
+        }
             
         case 3:
-            defaultDuration = [self.model findEquationWithName:@"TriphoneDefault" inGroupWithName:@"DefaultDurations"];
-            if (defaultDuration == nil)
-                break;
+        {
+            MMEquation *defaultDuration = [self.model findEquationWithName:@"TriphoneDefault" inGroupWithName:@"DefaultDurations"];
+            if (defaultDuration == nil) break;
             [_symbolEquations addObject:defaultDuration];
             
-            defaultOnset = [self.model findEquationWithName:@"triBeat" inGroupWithName:@"SymbolDefaults"];
-            if (defaultOnset == nil)
-                break;
+            MMEquation *defaultOnset = [self.model findEquationWithName:@"triBeat" inGroupWithName:@"SymbolDefaults"];
+            if (defaultOnset == nil) break;
             [_symbolEquations addObject:defaultOnset];
             
-            anEquation = [self.model findEquationWithName:@"Mark1" inGroupWithName:@"SymbolDefaults"];
-            if (anEquation == nil)
-                break;
-            [_symbolEquations addObject:anEquation];
+            MMEquation *defaultMark1 = [self.model findEquationWithName:@"Mark1" inGroupWithName:@"SymbolDefaults"];
+            if (defaultMark1 == nil) break;
+            [_symbolEquations addObject:defaultMark1];
             
-            [_symbolEquations addObject:defaultDuration]; /* Make the  mark2 value == duration */
+            [_symbolEquations addObject:defaultDuration]; // Make the  mark2 value == duration
             break;
+        }
             
         case 4:
-            defaultDuration = [self.model findEquationWithName:@"TetraphoneDefault" inGroupWithName:@"DefaultDurations"];
-            if (defaultDuration == nil)
-                break;
+        {
+            MMEquation *defaultDuration = [self.model findEquationWithName:@"TetraphoneDefault" inGroupWithName:@"DefaultDurations"];
+            if (defaultDuration == nil) break;
             [_symbolEquations addObject:defaultDuration];
             
-            defaultOnset = [self.model findEquationWithName:@"tetraBeat" inGroupWithName:@"SymbolDefaults"]; // TODO (2004-03-24): Not in diphones.monet
-            if (defaultOnset == nil)
-                break;
+            MMEquation *defaultOnset = [self.model findEquationWithName:@"tetraBeat" inGroupWithName:@"SymbolDefaults"]; // TODO (2004-03-24): Not in diphones.monet
+            if (defaultOnset == nil) break;
             [_symbolEquations addObject:defaultOnset];
             
-            anEquation = [self.model findEquationWithName:@"Mark1" inGroupWithName:@"SymbolDefaults"];
-            if (anEquation == nil)
-                break;
-            [_symbolEquations addObject:anEquation];
+            MMEquation *defaultMark1 = [self.model findEquationWithName:@"Mark1" inGroupWithName:@"SymbolDefaults"];
+            if (defaultMark1 == nil) break;
+            [_symbolEquations addObject:defaultMark1];
             
-            anEquation = [self.model findEquationWithName:@"Mark2" inGroupWithName:@"SymbolDefaults"];
-            if  (anEquation == nil)
-                break;
-            [_symbolEquations addObject:anEquation];
+            MMEquation *defaultMark2 = [self.model findEquationWithName:@"Mark2" inGroupWithName:@"SymbolDefaults"];
+            if  (defaultMark2 == nil) break;
+            [_symbolEquations addObject:defaultMark2];
             
-            [_symbolEquations addObject:defaultDuration]; /* Make the mark3 value == duration */
+            [_symbolEquations addObject:defaultDuration]; // Make the mark3 value == duration
             break;
+        }
     }
 }
 
 - (void)addDefaultTransitionForLastParameter;
 {
-    MMTransition *transition = nil;
+    MMTransition *defaultTransition = [self.model defaultTransitionForPhoneCount:[self expressionCount]];
 
-    switch ([self expressionCount]) {
-        case 2:
-            transition = [self.model findTransitionWithName:@"Diphone" inGroupWithName:@"Defaults"];
-            break;
-        case 3:
-            transition = [self.model findTransitionWithName:@"Triphone" inGroupWithName:@"Defaults"];
-            break;
-        case 4:
-            transition = [self.model findTransitionWithName:@"Tetraphone" inGroupWithName:@"Defaults"];
-            break;
-    }
-
-    if (transition != nil)
-        [_parameterTransitions addObject:transition];
+    if (defaultTransition != nil)
+        [_parameterTransitions addObject:defaultTransition];
 }
 
-// Warning (building for 10.2 deployment) (2004-04-02): tempEntry might be used uninitialized in this function
 - (void)addDefaultTransitionForLastMetaParameter;
 {
-    MMTransition *transition = nil;
+    MMTransition *defaultTransition = [self.model defaultTransitionForPhoneCount:[self expressionCount]];
 
-    switch ([self expressionCount]) {
-        case 2:
-            transition = [self.model findTransitionWithName:@"Diphone" inGroupWithName:@"Defaults"];
-            break;
-        case 3:
-            transition = [self.model findTransitionWithName:@"Triphone" inGroupWithName:@"Defaults"];
-            break;
-        case 4:
-            transition = [self.model findTransitionWithName:@"Tetraphone" inGroupWithName:@"Defaults"];
-            break;
-    }
-    
-    if (transition != nil)
-        [_metaParameterTransitions addObject:transition];
+    if (defaultTransition != nil)
+        [_metaParameterTransitions addObject:defaultTransition];
 }
 
 - (void)removeParameterAtIndex:(NSUInteger)index;
