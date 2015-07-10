@@ -403,7 +403,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     NSUInteger count = [_eventList ruleCount];
     for (NSUInteger index = 0; index < count; index++) {
-        MMRuleValues *ruleValues = _eventList.allRuleValues[index];
+        MMRuleValues *ruleValues = _eventList.appliedRules[index];
 
         NSRect ruleFrame;
         ruleFrame.origin.x = currentX;
@@ -455,7 +455,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     NSUInteger count = [_eventList ruleCount];
     for (NSUInteger index = 0; index < count; index++) {
-        MMRuleValues *ruleValues = _eventList.allRuleValues[index];
+        MMRuleValues *ruleValues = _eventList.appliedRules[index];
 
         ruleFrame.size.width = [self scaleWidth:ruleValues.duration] + extraWidth;
         if ((index % 2) == 1) {

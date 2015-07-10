@@ -133,7 +133,7 @@
         NSUInteger count = [self.eventList ruleCount];
         //NSLog(@"count: %lu", count);
         for (NSUInteger index = 0; index < count; index++) {
-            MMRuleValues *ruleValues = self.eventList.allRuleValues[index];
+            MMRuleValues *ruleValues = self.eventList.appliedRules[index];
 
             NSParameterAssert(ruleValues.firstPhone < [postureEvents count]);
             NSParameterAssert(ruleValues.lastPhone < [postureEvents count]);

@@ -88,7 +88,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     struct _foot _feet[MAXFEET];
 
     NSMutableArray *_toneGroups;
-    NSMutableArray *_allRuleValues;
+    NSMutableArray *_appliedRules;
     NSMutableArray *_events;
 
     NSMutableArray *_intonationPoints; // Sorted by absolute time
@@ -120,7 +120,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         memset(_feet, 0, MAXFEET * sizeof(struct _foot));
 
         _toneGroups = [[NSMutableArray alloc] init];
-        _allRuleValues = [[NSMutableArray alloc] init];
+        _appliedRules = [[NSMutableArray alloc] init];
         _events = [[NSMutableArray alloc] init];
 
         _intonationPoints = [[NSMutableArray alloc] init];
@@ -206,7 +206,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     bzero(_feet, MAXFEET * sizeof(struct _foot));
 
     [self.toneGroups removeAllObjects];
-    [self.allRuleValues removeAllObjects];
+    [self.appliedRules removeAllObjects];
     [_events removeAllObjects];
     [self removeAllIntonationPoints];
 
@@ -232,19 +232,19 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 - (MMRuleValues *)ruleValuesAtIndex:(NSUInteger)index;
 {
-    return self.allRuleValues[index]; // And now it'll raise an exception if index out of range, instead of return NULL/nil.
+    return self.appliedRules[index]; // And now it'll raise an exception if index out of range, instead of return NULL/nil.
 }
 
 - (NSUInteger)ruleCount;
 {
-    return [self.allRuleValues count];
+    return [self.appliedRules count];
 }
 
 - (void)getRuleIndex:(NSUInteger *)ruleIndexPtr offsetTime:(double *)offsetTimePtr forAbsoluteTime:(double)absoluteTime;
 {
-    NSUInteger count = [self.allRuleValues count];
+    NSUInteger count = [self.appliedRules count];
     for (NSUInteger index = 0; index < count; index++) {
-        MMRuleValues *ruleValues = self.allRuleValues[index]; // TODO: (2015-07-09) Hmm, poorly names class and ivar.
+        MMRuleValues *ruleValues = self.appliedRules[index]; // TODO: (2015-07-09) Hmm, poorly names class and ivar.
         MMPhone *phone = _phones[ruleValues.firstPhone];
         double onset = phone.onset;
         if (absoluteTime >= onset && absoluteTime < onset + ruleValues.duration) {
@@ -370,9 +370,9 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 - (NSUInteger)ruleIndexForPostureAtIndex:(NSUInteger)postureIndex;
 {
-    NSUInteger count = [self.allRuleValues count];
+    NSUInteger count = [self.appliedRules count];
     for (NSUInteger index = 0; index < count; index++) {
-        MMRuleValues *ruleValues = self.allRuleValues[index];
+        MMRuleValues *ruleValues = self.appliedRules[index];
         if ((postureIndex >= ruleValues.firstPhone) && (postureIndex <= ruleValues.lastPhone))
             return index;
     }
@@ -745,7 +745,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             MMRule *matchedRule = [_model findRuleMatchingCategories:tempCategoryList ruleIndex:&ruleIndex];
             MMRuleValues *ruleValues = [[MMRuleValues alloc] init];
             ruleValues.number = ruleIndex + 1;
-            [self.allRuleValues addObject:ruleValues];
+            [self.appliedRules addObject:ruleValues];
 
             //NSLog(@"----------------------------------------------------------------------");
             //NSLog(@"Applying rule %d", ruleIndex + 1);
@@ -1235,7 +1235,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: postureCount: %lu, footCount: %lu, toneGroupCount: %lu, ruleValues count: %lu, + a bunch of other stuff, super: %@",
-                     NSStringFromClass([self class]), self, [_phones count], _footCount, [self.toneGroups count], [self.allRuleValues count], [super description]];
+                     NSStringFromClass([self class]), self, [_phones count], _footCount, [self.toneGroups count], [self.appliedRules count], [super description]];
 }
 
 - (void)printDataStructures:(NSString *)comment;
@@ -1258,7 +1258,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             //NSLog(@"Foot (%d -- %d)", feet[footIndex].start, feet[footIndex].end);
             for (NSUInteger postureIndex = _feet[footIndex].startPhoneIndex; postureIndex <= _feet[footIndex].endPhoneIndex; postureIndex++) {
                 MMPhone *phone = _phones[postureIndex];
-                MMRuleValues *ruleValues = (ruleIndex < [self.allRuleValues count]) ? self.allRuleValues[ruleIndex] : nil;
+                MMRuleValues *ruleValues = (ruleIndex < [self.appliedRules count]) ? self.appliedRules[ruleIndex] : nil;
                 if (ruleValues != nil && ruleValues.firstPhone == postureIndex) {
                     [logger log:@"    posture[%2lu]  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2lu, duration: %7.2f, beat: %7.2f",
                      postureIndex, phone.tempo, phone.syllable, phone.onset,

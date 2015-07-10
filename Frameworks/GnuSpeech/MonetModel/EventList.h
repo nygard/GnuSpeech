@@ -21,7 +21,7 @@
 
 // Rules
 // TODO: (2015-07-09) Return an immutable copy of the array instead.
-@property (readonly) NSMutableArray *allRuleValues; // TODO: (2015-07-09) This needs a better name.
+@property (readonly) NSMutableArray *appliedRules; // TODO: (2015-07-09) This needs a better name.
 
 - (NSUInteger)ruleCount;
 - (void)getRuleIndex:(NSUInteger *)ruleIndexPtr offsetTime:(double *)offsetTimePtr forAbsoluteTime:(double)absoluteTime;
