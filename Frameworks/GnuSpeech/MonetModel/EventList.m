@@ -47,7 +47,9 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 @property (readonly) NSMutableArray *feet;
 
+/// This is stored when -parsePhoneString: is called, so that it can be saved with the intonation contour.
 @property (strong) NSString *phoneString;
+
 @property (assign) NSUInteger duration;
 @property (assign) NSUInteger timeQuantization;
 
@@ -480,13 +482,15 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 - (void)parsePhoneString:(NSString *)str;
 {
-    NSUInteger lastFoot = 0, markedFoot = 0;
-    double footTempo = 1.0;
-    double ruleTempo = 1.0;
-    double phoneTempo = 1.0;
     NSCharacterSet *whitespaceCharacterSet = [NSCharacterSet phoneStringWhitespaceCharacterSet];
-    NSCharacterSet *defaultCharacterSet = [NSCharacterSet phoneStringIdentifierCharacterSet];
-    BOOL wordMarker = NO;
+    NSCharacterSet *defaultCharacterSet    = [NSCharacterSet phoneStringIdentifierCharacterSet];
+
+    BOOL markedFoot   = NO;
+    BOOL lastFoot     = NO;
+    double footTempo  = 1.0;
+    double ruleTempo  = 1.0;
+    double phoneTempo = 1.0;
+    BOOL wordMarker   = NO;
 
     self.phoneString = str;
     
@@ -541,9 +545,9 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
                     MMFoot *foot = [self.feet lastObject];
                     foot.isLast = YES;
                 }
-                footTempo = 1.0;
-                lastFoot = 0;
-                markedFoot = 0;
+                footTempo  = 1.0;
+                lastFoot   = NO;
+                markedFoot = NO;
             }
             else if ([scanner scanString:@"*" intoString:NULL])               // New Marked foot
             {
@@ -555,9 +559,9 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
                     foot.isLast = YES;
                 }
 
-                footTempo = 1.0;
-                lastFoot = 0;
-                markedFoot = 1;
+                footTempo  = 1.0;
+                lastFoot   = NO;
+                markedFoot = YES;
             }
             else if ([scanner scanString:@"/" intoString:NULL])               // New Tone Group
             {
@@ -586,7 +590,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             else if ([scanner scanString:@"l" intoString:NULL])               // Last Foot in tone group marker
             {
                 //NSLog(@"Last Foot in tone group");
-                lastFoot = 1;
+                lastFoot = YES;
             }
             else if ([scanner scanString:@"f" intoString:NULL])               // Foot tempo indicator
             {
@@ -641,7 +645,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
                     [self setCurrentPhoneRuleTempo:(float)ruleTempo];
                 }
                 phoneTempo = 1.0;
-                ruleTempo = 1.0;
+                ruleTempo  = 1.0;
                 wordMarker = NO;
             } else {
                 break;
