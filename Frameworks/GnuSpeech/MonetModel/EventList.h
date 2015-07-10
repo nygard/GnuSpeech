@@ -5,10 +5,10 @@
 
 #import "MMIntonationPoint.h" // For MMIntonationPointChanges protocol
 
-@class Event, MMIntonationPoint, MModel, MMPosture, MMPostureRewriter, MMRule, MMDriftGenerator;
+@class MMIntonationPoint, MModel, MMPosture, MMDriftGenerator;
 
-@class TRMParameters, TRMSynthesizer;
-@class MMIntonation, MMRuleValues;
+@class TRMSynthesizer;
+@class MMIntonation;
 
 @interface EventList : NSObject <MMIntonationPointChanges>
 
