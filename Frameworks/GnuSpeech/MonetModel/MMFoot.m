@@ -11,7 +11,7 @@
         _tempo           = 1.0;
         _startPhoneIndex = 0;
         _endPhoneIndex   = 0;
-        _isMarked        = NO;
+        _isTonic         = NO;
         _isLast          = NO;
     }
 

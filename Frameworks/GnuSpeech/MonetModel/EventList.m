@@ -262,7 +262,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     }
 
     MMFoot *foot = [self.feet lastObject];
-    foot.isMarked = YES;
+    foot.isTonic = YES;
 }
 
 - (void)setCurrentFootLast;
@@ -682,7 +682,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         NSUInteger rus = foot.endPhoneIndex - foot.startPhoneIndex + 1;
 
         /* Apply rhythm model */
-        if (foot.isMarked) {
+        if (foot.isTonic) {
             double tempo = 117.7 - (19.36 * (double)rus);
             foot.tempo -= tempo / 180.0;
             //NSLog(@"Rus = %d tempTempo = %f", rus, tempo);
@@ -824,7 +824,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
                 }
             }
 
-            if (!foot.isMarked) { // Pretonic
+            if (!foot.isTonic) { // Pretonic
                 NSUInteger ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
 
                 double randomSemitone;
@@ -1280,8 +1280,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         //NSLog(@"tg (%d -- %d)", toneGroups[toneGroupIndex].startFoot, toneGroups[toneGroupIndex].endFoot);
         for (NSUInteger footIndex = toneGroup.startFootIndex; footIndex <= toneGroup.endFootIndex; footIndex++) {
             MMFoot *foot = self.feet[footIndex];
-            [logger log:@"  foot[%lu]  tempo: %.3f, marked: %lu, last: %lu  (%ld -- %ld)", footIndex, foot.tempo,
-             foot.isMarked, foot.isLast, foot.startPhoneIndex, foot.endPhoneIndex];
+            [logger log:@"  foot[%lu]  tempo: %.3f, isTonic? %d, last? %d  (%ld -- %ld)", footIndex, foot.tempo,
+             foot.isTonic, foot.isLast, foot.startPhoneIndex, foot.endPhoneIndex];
 
             //NSLog(@"Foot (%d -- %d)", feet[footIndex].start, feet[footIndex].end);
             for (NSUInteger postureIndex = foot.startPhoneIndex; postureIndex <= foot.endPhoneIndex; postureIndex++) {
