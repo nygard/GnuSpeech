@@ -290,14 +290,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     return str;
 }
 
-- (double)getBeatAtIndex:(NSUInteger)ruleIndex;
-{
-    if (ruleIndex > _currentRule)
-        return 0.0;
-
-    return _rules[ruleIndex].beat;
-}
-
 - (NSUInteger)ruleCount;
 {
     return _currentRule;

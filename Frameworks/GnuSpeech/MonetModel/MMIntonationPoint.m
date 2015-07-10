@@ -8,6 +8,7 @@
 #import "NSString-Extensions.h"
 
 #import "EventList.h"
+#import "MMRuleValues.h"
 
 #define MIDDLEC	261.6255653
 
@@ -137,7 +138,11 @@
         return 0.0;
     }
 
-    return [self.eventList getBeatAtIndex:self.ruleIndex] + self.offsetTime;
+    MMRuleValues *ruleValues = [self.eventList ruleValuesAtIndex:self.ruleIndex];
+    if (ruleValues == nil)
+        return self.offsetTime;
+
+    return self.offsetTime + ruleValues.beat;
 }
 
 - (double)beatTime;
@@ -147,7 +152,11 @@
         return 0.0;
     }
 
-    return [self.eventList getBeatAtIndex:self.ruleIndex];
+    MMRuleValues *ruleValues = [self.eventList ruleValuesAtIndex:self.ruleIndex];
+    if (ruleValues == nil)
+        return 0;
+
+    return ruleValues.beat;
 }
 
 - (double)semitoneInHertz;

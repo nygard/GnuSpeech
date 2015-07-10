@@ -21,7 +21,6 @@
 - (MMRuleValues *)ruleValuesAtIndex:(NSUInteger)index;
 
 - (NSString *)ruleDescriptionAtIndex:(NSUInteger)ruleIndex;
-- (double)getBeatAtIndex:(NSUInteger)ruleIndex;
 - (NSUInteger)ruleCount;
 - (void)getRuleIndex:(NSUInteger *)ruleIndexPtr offsetTime:(double *)offsetTimePtr forAbsoluteTime:(double)absoluteTime;
 
