@@ -35,8 +35,6 @@
 #define MAXFEET		    110
 
 struct _foot {
-    double onset1;
-    double onset2;
     double tempo;
     NSUInteger startPhoneIndex; // index into phones
     NSUInteger endPhoneIndex;   // index into phones
@@ -1277,8 +1275,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
         //NSLog(@"tg (%d -- %d)", toneGroups[toneGroupIndex].startFoot, toneGroups[toneGroupIndex].endFoot);
         for (NSUInteger footIndex = toneGroup.startFootIndex; footIndex <= toneGroup.endFootIndex; footIndex++) {
-            [logger log:@"  foot[%lu]  tempo: %.3f, marked: %lu, last: %lu, onset1: %.3f, onset2: %.3f  (%ld -- %ld)", footIndex, _feet[footIndex].tempo,
-             _feet[footIndex].marked, _feet[footIndex].last, _feet[footIndex].onset1, _feet[footIndex].onset2, _feet[footIndex].startPhoneIndex, _feet[footIndex].endPhoneIndex];
+            [logger log:@"  foot[%lu]  tempo: %.3f, marked: %lu, last: %lu  (%ld -- %ld)", footIndex, _feet[footIndex].tempo,
+             _feet[footIndex].marked, _feet[footIndex].last, _feet[footIndex].startPhoneIndex, _feet[footIndex].endPhoneIndex];
 
             //NSLog(@"Foot (%d -- %d)", feet[footIndex].start, feet[footIndex].end);
             for (NSUInteger postureIndex = _feet[footIndex].startPhoneIndex; postureIndex <= _feet[footIndex].endPhoneIndex; postureIndex++) {
