@@ -138,7 +138,7 @@
         return 0.0;
     }
 
-    MMRuleValues *ruleValues = [self.eventList ruleValuesAtIndex:self.ruleIndex];
+    MMRuleValues *ruleValues = self.eventList.allRuleValues[self.ruleIndex];
     if (ruleValues == nil)
         return self.offsetTime;
 
@@ -152,7 +152,7 @@
         return 0.0;
     }
 
-    MMRuleValues *ruleValues = [self.eventList ruleValuesAtIndex:self.ruleIndex];
+    MMRuleValues *ruleValues = self.eventList.allRuleValues[self.ruleIndex];
     if (ruleValues == nil)
         return 0;
 

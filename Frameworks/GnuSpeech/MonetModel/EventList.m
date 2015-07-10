@@ -56,8 +56,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 // Tone groups
 @property (readonly) NSMutableArray *toneGroups;
 
-@property (readonly) NSMutableArray *allRuleValues;
-
 @property (strong) NSString *phoneString;
 @property (assign) NSUInteger duration;
 @property (assign) NSUInteger timeQuantization;

@@ -20,7 +20,8 @@
 - (void)resetWithIntonation:(MMIntonation *)intonation; // TODO (2012-04-26): See if we can't just do this when we apply intonation
 
 // Rules
-- (MMRuleValues *)ruleValuesAtIndex:(NSUInteger)index;
+// TODO: (2015-07-09) Return an immutable copy of the array instead.
+@property (readonly) NSMutableArray *allRuleValues; // TODO: (2015-07-09) This needs a better name.
 
 - (NSUInteger)ruleCount;
 - (void)getRuleIndex:(NSUInteger *)ruleIndexPtr offsetTime:(double *)offsetTimePtr forAbsoluteTime:(double)absoluteTime;
