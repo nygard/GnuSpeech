@@ -17,12 +17,12 @@
 @property (strong) NSMutableArray *points;
 - (void)addPoint:(id)newPoint;
 
-- (BOOL)isTimeInSlopeRatio:(double)aTime;
-- (void)insertPoint:(MMPoint *)aPoint;
+- (BOOL)isTimeInSlopeRatio:(double)time;
+- (void)insertPoint:(MMPoint *)point;
 
 @property (assign) MMPhoneType type;
 
-- (BOOL)isEquationUsed:(MMEquation *)anEquation;
+- (BOOL)isEquationUsed:(MMEquation *)equation;
 
 - (NSString *)transitionPath;
 

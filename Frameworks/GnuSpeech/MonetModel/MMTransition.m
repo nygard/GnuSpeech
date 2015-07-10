@@ -74,18 +74,19 @@
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@: %p> name: %@, comment: %@, type: %lu, points: %@",
-            NSStringFromClass([self class]), self, self.name, self.comment, _type, _points];
+            NSStringFromClass([self class]), self,
+            self.name, self.comment, _type, _points];
 }
 
 #pragma mark -
 
 - (void)addInitialPoint;
 {
-    MMPoint *aPoint = [[MMPoint alloc] init];
-    [aPoint setType:MMPhoneType_Diphone];
-    [aPoint setFreeTime:0.0];
-    [aPoint setValue:0.0];
-    [self addPoint:aPoint];
+    MMPoint *point = [[MMPoint alloc] init];
+    point.type     = MMPhoneType_Diphone;
+    point.freeTime = 0.0;
+    point.value    = 0.0;
+    [self addPoint:point];
 }
 
 // Can be either an MMPoint or an MMSlopeRatio
@@ -95,47 +96,44 @@
 }
 
 // pointTime = [aPoint cachedTime];
-- (BOOL)isTimeInSlopeRatio:(double)aTime;
+- (BOOL)isTimeInSlopeRatio:(double)time;
 {
-    NSUInteger pointCount, pointIndex;
-    id currentPointOrSlopeRatio;
-
-    pointCount = [_points count];
-    for (pointIndex = 0; pointIndex < pointCount; pointIndex++) {
-        currentPointOrSlopeRatio = [_points objectAtIndex:pointIndex];
-
+    for (id currentPointOrSlopeRatio in _points) {
         if ([currentPointOrSlopeRatio isKindOfClass:[MMSlopeRatio class]]) {
-            if (aTime < [currentPointOrSlopeRatio startTime])
+            MMSlopeRatio *slopeRatio = currentPointOrSlopeRatio;
+            if (time < slopeRatio.startTime)
                 return NO;
-            else if (aTime < [currentPointOrSlopeRatio endTime]) /* Insert point into Slope Ratio */
+            else if (time < slopeRatio.endTime) // Insert point into Slope Ratio
                 return YES;
-        } else if (aTime < [currentPointOrSlopeRatio cachedTime]) {
-            return NO;
+        } else {
+            MMPoint *point = currentPointOrSlopeRatio;
+            if (time < point.cachedTime) {
+                return NO;
+            }
         }
     }
 
     return NO;
 }
 
-- (void)insertPoint:(MMPoint *)aPoint;
+- (void)insertPoint:(MMPoint *)point;
 {
-    NSUInteger i, j;
-    id temp, temp1, temp2;
-    double pointTime = [aPoint cachedTime];
+    double pointTime = point.cachedTime;
 
-    for (i = 0; i < [_points count]; i++) {
-        temp = [_points objectAtIndex:i];
-        if ([temp isKindOfClass:[MMSlopeRatio class]]) {
-            if (pointTime < [temp startTime]) {
-                [_points insertObject:aPoint atIndex:i];
+    for (NSUInteger index = 0; index < [_points count]; index++) {
+        id currentPointOrSlopeRatio = _points[index];
+        if ([currentPointOrSlopeRatio isKindOfClass:[MMSlopeRatio class]]) {
+            MMSlopeRatio *slopeRatio = currentPointOrSlopeRatio;
+            if (pointTime < slopeRatio.startTime) {
+                [_points insertObject:point atIndex:index];
                 return;
-            } else if (pointTime < [temp endTime]) { /* Insert point into Slope Ratio */
-                temp1 = [temp points];
-                for (j = 1; j < [temp1 count]; j++) {
-                    temp2 = [temp1 objectAtIndex:j];
-                    if (pointTime < [temp2 cachedTime]) {
-                        [temp1 insertObject:aPoint atIndex:j];
-                        [temp updateSlopes];
+            } else if (pointTime < slopeRatio.endTime) { // Insert point into Slope Ratio
+                NSMutableArray *points = slopeRatio.points;
+                for (NSUInteger index2 = 1; index2 < [points count]; index2++) {
+                    MMPoint *p2 = points[index2];
+                    if (pointTime < p2.cachedTime) {
+                        [points insertObject:p2 atIndex:index2];
+                        [currentPointOrSlopeRatio updateSlopes];
                         return;
                     }
                 }
@@ -144,35 +142,42 @@
                 return;
             }
         } else {
-            if (pointTime < [temp cachedTime]) {
-                [_points insertObject:aPoint atIndex:i];
+            MMPoint *p2 = currentPointOrSlopeRatio;
+            if (pointTime < p2.cachedTime) {
+                [_points insertObject:p2 atIndex:index];
                 return;
             }
         }
     }
 
-    [_points addObject:aPoint];
+    [_points addObject:point];
 }
 
-- (BOOL)isEquationUsed:(MMEquation *)anEquation;
+- (BOOL)isEquationUsed:(MMEquation *)equation;
 {
-    NSUInteger i, j;
-    id temp;
-
-    for (i = 0; i < [_points count]; i++) {
-        temp = [_points objectAtIndex: i];
-        if ([temp isKindOfClass:[MMSlopeRatio class]]) {
-            temp = [temp points];
-            for (j = 0; j < [temp count]; j++)
-                if (anEquation == [[temp objectAtIndex:j] timeEquation])
+    for (id currentPointOrSlopeRatio in _points) {
+        if ([currentPointOrSlopeRatio isKindOfClass:[MMSlopeRatio class]]) {
+            MMSlopeRatio *slopeRatio = currentPointOrSlopeRatio;
+            for (MMPoint *point in slopeRatio.points) {
+                if (equation == point.timeEquation)
                     return YES;
-        } else
-            if (anEquation == [[_points objectAtIndex:i] timeEquation])
+            }
+        } else {
+            MMPoint *point = currentPointOrSlopeRatio;
+            if (equation == point.timeEquation)
                 return YES;
+        }
     }
 
     return NO;
 }
+
+- (NSString *)transitionPath;
+{
+    return [NSString stringWithFormat:@"%@:%@", self.group.name, self.name];
+}
+
+#pragma mark - XML Archiving
 
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 {
@@ -189,11 +194,6 @@
 
     [resultString indentToLevel:level];
     [resultString appendFormat:@"</transition>\n"];
-}
-
-- (NSString *)transitionPath;
-{
-    return [NSString stringWithFormat:@"%@:%@", self.group.name, self.name];
 }
 
 @end
