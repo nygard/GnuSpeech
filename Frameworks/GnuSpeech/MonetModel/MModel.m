@@ -225,7 +225,7 @@
     MMRule *rule = [[MMRule alloc] init];
     [rule setExpression:expr1 number:0];
     [rule setExpression:expr2 number:1];
-    [rule setDefaultsTo:[rule numberExpressions]];
+    [rule setDefaults];
     [self addRule:rule];
 }
 
@@ -603,7 +603,7 @@
 - (void)addRule:(MMRule *)newRule;
 {
     [newRule setModel:self];
-    [newRule setDefaultsTo:[newRule numberExpressions]]; // TODO (2004-05-15): Try moving this to the init method.
+    [newRule setDefaults]; // TODO (2004-05-15): Try moving this to the init method.
     if ([_rules count] > 0)
         [_rules insertObject:newRule atIndex:[_rules count] - 1];
     else

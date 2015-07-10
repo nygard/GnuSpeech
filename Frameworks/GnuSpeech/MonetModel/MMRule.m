@@ -160,8 +160,9 @@
 
 #pragma mark -
 
-- (void)setDefaultsTo:(NSUInteger)numPhones;
+- (void)setDefaults;
 {
+    NSUInteger numPhones = [self numberExpressions];
     id tempEntry = nil;
     MMEquation *anEquation, *defaultOnset, *defaultDuration;
     NSArray *aParameterList;
@@ -763,7 +764,7 @@
     [self setExpression:exp4 number:3];
 
     if (oldExpressionCount != [self numberExpressions])
-        [self setDefaultsTo:[self numberExpressions]];
+        [self setDefaults];
 }
 
 @end

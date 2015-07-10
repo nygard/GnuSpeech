@@ -11,7 +11,7 @@
 
 - (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
 
-- (void)setDefaultsTo:(NSUInteger)numPhones;
+- (void)setDefaults;
 - (void)addDefaultTransitionForLastParameter;
 - (void)addDefaultTransitionForLastMetaParameter;
 - (void)removeParameterAtIndex:(NSUInteger)index;
