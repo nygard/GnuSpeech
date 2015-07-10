@@ -21,7 +21,7 @@
 #import "MMPosture.h"
 #import "MMPostureRewriter.h"
 #import "MMRule.h"
-#import "MMRuleValues.h"
+#import "MMAppliedRule.h"
 #import "MMSlopeRatio.h"
 #import "MMTarget.h"
 #import "MMTransition.h"
@@ -230,21 +230,16 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 #pragma mark - Rules
 
-- (MMRuleValues *)ruleValuesAtIndex:(NSUInteger)index;
-{
-    return self.appliedRules[index]; // And now it'll raise an exception if index out of range, instead of return NULL/nil.
-}
-
 - (void)getRuleIndex:(NSUInteger *)ruleIndexPtr offsetTime:(double *)offsetTimePtr forAbsoluteTime:(double)absoluteTime;
 {
     NSUInteger count = [self.appliedRules count];
     for (NSUInteger index = 0; index < count; index++) {
-        MMRuleValues *ruleValues = self.appliedRules[index]; // TODO: (2015-07-09) Hmm, poorly names class and ivar.
-        MMPhone *phone = _phones[ruleValues.firstPhone];
+        MMAppliedRule *appliedRule = self.appliedRules[index];
+        MMPhone *phone = _phones[appliedRule.firstPhone];
         double onset = phone.onset;
-        if (absoluteTime >= onset && absoluteTime < onset + ruleValues.duration) {
+        if (absoluteTime >= onset && absoluteTime < onset + appliedRule.duration) {
             if (ruleIndexPtr != NULL)  *ruleIndexPtr  = index;
-            if (offsetTimePtr != NULL) *offsetTimePtr = absoluteTime - ruleValues.beat;
+            if (offsetTimePtr != NULL) *offsetTimePtr = absoluteTime - appliedRule.beat;
             return;
         }
     }
@@ -367,8 +362,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 {
     NSUInteger count = [self.appliedRules count];
     for (NSUInteger index = 0; index < count; index++) {
-        MMRuleValues *ruleValues = self.appliedRules[index];
-        if ((postureIndex >= ruleValues.firstPhone) && (postureIndex <= ruleValues.lastPhone))
+        MMAppliedRule *appliedRule = self.appliedRules[index];
+        if ((postureIndex >= appliedRule.firstPhone) && (postureIndex <= appliedRule.lastPhone))
             return index;
     }
 
@@ -740,19 +735,19 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
             NSInteger ruleIndex;
             MMRule *matchedRule = [_model findRuleMatchingCategories:tempCategoryList ruleIndex:&ruleIndex];
-            MMRuleValues *ruleValues = [[MMRuleValues alloc] init];
-            ruleValues.number = ruleIndex + 1;
-            [self.appliedRules addObject:ruleValues];
+            MMAppliedRule *appliedRule = [[MMAppliedRule alloc] init];
+            appliedRule.number = ruleIndex + 1;
+            [self.appliedRules addObject:appliedRule];
 
             //NSLog(@"----------------------------------------------------------------------");
             //NSLog(@"Applying rule %d", ruleIndex + 1);
-            [self _applyRule:matchedRule values:ruleValues withPhones:tempPhones phoneIndex:index];
+            [self _applyRule:matchedRule values:appliedRule withPhones:tempPhones phoneIndex:index];
 
             NSMutableArray *a1 = [[NSMutableArray alloc] init];
-            for (NSUInteger index = ruleValues.firstPhone; index <= ruleValues.lastPhone; index++) {
+            for (NSUInteger index = appliedRule.firstPhone; index <= appliedRule.lastPhone; index++) {
                 [a1 addObject:[[self getPhoneAtIndex:index] name]];
             }
-            ruleValues.matchedPhonesDescription = [a1 componentsJoinedByString:@" > "];
+            appliedRule.matchedPhonesDescription = [a1 componentsJoinedByString:@" > "];
 
             index += [matchedRule numberExpressions] - 1;
         }
@@ -1092,7 +1087,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 // 1. Calculate the rule symbols (Rule Duration, Beat, Mark 1, Mark 2, Mark 3), given tempos and phones.
 // 2.
 // TODO: (2014-08-09) How is phoneIndex used?
-- (void)_applyRule:(MMRule *)rule values:(MMRuleValues *)ruleValues withPhones:(NSArray *)somePhones phoneIndex:(NSUInteger)phoneIndex;
+- (void)_applyRule:(MMRule *)rule values:(MMAppliedRule *)ruleValues withPhones:(NSArray *)somePhones phoneIndex:(NSUInteger)phoneIndex;
 {
     NSUInteger cache = [_model nextCacheTag];
 
@@ -1288,12 +1283,12 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             //NSLog(@"Foot (%d -- %d)", feet[footIndex].start, feet[footIndex].end);
             for (NSUInteger postureIndex = _feet[footIndex].startPhoneIndex; postureIndex <= _feet[footIndex].endPhoneIndex; postureIndex++) {
                 MMPhone *phone = _phones[postureIndex];
-                MMRuleValues *ruleValues = (ruleIndex < [self.appliedRules count]) ? self.appliedRules[ruleIndex] : nil;
-                if (ruleValues != nil && ruleValues.firstPhone == postureIndex) {
+                MMAppliedRule *appliedRule = (ruleIndex < [self.appliedRules count]) ? self.appliedRules[ruleIndex] : nil;
+                if (appliedRule != nil && appliedRule.firstPhone == postureIndex) {
                     [logger log:@"    posture[%2lu]  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2lu, duration: %7.2f, beat: %7.2f",
                      postureIndex, phone.tempo, phone.syllable, phone.onset,
                      phone.ruleTempo, [[phone.posture name] leftJustifiedStringPaddedToLength:18],
-                     ruleValues.number, ruleValues.duration, ruleValues.beat];
+                     appliedRule.number, appliedRule.duration, appliedRule.beat];
                     ruleIndex++;
                 } else {
                     [logger log:@"    posture[%2lu]  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@",

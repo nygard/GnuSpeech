@@ -3,7 +3,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MMRuleValues : NSObject
+@interface MMAppliedRule : NSObject
 
 @property (assign) NSUInteger number;
 @property (assign) NSUInteger firstPhone;

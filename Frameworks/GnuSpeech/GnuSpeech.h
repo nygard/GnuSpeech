@@ -32,7 +32,7 @@
 #import <GnuSpeech/MMPosture.h>
 #import <GnuSpeech/MMPostureRewriter.h>
 #import <GnuSpeech/MMRule.h>
-#import <GnuSpeech/MMRuleValues.h>
+#import <GnuSpeech/MMAppliedRule.h>
 #import <GnuSpeech/MMSlope.h>
 #import <GnuSpeech/MMSlopeRatio.h>
 #import <GnuSpeech/MMSymbol.h>

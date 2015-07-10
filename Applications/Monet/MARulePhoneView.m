@@ -133,12 +133,12 @@
         NSUInteger count = [self.eventList.appliedRules count];
         //NSLog(@"count: %lu", count);
         for (NSUInteger index = 0; index < count; index++) {
-            MMRuleValues *ruleValues = self.eventList.appliedRules[index];
+            MMAppliedRule *appliedRule = self.eventList.appliedRules[index];
 
-            NSParameterAssert(ruleValues.firstPhone < [postureEvents count]);
-            NSParameterAssert(ruleValues.lastPhone < [postureEvents count]);
-            Event *e1 = postureEvents[ruleValues.firstPhone];
-            Event *e2 = postureEvents[ruleValues.lastPhone];
+            NSParameterAssert(appliedRule.firstPhone < [postureEvents count]);
+            NSParameterAssert(appliedRule.lastPhone < [postureEvents count]);
+            Event *e1 = postureEvents[appliedRule.firstPhone];
+            Event *e2 = postureEvents[appliedRule.lastPhone];
             CGFloat left  = leftInset + e1.time * _scale;
             CGFloat right = leftInset + e2.time * _scale;
             NSRect cellFrame;
@@ -148,7 +148,7 @@
             cellFrame.size.width = rint(right - left);
             //NSLog(@"%3lu: %@", index, NSStringFromRect(cellFrame));
 
-            [_ruleCell setIntegerValue:ruleValues.number];
+            [_ruleCell setIntegerValue:appliedRule.number];
             [_ruleCell drawWithFrame:cellFrame inView:self];
 
             [path moveToPoint:NSMakePoint(right, top)];

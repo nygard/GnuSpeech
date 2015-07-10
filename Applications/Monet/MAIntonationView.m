@@ -398,25 +398,25 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     NSUInteger count = [_eventList.appliedRules count];
     for (NSUInteger index = 0; index < count; index++) {
-        MMRuleValues *ruleValues = _eventList.appliedRules[index];
+        MMAppliedRule *appliedRule = _eventList.appliedRules[index];
 
         NSRect ruleFrame;
         ruleFrame.origin.x = currentX;
         ruleFrame.origin.y = bounds.size.height - RULE_Y_OFFSET;
         ruleFrame.size.height = RULE_HEIGHT;
-        ruleFrame.size.width = [self scaleWidth:ruleValues.duration] + extraWidth;
+        ruleFrame.size.width = [self scaleWidth:appliedRule.duration] + extraWidth;
         NSFrameRect(ruleFrame);
 
         ruleFrame.size.height = 15.0;
-        [_ruleDurationTextFieldCell setDoubleValue:ruleValues.duration];
+        [_ruleDurationTextFieldCell setDoubleValue:appliedRule.duration];
         [_ruleDurationTextFieldCell drawWithFrame:ruleFrame inView:self];
 
         ruleFrame.size.height += 12.0;
-        [_ruleIndexTextFieldCell setIntegerValue:ruleValues.number];
+        [_ruleIndexTextFieldCell setIntegerValue:appliedRule.number];
         [_ruleIndexTextFieldCell drawWithFrame:ruleFrame inView:self];
 
         NSPoint point;
-        point.x = [self scaleXPosition:ruleValues.beat] + 0.5;
+        point.x = [self scaleXPosition:appliedRule.beat] + 0.5;
         point.y = graphOrigin.y + SECTION_COUNT * sectionHeight - 1.0;
         [bezierPath moveToPoint:point];
 
@@ -450,9 +450,9 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     NSUInteger count = [_eventList.appliedRules count];
     for (NSUInteger index = 0; index < count; index++) {
-        MMRuleValues *ruleValues = _eventList.appliedRules[index];
+        MMAppliedRule *appliedRule = _eventList.appliedRules[index];
 
-        ruleFrame.size.width = [self scaleWidth:ruleValues.duration] + extraWidth;
+        ruleFrame.size.width = [self scaleWidth:appliedRule.duration] + extraWidth;
         if ((index % 2) == 1) {
             [[NSColor lighterGrayColor] set];
             NSRectFill(ruleFrame);

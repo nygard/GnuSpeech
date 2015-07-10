@@ -242,8 +242,8 @@
 
     if (tableView == self.intonationRuleTableView) {
         if ([@"rule" isEqual:identifier]) {
-            MMRuleValues *ruleValues = self.eventList.appliedRules[row];
-            return ruleValues.matchedPhonesDescription;
+            MMAppliedRule *appliedRule = self.eventList.appliedRules[row];
+            return appliedRule.matchedPhonesDescription;
         } else if ([@"number" isEqual:identifier]) {
             return [NSString stringWithFormat:@"%lu.", row + 1];
         }
