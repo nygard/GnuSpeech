@@ -3,10 +3,12 @@
 
 #import "MMNamedObject.h"
 
+#import "NSObject-Extensions.h"
+
 @class MMCategory, MMSymbol, MMTarget;
 
 // Contains informaion for one phone or "posture".
-@interface MMPosture : MMNamedObject
+@interface MMPosture : MMNamedObject <GSXMLArchiving>
 
 - (id)initWithModel:(MModel *)model;
 - (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
@@ -38,7 +40,5 @@
 - (MMTarget *)targetForSymbol:(MMSymbol *)symbol;
 
 - (NSComparisonResult)compareByAscendingName:(MMPosture *)other;
-
-- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 @end

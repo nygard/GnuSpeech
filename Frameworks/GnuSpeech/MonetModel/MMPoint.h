@@ -3,9 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import "NSObject-Extensions.h"
+
 @class EventList, MMEquation, MModel, MMFRuleSymbols, MMParameter;
 
-@interface MMPoint : NSObject
+@interface MMPoint : NSObject <GSXMLArchiving>
 
 - (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
 
@@ -26,8 +28,6 @@
 - (double)calculatePointsWithPhonesInArray:(NSArray *)phones ruleSymbols:(MMFRuleSymbols *)ruleSymbols andCacheWithTag:(NSUInteger)newCacheTag
                                   baseline:(double)baseline delta:(double)delta parameter:(MMParameter *)parameter
                          andAddToEventList:(EventList *)eventList atIndex:(NSUInteger)index;
-
-- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 - (NSComparisonResult)compareByAscendingCachedTime:(MMPoint *)otherPoint;
 

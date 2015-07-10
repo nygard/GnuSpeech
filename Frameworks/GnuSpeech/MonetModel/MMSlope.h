@@ -3,13 +3,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MMSlope : NSObject
+#import "NSObject-Extensions.h"
+
+@interface MMSlope : NSObject <GSXMLArchiving>
 
 - (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
 
 @property (assign) double slope;
 @property (assign) double displayTime;
-
-- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 @end

@@ -3,9 +3,11 @@
 
 #import "MMNamedObject.h"
 
+#import "NSObject-Extensions.h"
+
 @class MMBooleanNode, MMCategory, MMEquation, MMTransition, MMFRuleSymbols;
 
-@interface MMRule : MMNamedObject
+@interface MMRule : MMNamedObject <GSXMLArchiving>
 
 - (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
 
@@ -52,8 +54,6 @@
 - (BOOL)usesTransition:(MMTransition *)aTransition;
 
 - (NSString *)ruleString;
-
-- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 - (NSString *)symbolNameAtIndex:(NSUInteger)index;
 - (void)setRuleExpression1:(MMBooleanNode *)exp1 exp2:(MMBooleanNode *)exp2 exp3:(MMBooleanNode *)exp3 exp4:(MMBooleanNode *)exp4;
