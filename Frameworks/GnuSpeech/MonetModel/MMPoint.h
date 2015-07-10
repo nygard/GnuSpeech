@@ -29,6 +29,6 @@
                                   baseline:(double)baseline delta:(double)delta parameter:(MMParameter *)parameter
                          andAddToEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 
-- (NSComparisonResult)compareByAscendingCachedTime:(MMPoint *)otherPoint;
+- (NSComparisonResult)compareByAscendingCachedTime:(MMPoint *)other;
 
 @end
