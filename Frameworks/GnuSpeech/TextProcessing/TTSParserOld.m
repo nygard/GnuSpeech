@@ -191,7 +191,6 @@ static NSDictionary *_specialAcronyms = nil;
 {
     BOOL priorTonic = NO;
     NSUInteger toneGroupMarkerLocation = NSNotFound;
-    NSUInteger lastWordEndLocation = NSNotFound;
     NSString *currentWord, *nextWord;
 
     NSUInteger previousState = TTS_STATE_BEGIN;
@@ -257,7 +256,6 @@ static NSDictionary *_specialAcronyms = nil;
                     } else {
                     }
                     
-                    lastWordEndLocation = [resultString length];
                     break;
                     
                 case TTS_STATE_MEDIAL_PUNC:
@@ -340,13 +338,11 @@ static NSDictionary *_specialAcronyms = nil;
             [resultString appendString:TTS_TONE_GROUP_BOUNDARY];
             [resultString appendString:@" "];
             [resultString appendString:TTS_CHUNK_BOUNDARY];
-            priorTonic = NO;
             if (toneGroupMarkerLocation != NSNotFound)
                 [resultString replaceCharactersInRange:NSMakeRange(toneGroupMarkerLocation, 2)
                                             withString:[self toneGroupStringForPunctuation:TTS_DEFAULT_END_PUNC]];
             else
                 NSLog(@"Warning: Couldn't set tone group");
-            toneGroupMarkerLocation = NSNotFound;
             break;
             
         case TTS_STATE_BEGIN:

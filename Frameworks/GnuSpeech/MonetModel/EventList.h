@@ -3,21 +3,14 @@
 
 #import <Foundation/Foundation.h>
 
-@class Event, MMIntonationPoint, MModel, MMPosture, MMPostureRewriter, MMRule, MMDriftGenerator;
+#import "MMIntonationPoint.h" // For MMIntonationPointChanges protocol
 
-// This is used by MARulePhoneView, IntonationView
-struct _rule {
-    NSUInteger number;
-    NSUInteger firstPhone;
-    NSUInteger lastPhone;
-    double duration;
-    double beat; // absolute time of beat, in milliseconds
-};
+@class MMIntonationPoint, MModel, MMPosture, MMDriftGenerator;
 
-@class TRMParameters, TRMSynthesizer;
+@class TRMSynthesizer;
 @class MMIntonation;
 
-@interface EventList : NSObject
+@interface EventList : NSObject <MMIntonationPointChanges>
 
 @property (nonatomic, strong) MModel *model;
 
@@ -27,19 +20,17 @@ struct _rule {
 - (void)resetWithIntonation:(MMIntonation *)intonation; // TODO (2012-04-26): See if we can't just do this when we apply intonation
 
 // Rules
-- (struct _rule *)getRuleAtIndex:(NSUInteger)ruleIndex;
-- (NSString *)ruleDescriptionAtIndex:(NSUInteger)ruleIndex;
-- (double)getBeatAtIndex:(NSUInteger)ruleIndex;
-- (NSUInteger)ruleCount;
+// TODO: (2015-07-09) Return an immutable copy of the array instead.
+@property (readonly) NSMutableArray *appliedRules; // TODO: (2015-07-09) This needs a better name.
+
 - (void)getRuleIndex:(NSUInteger *)ruleIndexPtr offsetTime:(double *)offsetTimePtr forAbsoluteTime:(double)absoluteTime;
 
 // Postures
-- (MMPosture *)getPhoneAtIndex:(NSUInteger)phoneIndex;
 - (void)newPhoneWithObject:(MMPosture *)object;
 - (void)replaceCurrentPhoneWith:(MMPosture *)object;
 
 // Events
-- (NSArray *)events;
+@property (nonatomic, readonly) NSArray *events;
 - (double)valueAtTimeOffset:(double)time forEvent:(NSInteger)number;
 - (void)insertEvent:(NSInteger)number atTimeOffset:(double)time withValue:(double)value;
 
@@ -65,9 +56,6 @@ struct _rule {
 - (void)applyIntonation;
 
 - (void)clearIntonationEvents;
-
-- (void)intonationPointTimeDidChange:(MMIntonationPoint *)intonationPoint;
-- (void)intonationPointDidChange:(MMIntonationPoint *)intonationPoint;
 
 // Archiving - XML
 - (BOOL)writeIntonationContourToXMLFile:(NSString *)filename comment:(NSString *)comment;

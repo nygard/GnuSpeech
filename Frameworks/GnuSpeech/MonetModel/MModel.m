@@ -225,7 +225,7 @@
     MMRule *rule = [[MMRule alloc] init];
     [rule setExpression:expr1 number:0];
     [rule setExpression:expr2 number:1];
-    [rule setDefaultsTo:[rule numberExpressions]];
+    [rule setDefaults];
     [self addRule:rule];
 }
 
@@ -523,6 +523,18 @@
     return nil;
 }
 
+// TODO: (2015-07-10) These defaults should be promoted to expicit, require transitions in the model.
+- (MMTransition *)defaultTransitionForPhoneCount:(NSUInteger)count;
+{
+    switch (count) {
+        case 2: return [self findTransitionWithName:@"Diphone"    inGroupWithName:@"Defaults"];
+        case 3: return [self findTransitionWithName:@"Triphone"   inGroupWithName:@"Defaults"];
+        case 4: return [self findTransitionWithName:@"Tetraphone" inGroupWithName:@"Defaults"];
+    }
+
+    return nil;
+}
+
 - (MMEquation *)findEquationWithName:(NSString *)equationName inGroupWithName:(NSString *)groupName;
 {
     for (MMGroup *group in self.equationGroups) {
@@ -603,7 +615,7 @@
 - (void)addRule:(MMRule *)newRule;
 {
     [newRule setModel:self];
-    [newRule setDefaultsTo:[newRule numberExpressions]]; // TODO (2004-05-15): Try moving this to the init method.
+    [newRule setDefaults]; // TODO (2004-05-15): Try moving this to the init method.
     if ([_rules count] > 0)
         [_rules insertObject:newRule atIndex:[_rules count] - 1];
     else
@@ -624,7 +636,7 @@
     __block NSUInteger matchingIndex = 0;
     
     [self.rules enumerateObjectsUsingBlock:^(MMRule *rule, NSUInteger index, BOOL *stop){
-        if ([rule numberExpressions] <= [categoryLists count])
+        if ([rule expressionCount] <= [categoryLists count])
             if ([rule matchRule:categoryLists]) {
                 matchingRule = rule;
                 matchingIndex = index;

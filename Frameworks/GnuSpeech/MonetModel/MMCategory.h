@@ -3,12 +3,12 @@
 
 #import "MMNamedObject.h"
 
-@interface MMCategory : MMNamedObject
+#import "NSObject-Extensions.h"
+
+@interface MMCategory : MMNamedObject <GSXMLArchiving>
 
 @property (assign) BOOL isNative;
 
 - (NSComparisonResult)compareByAscendingName:(MMCategory *)other;
-
-- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 @end

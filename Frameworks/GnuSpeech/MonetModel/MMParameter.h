@@ -3,12 +3,12 @@
 
 #import "MMNamedObject.h"
 
-@interface MMParameter : MMNamedObject
+#import "NSObject-Extensions.h"
+
+@interface MMParameter : MMNamedObject <GSXMLArchiving>
 
 @property (assign) double minimumValue;
 @property (assign) double maximumValue;
 @property (nonatomic, assign) double defaultValue;
-
-- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 @end

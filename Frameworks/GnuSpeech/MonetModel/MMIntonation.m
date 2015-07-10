@@ -77,7 +77,6 @@ static NSDictionary *toneGroupIntonationParameterArrays;
         _driftCutoff = 4;
 
         _tempo = 1.0;
-        _radiusMultiply = 1.0;
 
         _shouldRandomizeIntonation = YES;
     }

@@ -55,6 +55,8 @@
 - (MMTransition *)findTransitionWithName:(NSString *)name;
 - (MMTransition *)findSpecialTransitionWithName:(NSString *)name;
 
+- (MMTransition *)defaultTransitionForPhoneCount:(NSUInteger)count;
+
 - (MMEquation *)findEquationWithName:(NSString *)equationName inGroupWithName:(NSString *)groupName;
 - (MMTransition *)findTransitionWithName:(NSString *)transitionName inGroupWithName:(NSString *)groupName;
 

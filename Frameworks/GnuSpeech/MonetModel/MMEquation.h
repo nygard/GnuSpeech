@@ -3,9 +3,11 @@
 
 #import "MMGroupedObject.h"
 
+#import "NSObject-Extensions.h"
+
 @class MMFormulaNode, MMFRuleSymbols;
 
-@interface MMEquation : MMGroupedObject
+@interface MMEquation : MMGroupedObject <GSXMLArchiving>
 
 @property (strong) MMFormulaNode *formula;
 
@@ -15,7 +17,5 @@
 - (double)cacheValue;
 
 - (NSString *)equationPath;
-
-- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 @end

@@ -231,7 +231,7 @@
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
     if (tableView == self.intonationRuleTableView)
-        return [self.eventList ruleCount];
+        return [self.eventList.appliedRules count];
 
     return 0;
 }
@@ -242,7 +242,8 @@
 
     if (tableView == self.intonationRuleTableView) {
         if ([@"rule" isEqual:identifier]) {
-            return [self.eventList ruleDescriptionAtIndex:row];
+            MMAppliedRule *appliedRule = self.eventList.appliedRules[row];
+            return appliedRule.matchedPhonesDescription;
         } else if ([@"number" isEqual:identifier]) {
             return [NSString stringWithFormat:@"%lu.", row + 1];
         }

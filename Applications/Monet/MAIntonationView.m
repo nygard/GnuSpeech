@@ -188,13 +188,12 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 {
     CGFloat minimumWidth;
 
-    if ([[_eventList events] count] == 0) {
+    if ([_eventList.events count] == 0) {
         minimumWidth = 0.0;
     } else {
-        Event *lastEvent;
-        lastEvent = [[_eventList events] lastObject];
+        Event *lastEvent = [_eventList.events lastObject];
 
-        minimumWidth = [self scaleWidth:[lastEvent time]] + RIGHT_MARGIN;
+        minimumWidth = [self scaleWidth:lastEvent.time] + RIGHT_MARGIN;
     }
 
     // Make sure that we at least show something.
@@ -364,8 +363,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 // TODO (2004-08-16): Need right margin so that the last posture is visible.
 - (void)drawPostureLabels;
 {
-    NSUInteger postureIndex = 0;
-
     NSRect bounds = NSIntegralRect([self bounds]);
 
     [[NSColor blackColor] set];
@@ -376,12 +373,9 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         CGFloat currentX = event.time / _timeScale;
 
         if (event.isAtPosture) {
-            MMPosture *currentPosture = [_eventList getPhoneAtIndex:postureIndex++];
-            if (currentPosture != nil) {
-                //NSLog(@"[currentPosture name]: %@", [currentPosture name]);
+            if (event.posture != nil) {
                 [[NSColor blackColor] set];
-                [currentPosture.name drawAtPoint:NSMakePoint(currentX, bounds.size.height - POSTURE_Y_OFFSET) withAttributes:nil];
-                //[postureTextFieldCell setStringValue:[currentPosture name]];
+                [event.posture.name drawAtPoint:NSMakePoint(currentX, bounds.size.height - POSTURE_Y_OFFSET) withAttributes:nil];
             }
         }
     }
@@ -401,27 +395,27 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     CGFloat currentX = 0.0;
     CGFloat extraWidth = 0.0;
 
-    NSUInteger count = [_eventList ruleCount];
+    NSUInteger count = [_eventList.appliedRules count];
     for (NSUInteger index = 0; index < count; index++) {
-        struct _rule *rule = [_eventList getRuleAtIndex:index];
+        MMAppliedRule *appliedRule = _eventList.appliedRules[index];
 
         NSRect ruleFrame;
         ruleFrame.origin.x = currentX;
         ruleFrame.origin.y = bounds.size.height - RULE_Y_OFFSET;
         ruleFrame.size.height = RULE_HEIGHT;
-        ruleFrame.size.width = [self scaleWidth:rule->duration] + extraWidth;
+        ruleFrame.size.width = [self scaleWidth:appliedRule.duration] + extraWidth;
         NSFrameRect(ruleFrame);
 
         ruleFrame.size.height = 15.0;
-        [_ruleDurationTextFieldCell setDoubleValue:rule->duration];
+        [_ruleDurationTextFieldCell setDoubleValue:appliedRule.duration];
         [_ruleDurationTextFieldCell drawWithFrame:ruleFrame inView:self];
 
         ruleFrame.size.height += 12.0;
-        [_ruleIndexTextFieldCell setIntegerValue:rule->number];
+        [_ruleIndexTextFieldCell setIntegerValue:appliedRule.number];
         [_ruleIndexTextFieldCell drawWithFrame:ruleFrame inView:self];
 
         NSPoint point;
-        point.x = [self scaleXPosition:rule->beat] + 0.5;
+        point.x = [self scaleXPosition:appliedRule.beat] + 0.5;
         point.y = graphOrigin.y + SECTION_COUNT * sectionHeight - 1.0;
         [bezierPath moveToPoint:point];
 
@@ -453,11 +447,11 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     ruleFrame.origin.x = 0.0;
     CGFloat extraWidth = 0.0;
 
-    NSUInteger count = [_eventList ruleCount];
+    NSUInteger count = [_eventList.appliedRules count];
     for (NSUInteger index = 0; index < count; index++) {
-        struct _rule *rule = [_eventList getRuleAtIndex:index];
+        MMAppliedRule *appliedRule = _eventList.appliedRules[index];
 
-        ruleFrame.size.width = [self scaleWidth:rule->duration] + extraWidth;
+        ruleFrame.size.width = [self scaleWidth:appliedRule.duration] + extraWidth;
         if ((index % 2) == 1) {
             [[NSColor lighterGrayColor] set];
             NSRectFill(ruleFrame);
@@ -599,7 +593,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)keyDown:(NSEvent *)event;
 {
-    NSUInteger ruleCount = [_eventList ruleCount];
+    NSUInteger ruleCount = [_eventList.appliedRules count];
 
     NSString *characters = [event characters];
     NSUInteger length = [characters length];
@@ -809,7 +803,6 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     NSPoint mouseDownLocation = [theEvent locationInWindow];
     NSEvent *newEvent;
     NSUInteger i, ruleIndex = 0;
-    struct _rule *rule;
     MMIntonationPoint *iPoint;
     id tempPoint;
 

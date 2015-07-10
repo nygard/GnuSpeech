@@ -19,7 +19,7 @@
     double _value;             // Value of the point
     double _freeTime;          // Free Floating time
     MMEquation *_timeEquation; // Time of the point
-    NSUInteger _type;         // Which phone it is targeting
+    NSUInteger _type;          // Which phone it is targeting
     BOOL _isPhantom;           // Phantom point for place marking purposes only
 }
 
@@ -86,18 +86,6 @@
 
 #pragma mark -
 
-- (double)multiplyValueByFactor:(double)factor;
-{
-    _value *= factor;
-    return _value;
-}
-
-- (double)addValue:(double)newValue;
-{
-    _value += newValue;
-    return _value;
-}
-
 - (double)cachedTime;
 {
     if (_timeEquation != nil)
@@ -118,16 +106,11 @@
                                   baseline:(double)baseline delta:(double)delta parameter:(MMParameter *)parameter
                          andAddToEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 {
-    double time, returnValue;
-
-    if (_timeEquation != nil)
-        time = [_timeEquation evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:newCacheTag];
-    else
-        time = _freeTime;
+    double time = (_timeEquation != nil) ? [_timeEquation evaluateWithPhonesInArray:phones ruleSymbols:ruleSymbols andCacheWithTag:newCacheTag] : _freeTime;
 
     //NSLog(@"|%@| = %f tempos: %f %f %f %f", [[postures objectAtIndex:0] symbol], time, tempos[0], tempos[1],tempos[2],tempos[3]);
 
-    returnValue = baseline + ((_value / 100.0) * delta);
+    double returnValue = baseline + ((_value / 100.0) * delta);
 
     //NSLog(@"Inserting event %d atTime %f  withValue %f", index, time, returnValue);
 
@@ -158,18 +141,14 @@
     [resultString appendString:@"/>\n"];
 }
 
-- (NSComparisonResult)compareByAscendingCachedTime:(MMPoint *)otherPoint;
+- (NSComparisonResult)compareByAscendingCachedTime:(MMPoint *)other;
 {
-    double thisTime, otherTime;
+    NSParameterAssert(other != nil);
+    double thisTime  = self.cachedTime;
+    double otherTime = other.cachedTime;
 
-    NSParameterAssert(otherPoint != nil);
-    thisTime = [self cachedTime];
-    otherTime = [otherPoint cachedTime];
-
-    if (thisTime < otherTime)
-        return NSOrderedAscending;
-    else if (thisTime > otherTime)
-        return NSOrderedDescending;
+    if (thisTime < otherTime) return NSOrderedAscending;
+    if (thisTime > otherTime) return NSOrderedDescending;
 
     return NSOrderedSame;
 }

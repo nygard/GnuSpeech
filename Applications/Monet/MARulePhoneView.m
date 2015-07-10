@@ -130,15 +130,15 @@
         [path moveToPoint:NSMakePoint(leftInset,                                        top)];
         [path lineToPoint:NSMakePoint(leftInset,                                        bottom)];
 
-        NSUInteger count = [self.eventList ruleCount];
+        NSUInteger count = [self.eventList.appliedRules count];
         //NSLog(@"count: %lu", count);
         for (NSUInteger index = 0; index < count; index++) {
-            struct _rule *rule = [self.eventList getRuleAtIndex:index];
+            MMAppliedRule *appliedRule = self.eventList.appliedRules[index];
 
-            NSParameterAssert(rule->firstPhone < [postureEvents count]);
-            NSParameterAssert(rule->lastPhone < [postureEvents count]);
-            Event *e1 = postureEvents[rule->firstPhone];
-            Event *e2 = postureEvents[rule->lastPhone];
+            NSParameterAssert(appliedRule.firstPhone < [postureEvents count]);
+            NSParameterAssert(appliedRule.lastPhone < [postureEvents count]);
+            Event *e1 = postureEvents[appliedRule.firstPhone];
+            Event *e2 = postureEvents[appliedRule.lastPhone];
             CGFloat left  = leftInset + e1.time * _scale;
             CGFloat right = leftInset + e2.time * _scale;
             NSRect cellFrame;
@@ -148,7 +148,7 @@
             cellFrame.size.width = rint(right - left);
             //NSLog(@"%3lu: %@", index, NSStringFromRect(cellFrame));
 
-            [_ruleCell setIntegerValue:rule->number];
+            [_ruleCell setIntegerValue:appliedRule.number];
             [_ruleCell drawWithFrame:cellFrame inView:self];
 
             [path moveToPoint:NSMakePoint(right, top)];
@@ -165,16 +165,15 @@
     NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
     [bezierPath setLineWidth:1];
 
-    NSUInteger phoneIndex = 0;
     NSArray *events = [_eventList events];
     for (NSUInteger index = 0; index < [events count]; index++) {
         currentX = leftInset + [[events objectAtIndex:index] time] * _scale;
 
-        if ([[events objectAtIndex:index] isAtPosture]) {
-            MMPosture *currentPhone = [_eventList getPhoneAtIndex:phoneIndex++];
-            if (currentPhone) {
+        Event *event = events[index];
+        if (event.isAtPosture) {
+            if (event.posture) {
                 [[NSColor blackColor] set];
-                [[currentPhone name] drawAtPoint:NSMakePoint(currentX, 20) withAttributes:nil];
+                [event.posture.name drawAtPoint:NSMakePoint(currentX, 20) withAttributes:nil];
             }
         }
     }

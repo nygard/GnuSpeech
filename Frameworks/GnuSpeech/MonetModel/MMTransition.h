@@ -4,10 +4,11 @@
 #import "MMGroupedObject.h"
 
 #import "GSXMLFunctions.h" // To get MMPhoneType
+#import "NSObject-Extensions.h"
 
 @class MMEquation, MMPoint, MMGroup;
 
-@interface MMTransition : MMGroupedObject
+@interface MMTransition : MMGroupedObject <GSXMLArchiving>
 
 - (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
 
@@ -16,14 +17,12 @@
 @property (strong) NSMutableArray *points;
 - (void)addPoint:(id)newPoint;
 
-- (BOOL)isTimeInSlopeRatio:(double)aTime;
-- (void)insertPoint:(MMPoint *)aPoint;
+- (BOOL)isTimeInSlopeRatio:(double)time;
+- (void)insertPoint:(MMPoint *)point;
 
 @property (assign) MMPhoneType type;
 
-- (BOOL)isEquationUsed:(MMEquation *)anEquation;
-
-- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
+- (BOOL)isEquationUsed:(MMEquation *)equation;
 
 - (NSString *)transitionPath;
 

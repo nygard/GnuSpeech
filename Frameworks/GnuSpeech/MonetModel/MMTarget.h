@@ -3,6 +3,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "NSObject-Extensions.h"
+
 @interface MMTarget : NSObject
 
 - (id)init;
@@ -14,7 +16,5 @@
 
 - (void)setValue:(double)newValue isDefault:(BOOL)shouldBeDefault;
 - (void)changeDefaultValueFrom:(double)oldDefault to:(double)newDefault;
-
-- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 @end

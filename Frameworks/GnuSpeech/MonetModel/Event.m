@@ -3,6 +3,8 @@
 
 #import "Event.h"
 
+#import "MMPosture.h"
+
 #define MAX_VALUES 36
 
 @implementation Event
@@ -19,7 +21,7 @@
         _isAtPosture = NO;
 
         for (NSUInteger index = 0; index < MAX_VALUES; index++)
-            _value[index] = NaN;
+            _value[index] = NAN;
     }
     
     //NSLog(@"%@", self);

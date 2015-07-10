@@ -3,16 +3,15 @@
 
 #import <Foundation/Foundation.h>
 
+#import "NSObject-Extensions.h"
+
 @class EventList, MMEquation, MModel, MMFRuleSymbols, MMParameter;
 
-@interface MMPoint : NSObject
+@interface MMPoint : NSObject <GSXMLArchiving>
 
 - (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
 
 @property (assign) double value;
-
-- (double)multiplyValueByFactor:(double)factor;
-- (double)addValue:(double)newValue;
 
 @property (strong) MMEquation *timeEquation;
 @property (assign) double freeTime;
@@ -27,8 +26,6 @@
                                   baseline:(double)baseline delta:(double)delta parameter:(MMParameter *)parameter
                          andAddToEventList:(EventList *)eventList atIndex:(NSUInteger)index;
 
-- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
-
-- (NSComparisonResult)compareByAscendingCachedTime:(MMPoint *)otherPoint;
+- (NSComparisonResult)compareByAscendingCachedTime:(MMPoint *)other;
 
 @end

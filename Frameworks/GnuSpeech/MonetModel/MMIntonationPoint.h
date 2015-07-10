@@ -3,11 +3,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import "NSObject-Extensions.h"
+
 @class EventList;
 
 // TODO (2004-08-09): absoluteTime is derived from offsetTime and beatTime.  And beatTime is derived from ruleIndex and eventList.
 
-@interface MMIntonationPoint : NSObject
+@interface MMIntonationPoint : NSObject <GSXMLArchiving>
 
 - (id)initWithXMLElement:(NSXMLElement *)element error:(NSError **)error;
 
@@ -32,7 +34,10 @@
 
 - (NSComparisonResult)compareByAscendingAbsoluteTime:(MMIntonationPoint *)otherIntonationPoint;
 
-// XML - Archiving
-- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
-
 @end
+
+@protocol MMIntonationPointChanges
+- (void)intonationPointDidChange:(MMIntonationPoint *)intonationPoint;
+- (void)intonationPointTimeDidChange:(MMIntonationPoint *)intonationPoint;
+@end
+

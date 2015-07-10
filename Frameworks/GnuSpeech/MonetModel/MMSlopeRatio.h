@@ -3,9 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import "NSObject-Extensions.h"
+
 @class MMPoint, MMSlope, MMFRuleSymbols, EventList, MModel, MMParameter;
 
-@interface MMSlopeRatio : NSObject
+@interface MMSlopeRatio : NSObject <GSXMLArchiving>
 
 - (id)initWithModel:(MModel *)model XMLElement:(NSXMLElement *)element error:(NSError **)error;
 
@@ -30,7 +32,5 @@
 
 - (double)totalSlopeUnits;
 - (void)displaySlopesInList:(NSMutableArray *)displaySlopes;
-
-- (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 @end

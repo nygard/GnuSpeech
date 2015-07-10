@@ -9,6 +9,6 @@
 
 @end
 
-@interface NSObject (Other)
+@protocol GSXMLArchiving
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 @end
