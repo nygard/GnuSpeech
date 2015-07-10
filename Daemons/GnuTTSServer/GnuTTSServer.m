@@ -7,11 +7,10 @@
 
 int main (int argc, const char *argv[])
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	GnuSpeechServer *server = [[GnuSpeechServer alloc] init];
-	if (server != nil)
-		[[NSRunLoop currentRunLoop] run];
-	[server release];
-    [pool drain];
+    @autoreleasepool {
+		GnuSpeechServer *server = [[GnuSpeechServer alloc] init];
+		if (server != nil)
+			[[NSRunLoop currentRunLoop] run];
+    }
     return 0;
 }

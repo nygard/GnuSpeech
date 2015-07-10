@@ -38,21 +38,13 @@
         // Now get the model from the diphones XML file.
         MDocument *document = [[MDocument alloc] initWithXMLFile:GNUSPEECH_SERVER_DIPHONES_XML_PATH error:NULL];
         if (document != nil) {
-            self.model = [document.model autorelease];
+            self.model = document.model;
         }
     }
 	
 	return self;
 }
 
-- (void)dealloc;
-{
-    [m_model release];
-    [m_eventList release];
-    [m_synthesizer release];
-	
-	[super dealloc];
-}
 
 #pragma mark -
 
@@ -64,8 +56,7 @@
 - (void)setModel:(MModel *)newModel;
 {
     if (newModel != m_model) {
-        [m_model release];
-        m_model = [newModel retain];
+        m_model = newModel;
         [self.eventList setModel:m_model];
     }
 }

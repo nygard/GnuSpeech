@@ -28,7 +28,7 @@
 - (id)init;
 {
 	if ((self = [super init])) {
-        connection = [[NSConnection new] autorelease];
+        connection = [NSConnection new];
         [connection setRootObject:self];
         
         if (![connection registerName:GNUSPEECH_SERVER_REGISTERED_NAME]) {
@@ -46,8 +46,6 @@
 {
 	NSLog(@"GnuTTSServer: Deallocating server...");
 	[connection invalidate];
-	[textToSpeech release];
-	[super dealloc];
 }
 
 #pragma mark - Voice quality methods.

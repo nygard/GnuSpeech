@@ -22,13 +22,6 @@
 	return self;
 }
 
-- (void)dealloc;
-{
-	[m_textToPhone release];
-	[m_phoneToSpeech release];
-	
-	[super dealloc];
-}
 
 #pragma mark -
 
