@@ -103,7 +103,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         _intonationPointsNeedSorting = NO;
 
         _driftGenerator = [[MMDriftGenerator alloc] init];
-        [_driftGenerator configureWithDeviation:1 sampleRate:500 lowpassCutoff:1000];
+        [_driftGenerator configureWithDeviation:1 sampleRate:(1000 / _timeQuantization) lowpassCutoff:1000];
     }
         
     return self;
@@ -886,7 +886,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     if (self.intonation.shouldUseDrift) {
         NSLog(@"%s, drift deviation: %f, cutoff: %f", __PRETTY_FUNCTION__, self.intonation.driftDeviation, self.intonation.driftCutoff);
-        [self.driftGenerator configureWithDeviation:self.intonation.driftDeviation sampleRate:500 lowpassCutoff:self.intonation.driftCutoff];
+        [self.driftGenerator configureWithDeviation:self.intonation.driftDeviation sampleRate:(1000 / _timeQuantization) lowpassCutoff:self.intonation.driftCutoff];
         //[self.driftGenerator setupWithDeviation:0.5 sampleRate:250 lowpassCutoff:0.5];
     }
 
