@@ -57,7 +57,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 // Tone groups
 @property (readonly) NSMutableArray *toneGroups;
-@property (nonatomic, readonly) MMToneGroup *currentToneGroup;
 
 @property (strong) NSString *phoneString;
 @property (assign) NSUInteger duration;
@@ -294,43 +293,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     if (offsetTimePtr != NULL) *offsetTimePtr = 0.0;
 }
 
-#pragma mark - Tone groups
-
-- (MMToneGroup *)currentToneGroup;
-{
-    return [self.toneGroups lastObject];
-}
-
-// This is horribly ugly and is going to be full of bugs :(
-// It would be easier if we just didn't allow the trailing // that produces an empty tone group.
-- (void)endCurrentToneGroup;
-{
-    MMToneGroup *toneGroup = self.currentToneGroup;
-    
-    if (toneGroup != nil) {
-        if (_footCount == 0) {
-            [self.toneGroups removeLastObject]; // No feet in this tone group, so remove it.
-        } else if (_feet[_footCount-1].startPhoneIndex >= [_phones count]) {
-            _footCount--;                        // No posture in the foot, so remove it.
-            [self.toneGroups removeLastObject]; // And remove the tone group too
-        } else {
-            toneGroup.endFootIndex = _footCount - 1; // TODO (2004-08-18): What if footCount == 0
-            [self endCurrentFoot];
-        }
-    }
-}
-
-- (void)newToneGroup;
-{
-    [self endCurrentToneGroup];
-    [self newFoot];
-    
-    MMToneGroup *toneGroup = [[MMToneGroup alloc] init];
-    toneGroup.startFootIndex = _footCount - 1;
-    toneGroup.endFootIndex = -1;
-    [self.toneGroups addObject:toneGroup];
-}
-
 #pragma mark - Feet
 
 - (void)endCurrentFoot;
@@ -561,18 +523,28 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     lastEvent.isAtPosture = YES;
 }
 
+#pragma mark - Tone groups
+
+// This is horribly ugly and is going to be full of bugs :(
+// It would be easier if we just didn't allow the trailing // that produces an empty tone group.
+- (void)endCurrentToneGroup;
+{
+    MMToneGroup *currentToneGroup = [self.toneGroups lastObject];
+    if (currentToneGroup != nil) {
+        if (_footCount == 0) {
+            [self.toneGroups removeLastObject]; // No feet in this tone group, so remove it.
+        } else if (_feet[_footCount-1].startPhoneIndex >= [_phones count]) {
+            _footCount--;                        // No posture in the foot, so remove it.
+            [self.toneGroups removeLastObject]; // And remove the tone group too
+        } else {
+            currentToneGroup.endFootIndex = _footCount - 1; // TODO (2004-08-18): What if footCount == 0
+            [self endCurrentFoot];
+        }
+    }
+}
+
 #pragma mark - Other
 
-// EventList API used:
-//  - newFoot
-//  - setCurrentFooLast
-//  - setCurrentFootMarked
-//  - newToneGroup
-//  - setCurrentFootTempo:
-//  - setCurrentPhoneSyllable
-//  - newPhoneWithObject:
-//  - setCurrentPhoneTempo:
-//  - setCurrentPhoneRuleTempo:
 - (void)parsePhoneString:(NSString *)str;
 {
     NSUInteger lastFoot = 0, markedFoot = 0;
@@ -591,6 +563,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     NSScanner *scanner = [[NSScanner alloc] initWithString:str];
     scanner.charactersToBeSkipped = nil;
 
+    MMToneGroup *currentToneGroup = [self.toneGroups lastObject];
+
     while ([scanner isAtEnd] == NO) {
         [scanner scanCharactersFromSet:whitespaceCharacterSet intoString:NULL];
         if (scanner.isAtEnd)
@@ -604,27 +578,27 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             if ([scanner scanString:@"0" intoString:NULL])                    // Tone group 0. Statement
             {
                 //NSLog(@"Tone group 0. Statement");
-                self.currentToneGroup.type = MMToneGroupType_Statement;
+                currentToneGroup.type = MMToneGroupType_Statement;
             }
             else if ([scanner scanString:@"1" intoString:NULL])               // Tone group 1. Exclamation
             {
                 //NSLog(@"Tone group 1. Exclamation");
-                self.currentToneGroup.type = MMToneGroupType_Exclamation;
+                currentToneGroup.type = MMToneGroupType_Exclamation;
             }
             else if ([scanner scanString:@"2" intoString:NULL])               // Tone group 2. Question
             {
                 //NSLog(@"Tone group 2. Question");
-                self.currentToneGroup.type = MMToneGroupType_Question;
+                currentToneGroup.type = MMToneGroupType_Question;
             }
             else if ([scanner scanString:@"3" intoString:NULL])               // Tone group 3. Continuation
             {
                 //NSLog(@"Tone group 3. Continuation");
-                self.currentToneGroup.type = MMToneGroupType_Continuation;
+                currentToneGroup.type = MMToneGroupType_Continuation;
             }
             else if ([scanner scanString:@"4" intoString:NULL])               // Tone group 4. Semi-colon
             {
                 //NSLog(@"Tone group 4. Semi-colon");
-                self.currentToneGroup.type = MMToneGroupType_Semicolon;
+                currentToneGroup.type = MMToneGroupType_Semicolon;
             }
             else if ([scanner scanString:@" " intoString:NULL] || [scanner scanString:@"_" intoString:NULL])   // New foot
             {
@@ -651,7 +625,17 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             else if ([scanner scanString:@"/" intoString:NULL])               // New Tone Group
             {
                 //NSLog(@"New Tone Group");
-                [self newToneGroup];
+                [self endCurrentToneGroup];
+
+                {
+                    [self newFoot];
+
+                    MMToneGroup *toneGroup = [[MMToneGroup alloc] init];
+                    toneGroup.startFootIndex = _footCount - 1;
+                    toneGroup.endFootIndex = -1;
+                    [self.toneGroups addObject:toneGroup];
+                    currentToneGroup = toneGroup;
+                }
             }
             else if ([scanner scanString:@"c" intoString:NULL])               // New Chunk
             {
