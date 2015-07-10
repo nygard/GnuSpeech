@@ -24,16 +24,16 @@
 
 @implementation PhoneToSpeech
 {
-	MModel *m_model;
-    EventList *m_eventList;
-	TRMSynthesizer *m_synthesizer;
+	MModel *_model;
+    EventList *_eventList;
+	TRMSynthesizer *_synthesizer;
 }
 
 - (id)init;
 {
 	if ((self = [super init])) {
-        m_eventList = [[EventList alloc] init];
-        m_synthesizer = [[TRMSynthesizer alloc] init];
+        _eventList = [[EventList alloc] init];
+        _synthesizer = [[TRMSynthesizer alloc] init];
 	
         // Now get the model from the diphones XML file.
         MDocument *document = [[MDocument alloc] initWithXMLFile:GNUSPEECH_SERVER_DIPHONES_XML_PATH error:NULL];
@@ -50,19 +50,16 @@
 
 - (MModel *)model;
 {
-    return m_model;
+    return _model;
 }
 
 - (void)setModel:(MModel *)newModel;
 {
-    if (newModel != m_model) {
-        m_model = newModel;
-        [self.eventList setModel:m_model];
+    if (newModel != _model) {
+        _model = newModel;
+        [self.eventList setModel:_model];
     }
 }
-
-@synthesize synthesizer = m_synthesizer;
-@synthesize eventList = m_eventList;
 
 #pragma mark -
 
