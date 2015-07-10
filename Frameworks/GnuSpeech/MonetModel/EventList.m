@@ -1481,11 +1481,15 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     }
 }
 
+#pragma mark - MMIntonationPointChanges
+
 - (void)intonationPointTimeDidChange:(MMIntonationPoint *)intonationPoint;
 {
     self.intonationPointsNeedSorting = YES;
     [self intonationPointDidChange:intonationPoint];
 }
+
+#pragma mark -
 
 - (void)intonationPointDidChange:(MMIntonationPoint *)intonationPoint;
 {

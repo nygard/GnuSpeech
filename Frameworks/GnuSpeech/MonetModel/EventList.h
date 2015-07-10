@@ -3,12 +3,14 @@
 
 #import <Foundation/Foundation.h>
 
+#import "MMIntonationPoint.h" // For MMIntonationPointChanges protocol
+
 @class Event, MMIntonationPoint, MModel, MMPosture, MMPostureRewriter, MMRule, MMDriftGenerator;
 
 @class TRMParameters, TRMSynthesizer;
 @class MMIntonation, MMRuleValues;
 
-@interface EventList : NSObject
+@interface EventList : NSObject <MMIntonationPointChanges>
 
 @property (nonatomic, strong) MModel *model;
 
@@ -56,7 +58,6 @@
 
 - (void)clearIntonationEvents;
 
-- (void)intonationPointTimeDidChange:(MMIntonationPoint *)intonationPoint;
 - (void)intonationPointDidChange:(MMIntonationPoint *)intonationPoint;
 
 // Archiving - XML

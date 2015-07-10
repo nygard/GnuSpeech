@@ -36,3 +36,8 @@
 - (void)appendXMLToString:(NSMutableString *)resultString level:(NSUInteger)level;
 
 @end
+
+@protocol MMIntonationPointChanges
+- (void)intonationPointTimeDidChange:(MMIntonationPoint *)intonationPoint;
+@end
+
