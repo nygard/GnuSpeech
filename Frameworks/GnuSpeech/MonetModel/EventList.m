@@ -89,7 +89,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         _duration  = 0;
         _timeQuantization = 4;
 
-        // _pitchMean?
         _multiplier = 1.0;
 
         _intonation = [[MMIntonation alloc] init];
@@ -111,11 +110,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 }
 
 #pragma mark -
-
-- (MModel *)model;
-{
-    return _model;
-}
 
 - (void)setModel:(MModel *)newModel;
 {
@@ -163,33 +157,28 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 - (void)resetWithIntonation:(MMIntonation *)intonation;
 {
     // _model remains the same
-    // _phoneString is unchanged...
+
+    _phoneString = nil;
 
     _zeroRef = 0;
     _zeroIndex = 0;
     _duration = 0;
     _timeQuantization = 4;
 
-    // _pitchMean?
     _multiplier = 1.0;
 
     // _intonation is unchanged
 
-    [self.phones removeAllObjects];
-
-    [_feet removeAllObjects];
-
-    [self.toneGroups removeAllObjects];
-    [self.appliedRules removeAllObjects];
+    [self.phones        removeAllObjects];
+    [self.feet          removeAllObjects];
+    [self.toneGroups    removeAllObjects];
+    [self.appliedRules  removeAllObjects];
     [self.mutableEvents removeAllObjects];
+
     [self removeAllIntonationPoints];
 
     // _delegate remains unchanged
     // _driftGenerator remains unchanged
-
-//    phoneTempo[0] = 1.0;
-
-    // And now the stuff that used to be in -prepareForSynthesis
 
     self.intonation = intonation;
 }
