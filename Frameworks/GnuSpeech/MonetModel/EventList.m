@@ -264,6 +264,13 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     ruleValues.lastPhone  = rule->lastPhone;
     ruleValues.duration   = rule->duration;
     ruleValues.beat       = rule->beat;
+
+    NSMutableArray *a1 = [[NSMutableArray alloc] init];
+    for (NSUInteger index = ruleValues.firstPhone; index <= ruleValues.lastPhone; index++) {
+        [a1 addObject:[[self getPhoneAtIndex:index] name]];
+    }
+    ruleValues.matchedPhonesDescription = [a1 componentsJoinedByString:@" > "];
+
     return ruleValues;
 }
 
@@ -273,21 +280,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         return NULL;
 
     return &_rules[ruleIndex];
-}
-
-- (NSString *)ruleDescriptionAtIndex:(NSUInteger)ruleIndex;
-{
-    struct _rule *rule = [self getRuleAtIndex:ruleIndex];
-    NSMutableString *str = [NSMutableString string];
-
-    for (NSUInteger index = rule->firstPhone; index <= rule->lastPhone; index++) {
-        [str appendString:[[self getPhoneAtIndex:index] name]];
-        if (index == rule->lastPhone)
-            break;
-        [str appendString:@" > "];
-    }
-
-    return str;
 }
 
 - (NSUInteger)ruleCount;

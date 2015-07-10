@@ -20,7 +20,6 @@
 // Rules
 - (MMRuleValues *)ruleValuesAtIndex:(NSUInteger)index;
 
-- (NSString *)ruleDescriptionAtIndex:(NSUInteger)ruleIndex;
 - (NSUInteger)ruleCount;
 - (void)getRuleIndex:(NSUInteger *)ruleIndexPtr offsetTime:(double *)offsetTimePtr forAbsoluteTime:(double)absoluteTime;
 

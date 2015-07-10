@@ -11,4 +11,6 @@
 @property (assign) double duration;
 @property (assign) double beat; // absolute time of beat, in milliseconds
 
+@property (strong) NSString *matchedPhonesDescription;
+
 @end
