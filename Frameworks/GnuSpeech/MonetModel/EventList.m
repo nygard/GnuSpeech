@@ -462,7 +462,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     BOOL markedFoot   = NO;
     BOOL lastFoot     = NO;
-    double footTempo  = 1.0;
     double ruleTempo  = 1.0;
     double phoneTempo = 1.0;
     BOOL wordMarker   = NO;
@@ -520,7 +519,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
                     MMFoot *foot = [self.feet lastObject];
                     foot.isLast = YES;
                 }
-                footTempo  = 1.0;
                 lastFoot   = NO;
                 markedFoot = NO;
             }
@@ -534,7 +532,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
                     foot.isLast = YES;
                 }
 
-                footTempo  = 1.0;
                 lastFoot   = NO;
                 markedFoot = YES;
             }
