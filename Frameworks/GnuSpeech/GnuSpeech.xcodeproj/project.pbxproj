@@ -14,6 +14,8 @@
 		010DE75A15463851005E337E /* MMFRuleSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = 010DE75915463851005E337E /* MMFRuleSymbols.m */; };
 		0123C8C61B4F6F790022CA81 /* MMAppliedRule.h in Headers */ = {isa = PBXBuildFile; fileRef = 0123C8C41B4F6F790022CA81 /* MMAppliedRule.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0123C8C71B4F6F790022CA81 /* MMAppliedRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 0123C8C51B4F6F790022CA81 /* MMAppliedRule.m */; };
+		0123C8CA1B4F941A0022CA81 /* MMFoot.h in Headers */ = {isa = PBXBuildFile; fileRef = 0123C8C81B4F941A0022CA81 /* MMFoot.h */; };
+		0123C8CB1B4F941A0022CA81 /* MMFoot.m in Sources */ = {isa = PBXBuildFile; fileRef = 0123C8C91B4F941A0022CA81 /* MMFoot.m */; };
 		012D53AC0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		012D53AD0B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 012D53A20B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m */; };
 		012D53AE0B7FF9DC001B50FC /* GSPronunciationDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 012D53A30B7FF9DC001B50FC /* GSPronunciationDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -198,6 +200,8 @@
 		010DE75915463851005E337E /* MMFRuleSymbols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMFRuleSymbols.m; sourceTree = "<group>"; };
 		0123C8C41B4F6F790022CA81 /* MMAppliedRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMAppliedRule.h; path = MonetModel/MMAppliedRule.h; sourceTree = "<group>"; };
 		0123C8C51B4F6F790022CA81 /* MMAppliedRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMAppliedRule.m; path = MonetModel/MMAppliedRule.m; sourceTree = "<group>"; };
+		0123C8C81B4F941A0022CA81 /* MMFoot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMFoot.h; path = MonetModel/MMFoot.h; sourceTree = "<group>"; };
+		0123C8C91B4F941A0022CA81 /* MMFoot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMFoot.m; path = MonetModel/MMFoot.m; sourceTree = "<group>"; };
 		012D53A10B7FF9DC001B50FC /* GSDBMPronunciationDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSDBMPronunciationDictionary.h; path = TextProcessing/GSDBMPronunciationDictionary.h; sourceTree = "<group>"; };
 		012D53A20B7FF9DC001B50FC /* GSDBMPronunciationDictionary.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = GSDBMPronunciationDictionary.m; path = TextProcessing/GSDBMPronunciationDictionary.m; sourceTree = "<group>"; };
 		012D53A30B7FF9DC001B50FC /* GSPronunciationDictionary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GSPronunciationDictionary.h; path = TextProcessing/GSPronunciationDictionary.h; sourceTree = "<group>"; };
@@ -476,6 +480,8 @@
 				01658B481B4BC7C300D2C0B7 /* MMIntonationParameters.m */,
 				0155E4140B7BE8F9008D8879 /* EventList.h */,
 				0155E4150B7BE8F9008D8879 /* EventList.m */,
+				0123C8C81B4F941A0022CA81 /* MMFoot.h */,
+				0123C8C91B4F941A0022CA81 /* MMFoot.m */,
 				0123C8C41B4F6F790022CA81 /* MMAppliedRule.h */,
 				0123C8C51B4F6F790022CA81 /* MMAppliedRule.m */,
 				010DE7311545598D005E337E /* MMToneGroup.h */,
@@ -792,6 +798,7 @@
 				0155E4560B7BE8FA008D8879 /* MMPoint.h in Headers */,
 				0155E4540B7BE8FA008D8879 /* MMParameter.h in Headers */,
 				0155E4520B7BE8FA008D8879 /* MModel.h in Headers */,
+				0123C8CA1B4F941A0022CA81 /* MMFoot.h in Headers */,
 				0155E4500B7BE8FA008D8879 /* MMObject.h in Headers */,
 				0155E44E0B7BE8FA008D8879 /* MMNamedObject.h in Headers */,
 				0155E44C0B7BE8FA008D8879 /* MMIntonationPoint.h in Headers */,
@@ -973,6 +980,7 @@
 				695147A30FB0D73000B6DDD6 /* MMBooleanParser.m in Sources */,
 				695147A60FB0D73000B6DDD6 /* MMBooleanTerminal.m in Sources */,
 				695148730FB0DB5500B6DDD6 /* MMFormulaExpression.m in Sources */,
+				0123C8CB1B4F941A0022CA81 /* MMFoot.m in Sources */,
 				0123C8C71B4F6F790022CA81 /* MMAppliedRule.m in Sources */,
 				695148750FB0DB5500B6DDD6 /* MMFormulaNode.m in Sources */,
 				695148770FB0DB5500B6DDD6 /* MMFormulaParser.m in Sources */,

@@ -29,6 +29,7 @@
 #import "MMPhone.h"
 #import "MMSynthesisParameters.h"
 #import "TRMSynthesizer.h"
+#import "MMFoot.h"
 
 #import "STLogger.h"
 
