@@ -26,10 +26,10 @@
     MMPosture *_lastPosture;
 }
 
-- (id)initWithModel:(MModel *)aModel;
+- (id)initWithModel:(MModel *)model;
 {
     if ((self = [super init])) {
-        _model = aModel;
+        _model = model;
         _currentState = 0;
         _lastPosture = nil;
 
@@ -42,20 +42,20 @@
 
 - (void)_setupCategoryNames;
 {
-    _categoryNames[0] = @"stopped";
-    _categoryNames[1] = @"affricate";
-    _categoryNames[2] = @"hlike";
-    _categoryNames[3] = @"vocoid";
+    _categoryNames[0]  = @"stopped";
+    _categoryNames[1]  = @"affricate";
+    _categoryNames[2]  = @"hlike";
+    _categoryNames[3]  = @"vocoid";
     _categoryNames[14] = @"whistlehack";
 
-    _categoryNames[4] = @"h";
-    _categoryNames[5] = @"h'";
+    _categoryNames[4]  = @"h";
+    _categoryNames[5]  = @"h'";
 
-    _categoryNames[6] = @"hv";
-    _categoryNames[7] = @"hv'";
+    _categoryNames[6]  = @"hv";
+    _categoryNames[7]  = @"hv'";
 
-    _categoryNames[8] = @"ll";
-    _categoryNames[9] = @"ll'";
+    _categoryNames[8]  = @"ll";
+    _categoryNames[9]  = @"ll'";
 
     _categoryNames[10] = @"s";
     _categoryNames[11] = @"s'";
