@@ -231,7 +231,7 @@
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
 {
     if (tableView == self.intonationRuleTableView)
-        return [self.eventList ruleCount];
+        return [self.eventList.appliedRules count];
 
     return 0;
 }

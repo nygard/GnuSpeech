@@ -130,7 +130,7 @@
         [path moveToPoint:NSMakePoint(leftInset,                                        top)];
         [path lineToPoint:NSMakePoint(leftInset,                                        bottom)];
 
-        NSUInteger count = [self.eventList ruleCount];
+        NSUInteger count = [self.eventList.appliedRules count];
         //NSLog(@"count: %lu", count);
         for (NSUInteger index = 0; index < count; index++) {
             MMRuleValues *ruleValues = self.eventList.appliedRules[index];

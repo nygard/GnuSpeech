@@ -235,11 +235,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     return self.appliedRules[index]; // And now it'll raise an exception if index out of range, instead of return NULL/nil.
 }
 
-- (NSUInteger)ruleCount;
-{
-    return [self.appliedRules count];
-}
-
 - (void)getRuleIndex:(NSUInteger *)ruleIndexPtr offsetTime:(double *)offsetTimePtr forAbsoluteTime:(double)absoluteTime;
 {
     NSUInteger count = [self.appliedRules count];

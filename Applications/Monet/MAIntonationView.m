@@ -401,7 +401,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     CGFloat currentX = 0.0;
     CGFloat extraWidth = 0.0;
 
-    NSUInteger count = [_eventList ruleCount];
+    NSUInteger count = [_eventList.appliedRules count];
     for (NSUInteger index = 0; index < count; index++) {
         MMRuleValues *ruleValues = _eventList.appliedRules[index];
 
@@ -453,7 +453,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     ruleFrame.origin.x = 0.0;
     CGFloat extraWidth = 0.0;
 
-    NSUInteger count = [_eventList ruleCount];
+    NSUInteger count = [_eventList.appliedRules count];
     for (NSUInteger index = 0; index < count; index++) {
         MMRuleValues *ruleValues = _eventList.appliedRules[index];
 
@@ -599,7 +599,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (void)keyDown:(NSEvent *)event;
 {
-    NSUInteger ruleCount = [_eventList ruleCount];
+    NSUInteger ruleCount = [_eventList.appliedRules count];
 
     NSString *characters = [event characters];
     NSUInteger length = [characters length];
