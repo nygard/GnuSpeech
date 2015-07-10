@@ -42,10 +42,9 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 @property (assign) BOOL intonationPointsNeedSorting;
 @property (nonatomic, assign) NSInteger zeroRef;
 
-// Tone groups
 @property (readonly) NSMutableArray *toneGroups;
-
 @property (readonly) NSMutableArray *feet;
+@property (readonly) NSMutableArray *phones;
 
 /// This is stored when -parsePhoneString: is called, so that it can be saved with the intonation contour.
 @property (strong) NSString *phoneString;
@@ -61,9 +60,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 @implementation EventList
 {
-    MModel *_model;
-
-    NSString *_phoneString;
+    MModel *_model; // Property is nonatomic, so not synthesized.
 
     NSInteger _zeroRef;
     NSInteger _zeroIndex; // Event index derived from zeroRef.
@@ -73,14 +70,6 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     double _multiplier; // Move... somewhere else.
 
-    MMIntonation *_intonation;
-
-    NSMutableArray *_phones;
-
-    NSMutableArray *_feet;
-
-    NSMutableArray *_toneGroups;
-    NSMutableArray *_appliedRules;
     NSMutableArray *_events;
 
     NSMutableArray *_intonationPoints; // Sorted by absolute time
@@ -106,13 +95,11 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
         _intonation = [[MMIntonation alloc] init];
 
-        _phones = [[NSMutableArray alloc] init];
-
-        _feet = [[NSMutableArray alloc] init];
-
-        _toneGroups = [[NSMutableArray alloc] init];
+        _phones       = [[NSMutableArray alloc] init];
+        _feet         = [[NSMutableArray alloc] init];
+        _toneGroups   = [[NSMutableArray alloc] init];
         _appliedRules = [[NSMutableArray alloc] init];
-        _events = [[NSMutableArray alloc] init];
+        _events       = [[NSMutableArray alloc] init];
 
         _intonationPoints = [[NSMutableArray alloc] init];
         _intonationPointsNeedSorting = NO;
@@ -189,7 +176,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     // _intonation is unchanged
 
-    [_phones removeAllObjects];
+    [self.phones removeAllObjects];
 
     [_feet removeAllObjects];
 
@@ -222,7 +209,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     NSUInteger count = [self.appliedRules count];
     for (NSUInteger index = 0; index < count; index++) {
         MMAppliedRule *appliedRule = self.appliedRules[index];
-        MMPhone *phone = _phones[appliedRule.firstPhone];
+        MMPhone *phone = self.phones[appliedRule.firstPhone];
         double onset = phone.onset;
         if (absoluteTime >= onset && absoluteTime < onset + appliedRule.duration) {
             if (ruleIndexPtr != NULL)  *ruleIndexPtr  = index;
@@ -241,7 +228,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 {
     if ([self.feet count] > 0) {
         MMFoot *foot = [self.feet lastObject];
-        foot.endPhoneIndex = [_phones count] - 1;
+        foot.endPhoneIndex = [self.phones count] - 1;
     }
 }
 
@@ -250,7 +237,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     [self endCurrentFoot];
 
     MMFoot *foot = [[MMFoot alloc] init];
-    foot.startPhoneIndex = [_phones count]; // TODO (2004-08-18): And you better add that posture!
+    foot.startPhoneIndex = [self.phones count]; // TODO (2004-08-18): And you better add that posture!
     foot.endPhoneIndex = -1;
     foot.tempo = 1.0;
     [self.feet addObject:foot];
@@ -271,27 +258,27 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 - (MMPosture *)getPhoneAtIndex:(NSUInteger)phoneIndex;
 {
-    if (phoneIndex >= [_phones count])
+    if (phoneIndex >= [self.phones count])
         return nil;
 
-    MMPhone *phone = _phones[phoneIndex];
+    MMPhone *phone = self.phones[phoneIndex];
     return phone.posture;
 }
 
 - (void)newPhoneWithObject:(MMPosture *)object;
 {
     MMPhone *phone = [[MMPhone alloc] initWithPosture:object];
-    [_phones addObject:phone];
+    [self.phones addObject:phone];
 }
 
 - (void)replaceCurrentPhoneWith:(MMPosture *)object;
 {
-    if ([_phones count] == 0) {
+    if ([self.phones count] == 0) {
         NSLog(@"%s, postureCount == 0", __PRETTY_FUNCTION__);
         return;
     }
 
-    MMPhone *lastPhone = [_phones lastObject];
+    MMPhone *lastPhone = [self.phones lastObject];
 
     NSLog(@"Replacing %@ with %@", [lastPhone.posture name], object.name);
     lastPhone.posture = object;
@@ -299,34 +286,34 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
 - (void)setCurrentPhoneTempo:(double)tempo;
 {
-    if ([_phones count] == 0) {
+    if ([self.phones count] == 0) {
         NSLog(@"%s, postureCount == 0", __PRETTY_FUNCTION__);
         return;
     }
 
-    MMPhone *lastPhone = [_phones lastObject];
+    MMPhone *lastPhone = [self.phones lastObject];
     lastPhone.tempo = tempo;
 }
 
 - (void)setCurrentPhoneRuleTempo:(float)tempo;
 {
-    if ([_phones count] == 0) {
+    if ([self.phones count] == 0) {
         NSLog(@"%s, postureCount == 0", __PRETTY_FUNCTION__);
         return;
     }
 
-    MMPhone *lastPhone = [_phones lastObject];
+    MMPhone *lastPhone = [self.phones lastObject];
     lastPhone.ruleTempo = tempo;
 }
 
 - (void)setCurrentPhoneSyllable;
 {
-    if ([_phones count] == 0) {
+    if ([self.phones count] == 0) {
         NSLog(@"%s, postureCount == 0", __PRETTY_FUNCTION__);
         return;
     }
 
-    MMPhone *lastPhone = [_phones lastObject];
+    MMPhone *lastPhone = [self.phones lastObject];
     lastPhone.syllable = 1;
 }
 
@@ -466,7 +453,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             [self.toneGroups removeLastObject]; // No feet in this tone group, so remove it.
         } else {
             MMFoot *foot = [self.feet lastObject];
-            if (foot.startPhoneIndex >= [_phones count]) {
+            if (foot.startPhoneIndex >= [self.phones count]) {
                 [self.feet removeObject:foot]; // No posture in the foot, so remove it.
                 [self.toneGroups removeLastObject]; // And remove the tone group too
             } else {
@@ -683,7 +670,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         // Adjust the posture tempos for postures in this foot, limiting it to a minimum of 0.2 and maximum of 2.0.
         //NSLog(@"Foot Tempo = %f", footTempo);
         for (NSUInteger j = foot.startPhoneIndex; j < foot.endPhoneIndex + 1; j++) {
-            MMPhone *phone = _phones[j];
+            MMPhone *phone = self.phones[j];
             double tempo = phone.tempo * footTempo;
             if (tempo < 0.2) tempo = 0.2;
             if (tempo > 2.0) tempo = 2.0;
@@ -701,17 +688,17 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     //[self printDataStructures:@"Start of generateEvents"];
     NSParameterAssert(_model != nil);
 
-    if ([_phones count] > 0) {
+    if ([self.phones count] > 0) {
         // Apply rules
-        for (NSUInteger index = 0; index < [_phones count] - 1; ) { // TODO: (2015-07-09) And if there are no phones?
+        for (NSUInteger index = 0; index < [self.phones count] - 1; ) { // TODO: (2015-07-09) And if there are no phones?
             NSMutableArray *tempPhones       = [[NSMutableArray alloc] init];
             NSMutableArray *tempCategoryList = [[NSMutableArray alloc] init];
 
-            // Rules can match up to four phones.  Should be minimum of two phones.  (Hence [_phones count]-1 above.)
+            // Rules can match up to four phones.  Should be minimum of two phones.  (Hence [self.phones count]-1 above.)
             for (NSUInteger rulePhoneIndex = 0; rulePhoneIndex < 4; rulePhoneIndex++) {
                 NSUInteger actualIndex = index + rulePhoneIndex;
-                if (actualIndex < [_phones count]) {
-                    MMPhone *phone = _phones[actualIndex];
+                if (actualIndex < [self.phones count]) {
+                    MMPhone *phone = self.phones[actualIndex];
                     [tempPhones addObject:phone];
                     [tempCategoryList addObject:phone.posture.categories];
                 }
@@ -741,8 +728,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             NSUInteger postureIndex = 0;
             for (Event *event in self.events) {
                 if (event.isAtPosture) {
-                    if (postureIndex < [_phones count]) {
-                        MMPhone *phone = _phones[postureIndex];
+                    if (postureIndex < [self.phones count]) {
+                        MMPhone *phone = self.phones[postureIndex];
                         event.posture = phone.posture;
                         postureIndex++;
                     } else {
@@ -780,8 +767,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         MMFoot *firstFoot = self.feet[firstFootIndex];
         MMFoot *endFoot   = self.feet[endFootIndex];
 
-        MMPhone *startPhone = _phones[firstFoot.startPhoneIndex];
-        MMPhone *endPhone   = _phones[endFoot.endPhoneIndex];
+        MMPhone *startPhone = self.phones[firstFoot.startPhoneIndex];
+        MMPhone *endPhone   = self.phones[endFoot.endPhoneIndex];
 
         double startTime = startPhone.onset;
         double endTime   = endPhone.onset;
@@ -801,7 +788,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         for (NSUInteger j = firstFootIndex; j <= endFootIndex; j++) {
             MMFoot *foot = self.feet[j];
             NSUInteger phoneIndex = foot.startPhoneIndex;
-            while ([((MMPhone *)_phones[phoneIndex]).posture isMemberOfCategoryNamed:@"vocoid"] == NO) { // TODO (2004-08-16): Hardcoded category
+            while ([((MMPhone *)self.phones[phoneIndex]).posture isMemberOfCategoryNamed:@"vocoid"] == NO) { // TODO (2004-08-16): Hardcoded category
                 phoneIndex++;
                 //NSLog(@"Checking phone %@ for vocoid", [phones[phoneIndex].phone name]);
                 if (phoneIndex > foot.endPhoneIndex) {
@@ -831,7 +818,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
                 MMIntonationPoint *newIntonationPoint = [[MMIntonationPoint alloc] init];
                 // TODO (2004-08-19): But this will generate extra change notifications.  Try setting the event list for the intonation point in -addIntonationPoint:.
-                MMPhone *phone = _phones[phoneIndex];
+                MMPhone *phone = self.phones[phoneIndex];
                 newIntonationPoint.semitone   = ((phone.onset-startTime) * pretonicDelta) + intonationParameters.notionalPitch + randomSemitone;
                 newIntonationPoint.offsetTime = offsetTime;
                 newIntonationPoint.slope      = randomSlope;
@@ -1089,7 +1076,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     // TODO (2004-08-14): Is this supposed to change the multiplier?  I suppose so, since setMultiplier: is never used.
     //NSLog(@"multiplier before: %f", multiplier);
-    MMPhone *phone = _phones[phoneIndex];
+    MMPhone *phone = self.phones[phoneIndex];
     self.multiplier = 1.0 / (double)(phone.ruleTempo);
     //NSLog(@"multiplier after: %f", multiplier);
 
@@ -1106,9 +1093,9 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             // Note: Tetraphone case should execute all of the below, Triphone case the last two.
         case MMPhoneType_Tetraphone:
         {
-            MMPhone *phonePlus3 = _phones[phoneIndex+3];
-            MMPhone *phonePlus2 = _phones[phoneIndex+2];
-            MMPhone *phonePlus1 = _phones[phoneIndex+1];
+            MMPhone *phonePlus3 = self.phones[phoneIndex+3];
+            MMPhone *phonePlus2 = self.phones[phoneIndex+2];
+            MMPhone *phonePlus1 = self.phones[phoneIndex+1];
 
             phonePlus3.onset = (double)_zeroRef + ruleSymbols.beat;
             [self insertEventAtTimeOffset:ruleSymbols.mark2 posture:phonePlus2.posture];
@@ -1122,8 +1109,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         }
         case MMPhoneType_Triphone:
         {
-            MMPhone *phonePlus2 = _phones[phoneIndex+2];
-            MMPhone *phonePlus1 = _phones[phoneIndex+1];
+            MMPhone *phonePlus2 = self.phones[phoneIndex+2];
+            MMPhone *phonePlus1 = self.phones[phoneIndex+1];
 
             phonePlus2.onset = (double)_zeroRef + ruleSymbols.beat;
             [self insertEventAtTimeOffset:ruleSymbols.mark1 posture:phonePlus1.posture];
@@ -1134,7 +1121,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         }
         case MMPhoneType_Diphone:
         {
-            MMPhone *phonePlus1 = _phones[phoneIndex+1];
+            MMPhone *phonePlus1 = self.phones[phoneIndex+1];
             phonePlus1.onset = (double)_zeroRef + ruleSymbols.beat;
             [self insertEventAtTimeOffset:0.0 posture:phone.posture];
             break;
@@ -1248,7 +1235,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 - (NSString *)description;
 {
     return [NSString stringWithFormat:@"<%@>[%p]: postureCount: %lu, footCount: %lu, toneGroupCount: %lu, ruleValues count: %lu, + a bunch of other stuff, super: %@",
-                     NSStringFromClass([self class]), self, [_phones count], [self.feet count], [self.toneGroups count], [self.appliedRules count], [super description]];
+                     NSStringFromClass([self class]), self, [self.phones count], [self.feet count], [self.toneGroups count], [self.appliedRules count], [super description]];
 }
 
 - (void)printDataStructures:(NSString *)comment;
@@ -1271,7 +1258,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
             //NSLog(@"Foot (%d -- %d)", feet[footIndex].start, feet[footIndex].end);
             for (NSUInteger postureIndex = foot.startPhoneIndex; postureIndex <= foot.endPhoneIndex; postureIndex++) {
-                MMPhone *phone = _phones[postureIndex];
+                MMPhone *phone = self.phones[postureIndex];
                 MMAppliedRule *appliedRule = (ruleIndex < [self.appliedRules count]) ? self.appliedRules[ruleIndex] : nil;
                 if (appliedRule != nil && appliedRule.firstPhone == postureIndex) {
                     [logger log:@"    posture[%2lu]  tempo: %.3f, syllable: %lu, onset: %7.2f, ruleTempo: %.3f, %@ # Rule %2lu, duration: %7.2f, beat: %7.2f",
