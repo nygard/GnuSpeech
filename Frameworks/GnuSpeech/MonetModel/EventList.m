@@ -758,14 +758,11 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     //[self printDataStructures:@"Start of generateEvents"];
     NSParameterAssert(_model != nil);
 
-    {
-        NSMutableArray *tempPhones       = [[NSMutableArray alloc] init];
-        NSMutableArray *tempCategoryList = [[NSMutableArray alloc] init];
-
+    if ([_phones count] > 0) {
         // Apply rules
-        for (NSUInteger index = 0; index < [_phones count] - 1; ) {
-            [tempPhones removeAllObjects];
-            [tempCategoryList removeAllObjects];
+        for (NSUInteger index = 0; index < [_phones count] - 1; ) { // TODO: (2015-07-09) And if there are no phones?
+            NSMutableArray *tempPhones       = [[NSMutableArray alloc] init];
+            NSMutableArray *tempCategoryList = [[NSMutableArray alloc] init];
 
             // Rules can match up to four phones.  Should be minimum of two phones.  (Hence [_phones count]-1 above.)
             for (NSUInteger rulePhoneIndex = 0; rulePhoneIndex < 4; rulePhoneIndex++) {
@@ -784,17 +781,10 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
             //NSLog(@"----------------------------------------------------------------------");
             //NSLog(@"Applying rule %d", ruleIndex + 1);
             [self _applyRule:matchedRule withPhones:tempPhones phoneIndex:index];
-
+            
             index += [matchedRule numberExpressions] - 1;
         }
     }
-
-
-//    if (currentPhone)
-//        [self generateIntonationPoints];
-
-//    Event *lastEvent = [_events lastObject];
-//    lastEvent.isAtPosture = YES;
 
     [self printDataStructures:@"Applied rules"];
 
@@ -1138,7 +1128,8 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     _rules[_currentRule].firstPhone = phoneIndex;
     _rules[_currentRule].lastPhone  = phoneIndex + (type - 1);
     _rules[_currentRule].beat       = (ruleSymbols.beat * self.multiplier) + (double)_zeroRef;
-    _rules[_currentRule++].duration = ruleSymbols.ruleDuration * self.multiplier;
+    _rules[_currentRule].duration   = ruleSymbols.ruleDuration * self.multiplier;
+    _currentRule++;
 
     // This creates events (if necessary) at the posture times, and sets the "flag" on them to indicate this is for a posture.
     switch (type) {
