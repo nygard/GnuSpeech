@@ -15,23 +15,20 @@
 
 - (void)appendXMLToString:(NSMutableString *)resultString elementName:(NSString *)elementName level:(NSUInteger)level numberCommentPrefix:(NSString *)prefix;
 {
-    NSUInteger count, index;
-
-    count = [self count];
-    if (count == 0)
+    if ([self count] == 0)
         return;
 
     [resultString indentToLevel:level];
     [resultString appendFormat:@"<%@>\n", elementName];
 
-    for (index = 0; index < count; index++) {
+    [self enumerateObjectsUsingBlock:^(id object, NSUInteger index, BOOL *stop) {
         if (prefix != nil) {
             [resultString indentToLevel:level+1];
             [resultString appendFormat:@"<!-- %@: %lu -->\n", prefix, index + 1];
         }
 
-        [[self objectAtIndex:index] appendXMLToString:resultString level:level+1];
-    }
+        [object appendXMLToString:resultString level:level+1];
+    }];
 
     [resultString indentToLevel:level];
     [resultString appendFormat:@"</%@>\n", elementName];
