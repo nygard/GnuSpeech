@@ -776,6 +776,13 @@
     }
 }
 
+- (void)graphView:(MAGraphView *)graphView didSelectRange:(NSRange)range;
+{
+    for (MAGraphView *graphView in self.graphViews) {
+        graphView.selectedRange = range;
+    }
+}
+
 - (void)graphView:(MAGraphView *)graphView trackingTime:(NSNumber *)time value:(NSNumber *)value;
 {
     if (time != nil) {
