@@ -753,7 +753,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         MMFoot *endFoot   = self.feet[endFootIndex];
 
         MMPhone *startPhone = self.phones[firstFoot.startPhoneIndex];
-        MMPhone *endPhone   = self.phones[endFoot.endPhoneIndex];
+        MMPhone *endPhone   = self.phones[endFoot.startPhoneIndex];
 
         double startTime = startPhone.onset;
         double endTime   = endPhone.onset;
