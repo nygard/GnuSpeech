@@ -183,8 +183,8 @@ MMChannels MMChannelsFromString(NSString *string)
                           MMGlottalPulseShapeName(MMGlottalPulseShape_Pulse), MDK_GP_SHAPE,
                           [NSNumber numberWithBool:YES],                      MDK_NOISE_MODULATION,
                           [NSNumber numberWithDouble:-12],                    MDK_PITCH,
-                          [NSNumber numberWithDouble:22050],                  MDK_SAMPLING_RATE,
-                          MMChannelsName(MMChannels_Mono),                    MDK_OUTPUT_CHANNELS,
+                          [NSNumber numberWithDouble:44100],                  MDK_SAMPLING_RATE,
+                          MMChannelsName(MMChannels_Stereo),                  MDK_OUTPUT_CHANNELS,
                           nil];
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:dict];
