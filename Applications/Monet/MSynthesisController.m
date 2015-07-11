@@ -57,6 +57,8 @@
 
 @property (strong) NSArray *graphNameViews;
 @property (strong) NSArray *graphViews;
+
+@property (assign) NSRange selectedTimeRange;
 @end
 
 #pragma mark -
@@ -455,9 +457,9 @@
     [self.synthesizer removeAllParameters];
 
     if ([_parametersStore state]) {
-        [_eventList generateOutputForSynthesizer:self.synthesizer saveParametersToFilename:@"/tmp/Monet.parameters"];
+        [_eventList generateOutputInTimeRange:self.selectedTimeRange forSynthesizer:self.synthesizer saveParametersToFilename:@"/tmp/Monet.parameters"];
     } else {
-        [_eventList generateOutputForSynthesizer:self.synthesizer];
+        [_eventList generateOutputInTimeRange:self.selectedTimeRange forSynthesizer:self.synthesizer];
     }
 	
     [self.synthesizer synthesize];
@@ -523,7 +525,7 @@
         [self.synthesizer setupSynthesisParameters:self.model.synthesisParameters];
         [self.synthesizer removeAllParameters];
 
-        [_eventList generateOutputForSynthesizer:self.synthesizer saveParametersToFilename:[basePath stringByAppendingPathComponent:@"Monet.parameters"]];
+        [_eventList generateOutputInTimeRange:self.selectedTimeRange forSynthesizer:self.synthesizer saveParametersToFilename:[basePath stringByAppendingPathComponent:@"Monet.parameters"]];
     }
 
     self.synthesizer.fileType = 0;
@@ -774,6 +776,18 @@
     for (MAGraphView *graphView in self.graphViews) {
         graphView.selectedXPosition = xPosition;
     }
+}
+
+- (void)graphView:(MAGraphView *)graphView didSelectRange:(NSRange)range;
+{
+    for (MAGraphView *graphView in self.graphViews) {
+        graphView.selectedRange = range;
+    }
+}
+
+- (void)graphView:(MAGraphView *)graphView didSelectTimeRange:(NSRange)range;
+{
+    self.selectedTimeRange = range;
 }
 
 - (void)graphView:(MAGraphView *)graphView trackingTime:(NSNumber *)time value:(NSNumber *)value;

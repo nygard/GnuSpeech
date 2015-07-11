@@ -862,20 +862,25 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     [[NSNotificationCenter defaultCenter] postNotificationName:EventListDidGenerateIntonationPoints object:self userInfo:nil];
 }
 
-- (void)generateOutputForSynthesizer:(TRMSynthesizer *)synthesizer saveParametersToFilename:(NSString *)filename;
+- (void)generateOutputInTimeRange:(NSRange)timeRange forSynthesizer:(TRMSynthesizer *)synthesizer saveParametersToFilename:(NSString *)filename;
 {
     STLogger *parameterLogger = [[STLogger alloc] initWithOutputToPath:filename error:NULL];
     [self.model.synthesisParameters logToLogger:parameterLogger];
 
-    [self generateOutputForSynthesizer:synthesizer parameterLogger:parameterLogger];
+    [self generateOutputInTimeRange:timeRange forSynthesizer:synthesizer parameterLogger:parameterLogger];
 }
 
 - (void)generateOutputForSynthesizer:(TRMSynthesizer *)synthesizer;
 {
-    [self generateOutputForSynthesizer:synthesizer parameterLogger:nil];
+    [self generateOutputInTimeRange:NSMakeRange(0, NSUIntegerMax) forSynthesizer:synthesizer];
 }
 
-- (void)generateOutputForSynthesizer:(TRMSynthesizer *)synthesizer parameterLogger:(STLogger *)parameterLogger;
+- (void)generateOutputInTimeRange:(NSRange)timeRange forSynthesizer:(TRMSynthesizer *)synthesizer;
+{
+    [self generateOutputInTimeRange:timeRange forSynthesizer:synthesizer parameterLogger:nil];
+}
+
+- (void)generateOutputInTimeRange:(NSRange)timeRange forSynthesizer:(TRMSynthesizer *)synthesizer parameterLogger:(STLogger *)parameterLogger;
 {
     //NSLog(@"%s, self: %@", _cmd, self);
 
@@ -883,6 +888,15 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
     
     if ([_mutableEvents count] == 0)
         return;
+
+    if (timeRange.length == 0) {
+        timeRange = NSMakeRange(0, NSUIntegerMax);
+    }
+
+    NSLog(@"%s, timeRange: %@", __PRETTY_FUNCTION__, NSStringFromRange(timeRange));
+    NSUInteger startTime_ms = timeRange.location;
+    NSUInteger endTime_ms   = NSMaxRange(timeRange);
+    NSLog(@"start time (ms) - end time (ms): %lu - %lu", startTime_ms, endTime_ms);
 
     if (self.intonation.shouldUseDrift) {
         NSLog(@"%s, drift deviation: %f, cutoff: %f", __PRETTY_FUNCTION__, self.intonation.driftDeviation, self.intonation.driftCutoff);
@@ -896,7 +910,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
     NSUInteger currentTime_ms = 0;
     
-    
+
     // So it looks like this... uses the first value as the current value (makes sense), and then looks for the _next_ available value (skipping NaN) to calculate the deltas
     double currentValues[36];
     double currentDeltas[36];
@@ -968,26 +982,28 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 
         table[0] += self.model.synthesisParameters.pitch;
 
-        TRMParameters *outputValues = [[TRMParameters alloc] init];
-        outputValues.glottalPitch             = table[0];
-        outputValues.glottalVolume            = table[1];
-        outputValues.aspirationVolume         = table[2];
-        outputValues.fricationVolume          = table[3];
-        outputValues.fricationPosition        = table[4];
-        outputValues.fricationCenterFrequency = table[5];
-        outputValues.fricationBandwidth       = table[6];
-        outputValues.radius[0]                = table[7];
-        outputValues.radius[1]                = table[8];
-        outputValues.radius[2]                = table[9];
-        outputValues.radius[3]                = table[10];
-        outputValues.radius[4]                = table[11];
-        outputValues.radius[5]                = table[12];
-        outputValues.radius[6]                = table[13];
-        outputValues.radius[7]                = table[14];
-        outputValues.velum                    = table[15];
+        if (currentTime_ms >= startTime_ms && currentTime_ms <= endTime_ms) {
+            TRMParameters *outputValues = [[TRMParameters alloc] init];
+            outputValues.glottalPitch             = table[0];
+            outputValues.glottalVolume            = table[1];
+            outputValues.aspirationVolume         = table[2];
+            outputValues.fricationVolume          = table[3];
+            outputValues.fricationPosition        = table[4];
+            outputValues.fricationCenterFrequency = table[5];
+            outputValues.fricationBandwidth       = table[6];
+            outputValues.radius[0]                = table[7];
+            outputValues.radius[1]                = table[8];
+            outputValues.radius[2]                = table[9];
+            outputValues.radius[3]                = table[10];
+            outputValues.radius[4]                = table[11];
+            outputValues.radius[5]                = table[12];
+            outputValues.radius[6]                = table[13];
+            outputValues.radius[7]                = table[14];
+            outputValues.velum                    = table[15];
 
-        [synthesizer addParameters:outputValues];
-        [parameterLogger log:@"%@", outputValues.valuesString];
+            [synthesizer addParameters:outputValues];
+            [parameterLogger log:@"%@", outputValues.valuesString];
+        }
 
         for (NSUInteger j = 0; j < 32; j++) {
             if (currentDeltas[j]) // TODO (2012-04-23): Just add unconditionally

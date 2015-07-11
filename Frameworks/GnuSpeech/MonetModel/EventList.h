@@ -39,7 +39,8 @@
 - (void)applyRhythm;
 - (void)applyRules;
 - (void)generateIntonationPoints;
-- (void)generateOutputForSynthesizer:(TRMSynthesizer *)synthesizer saveParametersToFilename:(NSString *)filename;
+- (void)generateOutputInTimeRange:(NSRange)timeRange forSynthesizer:(TRMSynthesizer *)synthesizer saveParametersToFilename:(NSString *)filename;
+- (void)generateOutputInTimeRange:(NSRange)timeRange forSynthesizer:(TRMSynthesizer *)synthesizer;
 - (void)generateOutputForSynthesizer:(TRMSynthesizer *)synthesizer;
 
 // Debugging

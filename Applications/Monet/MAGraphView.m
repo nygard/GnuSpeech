@@ -6,13 +6,17 @@
 #import <GnuSpeech/GnuSpeech.h>
 #import "MMDisplayParameter.h"
 
+// TODO: (2015-07-10) The selectedXPosition and selectedRange should probably change when the scale changes.
+
+#pragma mark -
+
 @interface MAGraphView ()
 @property (strong) NSTrackingArea *trackingArea;
 @end
 
 @implementation MAGraphView
 {
-    CGFloat _leftInset;;
+    CGFloat _leftInset;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
@@ -88,6 +92,12 @@
     [self setNeedsDisplay:YES];
 }
 
+- (void)setSelectedRange:(NSRange)selectedRange;
+{
+    _selectedRange = selectedRange;
+    [self setNeedsDisplay:YES];
+}
+
 #pragma mark -
 
 - (void)eventListDidGenerateOutput:(NSNotification *)notification;
@@ -140,6 +150,11 @@
     CGFloat trackHeight = bounds.size.height - topInset - bottomInset;
 
     //NSLog(@"[%p] bounds: %@", self, NSStringFromRect(bounds));
+
+    if (self.selectedRange.length > 0) {
+        [[[NSColor greenColor] colorWithAlphaComponent:0.2] set];
+        NSRectFill(NSMakeRect(self.selectedRange.location, 0.5, self.selectedRange.length, NSMaxY(bounds)));
+    }
 
     NSUInteger parameterIndex = self.displayParameter.tag;
     double currentMin = self.displayParameter.parameter.minimumValue;
@@ -239,10 +254,52 @@
 - (void)mouseDown:(NSEvent *)event;
 {
     NSPoint point = [self convertPoint:event.locationInWindow fromView:nil];
-    self.selectedXPosition = point.x;
+    BOOL shiftClicked = (([event modifierFlags] & NSShiftKeyMask) != 0);
 
-    [self.delegate graphView:self didSelectXPosition:self.selectedXPosition];
+    if (!shiftClicked) {
+        self.selectedXPosition = point.x;
+
+        [self.delegate graphView:self didSelectXPosition:self.selectedXPosition];
+    }
     [self updateTrackingAtPoint:point];
+
+
+    if (event.clickCount == 1 && shiftClicked) {
+        self.selectedRange = NSMakeRange(point.x, 0);
+        [self.delegate graphView:self didSelectRange:self.selectedRange];
+        NSRange timeRange = self.selectedRange;
+        timeRange.location /= self.scale;
+        timeRange.length /= self.scale;
+        [self.delegate graphView:self didSelectTimeRange:timeRange];
+
+        while (1) {
+            NSEvent *event = [NSApp nextEventMatchingMask:NSLeftMouseDraggedMask|NSLeftMouseUpMask
+                                                untilDate:[NSDate distantFuture]
+                                                   inMode:NSEventTrackingRunLoopMode
+                                                  dequeue:NO];
+            if ([event type] == NSLeftMouseUp)
+                break;
+
+            NSPoint hitPoint = [self convertPoint:[event locationInWindow] fromView:nil];
+            [self updateTrackingAtPoint:hitPoint];
+            if (hitPoint.x < point.x) {
+                self.selectedRange = NSMakeRange(hitPoint.x, point.x - hitPoint.x);
+            } else {
+                self.selectedRange = NSMakeRange(point.x, hitPoint.x - point.x);
+            }
+            [self.delegate graphView:self didSelectRange:self.selectedRange];
+            NSRange timeRange = self.selectedRange;
+            timeRange.location /= self.scale;
+            timeRange.length /= self.scale;
+            [self.delegate graphView:self didSelectTimeRange:timeRange];
+
+            // Dequeue the event after checking, so that the event which triggered the exit remains availble
+            [NSApp nextEventMatchingMask:NSLeftMouseDraggedMask
+                               untilDate:[NSDate distantFuture]
+                                  inMode:NSEventTrackingRunLoopMode
+                                 dequeue:YES];
+        }
+    }
 }
 
 - (void)mouseDragged:(NSEvent *)event;
