@@ -18,6 +18,10 @@
 @protocol MAGraphViewDelegate
 - (void)graphView:(MAGraphView *)graphView didSelectXPosition:(CGFloat)xPosition;
 - (void)graphView:(MAGraphView *)graphView didSelectRange:(NSRange)range;
+
+// This isn't ideal, sort of duplicating the previous message.  But here we want the time range, not the pixel range.
+- (void)graphView:(MAGraphView *)graphView didSelectTimeRange:(NSRange)range;
+
 - (void)graphView:(MAGraphView *)graphView trackingTime:(NSNumber *)time value:(NSNumber *)value;
 @end
 

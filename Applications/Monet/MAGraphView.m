@@ -6,6 +6,10 @@
 #import <GnuSpeech/GnuSpeech.h>
 #import "MMDisplayParameter.h"
 
+// TODO: (2015-07-10) The selectedXPosition and selectedRange should probably change when the scale changes.
+
+#pragma mark -
+
 @interface MAGraphView ()
 @property (strong) NSTrackingArea *trackingArea;
 @end
@@ -263,6 +267,10 @@
     if (event.clickCount == 1 && shiftClicked) {
         self.selectedRange = NSMakeRange(point.x, 0);
         [self.delegate graphView:self didSelectRange:self.selectedRange];
+        NSRange timeRange = self.selectedRange;
+        timeRange.location /= self.scale;
+        timeRange.length /= self.scale;
+        [self.delegate graphView:self didSelectTimeRange:timeRange];
 
         while (1) {
             NSEvent *event = [NSApp nextEventMatchingMask:NSLeftMouseDraggedMask|NSLeftMouseUpMask
@@ -280,6 +288,10 @@
                 self.selectedRange = NSMakeRange(point.x, hitPoint.x - point.x);
             }
             [self.delegate graphView:self didSelectRange:self.selectedRange];
+            NSRange timeRange = self.selectedRange;
+            timeRange.location /= self.scale;
+            timeRange.length /= self.scale;
+            [self.delegate graphView:self didSelectTimeRange:timeRange];
 
             // Dequeue the event after checking, so that the event which triggered the exit remains availble
             [NSApp nextEventMatchingMask:NSLeftMouseDraggedMask
