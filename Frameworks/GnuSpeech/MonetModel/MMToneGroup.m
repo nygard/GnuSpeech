@@ -7,6 +7,16 @@
 
 @implementation MMToneGroup
 
+#pragma mark - Debugging
+
+- (NSString *)description;
+{
+    return [NSString stringWithFormat:@"<%@: %p> type: %@, feet: %lu - %lu",
+            NSStringFromClass([self class]), self,
+            MMToneGroupTypeName(self.type),
+            self.startFootIndex, self.endFootIndex];
+}
+
 @end
 
 NSString *MMToneGroupTypeName(MMToneGroupType type)
