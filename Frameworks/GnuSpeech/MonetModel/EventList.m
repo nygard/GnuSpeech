@@ -814,7 +814,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 //                       (phones[phoneIndex].onset-startTime));
             } else { // Tonic
                 double randomSemitone;
-                double randomSlope = (toneGroup.type = MMToneGroupType_Continuation) ? 0.01 : 0.02;
+                double randomSlope = (toneGroup.type == MMToneGroupType_Continuation) ? 0.01 : 0.02;
 
                 NSUInteger ruleIndex = [self ruleIndexForPostureAtIndex:phoneIndex];
                 if (self.intonation.shouldRandomizeIntonation) {
