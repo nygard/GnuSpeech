@@ -97,15 +97,17 @@ static NSDictionary *toneGroupIntonationParameterArrays;
 
 - (MMIntonationParameters *)intonationParametersForToneGroup:(MMToneGroup *)toneGroup;
 {
+    //NSLog(@"%s, toneGroup: %@", __PRETTY_FUNCTION__, toneGroup);
     NSArray *array = toneGroupIntonationParameterArrays[ MMToneGroupTypeName(toneGroup.type) ];
     NSParameterAssert(array != nil);
     NSParameterAssert([array count] > 0);
     if ([array count] == 1 || !self.shouldRandomizeIntonation) {
+        //NSLog(@"non-random for tone group, iparm: %@", array[0]);
         return array[0];
     }
 
-    NSLog(@"randomizing within tone group");
     NSUInteger index = random() % [array count];
+    //NSLog(@"randomizing within tone group, iparm: %@", array[index]);
     return array[index];
 }
 
