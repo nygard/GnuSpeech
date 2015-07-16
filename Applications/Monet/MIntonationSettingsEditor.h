@@ -3,6 +3,6 @@
 
 #import "MWindowController.h"
 
-@interface MIntonationParameterEditor : MWindowController
+@interface MIntonationSettingsEditor : MWindowController
 
 @end
