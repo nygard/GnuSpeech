@@ -11,7 +11,7 @@
 #import "MExtendedTableView.h"
 #import "MMDisplayParameter.h"
 
-#import "MIntonationParameterEditor.h"
+#import "MIntonationSettingsEditor.h"
 #import "MMIntonation-Monet.h"
 #import "MEventTableController.h"
 

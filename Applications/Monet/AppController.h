@@ -35,7 +35,7 @@
 - (IBAction)showSynthesisParameterEditor:(id)sender;
 - (IBAction)showSynthesisController:(id)sender;
 - (IBAction)showIntonationWindow:(id)sender;
-- (IBAction)showIntonationParameterWindow:(id)sender;
+- (IBAction)showIntonationSettingsWindow:(id)sender;
 - (IBAction)generateXML:(id)sender;
 
 - (void)editTransition:(MMTransition *)transition;
