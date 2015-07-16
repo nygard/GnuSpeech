@@ -9,6 +9,9 @@
 static NSDictionary *toneGroupIntonationParameterArrays;
 
 @implementation MMIntonation
+{
+    MMIntonationParameters *_manualIntonationParameters;
+}
 
 + (void)initialize;
 {
@@ -68,17 +71,21 @@ static NSDictionary *toneGroupIntonationParameterArrays;
 - (id)init;
 {
     if ((self = [super init])) {
-        _shouldUseMacroIntonation = YES;
-        _shouldUseMicroIntonation = YES;
+        _shouldUseMacroIntonation  = YES;
+        _shouldUseMicroIntonation  = YES;
         _shouldUseSmoothIntonation = YES;
 
         _shouldUseDrift = YES;
         _driftDeviation = 1.0;
-        _driftCutoff = 4;
+        _driftCutoff    = 4;
 
         _tempo = 1.0;
 
-        _shouldRandomizeIntonation = YES;
+        _shouldRandomlyPerturb                  = YES;
+        _shouldRandomlySelectFromToneGroup      = YES;
+        _shouldUseToneGroupIntonationParameters = YES;
+
+        _manualIntonationParameters = [[MMIntonationParameters alloc] init];
     }
     
     return self;
@@ -88,9 +95,10 @@ static NSDictionary *toneGroupIntonationParameterArrays;
 
 - (NSString *)description;
 {
-    return [NSString stringWithFormat:@"<%@: %p> shouldRandomizeIntonation: %d",
+    return [NSString stringWithFormat:@"<%@: %p> shouldRandomlyPerturb: %d, shouldRandomlySelectFromToneGroup: %d, shouldUseToneGroupIntonationParameters: %d, manualIntonationParameters: %@",
             NSStringFromClass([self class]), self,
-            self.shouldRandomizeIntonation];
+            self.shouldRandomlyPerturb, self.shouldRandomlySelectFromToneGroup, self.shouldUseToneGroupIntonationParameters,
+            self.manualIntonationParameters];
 }
 
 #pragma mark -
@@ -98,10 +106,14 @@ static NSDictionary *toneGroupIntonationParameterArrays;
 - (MMIntonationParameters *)intonationParametersForToneGroup:(MMToneGroup *)toneGroup;
 {
     //NSLog(@"%s, toneGroup: %@", __PRETTY_FUNCTION__, toneGroup);
+    if (!self.shouldUseToneGroupIntonationParameters) {
+        return self.manualIntonationParameters;
+    }
+
     NSArray *array = toneGroupIntonationParameterArrays[ MMToneGroupTypeName(toneGroup.type) ];
     NSParameterAssert(array != nil);
     NSParameterAssert([array count] > 0);
-    if ([array count] == 1 || !self.shouldRandomizeIntonation) {
+    if ([array count] == 1 || !self.shouldRandomlySelectFromToneGroup) {
         //NSLog(@"non-random for tone group, iparm: %@", array[0]);
         return array[0];
     }
