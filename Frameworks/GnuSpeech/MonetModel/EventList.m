@@ -1382,7 +1382,7 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
 // Was same as Monet.realtime, except for that first intonation point.
 - (void)_applySmoothIntonation;
 {
-    //NSLog(@" > %s", _cmd);
+    //NSLog(@" > %s", __PRETTY_FUNCTION__);
 
     [self setFullTimeScale];
 
@@ -1413,28 +1413,41 @@ NSString *EventListNotification_DidGenerateOutput = @"EventListNotification_DidG
         double denominator = (x2 - x1);
         denominator = denominator * denominator * denominator;
 
+        if (denominator == 0) {
+            NSLog(@"Error: Intonation points at indexes %lu, %lu have the same absolute time.  Can't create smooth curve.", index, index + 1);
+            continue;
+        }
+
         //double d = ( -(y2*x1_3) + 3*y2*x1_2*x2 + m2*x1_3*x2 + m1*x1_2*x2_2 - m2*x1_2*x2_2 - 3*x1*y1*x2_2 - m1*x1*x2_3 + y1*x2_3) / denominator;
         double c = ( -(m2*x1_3) - 6*y2*x1*x2 - 2*m1*x1_2*x2 - m2*x1_2*x2 + 6*x1*y1*x2 + m1*x1*x2_2 + 2*m2*x1*x2_2 + m1*x2_3) / denominator;
         double b = ( 3*y2*x1 + m1*x1_2 + 2*m2*x1_2 - 3*x1*y1 + 3*x2*y2 + m1*x1*x2 - m2*x1*x2 - 3*y1*x2 - 2*m1*x2_2 - m2*x2_2) / denominator;
         double a = ( -2*y2 - m1*x1 - m2*x1 + 2*y1 + m1*x2 + m2*x2) / denominator;
 
+        //NSLog(@"\n===\n");
+        //NSLog(@"x1 = %f y1 = %f m1 = %f", x1, y1, m1);
+        //NSLog(@"x2 = %f y2 = %f m2 = %f", x2, y2, m2);
+        //NSLog(@"x1_2: %f, x1_3: %f", x1_2, x1_3);
+        //NSLog(@"x2_2: %f, x2_3: %f", x2_2, x2_3);
+        //NSLog(@"denominator: %f", denominator);
+        //NSLog(@"a = %f b = %f c = %f", a, b, c);
+
         [self insertEvent:32 atTimeOffset:point1.absoluteTime withValue:point1.semitone];
 
         double yTemp = (3.0 * a * x1_2) + (2.0 * b * x1) + c;
         //NSLog(@"time: %.2f", [point1 absoluteTime]);
-        //NSLog(@"index: %d, inserting event 33: %7.3f", index, yTemp);
+        //NSLog(@"index: %lu, inserting event 33: %7.3f", index, yTemp);
         [self insertEvent:33 atTimeOffset:point1.absoluteTime withValue:yTemp];
 
         yTemp = (6.0 * a * x1) + (2.0 * b);
-        //NSLog(@"index: %d, inserting event 34: %7.3f", index, yTemp);
+        //NSLog(@"index: %lu, inserting event 34: %7.3f", index, yTemp);
         [self insertEvent:34 atTimeOffset:point1.absoluteTime withValue:yTemp];
 
         yTemp = 6.0 * a;
-        //NSLog(@"index: %d, inserting event 35: %7.3f", index, yTemp);
+        //NSLog(@"index: %lu, inserting event 35: %7.3f", index, yTemp);
         [self insertEvent:35 atTimeOffset:point1.absoluteTime withValue:yTemp];
     }
 
-    //NSLog(@"<  %s", _cmd);
+    //NSLog(@"<  %s", __PRETTY_FUNCTION__);
 }
 
 // So that we can reapply the current intonation to the events.
