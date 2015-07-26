@@ -526,14 +526,27 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
         double denominator = (x2 - x1);
         denominator = denominator * denominator * denominator;
+        if (denominator == 0) {
+            NSLog(@"Error: Two intonation points at same absolute time.  Can't draw smooth curve.");
+            NSBezierPath *path = [[NSBezierPath alloc] init];
+            [path moveToPoint:CGPointMake([self scaleXPosition:x1], graphOrigin.y)];
+            [path lineToPoint:CGPointMake([self scaleXPosition:x1], NSMaxY(self.bounds))];
+            [[NSColor redColor] set];
+            [path stroke];
+            continue;
+        }
 
         double d = ( -(y2*x13) + 3*y2*x12*x2 + m2*x13*x2 + m1*x12*x22 - m2*x12*x22 - 3*x1*y1*x22 - m1*x1*x23 + y1*x23)    / denominator;
         double c = ( -(m2*x13) - 6*y2*x1*x2 - 2*m1*x12*x2 - m2*x12*x2 + 6*x1*y1*x2 + m1*x1*x22 + 2*m2*x1*x22 + m1*x23)    / denominator;
         double b = ( 3*y2*x1 + m1*x12 + 2*m2*x12 - 3*x1*y1 + 3*x2*y2 + m1*x1*x2 - m2*x1*x2 - 3*y1*x2 - 2*m1*x22 - m2*x22) / denominator;
         double a = ( -2*y2 - m1*x1 - m2*x1 + 2*y1 + m1*x2 + m2*x2)                                                        / denominator;
 
-        //NSLog(@"\n===\n x1 = %f y1 = %f m1 = %f", x1, y1, m1);
+        //NSLog(@"\n===\n");
+        //NSLog(@"x1 = %f y1 = %f m1 = %f", x1, y1, m1);
         //NSLog(@"x2 = %f y2 = %f m2 = %f", x2, y2, m2);
+        //NSLog(@"x12: %f, x13: %f", x12, x13);
+        //NSLog(@"x22: %f, x23: %f", x22, x23);
+        //NSLog(@"denominator: %f", denominator);
         //NSLog(@"a = %f b = %f c = %f d = %f", a, b, c, d);
 
         // The curve looks better (darker) without adding the extra 0.5 to the y positions.
