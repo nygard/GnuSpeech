@@ -689,6 +689,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
+                            <binding destination="gnV-9r-4Kd" name="enabled" keyPath="values.ShouldUseToneGroupIntonationParameters" id="4hf-1x-l9E"/>
                             <binding destination="gnV-9r-4Kd" name="value" keyPath="values.ShouldRandomlySelectFromToneGroup" id="kzo-e7-3je"/>
                         </connections>
                     </button>
