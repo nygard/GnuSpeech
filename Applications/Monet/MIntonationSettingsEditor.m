@@ -16,4 +16,9 @@
     return self;
 }
 
+- (IBAction)toneGroupOrManual:(id)sender;
+{
+    // The value updates are controlled by the user defaults controller.  This method is just used to associate the radio buttons in the same radio group.
+}
+
 @end
