@@ -756,6 +756,7 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <binding destination="gnV-9r-4Kd" name="enabled" keyPath="values.ShouldUseDrift" id="6Z9-uz-ftZ"/>
                             <binding destination="gnV-9r-4Kd" name="value" keyPath="values.DriftCutoff" id="i9c-fX-MkB"/>
                         </connections>
                     </textField>
@@ -771,6 +772,7 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <binding destination="gnV-9r-4Kd" name="enabled" keyPath="values.ShouldUseDrift" id="Th1-aU-OZE"/>
                             <binding destination="gnV-9r-4Kd" name="value" keyPath="values.DriftDeviation" id="F9D-2F-dzm"/>
                         </connections>
                     </textField>
