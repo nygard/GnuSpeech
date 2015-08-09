@@ -534,6 +534,11 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <binding destination="gnV-9r-4Kd" name="enabled" keyPath="values.ShouldUseToneGroupIntonationParameters" id="poT-nC-nCQ">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                </dictionary>
+                            </binding>
                             <binding destination="gnV-9r-4Kd" name="value" keyPath="values.ManualTonicPerturbationRange" id="dtY-Tt-5d4"/>
                         </connections>
                     </textField>
@@ -553,6 +558,11 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <binding destination="gnV-9r-4Kd" name="enabled" keyPath="values.ShouldUseToneGroupIntonationParameters" id="bGL-fG-368">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                </dictionary>
+                            </binding>
                             <binding destination="gnV-9r-4Kd" name="value" keyPath="values.ManualTonicPitchRange" id="6yI-14-iJm"/>
                         </connections>
                     </textField>
@@ -572,6 +582,11 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <binding destination="gnV-9r-4Kd" name="enabled" keyPath="values.ShouldUseToneGroupIntonationParameters" id="rFa-B1-x9Q">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                </dictionary>
+                            </binding>
                             <binding destination="gnV-9r-4Kd" name="value" keyPath="values.ManualPretonicPerturbationRange" id="zhG-Fb-nmd"/>
                         </connections>
                     </textField>
@@ -591,6 +606,11 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <binding destination="gnV-9r-4Kd" name="enabled" keyPath="values.ShouldUseToneGroupIntonationParameters" id="xwy-FD-BNg">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                </dictionary>
+                            </binding>
                             <binding destination="gnV-9r-4Kd" name="value" keyPath="values.ManualPretonicPitchRange" id="rLB-3c-jlu"/>
                         </connections>
                     </textField>
@@ -613,6 +633,11 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <binding destination="gnV-9r-4Kd" name="enabled" keyPath="values.ShouldUseToneGroupIntonationParameters" id="EUl-dr-g6W">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                </dictionary>
+                            </binding>
                             <binding destination="gnV-9r-4Kd" name="value" keyPath="values.ManualNotionalPitch" id="elE-Ol-5eG"/>
                         </connections>
                     </textField>
