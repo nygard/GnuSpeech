@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
@@ -14,6 +14,8 @@
                 <outlet property="intonationRuleTableView" destination="ha6-pv-6rm" id="rRv-kD-zGW"/>
                 <outlet property="intonationScrollView" destination="fcR-Es-piY" id="zTy-k9-Sdk"/>
                 <outlet property="intonationView" destination="4ON-Gz-0Gf" id="ekJ-Wv-wZ2"/>
+                <outlet property="scaleSlider" destination="f2Z-vU-cLh" id="wY4-ag-4pt"/>
+                <outlet property="scaleTextField" destination="kSU-fR-H3V" id="XwX-0u-eEA"/>
                 <outlet property="semitoneTextField" destination="S6x-zg-suV" id="yAl-m9-90v"/>
                 <outlet property="slopeTextField" destination="5eO-eC-ye1" id="hft-Gi-6fw"/>
                 <outlet property="window" destination="j9o-HA-vHr" id="MKQ-pg-uwu"/>
@@ -154,7 +156,7 @@
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                     <box title="Title" boxType="oldStyle" borderType="none" titlePosition="noTitle" id="hnq-eI-xXI">
-                        <rect key="frame" x="570" y="86" width="238" height="113"/>
+                        <rect key="frame" x="570" y="56" width="238" height="113"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                         <view key="contentView">
                             <rect key="frame" x="0.0" y="0.0" width="238" height="113"/>
@@ -311,6 +313,32 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
+                    <slider verticalHuggingPriority="750" id="f2Z-vU-cLh">
+                        <rect key="frame" x="555" y="168" width="204" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="0.20000000000000001" maxValue="10" doubleValue="0.5" tickMarkPosition="above" sliderType="linear" id="lWn-on-VGR"/>
+                        <connections>
+                            <action selector="updateScale:" target="-2" id="LHe-Vg-fWm"/>
+                        </connections>
+                    </slider>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="sTG-T6-NqN">
+                        <rect key="frame" x="508" y="169" width="43" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Scale:" id="Tmt-yh-WaS">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="kSU-fR-H3V">
+                        <rect key="frame" x="763" y="169" width="34" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="10.0" id="oHb-dn-keE">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
             <connections>

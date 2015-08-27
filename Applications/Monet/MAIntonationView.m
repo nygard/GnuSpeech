@@ -44,7 +44,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     EventList *_eventList;
 
-    CGFloat _timeScale;
+    CGFloat _scale;
 
     NSMutableArray *_selectedPoints;
     NSPoint _selectionPoint1;
@@ -88,8 +88,8 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         _timesFontSmall = [NSFont fontWithName:@"Times-Roman" size:10];
         
         [_postureTextFieldCell setFont:_timesFont];
-        
-        _timeScale = 2.0;
+
+        _scale = 0.5;
         _flags.mouseBeingDragged = NO;
         
         _eventList = nil;
@@ -144,6 +144,14 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     }
 
     [self setNeedsDisplay:YES];
+}
+
+- (void)setScale:(CGFloat)scale;
+{
+    _scale = scale;
+    //[self invalidateIntrinsicContentSize];
+    [self setNeedsDisplay:YES];
+    [self resizeWidth];
 }
 
 - (BOOL)shouldDrawSelection;
@@ -370,7 +378,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
     NSArray *events = [_eventList events];
     for (Event *event in events) {
-        CGFloat currentX = event.time / _timeScale;
+        CGFloat currentX = event.time * _scale;
 
         if (event.isAtPosture) {
             if (event.posture != nil) {
@@ -953,12 +961,12 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (CGFloat)scaleXPosition:(CGFloat)xPosition;
 {
-    return floor(xPosition / _timeScale);
+    return floor(xPosition * _scale);
 }
 
 - (CGFloat)scaleWidth:(CGFloat)width;
 {
-    return floor(width / _timeScale);
+    return floor(width * _scale);
 }
 
 - (NSRect)rectFormedByPoint:(NSPoint)point1 andPoint:(NSPoint)point2;
@@ -999,7 +1007,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
 
 - (CGFloat)convertXPositionToTime:(CGFloat)xPosition;
 {
-    return xPosition * _timeScale;
+    return xPosition / _scale;
 }
 
 - (void)intonationPointDidChange:(NSNotification *)notification;

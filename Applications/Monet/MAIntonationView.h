@@ -18,6 +18,8 @@ extern NSString *MAIntonationViewSelectionDidChangeNotification;
 
 - (void)setEventList:(EventList *)newEventList;
 
+@property (nonatomic, assign) CGFloat scale;
+
 - (BOOL)shouldDrawSelection;
 - (void)setShouldDrawSelection:(BOOL)newFlag;
 

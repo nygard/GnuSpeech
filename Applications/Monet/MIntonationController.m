@@ -24,6 +24,9 @@
 @property (weak) IBOutlet NSTextField *absoluteTimeTextField;
 @property (strong) NSPrintInfo *intonationPrintInfo;
 
+@property (weak) IBOutlet NSSlider *scaleSlider;
+@property (weak) IBOutlet NSTextField *scaleTextField;
+
 @end
 
 @implementation MIntonationController
@@ -59,6 +62,11 @@
     self.beatTextField.formatter         = defaultNumberFormatter;
     self.beatOffsetTextField.formatter   = defaultNumberFormatter;
     self.absoluteTimeTextField.formatter = defaultNumberFormatter;
+
+    CGFloat scale = 0.5;
+    self.intonationView.scale = scale;
+    self.scaleSlider.floatValue = scale;
+    self.scaleTextField.stringValue = [NSString stringWithFormat:@"%.1f", scale];
 
     [self.intonationView setShouldDrawSmoothPoints:[[NSUserDefaults standardUserDefaults] boolForKey:MDK_ShouldUseSmoothIntonation]];
     [self.intonationView setDelegate:self];
@@ -148,6 +156,17 @@
 {
     self.selectedIntonationPoint.offsetTime = self.beatOffsetTextField.doubleValue;
 }
+
+#pragma mark -
+
+- (IBAction)updateScale:(id)sender;
+{
+    double scale = [sender doubleValue];
+    self.intonationView.scale = scale;
+    self.scaleTextField.stringValue = [NSString stringWithFormat:@"%.1f", scale];
+}
+
+#pragma mark -
 
 - (IBAction)openIntonationContour:(id)sender;
 {
