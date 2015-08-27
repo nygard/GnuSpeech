@@ -28,10 +28,11 @@
         [_labelTextFieldCell setAlignment:NSRightTextAlignment];
         
         _axisLabelFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Times" traits:0 weight:0 size:14.0];
-        NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:_axisLabelFont, NSFontAttributeName,
-                                    [NSColor blackColor], NSForegroundColorAttributeName,
-                                    nil];
-        
+        NSDictionary *attributes = @{
+                                     NSFontAttributeName            : _axisLabelFont,
+                                     NSForegroundColorAttributeName : [NSColor blackColor],
+                                     };
+
         
         _textStorage = [[NSTextStorage alloc] initWithString:@"Semitone" attributes:attributes];
         _layoutManager = [[NSLayoutManager alloc] init];
@@ -40,21 +41,16 @@
         [_textStorage addLayoutManager:_layoutManager];
         [_layoutManager setUsesScreenFonts:NO];
 
-        _sectionCount = 20;
+        _sectionCount  = 20;
         _sectionHeight = 10;
-        _zeroSection = 10;
-        _yOrigin = 0;
+        _zeroSection   = 10;
+        _yOrigin       = 0;
     }
 
     return self;
 }
 
 #pragma mark -
-
-- (NSUInteger)sectionCount;
-{
-    return _sectionCount;
-}
 
 - (void)setSectionCount:(NSUInteger)newSectionCount;
 {
@@ -63,11 +59,6 @@
 
     _sectionCount = newSectionCount;
     [self setNeedsDisplay:YES];
-}
-
-- (CGFloat)sectionHeight;
-{
-    return _sectionHeight;
 }
 
 - (void)setSectionHeight:(CGFloat)newSectionHeight;
@@ -79,11 +70,6 @@
     [self setNeedsDisplay:YES];
 }
 
-- (NSUInteger)zeroSection;
-{
-    return _zeroSection;
-}
-
 - (void)setZeroSection:(NSUInteger)newZeroSection;
 {
     if (newZeroSection == _zeroSection)
@@ -91,11 +77,6 @@
 
     _zeroSection = newZeroSection;
     [self setNeedsDisplay:YES];
-}
-
-- (CGFloat)yOrigin;
-{
-    return _yOrigin;
 }
 
 - (void)setYOrigin:(CGFloat)newYOrigin;
@@ -109,36 +90,31 @@
 
 - (void)drawRect:(NSRect)rect;
 {
-    NSBezierPath *bezierPath;
-    NSRect bounds, cellFrame;
-    NSPoint point;
-    NSUInteger index;
-
-    CGFloat labelHeight;
-    CGFloat labelDescender;
     NSUInteger labelSkip = 1;
 
     [[NSColor whiteColor] set];
     NSRectFill(rect);
 
-    labelHeight = ceil([_labelFont boundingRectForFont].size.height);
-    labelDescender = ceil([_labelFont descender]);
+    CGFloat labelHeight = ceil([_labelFont boundingRectForFont].size.height);
+    CGFloat labelDescender = ceil([_labelFont descender]);
 
     while (_sectionHeight * labelSkip < labelHeight && labelSkip < _sectionCount) {
         labelSkip *= 2;
     }
 
-    bounds = [self bounds];
+    NSRect bounds = [self bounds];
 
+    NSRect cellFrame;
     cellFrame.origin.x = 0;
     cellFrame.origin.y = 0;
     cellFrame.size.width = bounds.size.width - 10.0;
     cellFrame.size.height = labelHeight;
 
-    bezierPath = [[NSBezierPath alloc] init];
-    [bezierPath setLineWidth:2.0];
-    [bezierPath setLineCapStyle:NSSquareLineCapStyle];
+    NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
+    bezierPath.lineWidth = 2.0;
+    bezierPath.lineCapStyle = NSSquareLineCapStyle;
 
+    NSPoint point;
     point.x = NSMaxX(bounds) - 1.0;
     point.y = _yOrigin;
     //NSLog(@"point1: %@", NSStringFromPoint(point));
@@ -152,7 +128,7 @@
     [bezierPath stroke];
 
     bezierPath = [[NSBezierPath alloc] init];
-    for (index = 0; index <= _sectionCount; index++) {
+    for (NSUInteger index = 0; index <= _sectionCount; index++) {
         point.x = NSMaxX(bounds);
         point.y = _yOrigin + index * _sectionHeight + 0.5;
         [bezierPath moveToPoint:point];
@@ -170,23 +146,17 @@
     [bezierPath stroke];
 
     {
-        NSGraphicsContext *context;
-        NSAffineTransform *transform;
-        NSPoint labelPoint;
-        NSRange glyphRange;
-        NSRect boundingRect;
-        CGFloat axisLabelHeight;
+        CGFloat axisLabelHeight = ceil([_axisLabelFont boundingRectForFont].size.height);
 
-        axisLabelHeight = ceil([_axisLabelFont boundingRectForFont].size.height);
-
-        context = [NSGraphicsContext currentContext];
-        transform = [NSAffineTransform transform];
+        NSGraphicsContext *context = [NSGraphicsContext currentContext];
+        NSAffineTransform *transform = [NSAffineTransform transform];
         [transform translateXBy:axisLabelHeight + 10.0 yBy:0.0];
         [transform rotateByDegrees:90.0];
 
-        glyphRange = [_layoutManager glyphRangeForTextContainer:_textContainer];
-        boundingRect = [_layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:_textContainer];
+        NSRange glyphRange  = [_layoutManager glyphRangeForTextContainer:_textContainer];
+        NSRect boundingRect = [_layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:_textContainer];
 
+        NSPoint labelPoint;
         labelPoint.x = _yOrigin + (_sectionCount * _sectionHeight - boundingRect.size.width) / 2.0;
         labelPoint.y = 0.0;
 

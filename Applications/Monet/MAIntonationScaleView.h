@@ -5,20 +5,9 @@
 
 @interface MAIntonationScaleView : NSView
 
-- (id)initWithFrame:(NSRect)frameRect;
-
-- (NSUInteger)sectionCount;
-- (void)setSectionCount:(NSUInteger)newSectionCount;
-
-- (CGFloat)sectionHeight;
-- (void)setSectionHeight:(CGFloat)newSectionHeight;
-
-- (NSUInteger)zeroSection;
-- (void)setZeroSection:(NSUInteger)newZeroSection;
-
-- (CGFloat)yOrigin;
-- (void)setYOrigin:(CGFloat)newYOrigin;
-
-- (void)drawRect:(NSRect)rect;
+@property (nonatomic, assign) NSUInteger sectionCount;
+@property (nonatomic, assign) CGFloat sectionHeight;
+@property (nonatomic, assign) NSUInteger zeroSection;
+@property (nonatomic, assign) CGFloat yOrigin;
 
 @end
