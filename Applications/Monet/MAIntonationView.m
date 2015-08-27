@@ -152,6 +152,13 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     //[self invalidateIntrinsicContentSize];
     [self setNeedsDisplay:YES];
     [self resizeWidth];
+
+    if (_scale < 0.5) {
+        _horizontalAxisLabelTextFieldCell.stringValue = @"Time (s)";
+    } else {
+        _horizontalAxisLabelTextFieldCell.stringValue = @"Time (ms)";
+    }
+
 }
 
 - (BOOL)shouldDrawSelection;
@@ -233,6 +240,8 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         [[self superview] setNeedsDisplay:YES];
     }
 }
+
+#pragma mark -
 
 - (void)drawRect:(NSRect)rect;
 {
@@ -330,6 +339,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
     NSPoint point;
     point.x = 0.0;
     CGFloat time = 0.0;
+    CGFloat step = (self.scale < 0.5) ? 50 : 10;
 
     NSBezierPath *bezierPath = [[NSBezierPath alloc] init];
 
@@ -341,7 +351,12 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         if (((NSInteger)time % 100) == 0) {
             point.y -= 10;
 
-            [_labelTextFieldCell setIntValue:time];
+            if (self.scale < 0.5) {
+                CGFloat value = time / 1000;
+                _labelTextFieldCell.stringValue = [NSString stringWithFormat:@"%0.1f",value];
+            } else {
+                [_labelTextFieldCell setIntValue:time];
+            }
             cellFrame.size = [_labelTextFieldCell cellSize];
             cellFrame.origin.x = point.x - (cellFrame.size.width / 2.0);
             if (cellFrame.origin.x < 0.0)
@@ -355,7 +370,7 @@ NSString *MAIntonationViewSelectionDidChangeNotification = @"MAIntonationViewSel
         }
         [bezierPath lineToPoint:point];
 
-        time += 10.0;
+        time += step;
     }
 
     [[NSColor blackColor] set];
