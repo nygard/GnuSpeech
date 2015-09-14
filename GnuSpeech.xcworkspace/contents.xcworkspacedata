@@ -20,9 +20,6 @@
       location = "group:Services/GnuSpeechService/GnuSpeechService.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Applications/PreMo/PreMo.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:Applications/PrEditor/PrEditor.xcodeproj">
    </FileRef>
    <FileRef
