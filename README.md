@@ -1,6 +1,11 @@
 GnuSpeech
 =========
 
+Use GnuSpeech.xcworkspace to build the applications and frameworks.  It currently builds with
+Xcode 6.4 on OS X 10.10, and deploys to 10.9 or later.
+
+Documentation for Monet and TRAcT are available in the Documenation directory.
+
 Applications
 ------------
 
@@ -115,3 +120,15 @@ Other
 
 Legacy folders and documents that are no longer pertinent in the latest version
 of the OS X GnuSpeech project but remain for reference purposes only.
+
+GnuspeechSA
+-----------
+
+A cross platform version of the synthesizer is also available in a separate project.
+
+Contact
+-------
+
+Contact David Hill (hilld-at-ucalgary-dot-ca) if you have questions.
+
+The developers disclaim any warranty of merchantability or fitness for a particular purpose in connection with the User's acquisition and use of units of any software. Acqisition or use of any of the software or documentation indicates acceptance by the User of this condition.
