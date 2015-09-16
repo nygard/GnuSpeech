@@ -13,7 +13,7 @@ is used by GnuSpeech.framework is located in Tube.framework.  Monet now supports
 entry of text as punctuated English text instead of the original phoneme string
 produced by PreMo.
 
-### Synthesizer
+### TRAcT
 
 An interactive application that allows a user (usually a language developer or
 someone interested in the behaviour of the tube model) to interact directly
@@ -24,13 +24,6 @@ and analyse the output.
 
 An application that allows users to create and maintain their own dictionaries.
 This application is not yet fully functional.
-
-### PreMo
-
-A simple application that allows the user to enter text and convert it into a
-special phoneme string which was required for input into an older version of
-Monet.  This is now a legacy application as it is no longer required to use
-Monet.
 
 ### GnuTTSClient
 
@@ -120,14 +113,6 @@ you kill the GnuSpeechService.service process using the
 /Applications/Utilities/Activity Monitor.app application (or similar).  When you
 invoke the GnuSpeech service for the first time from the Services menu it will
 be automatically launched.
-
-
-Builds
-------
-
-This folder contains the beta builds of the GnuSpeech project.  These builds are
-disk image files (.dmg) and contain packages that contain all the required
-software to run GnuSpeech on OS X.
 
 
 Installers
