@@ -9,9 +9,7 @@ Applications
 The main interactive application that synthesizes speech and allows for
 experimentation with many speech parameters and settings.  The actual synthesis
 occurs in the framework GnuSpeech.framework.  The articulatory tube model that
-is used by GnuSpeech.framework is located in Tube.framework.  Monet now supports
-entry of text as punctuated English text instead of the original phoneme string
-produced by PreMo.
+is used by GnuSpeech.framework is located in Tube.framework.
 
 ### TRAcT
 
@@ -36,24 +34,13 @@ Frameworks
 
 ### GnuSpeech.framework
 
-The main framework for all reusable components in the GnuSpeech project.  This
-framework should be copied to either /Library/Frameworks or
-~/Library/Frameworks.  Assuming /Library/Frameworks as the destination folder,
-issue the following commands to install:
-
-    $ sudo cp -rf GnuSpeech.framework /Library/Frameworks
-    $ sudo chmod -R go-w /Library/Frameworks/GnuSpeech.framework
+The main framework for all reusable components in the GnuSpeech project.  This is bundled
+within the applications that use it.
 
 ### Tube.framework
 
-The underlying articulatory tube resonance model for speech synthesis.  This
-framework should be copied to either /Library/Frameworks or
-~/Library/Frameworks.  Assuming /Library/Frameworks as the destination folder,
-issue the following commands to install:
-
-    $ sudo cp -rf Tube.framework /Library/Frameworks
-    $ sudo chmod -R go-w /Library/Frameworks/Tube.framework
-
+The underlying articulatory tube resonance model for speech synthesis.  This is bundled
+within the applications that use it.
 
 Daemons
 -------
